@@ -132,7 +132,7 @@
                 dob:"{{ $loveone->dob ?? '' }}",
                 status:1,
                 relationship_id:"{{ $loveone->relationship_id ?? '' }}",
-                condition_ids: {{ $loveone->condition_ids ?? '[]' }},
+                condition_ids: [{{ $loveone->condition_ids ?? '' }}],
                 photo:"{{ $loveone->photo ?? '' }}",
             }
         },
@@ -150,8 +150,15 @@
                 axios.post(url, this.loveone).then(response => {
                     console.log(response.data);
                     
-                    msg  = (response.status) ? 'Your Loveone was saved successfully!' : 'There was an error. Try again, please';
-                    icon = (response.status) ? 'success' : 'error';
+                    if(response.data.success){
+                        msg  = 'Your Loveone was saved successfully!';
+                        icon = 'success';
+                        this.loveone.id = response.data.data.loveone.id; 
+                    } else {
+                        msg = 'There was an error. Please try again';
+                        icon = 'error';
+                    }
+                    
                     $('.loadingBtn').html('Save').attr('disabled', false);
                     swal(msg, "", icon);
                         

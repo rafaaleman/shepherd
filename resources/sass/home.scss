@@ -1,0 +1,91 @@
+.dashboard {
+    background: rgb(222,222,222);
+    background: linear-gradient(190deg, rgba(222,222,222,1) 0%, rgba(255,255,255,1) 100%);
+
+    .card.widget{
+        cursor: pointer;
+        width: 23%;
+        min-height: 180px;
+        margin-bottom: 20px;
+        transition: width 0.3s;
+
+        &:hover {
+            width: 24%;
+            border-width: 3px;
+        }
+
+        .fas, .far {
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-weight: bold;
+        }
+
+        .card-text span{
+            font-size: 20px;
+        }
+
+        .gray {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        &.team{
+            .fas, .card-text span{
+                color: $blue;
+                font-weight: bold;
+            }
+
+            .member-img{
+                background-color: #fff;
+                margin-left: -20px;
+                width: 35px;
+                border-radius: 50%;
+            }
+        }
+
+        &.hub{
+            .far, .card-text span{
+                color: #f78383;
+                font-weight: bold;
+            }
+        }
+
+        &.lockbox{
+            .fas, .card-text span{
+                color: #58c69c;
+                font-weight: bold;
+            }
+        }
+
+        &.medlist{
+            .fas, .card-text span{
+                color: $teal;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+#homeCarousel {
+    .carousel-indicators button {
+        border: 1px solid gray;
+    }
+
+    .carousel-item{
+        background-color: #f6f6f6;
+        min-height: 200px;
+        max-height: 300px;
+
+        .carousel-caption{
+            bottom: 10px;
+        }
+
+        img{
+            height: 300px;
+            width: auto;
+            margin: auto;
+        }
+    }
+}

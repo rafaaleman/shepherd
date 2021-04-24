@@ -60,7 +60,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapLoveoneRoutes()
     {
         Route::prefix('loveone')
-            ->middleware('web')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/loveone.php'));
     }

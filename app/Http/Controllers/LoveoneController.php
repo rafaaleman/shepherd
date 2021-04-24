@@ -53,6 +53,9 @@ class LoveoneController extends Controller
      */
     public function edit(loveone $loveone)
     {
+        // TODO: verificar si es el admin del grupo para permitir la edicion del loveone
+        // TODO: obtener el careteam Y si es "admin", mostrar esta pagina, sino mostrar una alerta
+        // $loveone->load('mycareteam'); 
         $relationships = relationship::where('status', 1)->get();
         $conditions    = condition::where('status', 1)->get();
         return view('loveone.create', compact('relationships', 'conditions', 'loveone'));

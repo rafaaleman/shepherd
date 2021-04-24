@@ -10014,3 +10014,75 @@ input[type=date]::-webkit-calendar-picker-indicator {
   top: 0;
   width: auto;
 }
+
+.card {
+  border-radius: 10px;
+}
+
+.dashboard {
+  background: #dedede;
+  background: linear-gradient(190deg, #dedede 0%, white 100%);
+}
+.dashboard .card.widget {
+  cursor: pointer;
+  width: 23%;
+  min-height: 180px;
+  margin-bottom: 20px;
+  transition: width 0.3s;
+}
+.dashboard .card.widget:hover {
+  width: 24%;
+  border-width: 3px;
+}
+.dashboard .card.widget .fas, .dashboard .card.widget .far {
+  margin-bottom: 10px;
+}
+.dashboard .card.widget .card-title {
+  font-weight: bold;
+}
+.dashboard .card.widget .card-text span {
+  font-size: 20px;
+}
+.dashboard .card.widget .gray {
+  font-size: 13px;
+  color: #aaa;
+}
+.dashboard .card.widget.team .fas, .dashboard .card.widget.team .card-text span {
+  color: #3490dc;
+  font-weight: bold;
+}
+.dashboard .card.widget.team .member-img {
+  background-color: #fff;
+  margin-left: -20px;
+  width: 35px;
+  border-radius: 50%;
+}
+.dashboard .card.widget.hub .far, .dashboard .card.widget.hub .card-text span {
+  color: #f78383;
+  font-weight: bold;
+}
+.dashboard .card.widget.lockbox .fas, .dashboard .card.widget.lockbox .card-text span {
+  color: #58c69c;
+  font-weight: bold;
+}
+.dashboard .card.widget.medlist .fas, .dashboard .card.widget.medlist .card-text span {
+  color: #4dc0b5;
+  font-weight: bold;
+}
+
+#homeCarousel .carousel-indicators button {
+  border: 1px solid gray;
+}
+#homeCarousel .carousel-item {
+  background-color: #f6f6f6;
+  min-height: 200px;
+  max-height: 300px;
+}
+#homeCarousel .carousel-item .carousel-caption {
+  bottom: 10px;
+}
+#homeCarousel .carousel-item img {
+  height: 300px;
+  width: auto;
+  margin: auto;
+}
