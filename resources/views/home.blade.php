@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card dashboard">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">Your loveones</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -23,7 +23,7 @@
                     @include('includes.home_carehub')
                     @include('includes.home_lockbox')
                     @include('includes.home_medlist')
-                    
+
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\loveone;
 use App\Models\careteam;
 use App\Models\condition;
+use Illuminate\Support\Str;
 use App\Models\relationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,8 @@ class LoveoneController extends Controller
         $data = $request->all();
         $data['condition_ids'] = implode(',', $request->condition_ids);
         $relationship_id = $data['relationship_id'];
-        $data['phone'] = intval($data['phone']);
+        $data['phone']   = intval($data['phone']);
+        $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname'].' '.time());
         
         unset($data['_token']);
         unset($data['relationship_id']);

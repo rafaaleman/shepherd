@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Models\loveone;
 use App\Models\careteam;
 use App\Models\relationship;
@@ -28,7 +29,11 @@ class HomeController extends Controller
     public function index()
     {
         $loveones = $this->getLoveones();
-        return view('home', compact('loveones'));
+        $careteam_users = null;
+        if($loveones->count() > 0){
+            $careteam_users = $this->getCareteamData($loveones[0]->id);
+        }
+        return view('home', compact('loveones', 'careteam_users'));
     }
 
     /**
@@ -61,5 +66,20 @@ class HomeController extends Controller
                         })->first();
 
         return $relationship->name;
+    }
+
+
+    /**
+     * 
+     */
+    public function getCareteamData($loveone_id)
+    {
+        $users = User::whereIn('id', function($query) use($loveone_id){
+                            $query->select('user_id')
+                            ->from(with(new careteam)->getTable())
+                            ->where('loveone_id', $loveone_id )->where('status', 1);
+                        })->get();
+
+        return $users;
     }
 }

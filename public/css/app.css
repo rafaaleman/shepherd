@@ -10031,7 +10031,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   transition: width 0.3s;
 }
 .dashboard .card.widget:hover {
-  width: 24%;
+  width: 26%;
   border-width: 3px;
 }
 .dashboard .card.widget .fas, .dashboard .card.widget .far {
