@@ -10023,49 +10023,49 @@ input[type=date]::-webkit-calendar-picker-indicator {
   background: #dedede;
   background: linear-gradient(190deg, #dedede 0%, white 100%);
 }
-.dashboard .card.widget {
+.dashboard .widget {
   cursor: pointer;
   width: 23%;
   min-height: 180px;
   margin-bottom: 20px;
   transition: width 0.3s;
 }
-.dashboard .card.widget:hover {
+.dashboard .widget:hover {
   width: 26%;
   border-width: 3px;
 }
-.dashboard .card.widget .fas, .dashboard .card.widget .far {
+.dashboard .widget .fas, .dashboard .widget .far {
   margin-bottom: 10px;
 }
-.dashboard .card.widget .card-title {
+.dashboard .widget .card-title {
   font-weight: bold;
 }
-.dashboard .card.widget .card-text span {
+.dashboard .widget .card-text span {
   font-size: 20px;
 }
-.dashboard .card.widget .gray {
+.dashboard .widget .gray {
   font-size: 13px;
   color: #aaa;
 }
-.dashboard .card.widget.team .fas, .dashboard .card.widget.team .card-text span {
+.dashboard .widget.team .fas, .dashboard .widget.team .card-text span {
   color: #3490dc;
   font-weight: bold;
 }
-.dashboard .card.widget.team .member-img {
+.dashboard .widget.team .member-img {
   background-color: #fff;
   margin-left: -20px;
   width: 35px;
   border-radius: 50%;
 }
-.dashboard .card.widget.hub .far, .dashboard .card.widget.hub .card-text span {
+.dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
   color: #f78383;
   font-weight: bold;
 }
-.dashboard .card.widget.lockbox .fas, .dashboard .card.widget.lockbox .card-text span {
+.dashboard .widget.lockbox .fas, .dashboard .widget.lockbox .card-text span {
   color: #58c69c;
   font-weight: bold;
 }
-.dashboard .card.widget.medlist .fas, .dashboard .card.widget.medlist .card-text span {
+.dashboard .widget.medlist .fas, .dashboard .widget.medlist .card-text span {
   color: #4dc0b5;
   font-weight: bold;
 }
@@ -10085,4 +10085,24 @@ input[type=date]::-webkit-calendar-picker-indicator {
   height: 300px;
   width: auto;
   margin: auto;
+}
+
+#careteam .member {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  overflow: hidden;
+}
+#careteam .member img {
+  height: 50px;
+}
+#careteam .member .role {
+  font-size: 12px;
+  color: #999;
+}
+#careteam .members > a {
+  text-decoration: none;
 }
