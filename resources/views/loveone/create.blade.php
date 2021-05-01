@@ -3,7 +3,7 @@
 @section('content')
 <div class="container"  id="create_loveone">
 
-    <form method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()">
+    <form method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
         @csrf
 
         <div class="col-md-12">
@@ -87,7 +87,7 @@
                 <label for="photo" class="col-md-4 col-form-label text-md-right">Photo</label>
 
                 <div class="col-md-6">
-                    <input id="photo" type="file" class="form-control" name="photo" value="" autofocus>
+                    <input id="photo" type="file" class="form-control" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
                 </div>
             </div>
 
@@ -146,21 +146,40 @@
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
                 this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
 
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+                let formData = new FormData();
+                if(this.loveone.photo)
+                    formData.append('file', this.loveone.photo);
+                
+                var loveone = JSON.stringify(this.loveone);
+                console.log(loveone);
+                formData.append('loveone', loveone);
+
                 var url = '{{ route("loveone.create") }}';
-                axios.post(url, this.loveone).then(response => {
+                axios.post(url, formData, config)
+                .then(response => {
                     console.log(response.data);
                     
                     if(response.data.success){
                         msg  = 'Your Loveone was saved successfully!';
                         icon = 'success';
                         this.loveone.id = response.data.data.loveone.id; 
+                        this.loveone.photo = response.data.data.loveone.photo; 
+                        
+                        swal(msg, "", icon)
+                        .then((value) => {
+                            window.location = '{{ route("home") }}';
+                        });
                     } else {
                         msg = 'There was an error. Please try again';
                         icon = 'error';
+                        swal(msg, "", icon);
                     }
                     
                     $('.loadingBtn').html('Save').attr('disabled', false);
-                    swal(msg, "", icon);
+                    
                         
                 }).catch( error => {
                     
@@ -172,7 +191,11 @@
                     
                     swal('There was an Error', txt, 'error');
                 });
-            }
+            },
+            onFileChange(e){
+                console.log(e.target.files[0]);
+                this.loveone.photo = e.target.files[0];
+            },
         }
     });
     

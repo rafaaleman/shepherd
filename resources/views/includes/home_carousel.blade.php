@@ -1,18 +1,21 @@
-<div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
+<div id="homeCarousel" class="carousel slide">
+    <ol class="carousel-indicators">
         @foreach ($loveones as $lo)
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" aria-label="Slide 1" {{ ($loop->first) ? 'class="active" aria-current="true"' : '' }}></button>
+            <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->index }}" class="{{ ($loop->first) ? 'active' : '' }}"></li>
         @endforeach
-    </div>
+    </ol>
     <div class="carousel-inner">
 
 
-        @foreach ($loveones as $lo)
-            <div class="carousel-item active">
-                <img src="{{ (!empty($lo->photo) && $lo->photo != null ) ? $lo->photo : asset('public/img/no-avatar.png')}}" class="d-block" alt="{{ strtoupper($lo->firstname) }} {{ strtoupper($lo->lastname) }}">
+        @foreach ($loveones as $loveone)
+            <div class="carousel-item {{ ($loop->first) ? 'active' : '' }}">
+                <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? $loveone->photo : asset('public/img/no-avatar.png')}}" class="d-block">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>{{ strtoupper($lo->firstname) }} {{ strtoupper($lo->lastname) }}</h5>
-                    <p>{{ $lo->relationshipName }}</p>
+                    <h5>{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
+                    <p>{{ $loveone->relationshipName }}</p>
+                    <button class="btn  btn-sm mb-2  {{ ($loop->first) ? 'disabled btn-secondary ' : ' btn-primary' }}" @click="refreshWidgets({{$loveone->id}}, '{{$loveone->slug}}')">
+                        {{ ($loop->first) ? 'Selected' : 'Select' }}
+                    </button>
                 </div>
             </div>
         @endforeach
@@ -21,14 +24,15 @@
     </div>
     @if (sizeof($loveones) > 1)
     
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+            <span class="sr-only">Next</span>
+        </a>
 
     @endif
 </div>
+
