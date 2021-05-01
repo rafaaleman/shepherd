@@ -54,7 +54,7 @@ class CareteamController extends Controller
         foreach ($members as $key => $member){
             $careteam[$member->id]->permissions = unserialize($careteam[$member->id]->permissions);
             $members[$key]['careteam'] = $careteam[$member->id];
-            $member->photo = ($member->photo != '') ?:  asset('public/img/no-avatar.png');
+            $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
@@ -76,30 +76,47 @@ class CareteamController extends Controller
     public function saveNewMember(Request $request)
     {
         $data = $request->all();
+        $member = json_decode($data['member']);
+        $member = collect($member)->toArray();
+        // dd($member);
 
-        $data['phone']   = intval($data['phone']);
-        $role_id         = $data['role_id'];
-        $relationship_id = $data['relationship_id'];
-        $loveone_id      = $data['loveone_id'];
+        $member['phone'] = intval($member['phone']);
+        $role_id         = $member['role_id'];
+        $relationship_id = $member['relationship_id'];
+        $loveone_id      = $member['loveone_id'];
 
-        $data['password'] = Hash::make($data['password']);
-        $data['photo']   = '';
-        $data['status']  = 1;
+        $member['password'] = Hash::make($member['password']);
+        $member['photo']   = '';
+        $member['status']  = 1;
         
-        unset($data['_token']);
-        unset($data['role_id']);
-        unset($data['relationship_id']);
-        unset($data['loveone_id']);
+        unset($member['_token']);
+        unset($member['role_id']);
+        unset($member['relationship_id']);
+        unset($member['loveone_id']);
 
         try {
-            $user = User::create($data);
+            $user = User::where('email', $member['email'])->orWhere('phone', $member['phone'])->first();
+            // dd($user);
+            if($user){
+                return response()->json(['success' => false, 'error' => 'This user already exists (email/phone). Please verify.']);
+            }
+
+            
+            if($request->file){
+
+                $prefix = str_replace('@', '__', $member['email']);
+                $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+                $request->file->move(public_path('loveones/'.$loveone_id.'/members/'), $photoName);
+                $member['photo'] = public_path('/loveones/'.$loveone_id.'/members/'.$photoName);
+            }
+            $user = User::create($member);
             $this->createCareteamRow($user->id, $loveone_id, $relationship_id, $role_id);
 
             // TODO: SEnd email to new user with the credentials;
             return response()->json(['success' => true]);
 
-        } catch (\Throwable $th) {
-            return response()->json(['success' => false, 'error' => $th]);
+        } catch (Exception $e) {
+            dd($e);
         }
     }
 

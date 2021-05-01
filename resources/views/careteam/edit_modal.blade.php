@@ -9,13 +9,13 @@
         </div>
         <div class="modal-body  row">
             
-            <form method="post" id="editMemberForm" action="" class="col-md-12 p-4" v-on:submit.prevent="saveMemberPermissions()">
+            <form method="post" id="editMemberForm" action="" class="col-md-12 p-3" v-on:submit.prevent="saveMemberPermissions()">
 
-                <div class="section photo">
+                <div class="section photo" v-bind:style="{ backgroundImage: 'url(' + member.photo + ')' }">
                     
                     <div class="member-info">
                         <strong>@{{member.name}} @{{member.lastname}}</strong> <br>
-                        @{{ member.role_id }}
+                        <span class="role">@{{ member.role_id }}</span>
                     </div>
                 </div>
 
@@ -23,11 +23,11 @@
                     <table>
                         <tr>
                             <td><i class="far fa-envelope"></i> Email</td>
-                            <td><a :href="'mailto: ' + member.email">@{{ member.email }}</a></td>
+                            <td><a :href="'mailto: ' + member.email" target="_blank">@{{ member.email }}</a></td>
                         </tr>
                         <tr>
                             <td><i class="fas fa-mobile-alt"></i> Phone</td>
-                            <td><a :href="'tel: ' + member.phone">@{{ member.phone }}</a></td>
+                            <td><a :href="'tel: ' + member.phone" target="_blank">@{{ member.phone }}</a></td>
                         </tr>
                         <tr>
                             <td><i class="fas fa-map-marker-alt"></i> Address</td>
@@ -93,7 +93,7 @@
 
 
                 <input type="hidden" name="id" id="id" required v-model="member.id">
-                <button class="btn btn-primary loadingBtn btn-lg mt-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn">Save</button>
+                <button class="btn btn-primary loadingBtn btn-lg mt-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn" :disabled="member.role_id == 'admin'">Save</button>
             </form>
         </div>
         </div>

@@ -31,17 +31,18 @@
 
                     <div class="members">
 
-                        <div class="member" v-for="member in members">
-                            <img :src="member.photo" class="float-left">
-                            <div class="data float-left">
-                                <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
-                                <div class="role">@{{ member.careteam.role | mayuscula }}</div>
+                        <a v-for="member in members" class="" href="#" data-toggle="modal" data-target="#editMemberModal" >
+                            <div class="member" @click="changeAction('EDIT', member)">
+                                <img :src="member.photo" class="float-left mr-3">
+                                <div class="data float-left">
+                                    <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
+                                    <div class="role">@{{ member.careteam.role | mayuscula }}</div>
+                                </div>
+                                
+                                <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
+                                
                             </div>
-                            <a class="info float-right mr-2" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
-                                <i class="fas fa-info-circle fa-2x mt-2"></i>
-                            </a>
-                        </div>
-
+                        </a>
                     </div>
                 </div>
             </div>
@@ -79,7 +80,7 @@
                 password: '',
                 id: 0,
                 permissions: '',
-                carehub: 0,
+                photo: '',
             },
             action: '',
             is_admin: false,
@@ -169,6 +170,8 @@
                         address: '',
                         password: '',
                         id: 0,
+                        permissions: '',
+                        photo: '',
                     };
                 } else {
 
@@ -182,6 +185,7 @@
                         phone: member.phone,
                         address: member.address,
                         password: '',
+                        photo: member.photo,
                         role_id: member.careteam.role,
                         id: member.id,
                         permissions: member.careteam.permissions,
@@ -194,8 +198,18 @@
                 $('#saveBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('#saveBtn').data('loading-text')).attr('disabled', true);              
 
                 var url = '{{ route("careteam.saveNewMember") }}';
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+                let formData = new FormData();
+                if(this.member.photo)
+                    formData.append('file', this.member.photo);
                 
-                axios.post(url, this.member)
+                var member = JSON.stringify(this.member);
+                console.log(member);
+                formData.append('member', member);
+
+                axios.post(url, formData, config)
                 .then(response => {
                     // console.log(response.data);
                     
@@ -216,7 +230,7 @@
                     
                 }).catch( error => {
                     // console.log(error);
-                    msg = 'There was an error creating the new member. Please try again. Error: ' + error;
+                    msg = 'There was an error creating the new member. Error: ' + error;
                     swal('Error', msg, 'error');
                     $('#saveBtn').html('Save').attr('disabled', false);
                 });
@@ -252,7 +266,11 @@
                     swal('Error', msg, 'error');
                     $('#savePermissionsBtn').html('Save').attr('disabled', false);
                 });
-            }
+            },
+            onFileChange(e){
+                console.log(e.target.files[0]);
+                this.member.photo = e.target.files[0];
+            },
         }
     });
     

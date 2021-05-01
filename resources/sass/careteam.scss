@@ -10,6 +10,7 @@
 
         img{
             height: 50px;
+            border-radius: 50%;
         }
 
         .role{
@@ -22,7 +23,10 @@
         text-decoration: none;
     }
 
+    #createMemberModal, 
     #editMemberModal {
+
+
         
         // Bootstrap switch
         .custom-control-label::after{
@@ -43,14 +47,23 @@
             background-color: #fff;
             border: 1px solid #eee;
             border-radius: 15px;
-            padding: 0;
+            padding: 10px;
             position: relative;
             width: 100%;
             margin-bottom: 20px;
 
             &.photo{
+                padding: 0px;
                 background-size: cover;
+                filter: saturate(10%);
                 height: 200px;
+
+                img.photo{
+                    filter: opacity(20%);
+                    width: auto;
+                    height: 100%;
+                    margin: auto;
+                }
 
                 .member-info{
                     position: absolute;
@@ -61,6 +74,10 @@
 
                     strong{
                         font-size: 20px;
+                    }
+
+                    .role{
+                        text-transform: uppercase;
                     }
                 }
             }
