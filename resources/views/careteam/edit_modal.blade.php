@@ -92,6 +92,22 @@
                 </div>
 
 
+                <div class="section p-3" v-if="member.role_id != 'admin'">
+                    <table>
+                        <tr>
+                            <td class="">
+                                <span>Remove from CareTeam</span>
+                            </td>
+                            <td align="right">
+                                <a id="deleteMember" class="btn btn-danger text-white" href="#!" @click="deleteMember();">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
                 <input type="hidden" name="id" id="id" required v-model="member.id">
                 <button class="btn btn-primary loadingBtn btn-lg mt-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn" :disabled="member.role_id == 'admin'">Save</button>
             </form>
@@ -107,6 +123,7 @@
 
 @push('scripts')
 <script>
-
+$(function(){
+});
 </script>
 @endpush

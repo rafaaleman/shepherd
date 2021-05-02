@@ -60,7 +60,8 @@
             getCareteamMembers: function() {
                 
                 // console.log('getting members');  
-                $('.widget.team .loading').show();              
+                $('.widget.team .member-img').hide();   
+                $('.widget.team .loading').show();           
 
                 var url = '{{ route("careteam.getCareteamMembers", "*SLUG*") }}';
                 url = url.replace('*SLUG*', this.current_slug);
@@ -79,6 +80,7 @@
                     }
                     
                     $('.widget.team .loading').hide();
+                    $('.widget.team .member-img').show();
                     
                 }).catch( error => {
                     

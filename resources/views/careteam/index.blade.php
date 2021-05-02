@@ -271,6 +271,59 @@
                 console.log(e.target.files[0]);
                 this.member.photo = e.target.files[0];
             },
+            deleteMember: function() {
+
+                swal({
+                    title: "Warning",
+                    text: "Are you sure delete this member?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        'Yes, I am sure!'
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+                    if (isConfirm) {
+
+                        $('#deleteMember').html('<i class="fas fa-trash-alt"></i> Deleting...').attr('disabled', true);
+                        var url = '{{ route("careteam.deleteMember") }}';
+                        data = {
+                            loveoneId: careteam.member.loveone_id,
+                            memberId: careteam.member.id
+                        };
+                        
+                        axios.post(url, data)
+                        .then(response => {
+                            // console.log(response.data.success);
+                            
+                            if(response.data.success){
+                                $('#editMemberModal').modal('hide');
+                                msg = 'The member was deleted from the Careteam.';
+                                icon = 'success';
+                                careteam.getCareteamMembers();
+                                
+                            } else {
+                                msg = 'There was an error. Please try again. Error: ' + response.data.error;
+                                icon = 'error';
+                            }
+                            swal(msg, "", icon);
+                            $('#deleteMember').html('<i class="fas fa-trash-alt"></i> Delete').attr('disabled', false);
+
+                            
+                        }).catch( error => {
+                            console.log(error);
+                            msg = 'There was an error editing the member permissions. Please try again. Error: ' + error;
+                            swal('Error', msg, 'error');
+                            $('#deleteMember').html('Save').attr('disabled', false);
+                        });
+
+
+
+
+
+                    } 
+                });
+            },
         }
     });
     

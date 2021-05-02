@@ -68,10 +68,7 @@ class CareteamController extends Controller
     }
 
     /**
-     * 
-     */
-    /**
-     * Creates or update a careteam member
+     * Creates  a careteam member
      */
     public function saveNewMember(Request $request)
     {
@@ -116,7 +113,7 @@ class CareteamController extends Controller
             return response()->json(['success' => true]);
 
         } catch (Exception $e) {
-            dd($e);
+            // dd($e);
         }
     }
 
@@ -168,5 +165,20 @@ class CareteamController extends Controller
             return response()->json(['success' => false, 'error' => $th]);
         }
         
+    }
+
+    /**
+     * Deletes a careteam member
+     */
+    public function deleteMember(Request $request)
+    {
+        try {
+            careteam::where('loveone_id', $request->loveoneId)->where('user_id', $request->memberId)->delete();
+            return response()->json(['success' => true]);
+
+        } catch (Exception $e) {
+            // dd($e);
+            return response()->json(['success' => false]);
+        }
     }
 }
