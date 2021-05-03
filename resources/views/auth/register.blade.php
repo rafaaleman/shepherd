@@ -8,13 +8,17 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" id="register_user">
                         @csrf
 
                         <div class="form-group row">
                             {{-- <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label> --}}
-                            <div class="col-md-12 text-center">
-                                <input id="photo" type="file" class="form-control @error('photo') is-invalid @enderror" name="photo" accept=".jpg, .png">
+                            <div class="col-md-12 d-flex justify-content-center mb-3">
+                                <div class="bigBtn">
+                                    <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
+                                    Upload Photo
+                                </div>
+                                <input id="photo" type="file" class="d-none form-control @error('photo') is-invalid @enderror" name="photo" accept=".jpg, .png">
                             </div>
                         </div>
 
@@ -111,7 +115,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary btn-lg create">
                                     Create Account
                                 </button>
                             </div>
@@ -123,3 +127,19 @@
     </div>
 </div>
 @endsection
+
+
+@push('scripts')
+<script>
+$(function(){
+    $('.bigBtn').click(function(){
+        $(' #photo').click();
+    });
+
+    $('#register_user').submit(function(){
+
+        $('.create').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
+    })
+});
+</script>
+@endpush

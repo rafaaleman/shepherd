@@ -84,10 +84,15 @@
         <div class="col-md-6 mt-5">
 
             <div class="form-group row">
-                <label for="photo" class="col-md-4 col-form-label text-md-right">Photo</label>
+                
+                {{-- <label for="photo" class="col-md-4 col-form-label text-md-right">Photo</label> --}}
 
                 <div class="col-md-6">
-                    <input id="photo" type="file" class="form-control" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
+                    <div class="bigBtn">
+                        <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
+                        Upload Photo
+                    </div>
+                    <input id="photo" type="file" class="form-control d-none" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
                 </div>
             </div>
 
@@ -114,6 +119,13 @@
 
 @push('scripts')
 <script>
+
+$(function(){
+
+    $('.bigBtn').click(function(){
+        $(' #photo').click();
+    });
+})
 
     const create_loveone = new Vue ({
         el: '#create_loveone',

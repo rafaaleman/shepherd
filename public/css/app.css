@@ -10019,6 +10019,21 @@ input[type=date]::-webkit-calendar-picker-indicator {
   border-radius: 10px;
 }
 
+.bigBtn {
+  width: 350px;
+  background-color: #369bb6;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 30px;
+  text-align: center;
+  font-size: 18px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.bigBtn .far, .bigBtn .fas {
+  font-size: 200px;
+}
+
 .dashboard {
   background: #dedede;
   background: linear-gradient(190deg, #dedede 0%, white 100%);
@@ -10092,20 +10107,6 @@ input[type=date]::-webkit-calendar-picker-indicator {
   height: 300px;
   width: auto;
   margin: auto;
-}
-
-#home_new .bigBtn {
-  width: 350px;
-  background-color: #369bb6;
-  color: #fff;
-  border-radius: 10px;
-  padding: 10px 30px;
-  text-align: center;
-  font-size: 20px;
-  text-decoration: none;
-}
-#home_new .bigBtn .far, #home_new .bigBtn .fas {
-  font-size: 200px;
 }
 
 #careteam .member {

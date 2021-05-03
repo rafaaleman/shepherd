@@ -8,14 +8,14 @@
                     
                 <a href="{{route('loveone')}}" class="mr-3">
                     <div class="bigBtn">
-                        <i class="far fa-heart"></i> <br>
+                        <i class="far fa-heart mb-2"></i> <br>
                         Add Loved One
                     </div>
                 </a>
 
                 <a href="">
                     <div class="bigBtn">
-                        <i class="fas fa-users"></i> <br>
+                        <i class="fas fa-users mb-2"></i> <br>
                         Join an existing CareTeam
                     </div>
                 </a>
