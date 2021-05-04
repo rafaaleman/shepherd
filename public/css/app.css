@@ -10019,6 +10019,10 @@ input[type=date]::-webkit-calendar-picker-indicator {
   border-radius: 10px;
 }
 
+.swal-button {
+  background-color: #369bb6;
+}
+
 .bigBtn {
   width: 350px;
   background-color: #369bb6;
@@ -10129,21 +10133,21 @@ input[type=date]::-webkit-calendar-picker-indicator {
 #careteam .newMember {
   text-decoration: none;
 }
-#careteam #createMemberModal .custom-control-label::after,
+#careteam #inviteMemberModal .custom-control-label::after,
 #careteam #editMemberModal .custom-control-label::after {
   width: 15px;
   height: 15px;
 }
-#careteam #createMemberModal .custom-control-label::before,
+#careteam #inviteMemberModal .custom-control-label::before,
 #careteam #editMemberModal .custom-control-label::before {
   height: 19px;
   width: 32px;
 }
-#careteam #createMemberModal form,
+#careteam #inviteMemberModal form,
 #careteam #editMemberModal form {
   background-color: #f5f5f5;
 }
-#careteam #createMemberModal .section,
+#careteam #inviteMemberModal .section,
 #careteam #editMemberModal .section {
   background-color: #fff;
   border: 1px solid #eee;
@@ -10153,21 +10157,21 @@ input[type=date]::-webkit-calendar-picker-indicator {
   width: 100%;
   margin-bottom: 20px;
 }
-#careteam #createMemberModal .section.photo,
+#careteam #inviteMemberModal .section.photo,
 #careteam #editMemberModal .section.photo {
   padding: 0px;
   background-size: cover;
   filter: saturate(10%);
   height: 200px;
 }
-#careteam #createMemberModal .section.photo img.photo,
+#careteam #inviteMemberModal .section.photo img.photo,
 #careteam #editMemberModal .section.photo img.photo {
   filter: opacity(20%);
   width: auto;
   height: 100%;
   margin: auto;
 }
-#careteam #createMemberModal .section.photo .member-info,
+#careteam #inviteMemberModal .section.photo .member-info,
 #careteam #editMemberModal .section.photo .member-info {
   position: absolute;
   bottom: 15px;
@@ -10175,85 +10179,85 @@ input[type=date]::-webkit-calendar-picker-indicator {
   color: #fff;
   font-size: 16px;
 }
-#careteam #createMemberModal .section.photo .member-info strong,
+#careteam #inviteMemberModal .section.photo .member-info strong,
 #careteam #editMemberModal .section.photo .member-info strong {
   font-size: 20px;
 }
-#careteam #createMemberModal .section.photo .member-info .role,
+#careteam #inviteMemberModal .section.photo .member-info .role,
 #careteam #editMemberModal .section.photo .member-info .role {
   text-transform: uppercase;
 }
-#careteam #createMemberModal .section table,
+#careteam #inviteMemberModal .section table,
 #careteam #editMemberModal .section table {
   width: 100%;
 }
-#careteam #createMemberModal .section table tr,
+#careteam #inviteMemberModal .section table tr,
 #careteam #editMemberModal .section table tr {
   border-bottom: 1px solid #eee;
 }
-#careteam #createMemberModal .section table tr td,
+#careteam #inviteMemberModal .section table tr td,
 #careteam #editMemberModal .section table tr td {
   padding: 10px;
 }
-#careteam #createMemberModal .section table tr td:nth-of-type(1),
+#careteam #inviteMemberModal .section table tr td:nth-of-type(1),
 #careteam #editMemberModal .section table tr td:nth-of-type(1) {
   width: 30%;
   color: #aaa;
 }
-#careteam #createMemberModal .section table tr td a,
+#careteam #inviteMemberModal .section table tr td a,
 #careteam #editMemberModal .section table tr td a {
   color: #000;
   text-decoration: none;
 }
-#careteam #createMemberModal .section table tr td.carehub,
+#careteam #inviteMemberModal .section table tr td.carehub,
 #careteam #editMemberModal .section table tr td.carehub {
   font-size: 16px;
 }
-#careteam #createMemberModal .section table tr td.carehub i,
+#careteam #inviteMemberModal .section table tr td.carehub i,
 #careteam #editMemberModal .section table tr td.carehub i {
   color: #f78383;
   font-size: 18px;
 }
-#careteam #createMemberModal .section table tr td.carehub span,
+#careteam #inviteMemberModal .section table tr td.carehub span,
 #careteam #editMemberModal .section table tr td.carehub span {
   color: #555;
 }
-#careteam #createMemberModal .section table tr td.lockbox,
+#careteam #inviteMemberModal .section table tr td.lockbox,
 #careteam #editMemberModal .section table tr td.lockbox {
   font-size: 16px;
 }
-#careteam #createMemberModal .section table tr td.lockbox i,
+#careteam #inviteMemberModal .section table tr td.lockbox i,
 #careteam #editMemberModal .section table tr td.lockbox i {
   color: #58c69c;
   font-size: 18px;
 }
-#careteam #createMemberModal .section table tr td.lockbox span,
+#careteam #inviteMemberModal .section table tr td.lockbox span,
 #careteam #editMemberModal .section table tr td.lockbox span {
   color: #555;
 }
-#careteam #createMemberModal .section table tr td.medlist,
+#careteam #inviteMemberModal .section table tr td.medlist,
 #careteam #editMemberModal .section table tr td.medlist {
   font-size: 16px;
 }
-#careteam #createMemberModal .section table tr td.medlist i,
+#careteam #inviteMemberModal .section table tr td.medlist i,
 #careteam #editMemberModal .section table tr td.medlist i {
   color: #4dc0b5;
   font-size: 18px;
 }
-#careteam #createMemberModal .section table tr td.medlist span,
+#careteam #inviteMemberModal .section table tr td.medlist span,
 #careteam #editMemberModal .section table tr td.medlist span {
   color: #555;
 }
-#careteam #createMemberModal .section table tr td.resources,
+#careteam #inviteMemberModal .section table tr td.resources,
 #careteam #editMemberModal .section table tr td.resources {
   font-size: 16px;
 }
-#careteam #createMemberModal .section table tr td.resources i,
+#careteam #inviteMemberModal .section table tr td.resources i,
 #careteam #editMemberModal .section table tr td.resources i {
   color: #155c9e;
   font-size: 18px;
 }
-#careteam #createMemberModal .section table tr td.resources span,
+#careteam #inviteMemberModal .section table tr td.resources span,
 #careteam #editMemberModal .section table tr td.resources span {
   color: #555;
 }

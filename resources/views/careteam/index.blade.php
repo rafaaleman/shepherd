@@ -16,11 +16,11 @@
                 
                 <div class="col-md-6 ">
                     
-                    <a href="#!" data-toggle="modal" data-target="#createMemberModal" class="newMember">
+                    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember">
                         <div class="member d-flex add">
                             <i class="fas fa-plus-circle fa-3x mr-2"></i>
                             <div class="data">
-                                <div class="name mt-2" @click="changeAction('CREATE', '')">Add New Member</div>
+                                <div class="name mt-2" @click="changeAction('CREATE', '')">Invite a New Member</div>
                             </div>
                         </div>
                     </a>
@@ -79,7 +79,12 @@
                 address: '',
                 password: '',
                 id: 0,
-                permissions: '',
+                permissions: {
+                    carehub: 0,
+                    lockbox: 0,
+                    medlist: 0,
+                    resources: 0,
+                },
                 photo: '',
             },
             action: '',
@@ -159,8 +164,6 @@
                 
                 if(this.action == 'CREATE'){
 
-                    $('#createMemberForm .password-field').show();
-
                     this.member = {
                         loveone_id: '{{$loveone->id}}',
                         name: '',
@@ -174,8 +177,6 @@
                         photo: '',
                     };
                 } else {
-
-                    $('#createMemberForm .password-field').hide();
 
                     this.member = {
                         loveone_id: '{{$loveone->id}}',
@@ -192,31 +193,64 @@
                     };
                 }
             },
-            saveNewMember: function() {
+            searchMember: function() {
                 
                 // console.log('saving member');
-                $('#saveBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('#saveBtn').data('loading-text')).attr('disabled', true);              
+                $('.searchBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>').attr('disabled', true);              
 
-                var url = '{{ route("careteam.saveNewMember") }}';
-                const config = {
-                    headers: { 'content-type': 'multipart/form-data' }
-                }
-                let formData = new FormData();
-                if(this.member.photo)
-                    formData.append('file', this.member.photo);
+                var url = '{{ route("careteam.searchMember") }}';
+
+                axios.post(url, {'email': $('#s_email').val()})
+                .then(response => {
+                    console.log(response.data);
+                    
+                    if(response.data.user){
+                        careteam.member.id = response.data.user.id;
+                        careteam.member.name = response.data.user.name;
+                        careteam.member.lastname = response.data.user.lastname;
+                        careteam.member.email = response.data.user.email;
+                        careteam.member.permissions = {
+                            carehub : false,
+                            lockbox : false,
+                            medlist : false,
+                            resources : false,
+                        }
+
+                        $('.searchBtn').html('<i class="fas fa-user-check"></i>').attr('disabled', true).removeClass('btn-primary').addClass('btn-success');
+                        $('#s_email').attr('disabled', true).val(response.data.user.name + ' ' + response.data.user.lastname + ' ('+response.data.user.email+')');
+                        $('#inviteMemberForm .section, #includeMember').removeClass('d-none');
+
+
+                        
+                    } else {
+                        msg = 'There is no user with that email. Please try again.';
+                        icon = 'error';
+                        swal(msg, "", icon);
+                        $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
+                    }
+
+                    
+                }).catch( error => {
+                    // console.log(error);
+                    msg = 'There was an error searching the new member. Error: ' + error;
+                    swal('Error', msg, 'error');
+                    $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
+                });
+            },
+            addMember2Careteam: function() {
+
+                // console.log('saving permissions');
+                $('#includeMember').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('#includeMember').data('loading-text')).attr('disabled', true);              
+
+                var url = '{{ route("careteam.inlcudeAMember") }}';
                 
-                var member = JSON.stringify(this.member);
-                console.log(member);
-                formData.append('member', member);
-
-                axios.post(url, formData, config)
+                axios.post(url, this.member)
                 .then(response => {
                     // console.log(response.data);
                     
                     if(response.data.success){
-                        $('#createMemberModal').modal('hide');
-                        msg = 'The member was created successfully.';
-                        msg += (this.is_admin) ? ' Now you could grant access to the Shepherd sections.' : '';
+                        $('#inviteMemberModal').modal('hide');
+                        msg = 'The member was inluded successfully.';
                         icon = 'success';
                         this.getCareteamMembers();
                         
@@ -225,14 +259,14 @@
                         icon = 'error';
                     }
                     swal(msg, "", icon);
-                    $('#saveBtn').html('Save').attr('disabled', false);
+                    $('#includeMember').html('Save').attr('disabled', false);
 
                     
                 }).catch( error => {
-                    // console.log(error);
-                    msg = 'There was an error creating the new member. Error: ' + error;
+                    console.log(error);
+                    msg = 'There was an error editing the member permissions. Please try again. Error: ' + error;
                     swal('Error', msg, 'error');
-                    $('#saveBtn').html('Save').attr('disabled', false);
+                    $('#includeMember').html('Save').attr('disabled', false);
                 });
             },
             saveMemberPermissions: function() {

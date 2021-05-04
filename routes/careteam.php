@@ -9,3 +9,9 @@ Route::get('/getMembers/{loveone_slug}', 'CareteamController@getCareteamMembers'
 Route::post('/saveNewMember', 'CareteamController@saveNewMember')->name('careteam.saveNewMember');
 Route::post('/updateMemberPermissions', 'CareteamController@updateMemberPermissions')->name('careteam.updateMemberPermissions');
 Route::post('/deleteMember', 'CareteamController@deleteMember')->name('careteam.deleteMember');
+
+Route::post('/searchMember', 'CareteamController@searchMember')->name('careteam.searchMember');
+Route::post('/inlcudeAMember', 'CareteamController@inlcudeAMember')->name('careteam.inlcudeAMember');
+
+
+Route::get('/join-team', 'CareteamController@joinTeam')->name('joinTeam');

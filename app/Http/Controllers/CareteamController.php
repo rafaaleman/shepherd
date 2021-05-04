@@ -120,14 +120,16 @@ class CareteamController extends Controller
     /**
      * 
      */
-    protected function createCareteamRow($user_id, $loveone_id, $relationship_id, $role_id)
+    protected function createCareteamRow($user_id, $loveone_id, $relationship_id, $role_id, $permissions = null)
     {
-        $permissions = [
-            'carehub' => 0,
-            'lockbox' => 0,
-            'medlist' => 0,
-            'resources' => 0,
-        ];
+        if(!$permissions){
+            $permissions = [
+                'carehub' => 0,
+                'lockbox' => 0,
+                'medlist' => 0,
+                'resources' => 0,
+            ];
+        }
 
         $careteam = [
             'loveone_id' => $loveone_id,
@@ -180,5 +182,40 @@ class CareteamController extends Controller
             // dd($e);
             return response()->json(['success' => false]);
         }
+    }
+
+    /**
+     * Search a member by ID
+     */
+    public function searchMember(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        return response()->json(['user' => $user]);
+    }
+
+    /**
+     * Admin user includes a new memberteam with permissions
+     */
+    public function inlcudeAMember(Request $request)
+    {
+        // dd($request->all());
+        $permissions = [
+            'carehub' => intval($request->permissions['carehub']),
+            'lockbox' => intval($request->permissions['lockbox']),
+            'medlist' => intval($request->permissions['medlist']),
+            'resources' => intval($request->permissions['resources']),
+        ];
+
+        $this->createCareteamRow($request->id, $request->loveone_id, $request->relationship_id, $request->role_id, $permissions);
+        // TODO: SEnd email to new user with the new permissions;
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * 
+     */
+    public function joinTeam()
+    {
+
     }
 }
