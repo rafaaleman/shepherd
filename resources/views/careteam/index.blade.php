@@ -77,7 +77,6 @@
                 email: '',
                 phone: '',
                 address: '',
-                password: '',
                 id: 0,
                 permissions: {
                     carehub: 0,
@@ -85,7 +84,6 @@
                     medlist: 0,
                     resources: 0,
                 },
-                photo: '',
             },
             action: '',
             is_admin: false,
@@ -198,13 +196,23 @@
                 // console.log('saving member');
                 $('.searchBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>').attr('disabled', true);              
 
-                var url = '{{ route("careteam.searchMember") }}';
+                var url = '{{ route( "careteam.searchMember") }}';
+                data = {
+                    email: $('#s_email').val(),
+                    loveone_id: this.member.loveone_id
+                };
 
-                axios.post(url, {'email': $('#s_email').val()})
+                axios.post(url, data)
                 .then(response => {
                     console.log(response.data);
-                    
-                    if(response.data.user){
+                    if(response.data.user === 2){
+
+                        msg = 'The user is already in the careteam';
+                        icon = 'warning';
+                        swal(msg, "", icon);
+                        $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
+
+                    } else if(response.data.user){
                         careteam.member.id = response.data.user.id;
                         careteam.member.name = response.data.user.name;
                         careteam.member.lastname = response.data.user.lastname;
@@ -223,10 +231,17 @@
 
                         
                     } else {
-                        msg = 'There is no user with that email. Please try again.';
-                        icon = 'error';
-                        swal(msg, "", icon);
+                        careteam.member.email = $('#s_email').val();
+                        careteam.member.permissions = {
+                            carehub : false,
+                            lockbox : false,
+                            medlist : false,
+                            resources : false,
+                        };
+
                         $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
+                        $('#inviteMemberForm, #inlcudeMemberForm').removeClass('d-none');
+                        $('#includeMember').addClass('d-none')
                     }
 
                     
@@ -267,6 +282,44 @@
                     msg = 'There was an error editing the member permissions. Please try again. Error: ' + error;
                     swal('Error', msg, 'error');
                     $('#includeMember').html('Save').attr('disabled', false);
+                });
+            },
+            sendInvitation: function() {
+
+                // console.log('saving permissions');
+                $('#sendLink').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Sending... ').attr('disabled', true);              
+
+                var url = '{{ route("careteam.sendInvitation") }}';
+                data = {
+                    email: $('#s_email').val(),
+                    loveone_id: this.member.loveone_id,
+                    permissions: this.member.permissions,
+                    role_id: this.member.role_id,
+                    relationship_id: this.member.relationship_id
+                };
+                
+                axios.post(url, data)
+                .then(response => {
+                    // console.log(response.data);
+                    
+                    if(response.data.success){
+                        $('#inviteMemberModal').modal('hide');
+                        msg = 'The member was invited successfully.';
+                        icon = 'success';
+                        
+                    } else {
+                        msg = 'There was an error. Please try again. Error: ' + response.data.error;
+                        icon = 'error';
+                    }
+                    swal(msg, "", icon);
+                    $('#sendLink').html('Send an invite').attr('disabled', false);
+
+                    
+                }).catch( error => {
+                    console.log(error);
+                    msg = 'There was an error. Please try again. Error: ' + error;
+                    swal('Error', msg, 'error');
+                    $('#sendLink').html('Send an invite').attr('disabled', false);
                 });
             },
             saveMemberPermissions: function() {

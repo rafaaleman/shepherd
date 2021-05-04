@@ -19,9 +19,11 @@
                 </div>
             </form>
 
-            <form method="post" id="inviteMemberForm" class="col-md-12 p-3" v-on:submit.prevent="addMember2Careteam()">
+            
 
-                <div class="section d-none">
+            <form method="post" id="inlcudeMemberForm" class="col-md-12 p-3 d-none" v-on:submit.prevent="addMember2Careteam()">
+
+                <div class="section ">
                     <table>
                         <tr>
                             <td>Role:</td>
@@ -46,7 +48,7 @@
                     </table>
                 </div>
 
-                <div class="section p-3 d-none">
+                <div class="section p-3">
                     <table>
                         <tr>
                             <td class="carehub">
@@ -101,7 +103,14 @@
                     </table>
                 </div>
                 <input type="hidden" name="id" id="id" required v-model="member.id">
-                <button class="btn btn-primary loadingBtn btn-lg my-2 d-none" type="submit" data-loading-text="Saving..." id="includeMember">Save</button>
+                <button class="btn btn-primary loadingBtn btn-lg my-2" type="submit" data-loading-text="Saving..." id="includeMember">Save</button>
+            </form>
+
+
+            
+
+            <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
+                <label style="font-size: 20px;" class="text-danger">No Shepherd account associated with this email. <a href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an invite</a></label>
             </form>
         </div>
         </div>
@@ -116,7 +125,12 @@
 @push('scripts')
 <script>
 $(function(){
-    
+    $('#inviteMemberModal').on('shown.bs.modal', function (e) {
+
+        $('#inviteMemberForm, #inlcudeMemberForm').addClass('d-none');
+        $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
+        $('#s_email').val('');
+    });
 });
 </script>
 @endpush

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Models\loveone;
 use App\Models\careteam;
+use App\Models\Invitation;
 use App\Models\relationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -190,7 +191,16 @@ class CareteamController extends Controller
     public function searchMember(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        return response()->json(['user' => $user]);
+
+        if($user){
+            $alreadyInCareteam = careteam::where('loveone_id', $request->loveone_id)->where('user_id', $user->id)->first();
+            if($alreadyInCareteam)
+                return response()->json(['user' => 2]); // Already in careteam
+            else
+                return response()->json(['user' => $user]); // 
+        } else {
+            return response()->json(['user' => null]); // User doesnt exist
+        }
     }
 
     /**
@@ -208,6 +218,33 @@ class CareteamController extends Controller
 
         $this->createCareteamRow($request->id, $request->loveone_id, $request->relationship_id, $request->role_id, $permissions);
         // TODO: SEnd email to new user with the new permissions;
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * Invite an external subject to a teamcare
+     */
+    public function sendInvitation(Request $request)
+    {
+        // dd($request->all());
+        $invitation = Invitation::where('loveone_id', $request->loveone_id)->where('email', $request->email)->first();
+
+        if(!$invitation){
+            $permitted_chars = '023456789abcdefghjkmnopqrstuvwxyz';
+            $token = substr(str_shuffle($permitted_chars), 0, 20);
+            $invitation = [
+                'loveone_id' => $request->loveone_id,
+                'email' => $request->email,
+                'token' => $token,
+                'role' => $request->role_id,
+                'permissions' => serialize($request->permissions),
+                'relationship_id' => $request->relationship_id,
+            ];
+            Invitation::create($invitation);
+            $loveone = loveone::find($request->loveone_id);
+        }
+
+        // TODO: Send email
         return response()->json(['success' => true]);
     }
 

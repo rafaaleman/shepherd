@@ -12,6 +12,7 @@ Route::post('/deleteMember', 'CareteamController@deleteMember')->name('careteam.
 
 Route::post('/searchMember', 'CareteamController@searchMember')->name('careteam.searchMember');
 Route::post('/inlcudeAMember', 'CareteamController@inlcudeAMember')->name('careteam.inlcudeAMember');
+Route::post('/sendInvitation', 'CareteamController@sendInvitation')->name('careteam.sendInvitation');
 
 
 Route::get('/join-team', 'CareteamController@joinTeam')->name('joinTeam');
