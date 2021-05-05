@@ -8,8 +8,10 @@ use App\Models\careteam;
 use App\Models\Invitation;
 use App\Models\relationship;
 use Illuminate\Http\Request;
+use App\Mail\sendInvitationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class CareteamController extends Controller
 {
@@ -51,6 +53,7 @@ class CareteamController extends Controller
         $careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
         $membersIds = $careteam->pluck('user_id')->toArray();
         $members = User::whereIn('id', $membersIds)->get();
+        $is_admin = false;
 
         foreach ($members as $key => $member){
             $careteam[$member->id]->permissions = unserialize($careteam[$member->id]->permissions);
@@ -60,10 +63,13 @@ class CareteamController extends Controller
                 $is_admin = true;
         }
 
+        $invitations = Invitation::where('loveone_id', $loveone->id)->get();
+
         return response()->json(['success' => true, 'data' => [
                                                         'loveone' => $loveone,
                                                         'careteam' => $careteam,
                                                         'members' => $members,
+                                                        'invitations' => $invitations,
                                                         'is_admin' => $is_admin
                                                     ]]);
     }
@@ -242,9 +248,19 @@ class CareteamController extends Controller
             ];
             Invitation::create($invitation);
             $loveone = loveone::find($request->loveone_id);
+
+
+            // send email
+            $details = [
+                'url' => route('register_invitation', $token),
+                'role' => $request->role_id,
+                'loveone_name' => $loveone->firstname . ' ' . $loveone->lastname,
+                'loveone_photo' => $loveone->photo,
+            ];
+    
+            Mail::to($request->email)->send(new sendInvitationMail($details));
         }
 
-        // TODO: Send email
         return response()->json(['success' => true]);
     }
 

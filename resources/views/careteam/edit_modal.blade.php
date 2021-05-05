@@ -92,14 +92,14 @@
                 </div>
 
 
-                <div class="section p-3" v-if="member.role_id != 'admin'">
+                <div class="section p-3" v-if="is_admin">
                     <table>
                         <tr>
                             <td class="">
                                 <span>Remove from CareTeam</span>
                             </td>
                             <td align="right">
-                                <a id="deleteMember" class="btn btn-danger text-white" href="#!" @click="deleteMember();">
+                                <a id="deleteMember" class="btn btn-danger text-white" href="#!" @click="deleteMember();" :disabled="member.role_id == 'admin'>
                                     <i class="fas fa-trash-alt"></i> Delete
                                 </a>
                             </td>
@@ -109,7 +109,7 @@
 
 
                 <input type="hidden" name="id" id="id" required v-model="member.id">
-                <button class="btn btn-primary loadingBtn btn-lg mt-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn" :disabled="member.role_id == 'admin'">Save</button>
+                <button class="btn btn-primary loadingBtn btn-lg mt-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn"  v-if="is_admin" :disabled="member.role_id == 'admin'">Save</button>
             </form>
         </div>
         </div>

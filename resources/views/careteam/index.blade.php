@@ -11,7 +11,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? $loveone->photo : asset('public/img/no-avatar.png')}}" class="img-fluid">
+                    <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? $loveone->photo : asset('public/img/no-avatar.png')}}" class="img-fluid rounded">
                 </div>
                 
                 <div class="col-md-6 ">
@@ -43,6 +43,17 @@
                                 
                             </div>
                         </a>
+
+                        <div class="member" v-for="invitation in invitations">
+                            <img src="{{asset('public/img/no-avatar.png')}}" class="float-left mr-3">
+                            <div class="data float-left">
+                                <div class="name">@{{ invitation.email }}</div>
+                                <div class="role">@{{ invitation.role | mayuscula }}</div>
+                            </div>
+
+                            <i class="mt-2 info float-right mr-2 text-danger">Pending...</i>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -70,6 +81,7 @@
         },
         data: {
             members: [],
+            invitations: [],
             member: {
                 loveone_id: '{{$loveone->id}}',
                 name: '',
@@ -141,8 +153,9 @@
                     // console.log(response.data);
                     
                     if(response.data.success){
-                        this.members = response.data.data.members; 
-                        this.is_admin = response.data.data.is_admin;
+                        this.members     = response.data.data.members;
+                        this.invitations = response.data.data.invitations;
+                        this.is_admin    = response.data.data.is_admin;
                     } else {
                         msg = 'There was an error. Please try again';
                         icon = 'error';
@@ -204,7 +217,7 @@
 
                 axios.post(url, data)
                 .then(response => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     if(response.data.user === 2){
 
                         msg = 'The user is already in the careteam';
@@ -287,7 +300,7 @@
             sendInvitation: function() {
 
                 // console.log('saving permissions');
-                $('#sendLink').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Sending... ').attr('disabled', true);              
+                $('#sendLink').html('<br> <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Sending... ').attr('disabled', true);              
 
                 var url = '{{ route("careteam.sendInvitation") }}';
                 data = {
@@ -303,6 +316,7 @@
                     // console.log(response.data);
                     
                     if(response.data.success){
+                        this.getCareteamMembers();
                         $('#inviteMemberModal').modal('hide');
                         msg = 'The member was invited successfully.';
                         icon = 'success';

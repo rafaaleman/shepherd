@@ -39,7 +39,7 @@
                             <label for="lastname" class="col-md-4 col-form-label text-md-right">Lastname</label>
 
                             <div class="col-md-6">
-                                <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname" autofocus>
+                                <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname">
 
                                 @error('lastname')
                                     <span class="invalid-feedback" role="alert">
@@ -53,7 +53,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', (isset($email)) ? $email : '' ) }}" required autocomplete="email" {{isset($email) ? 'readonly' : ''}}>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -67,7 +67,7 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">Phone Number</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
+                                <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                                 @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -81,7 +81,7 @@
                             <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address" autofocus>
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address" >
 
                                 @error('address')
                                     <span class="invalid-feedback" role="alert">
@@ -118,6 +118,7 @@
                                 <button type="submit" class="btn btn-primary btn-lg create">
                                     Create Account
                                 </button>
+                                <input type="hidden" name="token" value="{{isset($token) ? $token : ''}}">
                             </div>
                         </div>
                     </form>
