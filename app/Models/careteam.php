@@ -14,4 +14,7 @@ class careteam extends Model
     // public function getLoveones() {
     //     return $this->hasOne('App\Models\loveone', 'id', 'loveone_id');
     // }
+    public function user(){
+        return $this->belongsTo('App\User', 'user_id', 'id');
+    }
 }
