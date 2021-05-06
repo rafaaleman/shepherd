@@ -1,3 +1,19 @@
+.bigBtn{
+    width: 350px;
+    background-color: $primary-color;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 30px;
+    text-align: center;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+
+    .far, .fas{
+        font-size: 200px;
+    }
+}
+
 .dashboard {
     background: rgb(222,222,222);
     background: linear-gradient(190deg, rgba(222,222,222,1) 0%, rgba(255,255,255,1) 100%);
@@ -12,6 +28,10 @@
         &:hover {
             width: 26%;
             border-width: 3px;
+        }
+
+        a{
+            text-decoration: none;
         }
 
         .fas, .far {
@@ -32,6 +52,7 @@
         }
 
         &.team{
+
             .fas, .card-text span{
                 color: $blue;
                 font-weight: bold;
@@ -39,9 +60,14 @@
 
             .member-img{
                 background-color: #fff;
-                margin-left: -20px;
+                margin-left: -10px;
                 width: 35px;
                 border-radius: 50%;
+
+                &:hover {
+                    margin-bottom: 10px;
+                    width: 40px;
+                }
             }
         }
 
@@ -74,7 +100,7 @@
     }
 
     .carousel-item{
-        background-color: #f6f6f6;
+        background-color: #abc9d1;
         min-height: 200px;
         max-height: 300px;
 
@@ -88,4 +114,9 @@
             margin: auto;
         }
     }
+}
+
+#home_new{
+
+    
 }

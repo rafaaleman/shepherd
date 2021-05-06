@@ -30,10 +30,14 @@ class HomeController extends Controller
     {
         $loveones = $this->getLoveones();
         $careteam_users = null;
+        // dd($loveones->count());
         if($loveones->count() > 0){
             $careteam_users = $this->getCareteamData($loveones[0]->id);
+            return view('home', compact('loveones', 'careteam_users'));
+        } else {
+            return view('new');
         }
-        return view('home', compact('loveones', 'careteam_users'));
+
     }
 
     /**

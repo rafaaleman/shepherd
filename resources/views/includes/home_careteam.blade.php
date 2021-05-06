@@ -1,20 +1,20 @@
-@if ($careteam_users != null )
+<a :href="careteam_url" class="widget team">
+    <div class="card">
+        <div class="card-body">
+            <i class="fas fa-users fa-2x"></i>
+            <h5 class="card-title">CareTeam</h5>
+            <p class="card-text">
+                <span>@{{current_members.length}}</span> Member(s) <br>    
 
-    <a href="{{ route('careteam', [$loveones[0]->slug]) }}" class="widget team">
-        <div class="card">
-            <div class="card-body">
-                <i class="fas fa-users fa-2x"></i>
-                <h5 class="card-title">CareTeam</h5>
-                <p class="card-text">
-                    <span>{{ $careteam_users->count() }}</span> Member(s) <br>    
-
-                    <div class="pl-3 avatar-imgs">
-                        @foreach ($careteam_users as $user)
-                            <img src="{{ ($user->photo) ?: asset('public/img/no-avatar.png') }}" class="member-img" title="{{ $user->name . ' ' . $user->lastname}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
-                        @endforeach
+                <div class="pl-3 avatar-imgs">
+                    <div class="loading">
+                        <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading members...
                     </div>
-                </p>
-            </div>
+                    <template v-for="member in current_members">
+                        <img :src="member.photo" class="member-img" :title="member.name + ' ' + member.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                    </template>
+                </div>
+            </p>
         </div>
-    </a>
-@endif
+    </div>
+</a>

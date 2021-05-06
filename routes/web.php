@@ -23,4 +23,5 @@ Auth::routes([
     'reset' => true
 ]);
 
+Route::get('/register/{token}', 'Auth\RegisterController@showRegistrationForm2')->name('register_invitation');
 Route::get('/home', 'HomeController@index')->name('home');
