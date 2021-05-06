@@ -103,11 +103,11 @@
                     </table>
                 </div>
                 <input type="hidden" name="id" id="id" required v-model="member.id">
-                <button class="btn btn-primary loadingBtn btn-lg my-2" type="submit" data-loading-text="Saving..." id="includeMember">Save</button>
+                <button class="btn btn-primary loadingBtn btn-lg my-2" type="submit" data-loading-text="Sending..." id="includeMember">Send invite</button>
             </form>
 
 
-            
+
 
             <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
                 <label style="font-size: 20px;" class="text-danger">No Shepherd account associated with this email. <a href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an invite</a></label>

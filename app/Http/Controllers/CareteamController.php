@@ -8,6 +8,7 @@ use App\Models\careteam;
 use App\Models\Invitation;
 use App\Models\relationship;
 use Illuminate\Http\Request;
+use App\Mail\sendJoinTeamMail;
 use App\Mail\sendInvitationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -215,15 +216,41 @@ class CareteamController extends Controller
     public function inlcudeAMember(Request $request)
     {
         // dd($request->all());
-        $permissions = [
-            'carehub' => intval($request->permissions['carehub']),
-            'lockbox' => intval($request->permissions['lockbox']),
-            'medlist' => intval($request->permissions['medlist']),
-            'resources' => intval($request->permissions['resources']),
-        ];
 
-        $this->createCareteamRow($request->id, $request->loveone_id, $request->relationship_id, $request->role_id, $permissions);
-        // TODO: SEnd email to new user with the new permissions;
+        // $this->createCareteamRow($request->id, $request->loveone_id, $request->relationship_id, $request->role_id, $permissions);
+        $invitation = Invitation::where('loveone_id', $request->loveone_id)->where('email', $request->email)->first();
+
+        if(!$invitation){
+            $permissions = [
+                'carehub' => intval($request->permissions['carehub']),
+                'lockbox' => intval($request->permissions['lockbox']),
+                'medlist' => intval($request->permissions['medlist']),
+                'resources' => intval($request->permissions['resources']),
+            ];
+            $token = $this->generateToken();
+            $invitation = [
+                'loveone_id' => $request->loveone_id,
+                'email' => $request->email,
+                'token' => $token,
+                'role' => $request->role_id,
+                'permissions' => serialize($permissions),
+                'relationship_id' => $request->relationship_id,
+            ];
+            Invitation::create($invitation);
+            $loveone = loveone::find($request->loveone_id);
+
+
+            // send email
+            $details = [
+                'url' => route('login'), // TODO: set pending route
+                'role' => $request->role_id,
+                'loveone_name' => $loveone->firstname . ' ' . $loveone->lastname,
+                'loveone_photo' => $loveone->photo,
+            ];
+    
+            Mail::to($request->email)->send(new sendJoinTeamMail($details));
+        }
+
         return response()->json(['success' => true]);
     }
 
@@ -236,8 +263,7 @@ class CareteamController extends Controller
         $invitation = Invitation::where('loveone_id', $request->loveone_id)->where('email', $request->email)->first();
 
         if(!$invitation){
-            $permitted_chars = '023456789abcdefghjkmnopqrstuvwxyz';
-            $token = substr(str_shuffle($permitted_chars), 0, 20);
+            $token = $this->generateToken();
             $invitation = [
                 'loveone_id' => $request->loveone_id,
                 'email' => $request->email,
@@ -270,5 +296,14 @@ class CareteamController extends Controller
     public function joinTeam()
     {
 
+    }
+
+    /**
+     * 
+     */
+    protected function generateToken(){
+        $permitted_chars = '023456789abcdefghjkmnopqrstuvwxyz';
+        $token = substr(str_shuffle($permitted_chars), 0, 20);
+        return $token;
     }
 }

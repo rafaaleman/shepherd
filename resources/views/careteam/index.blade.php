@@ -218,14 +218,14 @@
                 axios.post(url, data)
                 .then(response => {
                     // console.log(response.data);
-                    if(response.data.user === 2){
+                    if(response.data.user === 2){ // Already in careteam
 
                         msg = 'The user is already in the careteam';
                         icon = 'warning';
                         swal(msg, "", icon);
                         $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
 
-                    } else if(response.data.user){
+                    } else if(response.data.user){ // Find an existing user but no in careteam
                         careteam.member.id = response.data.user.id;
                         careteam.member.name = response.data.user.name;
                         careteam.member.lastname = response.data.user.lastname;
@@ -239,11 +239,11 @@
 
                         $('.searchBtn').html('<i class="fas fa-user-check"></i>').attr('disabled', true).removeClass('btn-primary').addClass('btn-success');
                         $('#s_email').attr('disabled', true).val(response.data.user.name + ' ' + response.data.user.lastname + ' ('+response.data.user.email+')');
-                        $('#inviteMemberForm .section, #includeMember').removeClass('d-none');
+                        $('#inlcudeMemberForm').removeClass('d-none');
 
 
                         
-                    } else {
+                    } else { // External non register user
                         careteam.member.email = $('#s_email').val();
                         careteam.member.permissions = {
                             carehub : false,
@@ -278,7 +278,7 @@
                     
                     if(response.data.success){
                         $('#inviteMemberModal').modal('hide');
-                        msg = 'The member was inluded successfully.';
+                        msg = 'The member was invited to the team.';
                         icon = 'success';
                         this.getCareteamMembers();
                         

@@ -7,12 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class sendInvitationMail extends Mailable
+class sendJoinTeamMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $details;
-
+    protected $details;
 
     /**
      * Create a new message instance.
@@ -31,6 +30,6 @@ class sendInvitationMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.sendInvitationMail')->subject('You have been invited to Shepherd')->with('details', $this->details);
+        return $this->markdown('emails.sendJoinTeamMail')->subject('You have been invited to Join a Careteam in Shepherd')->with('details', $this->details);
     }
 }
