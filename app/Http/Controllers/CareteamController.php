@@ -293,6 +293,15 @@ class CareteamController extends Controller
     /**
      * 
      */
+    public function deleteInvitation(Request $request)
+    {
+        Invitation::find($request->invitationId)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * 
+     */
     public function joinTeam()
     {
 

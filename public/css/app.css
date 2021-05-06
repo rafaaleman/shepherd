@@ -10019,7 +10019,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   border-radius: 10px;
 }
 
-.swal-button {
+.swal-button--confirm {
   background-color: #369bb6;
 }
 
@@ -10129,6 +10129,9 @@ input[type=date]::-webkit-calendar-picker-indicator {
 #careteam .member .role {
   font-size: 12px;
   color: #999;
+}
+#careteam .member .fa-times-circle {
+  cursor: pointer;
 }
 #careteam .newMember {
   text-decoration: none;

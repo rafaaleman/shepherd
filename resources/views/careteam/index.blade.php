@@ -51,7 +51,8 @@
                                 <div class="role">@{{ invitation.role | mayuscula }}</div>
                             </div>
 
-                            <i class="mt-2 info float-right mr-2 text-danger">Pending...</i>
+                            <i class="fas fa-times-circle text-danger float-right mr-2 mt-3" @click="deleteInvitation(invitation.id)"></i>
+                            <i class="mt-3 info float-right mr-2 text-danger">Pending...</i>
                         </div>
 
                     </div>
@@ -380,7 +381,7 @@
                     icon: "warning",
                     buttons: [
                         'No, cancel it!',
-                        'Yes, I am sure!'
+                        "Yes, I'm sure!"
                     ],
                     dangerMode: true,
                 }).then(function(isConfirm) {
@@ -425,6 +426,48 @@
                     } 
                 });
             },
+            deleteInvitation: function(invitation_id) {
+                swal({
+                    title: "Warning",
+                    text: "Are you sure delete this invitation?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+                    if (isConfirm) {
+
+                        var url = '{{ route("careteam.deleteInvitation") }}';
+                        data = {
+                            invitationId: invitation_id,
+                        };
+                        
+                        axios.post(url, data)
+                        .then(response => {
+                            // console.log(response.data.success);
+                            
+                            if(response.data.success){
+                                msg = 'The invitation was deleted.';
+                                icon = 'success';
+                                careteam.getCareteamMembers();
+                                
+                            } else {
+                                msg = 'There was an error. Please try again. Error: ' + response.data.error;
+                                icon = 'error';
+                            }
+                            swal(msg, "", icon);
+
+                            
+                        }).catch( error => {
+                            console.log(error);
+                            msg = 'There was an error. Please try again. Error: ' + error;
+                            swal('Error', msg, 'error');
+                        });
+                    } 
+                });
+            }
         }
     });
     
