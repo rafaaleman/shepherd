@@ -99,7 +99,7 @@
                                 <span>Remove from CareTeam</span>
                             </td>
                             <td align="right">
-                                <a id="deleteMember" class="btn btn-danger text-white" href="#!" @click="deleteMember();" :disabled="member.role_id == 'admin'>
+                                <a id="deleteMember" class="btn btn-danger text-white" href="#!" @click="deleteMember();" :disabled="member.role_id == 'admin'">
                                     <i class="fas fa-trash-alt"></i> Delete
                                 </a>
                             </td>

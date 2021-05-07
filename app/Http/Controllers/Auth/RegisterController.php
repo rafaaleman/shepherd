@@ -103,7 +103,7 @@ class RegisterController extends Controller
     /**
      * 
      */
-    protected function acceptInvitation($user_id, $token)
+    public function acceptInvitation($user_id, $token)
     {
         $invitation = Invitation::whereToken($token)->first();
         
