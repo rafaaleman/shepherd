@@ -20,10 +20,10 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm mb-4">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{asset('/img/logo-shepherd.png')}}"  alt="{{ config('app.name', 'Laravel') }}">
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    <img src="{{asset('/img/logo-shepherd.png')}}"  alt="{{ config('app.name', 'Laravel') }}" class="mr-5">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -31,9 +31,32 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
+                    @guest
+                    @else
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item mr-4">
+                                <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                            </li>
+                            <li class="nav-item mr-4">
+                                <a href="{{route('loveone')}}" class="nav-link"><i class="far fa-heart"></i> Add Loved One</a>
+                            </li>
+                            {{-- <li class="nav-item mr-4 dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-puzzle-piece"></i> Sections
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item text-black-50" href="{{route('careteam')}}"><i class=" mr-2 fas fa-user-friends"></i> CareTeam</a>
+                                    <a class="dropdown-item text-black-50" href="#"><i class=" mr-2 far fa-calendar-plus"></i> CareHub</a>
+                                    <a class="dropdown-item text-black-50" href="#"><i class=" mr-2 fas fa-file-medical"></i> LockBox</a>
+                                    <a class="dropdown-item text-black-50" href="#"><i class=" mr-2 fas fa-prescription-bottle-alt"></i> MyMedList</a>
+                                    <a class="dropdown-item text-black-50" href="#"><i class=" mr-2 fas fa-globe"></i> Resources</a>
+                                </div>
+                            </li> --}}
+                            <li class="nav-item mr-4">
+                                <a href="#" class="nav-link"><i class="far fa-bell"></i> Notifications</a>
+                            </li>
+                        </ul>
+                    @endguest
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -54,16 +77,20 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                    <a class="dropdown-item text-black-50" href="{{ route('user.profile') }}">
+                                        <i class="fas fa-user-cog mr-2"></i> Profile
+                                    </a>
+                                
+                                    <a class="dropdown-item text-black-50" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt mr-2 text-danger"></i> {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
+
                             </li>
                         @endguest
                     </ul>

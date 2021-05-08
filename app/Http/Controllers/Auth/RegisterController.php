@@ -121,4 +121,42 @@ class RegisterController extends Controller
             Invitation::whereToken($token)->delete();
         }
     }
+
+    /**
+     * Update user
+     */
+    public function updateUser(Request $request)
+    {
+        $data = [
+            'name'     => $request->name,
+            'lastname' => $request->lastname,
+            'phone'    => $request->phone,
+            'address'  => $request->address,
+            'email'    => $request->email,
+        ];
+        dd($data);
+
+        if(!empty($request->password) && $request->password == $request->password_confirmation){
+            $data['password'] = Hash::make($request->password);
+        }
+
+        if($request->photo){
+
+            $prefix = str_replace('@', '_at_', $request->email);
+            $photoName = $prefix.'.'.$request->photo->getClientOriginalExtension();
+            $request->photo->move(public_path('members/'), $photoName);
+            $photo = '/members/'.$photoName;
+
+            $data['photo'] = $photo;
+        }
+
+        try {
+            
+            User::where('id', Auth()->user()->id )->update($data);
+            return response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false]);
+        }
+
+    }
 }
