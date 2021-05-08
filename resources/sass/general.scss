@@ -21,3 +21,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .swal-button--confirm{
     background-color: $primary-color;
 }
+
+.photo-container{
+    height: 400px;
+    background-color: $primary-color;
+    background-size:cover;
+    background-position: top center;
+    border-radius: 10px;
+
+    &.low{
+        height: 200px;
+    }
+}
+
+.bigBtn{
+    width: 100%;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 30px;
+    text-align: center;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+
+    .far, .fas{
+        font-size: 200px;
+    }
+}

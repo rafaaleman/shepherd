@@ -13,10 +13,14 @@
 
                         <div class="form-group row">
                             {{-- <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label> --}}
-                            <div class="col-md-12 d-flex justify-content-center mb-3" style="background-image: url('{{ Auth::user()->photo }}'); background-size:cover;">
-                                <div class="bigBtn">
-                                    <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
-                                    Upload Photo
+                            <div class="col-md-12 d-flex justify-content-center mb-3 photo-container" style="background-image: url('{{ Auth::user()->photo }}');">
+                                <div class="bigBtn" style="{{ (Auth::user()->photo) ? 'justify-content: flex-end;' : 'justify-content: center;'}}">
+                                    @if (empty(Auth::user()->photo))
+                                        <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
+                                        Upload Photo
+                                    @else
+                                        Upload New Photo
+                                    @endif
                                 </div>
                                 <input id="photo" type="file" class="d-none form-control" name="photo" accept=".jpg, .png" v-on:change="onFileChange">
                             </div>
@@ -97,6 +101,13 @@
 @push('scripts')
 <script>
 
+    $(function(){
+
+        $('.bigBtn').click(function(){
+            $(' #photo').click();
+        });
+    })
+
     const profile = new Vue ({
         el: '#profile',
         created: function() {
@@ -104,7 +115,6 @@
         },
         data: {
             user: {
-                _token  : $('meta[name="csrf-token"]').attr('content'),
                 name    : "{{ Auth()->user()->name ?? '' }}",
                 lastname: "{{ Auth()->user()->lastname ?? '' }}",
                 email   : "{{ Auth()->user()->email ?? '' }}",
@@ -122,12 +132,19 @@
         methods: {
             updateUser: function() {
 
+                if(this.user.password != '' && this.user.password != this.user.password_confirmation){
+                    swal('Error', "The passwords don't match, please verify.", 'error');
+                    return;
+                }
+
                 console.log('updating');
                 $('.btn.update').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Saving...').attr('disabled', true);
                 this.user.phone = this.user.phone.replace(/\D/g,'');
 
                 const config = {
-                    headers: { 'content-type': 'multipart/form-data' }
+                    headers: { 
+                        'content-type': 'multipart/form-data',
+                    }
                 }
                 let formData = new FormData();
                 if(this.user.photo)
@@ -145,7 +162,8 @@
                     if(response.data.success){
                         msg  = 'Your user was updated successfully!';
                         icon = 'success';
-                        this.user.photo = response.data.data.user.photo; 
+                        if(response.data.data.user.photo != '')
+                            profile.user.photo = response.data.data.user.photo; 
                         
                         swal(msg, "", icon);    
                     } else {
@@ -154,18 +172,9 @@
                         swal(msg, "", icon);
                     }
                     
-                    $('.loadingBtn').html('Save').attr('disabled', false);
+                    $('.btn.update').html('Save').attr('disabled', false);
                     
                         
-                }).catch( error => {
-                    
-                    txt = "";
-                    $('.loadingBtn').html('Save').attr('disabled', false);
-                    $.each( error.response.data.errors, function( key, error ) {
-                        txt += error + '\n';
-                    });
-                    
-                    swal('There was an Error', txt, 'error');
                 });
             },
             onFileChange(e){

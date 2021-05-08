@@ -87,7 +87,7 @@
                 
                 {{-- <label for="photo" class="col-md-4 col-form-label text-md-right">Photo</label> --}}
 
-                <div class="col-md-6">
+                <div class="col-md-6 photo-container low">
                     <div class="bigBtn">
                         <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
                         Upload Photo

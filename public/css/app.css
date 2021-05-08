@@ -10023,9 +10023,19 @@ input[type=date]::-webkit-calendar-picker-indicator {
   background-color: #369bb6;
 }
 
-.bigBtn {
-  width: 350px;
+.photo-container {
+  height: 400px;
   background-color: #369bb6;
+  background-size: cover;
+  background-position: top center;
+  border-radius: 10px;
+}
+.photo-container.low {
+  height: 200px;
+}
+
+.bigBtn {
+  width: 100%;
   color: #fff;
   border-radius: 10px;
   padding: 10px 30px;
@@ -10033,6 +10043,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
   font-size: 18px;
   text-decoration: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 .bigBtn .far, .bigBtn .fas {
   font-size: 200px;

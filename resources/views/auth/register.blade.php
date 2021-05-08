@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
@@ -13,8 +13,8 @@
 
                         <div class="form-group row">
                             {{-- <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label> --}}
-                            <div class="col-md-12 d-flex justify-content-center mb-3">
-                                <div class="bigBtn">
+                            <div class="col-md-12 d-flex justify-content-center mb-3 photo-container low">
+                                <div class="bigBtn justify-content-center">
                                     <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
                                     Upload Photo
                                 </div>
@@ -25,7 +25,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
@@ -38,7 +38,7 @@
                         <div class="form-group row">
                             <label for="lastname" class="col-md-4 col-form-label text-md-right">Lastname</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname">
 
                                 @error('lastname')
@@ -52,7 +52,7 @@
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', (isset($email)) ? $email : '' ) }}" required autocomplete="email" {{isset($email) ? 'readonly' : ''}}>
 
                                 @error('email')
@@ -66,7 +66,7 @@
                         <div class="form-group row">
                             <label for="phone" class="col-md-4 col-form-label text-md-right">Phone Number</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                                 @error('phone')
@@ -80,7 +80,7 @@
                         <div class="form-group row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address" >
 
                                 @error('address')
@@ -94,7 +94,7 @@
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
@@ -108,7 +108,7 @@
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>

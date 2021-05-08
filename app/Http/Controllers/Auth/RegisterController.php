@@ -42,7 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['updateUser']]);
     }
 
     /**
@@ -127,33 +127,38 @@ class RegisterController extends Controller
      */
     public function updateUser(Request $request)
     {
-        $data = [
-            'name'     => $request->name,
-            'lastname' => $request->lastname,
-            'phone'    => $request->phone,
-            'address'  => $request->address,
-            'email'    => $request->email,
-        ];
-        dd($data);
+        $data = $request->all();
+        $user = json_decode($data['user']);
 
-        if(!empty($request->password) && $request->password == $request->password_confirmation){
-            $data['password'] = Hash::make($request->password);
+        $data = [
+            'name'     => $user->name,
+            'lastname' => $user->lastname,
+            'phone'    => $user->phone,
+            'address'  => $user->address,
+            'email'    => $user->email,
+        ];
+        
+
+        if(!empty($user->password) && $user->password == $user->password_confirmation){
+            $data['password'] = Hash::make($user->password);
         }
 
-        if($request->photo){
+        $photo = '';
+        if($user->photo){
 
-            $prefix = str_replace('@', '_at_', $request->email);
-            $photoName = $prefix.'.'.$request->photo->getClientOriginalExtension();
-            $request->photo->move(public_path('members/'), $photoName);
+            $prefix = str_replace('@', '_at_', $user->email);
+            $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+            $request->file->move(public_path('members/'), $photoName);
             $photo = '/members/'.$photoName;
 
             $data['photo'] = $photo;
         }
 
+        // dd($data);
         try {
             
             User::where('id', Auth()->user()->id )->update($data);
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'photo' => $photo]);
         } catch (\Throwable $th) {
             return response()->json(['success' => false]);
         }
