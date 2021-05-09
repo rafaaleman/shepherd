@@ -242,7 +242,7 @@ class CareteamController extends Controller
 
             // send email
             $details = [
-                'url' => route('login'), // TODO: set pending route
+                'url' => route('careteam.joinTeam'), 
                 'role' => $request->role_id,
                 'loveone_name' => $loveone->firstname . ' ' . $loveone->lastname,
                 'loveone_photo' => $loveone->photo,
@@ -304,7 +304,33 @@ class CareteamController extends Controller
      */
     public function joinTeam()
     {
+        return view('careteam.joinTeam');
+    }
 
+    public function getInvitations(){
+
+        $invitations = Invitation::where('email', Auth::user()->email)->get();
+        $loveonesIds = $invitations->pluck('loveone_id')->toArray();
+        $loveones = loveone::whereIn('id', $loveonesIds)->get()->keyBy('id');
+
+        foreach ( $invitations as $invitation ) {
+            $invitation->loveone = $loveones[$invitation->loveone_id];
+        }
+
+        return response()->json(['invitations' => $invitations]);
+    }
+
+    /**
+     * 
+     */
+    public function acceptInvitation(Request $request)
+    {   
+        try {
+            app('App\Http\Controllers\Auth\RegisterController')->acceptInvitation($request->user_id, $request->token);
+            return response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false]);
+        }
     }
 
     /**

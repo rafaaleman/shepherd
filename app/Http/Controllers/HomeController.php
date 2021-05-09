@@ -86,4 +86,12 @@ class HomeController extends Controller
 
         return $users;
     }
+
+    /**
+     * 
+     */
+    public function profile()
+    {
+        return view('profile');
+    }
 }

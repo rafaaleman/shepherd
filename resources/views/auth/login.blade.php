@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" id="login_form">
                         @csrf
 
                         <div class="form-group row">
@@ -53,9 +53,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+                                <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">Login</button>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -71,3 +69,15 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+$(function(){
+
+    $('#login_form').submit(function(){
+        console.log('login');
+        $('#loginBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
+    })
+});
+</script>
+@endpush

@@ -42,7 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['updateUser']]);
     }
 
     /**
@@ -103,7 +103,7 @@ class RegisterController extends Controller
     /**
      * 
      */
-    protected function acceptInvitation($user_id, $token)
+    public function acceptInvitation($user_id, $token)
     {
         $invitation = Invitation::whereToken($token)->first();
         
@@ -120,5 +120,48 @@ class RegisterController extends Controller
             careteam::create($careteam);
             Invitation::whereToken($token)->delete();
         }
+    }
+
+    /**
+     * Update user
+     */
+    public function updateUser(Request $request)
+    {
+        $data = $request->all();
+        $user = json_decode($data['user']);
+
+        $data = [
+            'name'     => $user->name,
+            'lastname' => $user->lastname,
+            'phone'    => $user->phone,
+            'address'  => $user->address,
+            'email'    => $user->email,
+        ];
+        
+
+        if(!empty($user->password) && $user->password == $user->password_confirmation){
+            $data['password'] = Hash::make($user->password);
+        }
+
+        $photo = '';
+        if($user->photo){
+
+            $prefix = str_replace('@', '_at_', $user->email);
+            $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+            $request->file->move(public_path('members/'), $photoName);
+            $photo = '/members/'.$photoName;
+
+            $data['photo'] = $photo;
+        }
+
+        // dd($data);
+        try {
+            
+            User::where('id', Auth()->user()->id )->update($data);
+            return response()->json(['success' => true, 'photo' => $photo]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false]);
+        }
+
     }
 }
