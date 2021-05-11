@@ -2,37 +2,30 @@
 
 @section('content')
 <div class="container"  id="careteam">
+
+    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember btn btn-primary btn-lg mb-3" @click="changeAction('CREATE', '')">
+        Invite a New Member
+    </a>
     
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-body">
-            <h5 class="card-title">{{$loveone->firstname}} {{$loveone->lastname}}</h5>
-            <p class="card-text">Loveone</p>
             
 
             <div class="row">
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? $loveone->photo : asset('public/img/no-avatar.png')}}" class="img-fluid rounded">
-                </div>
+                </div> --}}
                 
-                <div class="col-md-6 ">
-                    
-                    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember">
-                        <div class="member d-flex add">
-                            <i class="fas fa-plus-circle fa-3x mr-2"></i>
-                            <div class="data">
-                                <div class="name mt-2" @click="changeAction('CREATE', '')">Invite a New Member</div>
-                            </div>
-                        </div>
-                    </a>
+                <div class="col-md-12">
 
                     <div class="loading">
                         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading members...
                     </div>
 
-                    <div class="members">
+                    <div class="members d-flex flex-wrap">
 
-                        <a v-for="member in members" class="" href="#" data-toggle="modal" data-target="#editMemberModal" >
-                            <div class="member" @click="changeAction('EDIT', member)">
+                        <a v-for="member in members" class="member" href="#" data-toggle="modal" data-target="#editMemberModal" >
+                            <div class="" @click="changeAction('EDIT', member)">
                                 <img :src="member.photo" class="float-left mr-3">
                                 <div class="data float-left">
                                     <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
@@ -148,9 +141,8 @@
                 // console.log('getting members');  
                 $('.loading').show();              
 
-                var url = '{{ route("careteam.getCareteamMembers", "*SLUG*") }}';
-                url = url.replace('*SLUG*', '{{$loveone_slug}}');
-                axios.get(url).then(response => {
+                var url = '{{ route("careteam.getCareteamMembers") }}';
+                axios.post(url, { loveone_slug: '{{$loveone_slug}}' }).then(response => {
                     // console.log(response.data);
                     
                     if(response.data.success){

@@ -22,18 +22,8 @@
     <div id="app">
         @include('includes.nav')
 
-        <main class="container-fluid">
-
-            <div class="row">
-                
-                <div class="col-md-3">
-                    @include('includes.sidebar')
-                </div>
-                <div class="col-md-8">
-                    @yield('content')
-                </div>
-            </div>
-
+        <main class="py-4">
+            @yield('content')
         </main>
     </div>
 
