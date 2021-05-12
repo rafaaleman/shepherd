@@ -9,8 +9,8 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
                 @guest
+                    <!-- Left Side Of Navbar -->
                 @else
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item mr-4">
@@ -71,7 +71,7 @@
             <div class="name">Loveone Name</div>
             Loveone
         </div>
-        <div class="photo" style="" alt="">
+        <div class="photo" style="" alt=""></div>
 
     </div>
 </div>
@@ -85,8 +85,8 @@ $(function(){
         // console.log(loveone.firstname);
         $('.top-bar .name').text(loveone.firstname + ' ' + loveone.lastname);
         $('.top-bar .photo').css('background-image', 'url('+loveone.photo+')');
+        $('.top-bar').css('background-color', loveone.color);
     }
 });
 </script>
-    
 @endpush

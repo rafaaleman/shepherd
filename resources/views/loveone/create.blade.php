@@ -113,7 +113,9 @@
 
 @push('styles')
 <style>
-    
+    .top-bar{
+        display: none !important;
+    }
 </style>
 @endpush
 

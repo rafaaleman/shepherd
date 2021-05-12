@@ -20,12 +20,12 @@
 @push('scripts')
 <script>
 $(function(){
-    loveone = localStorage.getItem('loveone');
-    if(loveone != null){
-        loveone = JSON.parse(loveone);
+    current_loveone = localStorage.getItem('loveone');
+    if(current_loveone != null){
+        current_loveone = JSON.parse(current_loveone);
         $('.sidebar .item').each( function () { 
             newurl = $(this).attr('href');
-            newurl = newurl.replace('**SLUG**', loveone.slug);
+            newurl = newurl.replace('**SLUG**', current_loveone.slug);
             $(this).attr('href', newurl)
         });
     }

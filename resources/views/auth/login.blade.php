@@ -76,6 +76,11 @@
 
 @push('styles')
 <style>
+
+    .top-navigation{
+        display: none;
+    }
+    
     .image{
         background-size: cover;
         background-position: center;

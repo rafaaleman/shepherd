@@ -89,6 +89,13 @@
 
         .carousel-caption{
             bottom: 10px;
+            text-align: left;
+
+            h5{
+                font-size: 24px;
+                font-weight: bold;
+                text-shadow: #686868 2px 2px;
+            }
         }
 
         img{

@@ -10090,7 +10090,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   height: 200px;
 }
 
-.btn-primary {
+.btn {
   border-radius: 20px;
   padding: 7px 25px;
 }
@@ -10179,6 +10179,12 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 #homeCarousel .carousel-item .carousel-caption {
   bottom: 10px;
+  text-align: left;
+}
+#homeCarousel .carousel-item .carousel-caption h5 {
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: #686868 2px 2px;
 }
 #homeCarousel .carousel-item img {
   height: 300px;
