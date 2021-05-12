@@ -163,7 +163,7 @@
             },
             changeAction: function(action, member) {
 
-                console.log(member);
+                // console.log(member);
                 this.action = action;
                 
                 if(this.action == 'CREATE'){
@@ -377,6 +377,7 @@
                     ],
                     dangerMode: true,
                 }).then(function(isConfirm) {
+                    console.log(isConfirm);
                     if (isConfirm) {
 
                         $('#deleteMember').html('<i class="fas fa-trash-alt"></i> Deleting...').attr('disabled', true);
