@@ -1,8 +1,8 @@
 <a :href="careteam_url" class="widget team">
     <div class="card">
         <div class="card-body">
-            <i class="fas fa-users fa-2x"></i>
-            <h5 class="card-title">CareTeam</h5>
+            
+            <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
             <p class="card-text">
                 <span>@{{current_members.length}}</span> Member(s) <br>    
 
