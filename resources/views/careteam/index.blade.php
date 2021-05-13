@@ -37,7 +37,7 @@
                     </template>
 
                     <div class="member" v-for="invitation in invitations">
-                        <img src="{{asset('public/img/no-avatar.png')}}" class="float-left mr-3">
+                        <img src="{{asset('/img/no-avatar.png')}}" class="float-left mr-3">
                         <div class="data float-left">
                             <div class="name">@{{ invitation.email }}</div>
                             <div class="role">@{{ invitation.role | mayuscula }}</div>
