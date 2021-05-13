@@ -3,7 +3,7 @@
 @section('content')
 <div class="container"  id="create_loveone">
 
-    <form method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()">
+    <form method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
         @csrf
 
         <div class="col-md-12">
@@ -31,7 +31,7 @@
                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                 <div class="col-md-6">
-                    <input id="email" type="email" class="form-control" name="email" value="" required autocomplete="email" v-model="loveone.email">
+                    <input id="email" type="email" class="form-control" name="email" value="" autocomplete="email" v-model="loveone.email">
                 </div>
             </div>
             
@@ -84,10 +84,15 @@
         <div class="col-md-6 mt-5">
 
             <div class="form-group row">
-                <label for="photo" class="col-md-4 col-form-label text-md-right">Photo</label>
+                
+                {{-- <label for="photo" class="col-md-4 col-form-label text-md-right">Photo</label> --}}
 
-                <div class="col-md-6">
-                    <input id="photo" type="file" class="form-control" name="photo" value="" autofocus>
+                <div class="col-md-6 photo-container low">
+                    <div class="bigBtn">
+                        <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
+                        Upload Photo
+                    </div>
+                    <input id="photo" type="file" class="form-control d-none" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
                 </div>
             </div>
 
@@ -108,12 +113,21 @@
 
 @push('styles')
 <style>
-    
+    .top-bar{
+        display: none !important;
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script>
+
+$(function(){
+
+    $('.bigBtn').click(function(){
+        $(' #photo').click();
+    });
+})
 
     const create_loveone = new Vue ({
         el: '#create_loveone',
@@ -132,7 +146,7 @@
                 dob:"{{ $loveone->dob ?? '' }}",
                 status:1,
                 relationship_id:"{{ $loveone->relationship_id ?? '' }}",
-                condition_ids: {{ $loveone->condition_ids ?? '[]' }},
+                condition_ids: [{{ $loveone->condition_ids ?? '' }}],
                 photo:"{{ $loveone->photo ?? '' }}",
             }
         },
@@ -146,14 +160,40 @@
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
                 this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
 
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+                let formData = new FormData();
+                if(this.loveone.photo)
+                    formData.append('file', this.loveone.photo);
+                
+                var loveone = JSON.stringify(this.loveone);
+                console.log(loveone);
+                formData.append('loveone', loveone);
+
                 var url = '{{ route("loveone.create") }}';
-                axios.post(url, this.loveone).then(response => {
+                axios.post(url, formData, config)
+                .then(response => {
                     console.log(response.data);
                     
-                    msg  = (response.status) ? 'Your Loveone was saved successfully!' : 'There was an error. Try again, please';
-                    icon = (response.status) ? 'success' : 'error';
+                    if(response.data.success){
+                        msg  = 'Your Loveone was saved successfully!';
+                        icon = 'success';
+                        this.loveone.id = response.data.data.loveone.id; 
+                        this.loveone.photo = response.data.data.loveone.photo; 
+                        
+                        swal(msg, "", icon)
+                        .then((value) => {
+                            window.location = '{{ route("home") }}';
+                        });
+                    } else {
+                        msg = 'There was an error. Please try again';
+                        icon = 'error';
+                        swal(msg, "", icon);
+                    }
+                    
                     $('.loadingBtn').html('Save').attr('disabled', false);
-                    swal(msg, "", icon);
+                    
                         
                 }).catch( error => {
                     
@@ -165,7 +205,11 @@
                     
                     swal('There was an Error', txt, 'error');
                 });
-            }
+            },
+            onFileChange(e){
+                console.log(e.target.files[0]);
+                this.loveone.photo = e.target.files[0];
+            },
         }
     });
     

@@ -46,6 +46,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
         $this->mapLoveoneRoutes();
+        $this->mapCareteamRoutes();
 
         //
     }
@@ -60,7 +61,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapLoveoneRoutes()
     {
         Route::prefix('loveone')
-            ->middleware('web')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/loveone.php'));
     }
@@ -77,6 +78,22 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
+    }
+
+
+    /**
+     * Define the "careteams" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapCareteamRoutes()
+    {
+        Route::prefix('careteam')
+            ->middleware('web', 'auth')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/careteam.php'));
     }
 
     /**

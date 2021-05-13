@@ -17,6 +17,7 @@ class CreateLoveonesTable extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('slug');
             $table->string('email');
             $table->string('phone')->unique();
             $table->string('address');

@@ -1,4 +1,65 @@
 // General styles for all the site
+.navbar{
+    padding: 10px;
+    z-index: 10;
+}
+
+.top-bar{
+    background-color: $primary-color;
+    color: #fff;
+    font-size: 18px;
+    z-index: 9;
+    margin-bottom: 20px;
+
+    .name{
+        font-weight: bold;
+        font-size: 22px;
+        text-shadow: #777 2px 2px;
+    }
+
+    .photo{
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        margin-left: 20px;
+        background-size: cover;
+        background-position: top center;
+    }
+}
+
+.sidebar{
+    background-color: #fff;
+    height: 90vh;
+    padding: 70px 0;
+    margin-left: -10px;
+    margin-top: -70px;
+    z-index: -5;
+
+    .item{
+
+        color: #78849e;
+        text-decoration: none;
+        padding: 20px 25px;
+        font-size: 16px;
+        text-align: right;
+
+        &:hover, &.active{
+            color: #32a4ea;
+            background-color: #f7f7fa;
+        }
+
+        span{
+            display: inline-block;
+            text-align: left;
+            width: 150px;
+            padding-left: 10px;
+        }
+
+        i{
+            font-size: 20px;
+        }
+    }
+}
 
 // hide calendar icon on <input date> fields
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -12,4 +73,47 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     right: 0;
     top: 0;
     width: auto;
+}
+
+.card {
+    border:none;
+    border-radius: 10px;
+}
+
+.swal-button--confirm{
+    background-color: $primary-color;
+}
+
+.photo-container{
+    height: 400px;
+    background-color: $primary-color;
+    background-size:cover;
+    background-position: top center;
+    border-radius: 10px;
+
+    &.low{
+        height: 200px;
+    }
+}
+
+.btn{
+    border-radius: 20px;
+    padding: 7px 25px;
+}
+
+.bigBtn{
+    width: 100%;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 30px;
+    text-align: center;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+
+    .far, .fas{
+        font-size: 200px;
+    }
 }

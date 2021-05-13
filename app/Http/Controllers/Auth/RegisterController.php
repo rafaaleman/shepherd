@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\careteam;
+use App\Models\Invitation;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -38,7 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['updateUser']]);
     }
 
     /**
@@ -73,9 +77,91 @@ class RegisterController extends Controller
             'phone'    => $data['phone'],
             'address'  => $data['address'],
             'email'    => $data['email'],
-            'photo'    => '',
+            'photo'    => $data['photo'],
             'status'   => 1,
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * Show the application registration form from email invitation
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm2(Request $request)
+    {
+        $token = $request->token;
+        $invitation = Invitation::whereToken($token)->first();
+        if($invitation){
+            $email = $invitation->email;
+            return view('auth.register', compact('email', 'token'));
+        } else {
+            return view('auth.register');
+        }
+    }
+
+    /**
+     * 
+     */
+    public function acceptInvitation($user_id, $token)
+    {
+        $invitation = Invitation::whereToken($token)->first();
+        
+        if($invitation){
+            $careteam = [
+                'loveone_id' => $invitation->loveone_id,
+                'user_id' => $user_id,
+                'relationship_id' => $invitation->relationship_id,
+                'role' => $invitation->role,
+                'status' => 1,
+                'permissions' => $invitation->permissions,
+            ];
+            
+            careteam::create($careteam);
+            Invitation::whereToken($token)->delete();
+        }
+    }
+
+    /**
+     * Update user
+     */
+    public function updateUser(Request $request)
+    {
+        $data = $request->all();
+        $user = json_decode($data['user']);
+
+        $data = [
+            'name'     => $user->name,
+            'lastname' => $user->lastname,
+            'phone'    => $user->phone,
+            'address'  => $user->address,
+            'email'    => $user->email,
+        ];
+        
+
+        if(!empty($user->password) && $user->password == $user->password_confirmation){
+            $data['password'] = Hash::make($user->password);
+        }
+
+        $photo = '';
+        if($user->photo){
+
+            $prefix = str_replace('@', '_at_', $user->email);
+            $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+            $request->file->move(public_path('members/'), $photoName);
+            $photo = '/members/'.$photoName;
+
+            $data['photo'] = $photo;
+        }
+
+        // dd($data);
+        try {
+            
+            User::where('id', Auth()->user()->id )->update($data);
+            return response()->json(['success' => true, 'photo' => $photo]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false]);
+        }
+
     }
 }
