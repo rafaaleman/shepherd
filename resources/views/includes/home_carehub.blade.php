@@ -1,4 +1,4 @@
-<div class="card widget hub">
+<div class="card widget hub shadow-sm">
     <div class="card-body">
         
         <h5 class="card-title"><i class="far fa-calendar-plus  fa-2x"></i> CareHub</h5>
