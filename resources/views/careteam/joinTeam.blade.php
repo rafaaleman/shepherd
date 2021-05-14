@@ -4,19 +4,19 @@
 <div class="container-fluid" id="joinTeam">
     <div class="row justify-content-center">
 
-        <div class="col-md-6 left-side bg-primary d-flex align-items-center">
+        <div class="col-md-6 left-side bg-primary d-none d-md-flex align-items-center ">
             <div class="bigBtn">
                 <i class="fas fa-users mb-1" style="font-size: 100px"></i> <br>
                 Join an existing CareTeam
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-sm-12 col-md-6 mb-5">
 
             <div class="p-5">You have been invited to:</div>
             <div class="row justify-content-center d-flex">
                 <div class="col-md-8">
-                    <div class="card">
+                    <div class="card shadow-sm">
 
                         <div class="card-body">
 
