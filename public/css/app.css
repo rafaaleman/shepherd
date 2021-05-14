@@ -10002,6 +10002,12 @@ h3 {
     border-color: #dee2e6;
   }
 }
+body {
+  color: #78849e;
+  font-family: "Montserrat";
+  color: #78849e;
+}
+
 .navbar {
   padding: 10px;
   z-index: 10;

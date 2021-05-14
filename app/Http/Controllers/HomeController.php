@@ -41,6 +41,14 @@ class HomeController extends Controller
     }
 
     /**
+     * 
+     */
+    public function newUser()
+    {
+        return view('new');
+    }
+
+    /**
      * Get my loveones
      */
     protected function getLoveones()
