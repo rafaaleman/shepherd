@@ -51,17 +51,21 @@ class HomeController extends Controller
     /**
      * Get my loveones
      */
-    protected function getLoveones()
+    protected function getLoveones($status = '')
     {
-        $loveones = loveone::whereIn('id', function($query){
-                            $query->select('loveone_id')
-                            ->from(with(new careteam)->getTable())
-                            ->where('user_id', Auth::user()->id)->where('status', 1);
-                        })->get();
+        if($status == 'all'){
+            $careteams = careteam::where('user_id', Auth::user()->id)->get()->keyBy('loveone_id');
+        } else {
+            $careteams = careteam::where('user_id', Auth::user()->id)->where('status', 1)->get()->keyBy('loveone_id');
+        }
+
+        $loveoneIds = $careteams->pluck('loveone_id')->toArray();
+        $loveones = loveone::whereIn('id', $loveoneIds)->get();
         
         foreach ($loveones as  $loveone) {
             $relationshipName = $this->getRelatioinshipName(Auth::user()->id, $loveone->id);
             $loveone->relationshipName = $relationshipName;
+            $loveone->careteam = $careteams[$loveone->id];
         }
         return $loveones;
     }
@@ -74,7 +78,7 @@ class HomeController extends Controller
         $relationship = relationship::select('name')->where('id', function($query) use($user_id, $loveone_id){
                             $query->select('relationship_id')
                             ->from(with(new careteam)->getTable())
-                            ->where('user_id', $user_id)->where('loveone_id', $loveone_id)->where('status', 1);
+                            ->where('user_id', $user_id)->where('loveone_id', $loveone_id);
                         })->first();
 
         return $relationship->name;
@@ -100,6 +104,7 @@ class HomeController extends Controller
      */
     public function profile()
     {
-        return view('profile');
+        $loveones = $this->getLoveones('all');
+        return view('profile', compact('loveones'));
     }
 }
