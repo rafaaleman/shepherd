@@ -100,7 +100,7 @@
                     <div class="loveone p-2 mb-3">
                         <div style="background-image: url('{{asset($loveone->photo)}}');" class="float-left mr-3 photo"></div>
                         <div class="data float-left">
-                            <div class="name">{{$loveone->firstname}} {{$loveone->lastname}} <i class="text-dark"></i></div>
+                            <div class="name">{{$loveone->firstname}} {{$loveone->lastname}} <i class="text-danger"></i></div>
                             <small>{{ucfirst($loveone->careteam->role)}}</small>
                         </div>
                         
@@ -225,11 +225,12 @@ $(function(){
             // console.log(response.data.success);
             
             if(response.data.success){
-                msg = 'The loveone was disabled successfully.';
+                txt = (status) ? 'enabled' : 'disabled';
+                msg = 'The loveone was '+txt+' successfully.';
                 icon = 'success';
                 
             } else {
-                msg = 'There was an error. Please try again. Error: ' + response.data.error;
+                msg = 'There was an error. Please try again.';
                 icon = 'error';
             }
             swal(msg, "", icon);    
