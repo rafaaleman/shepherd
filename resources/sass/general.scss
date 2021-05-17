@@ -1,4 +1,25 @@
 // General styles for all the site
+body{
+    color: #78849e;
+    font-family: 'Montserrat';
+    color: #78849e;
+}
+
+.dropdown-menu
+{
+    border: none;
+
+    .item{
+        color: #00000080;
+        margin-bottom: 15px;
+
+        .fas, .far {
+            font-size: 16px;  
+            padding: 0 10px 0 20px;  
+        }
+    }
+}
+
 .navbar{
     padding: 10px;
     z-index: 10;
@@ -115,5 +136,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     .far, .fas{
         font-size: 200px;
+    }
+}
+
+
+
+/******************************* MOBILE *********************************/
+@media (max-width: 576px) {
+    .navbar-collapse{
+        margin-top: 30px;
     }
 }
