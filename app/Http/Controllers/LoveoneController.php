@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\relationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\CreateLoveoneRequest;
 
 class LoveoneController extends Controller
@@ -21,6 +22,20 @@ class LoveoneController extends Controller
         $relationships = relationship::where('status', 1)->get();
         $conditions    = condition::where('status', 1)->get();
         return view('loveone.create', compact('relationships', 'conditions'));
+    }
+
+    /**
+     * 
+     */
+    public function setLoveone(Request $request)
+    {
+        $loveone  = loveone::find($request->id);
+
+        if($loveone){
+            return response()->json(['loveone' => $loveone]);
+        } else {
+            return response()->json(['loveone' => null]);
+        }
     }
 
     /**

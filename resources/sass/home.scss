@@ -1,18 +1,14 @@
 .dashboard {
     background: rgb(222,222,222);
-    background: linear-gradient(190deg, rgba(222,222,222,1) 0%, rgba(255,255,255,1) 100%);
+    background: linear-gradient(180deg, #95bbc7 10%, #f8fafc 70%);
+    padding: 0;
 
     .widget{
         cursor: pointer;
-        width: 23%;
+        width: 33%;
         min-height: 180px;
         margin-bottom: 20px;
         transition: width 0.3s;
-
-        &:hover {
-            width: 26%;
-            border-width: 3px;
-        }
 
         a{
             text-decoration: none;
@@ -47,11 +43,6 @@
                 margin-left: -10px;
                 width: 35px;
                 border-radius: 50%;
-
-                &:hover {
-                    margin-bottom: 10px;
-                    width: 40px;
-                }
             }
         }
 
@@ -83,13 +74,28 @@
         border: 1px solid gray;
     }
 
+    .carousel-shadow{
+        background: linear-gradient(180deg, #fafafa00 15%, #4c4c4c73 100%);
+        width: 100%;
+        height: 20px;
+        bottom: 0;
+        position: absolute;
+    }
+
     .carousel-item{
-        background-color: #abc9d1;
+        background-color: $primary-color;
         min-height: 200px;
         max-height: 300px;
 
         .carousel-caption{
             bottom: 10px;
+            text-align: left;
+
+            h5{
+                font-size: 24px;
+                font-weight: bold;
+                text-shadow: #686868 2px 2px;
+            }
         }
 
         img{

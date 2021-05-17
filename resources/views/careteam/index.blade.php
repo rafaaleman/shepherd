@@ -2,60 +2,51 @@
 
 @section('content')
 <div class="container"  id="careteam">
+
+    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember btn btn-primary btn-lg mb-3" @click="changeAction('CREATE', '')">
+        Invite a New Member
+    </a>
     
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-body">
-            <h5 class="card-title">{{$loveone->firstname}} {{$loveone->lastname}}</h5>
-            <p class="card-text">Loveone</p>
             
 
             <div class="row">
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? $loveone->photo : asset('public/img/no-avatar.png')}}" class="img-fluid rounded">
-                </div>
+                </div> --}}
                 
-                <div class="col-md-6 ">
-                    
-                    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember">
-                        <div class="member d-flex add">
-                            <i class="fas fa-plus-circle fa-3x mr-2"></i>
-                            <div class="data">
-                                <div class="name mt-2" @click="changeAction('CREATE', '')">Invite a New Member</div>
-                            </div>
-                        </div>
-                    </a>
+                <div class="col-md-12">
 
                     <div class="loading">
                         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading members...
                     </div>
 
-                    <div class="members">
+                    <div class="members d-flex flex-wrap">
 
-                        <a v-for="member in members" class="" href="#" data-toggle="modal" data-target="#editMemberModal" >
-                            <div class="member" @click="changeAction('EDIT', member)">
-                                <img :src="member.photo" class="float-left mr-3">
-                                <div class="data float-left">
-                                    <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
-                                    <div class="role">@{{ member.careteam.role | mayuscula }}</div>
-                                </div>
-                                
-                                <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
-                                
-                            </div>
-                        </a>
-
-                        <div class="member" v-for="invitation in invitations">
-                            <img src="{{asset('public/img/no-avatar.png')}}" class="float-left mr-3">
+                    <template v-for="member in members">
+                        <a class="member" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
+                            <img :src="member.photo" class="float-left mr-3">
                             <div class="data float-left">
-                                <div class="name">@{{ invitation.email }}</div>
-                                <div class="role">@{{ invitation.role | mayuscula }}</div>
+                                <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
+                                <div class="role">@{{ member.careteam.role | mayuscula }}</div>
                             </div>
+                            
+                            <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
+                        </a>
+                    </template>
 
-                            <i class="fas fa-times-circle text-danger float-right mr-2 mt-3" @click="deleteInvitation(invitation.id)"></i>
-                            <i class="mt-3 info float-right mr-2 text-danger">Pending...</i>
+                    <div class="member" v-for="invitation in invitations">
+                        <img src="{{asset('/img/no-avatar.png')}}" class="float-left mr-3">
+                        <div class="data float-left">
+                            <div class="name">@{{ invitation.email }}</div>
+                            <div class="role">@{{ invitation.role | mayuscula }}</div>
                         </div>
 
+                        <i class="fas fa-times-circle text-danger float-right mr-2 mt-3" @click="deleteInvitation(invitation.id)"></i>
+                        <i class="mt-3 info float-right mr-2 text-danger">Pending...</i>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -148,9 +139,8 @@
                 // console.log('getting members');  
                 $('.loading').show();              
 
-                var url = '{{ route("careteam.getCareteamMembers", "*SLUG*") }}';
-                url = url.replace('*SLUG*', '{{$loveone_slug}}');
-                axios.get(url).then(response => {
+                var url = '{{ route("careteam.getCareteamMembers") }}';
+                axios.post(url, { loveone_slug: '{{$loveone_slug}}' }).then(response => {
                     // console.log(response.data);
                     
                     if(response.data.success){
@@ -172,6 +162,8 @@
                 });
             },
             changeAction: function(action, member) {
+
+                // console.log(member);
                 this.action = action;
                 
                 if(this.action == 'CREATE'){
@@ -385,6 +377,7 @@
                     ],
                     dangerMode: true,
                 }).then(function(isConfirm) {
+                    console.log(isConfirm);
                     if (isConfirm) {
 
                         $('#deleteMember').html('<i class="fas fa-trash-alt"></i> Deleting...').attr('disabled', true);

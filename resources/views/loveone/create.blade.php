@@ -31,7 +31,7 @@
                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                 <div class="col-md-6">
-                    <input id="email" type="email" class="form-control" name="email" value="" required autocomplete="email" v-model="loveone.email">
+                    <input id="email" type="email" class="form-control" name="email" value="" autocomplete="email" v-model="loveone.email">
                 </div>
             </div>
             
@@ -113,7 +113,9 @@
 
 @push('styles')
 <style>
-    
+    .top-bar{
+        display: none !important;
+    }
 </style>
 @endpush
 

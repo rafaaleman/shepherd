@@ -162,8 +162,8 @@
                     if(response.data.success){
                         msg  = 'Your user was updated successfully!';
                         icon = 'success';
-                        if(response.data.data.user.photo != '')
-                            profile.user.photo = response.data.data.user.photo; 
+                        if(response.data.data.photo != '')
+                            profile.user.photo = response.data.data.photo; 
                         
                         swal(msg, "", icon);    
                     } else {
