@@ -88,6 +88,7 @@
                     swal('Error', msg, 'error');
                 });
             },
+            
         },
     });
 

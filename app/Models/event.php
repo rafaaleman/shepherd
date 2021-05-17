@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class event extends Model
 {
-    protected $guarded = [];
+    //protected $guarded = [];
+
+    public function comments(){
+        $this->hasMany('App\Models\comment', 'event_id', 'id');
+    }
     //
 }
