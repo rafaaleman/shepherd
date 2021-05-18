@@ -10222,9 +10222,10 @@ input[type=date]::-webkit-calendar-picker-indicator {
   background-color: #f2f4f4;
   padding: 10px;
   margin-bottom: 20px;
-  width: 46%;
-  margin-right: 2%;
   overflow: hidden;
+}
+#careteam .member:nth-child(2n) {
+  margin-left: 5px;
 }
 #careteam .member img {
   height: 50px;
