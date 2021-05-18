@@ -10002,6 +10002,79 @@ h3 {
     border-color: #dee2e6;
   }
 }
+body {
+  color: #78849e;
+  font-family: "Montserrat";
+  color: #78849e;
+}
+
+.dropdown-menu {
+  border: none;
+}
+.dropdown-menu .item {
+  color: #00000080;
+  margin-bottom: 15px;
+}
+.dropdown-menu .item .fas, .dropdown-menu .item .far {
+  font-size: 16px;
+  padding: 0 10px 0 20px;
+}
+
+.navbar {
+  padding: 10px;
+  z-index: 10;
+}
+
+.top-bar {
+  background-color: #369bb6;
+  color: #fff;
+  font-size: 18px;
+  z-index: 9;
+  margin-bottom: 20px;
+}
+.top-bar .name {
+  font-weight: bold;
+  font-size: 22px;
+  text-shadow: #777 2px 2px;
+}
+.top-bar .photo {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  margin-left: 20px;
+  background-size: cover;
+  background-position: top center;
+}
+
+.sidebar {
+  background-color: #fff;
+  height: 90vh;
+  padding: 70px 0;
+  margin-left: -10px;
+  margin-top: -70px;
+  z-index: -5;
+}
+.sidebar .item {
+  color: #78849e;
+  text-decoration: none;
+  padding: 20px 25px;
+  font-size: 16px;
+  text-align: right;
+}
+.sidebar .item:hover, .sidebar .item.active {
+  color: #32a4ea;
+  background-color: #f7f7fa;
+}
+.sidebar .item span {
+  display: inline-block;
+  text-align: left;
+  width: 150px;
+  padding-left: 10px;
+}
+.sidebar .item i {
+  font-size: 20px;
+}
+
 input[type=date]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
@@ -10016,6 +10089,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 
 .card {
+  border: none;
   border-radius: 10px;
 }
 
@@ -10023,9 +10097,24 @@ input[type=date]::-webkit-calendar-picker-indicator {
   background-color: #369bb6;
 }
 
-.bigBtn {
-  width: 350px;
+.photo-container {
+  height: 400px;
   background-color: #369bb6;
+  background-size: cover;
+  background-position: top center;
+  border-radius: 10px;
+}
+.photo-container.low {
+  height: 200px;
+}
+
+.btn {
+  border-radius: 20px;
+  padding: 7px 25px;
+}
+
+.bigBtn {
+  width: 100%;
   color: #fff;
   border-radius: 10px;
   padding: 10px 30px;
@@ -10033,25 +10122,30 @@ input[type=date]::-webkit-calendar-picker-indicator {
   font-size: 18px;
   text-decoration: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 .bigBtn .far, .bigBtn .fas {
   font-size: 200px;
 }
 
+/******************************* MOBILE *********************************/
+@media (max-width: 576px) {
+  .navbar-collapse {
+    margin-top: 30px;
+  }
+}
 .dashboard {
   background: #dedede;
-  background: linear-gradient(190deg, #dedede 0%, white 100%);
+  background: linear-gradient(180deg, #95bbc7 10%, #f8fafc 70%);
+  padding: 0;
 }
 .dashboard .widget {
   cursor: pointer;
-  width: 23%;
+  width: 33%;
   min-height: 180px;
   margin-bottom: 20px;
   transition: width 0.3s;
-}
-.dashboard .widget:hover {
-  width: 26%;
-  border-width: 3px;
 }
 .dashboard .widget a {
   text-decoration: none;
@@ -10079,10 +10173,6 @@ input[type=date]::-webkit-calendar-picker-indicator {
   width: 35px;
   border-radius: 50%;
 }
-.dashboard .widget.team .member-img:hover {
-  margin-bottom: 10px;
-  width: 40px;
-}
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
   color: #f78383;
   font-weight: bold;
@@ -10099,13 +10189,26 @@ input[type=date]::-webkit-calendar-picker-indicator {
 #homeCarousel .carousel-indicators button {
   border: 1px solid gray;
 }
+#homeCarousel .carousel-shadow {
+  background: linear-gradient(180deg, #fafafa00 15%, #4c4c4c73 100%);
+  width: 100%;
+  height: 20px;
+  bottom: 0;
+  position: absolute;
+}
 #homeCarousel .carousel-item {
-  background-color: #abc9d1;
+  background-color: #369bb6;
   min-height: 200px;
   max-height: 300px;
 }
 #homeCarousel .carousel-item .carousel-caption {
   bottom: 10px;
+  text-align: left;
+}
+#homeCarousel .carousel-item .carousel-caption h5 {
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: #686868 2px 2px;
 }
 #homeCarousel .carousel-item img {
   height: 300px;
@@ -10114,17 +10217,23 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 
 #careteam .member {
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  background-color: #fafafa;
+  border-radius: 6px;
+  border: none;
+  background-color: #f2f4f4;
   padding: 10px;
   margin-bottom: 20px;
-  width: 100%;
   overflow: hidden;
+}
+#careteam .member:nth-child(2n) {
+  margin-left: 5px;
 }
 #careteam .member img {
   height: 50px;
   border-radius: 50%;
+}
+#careteam .member .name {
+  color: #000;
+  font-weight: bold;
 }
 #careteam .member .role {
   font-size: 12px;
@@ -10132,6 +10241,9 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 #careteam .member .fa-times-circle {
   cursor: pointer;
+}
+#careteam .member .fas {
+  color: #aaa;
 }
 #careteam .newMember {
   text-decoration: none;
@@ -10164,7 +10276,6 @@ input[type=date]::-webkit-calendar-picker-indicator {
 #careteam #editMemberModal .section.photo {
   padding: 0px;
   background-size: cover;
-  filter: saturate(10%);
   height: 200px;
 }
 #careteam #inviteMemberModal .section.photo img.photo,

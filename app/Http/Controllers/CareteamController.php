@@ -13,6 +13,7 @@ use App\Mail\sendInvitationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class CareteamController extends Controller
 {
@@ -59,7 +60,7 @@ class CareteamController extends Controller
         foreach ($members as $key => $member){
             $careteam[$member->id]->permissions = unserialize($careteam[$member->id]->permissions);
             $members[$key]['careteam'] = $careteam[$member->id];
-            $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
+            $member->photo = ($member->photo != '') ? asset($member->photo) :  asset('/img/avatar2.png');
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
@@ -340,5 +341,20 @@ class CareteamController extends Controller
         $permitted_chars = '023456789abcdefghjkmnopqrstuvwxyz';
         $token = substr(str_shuffle($permitted_chars), 0, 20);
         return $token;
+    }
+
+    /**
+     * Enable/Disable careteam
+     */
+    public function changeStatus(Request $request)
+    {
+        try {
+            careteam::where('loveone_id', $request->loveoneId)->where('user_id', $request->userId)->update(['status' => $request->status]);
+            return response()->json(['success' => true]);
+
+        } catch (Exception $e) {
+            // dd($e);
+            return response()->json(['success' => false]);
+        }
     }
 }
