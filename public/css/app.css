@@ -10216,6 +10216,12 @@ input[type=date]::-webkit-calendar-picker-indicator {
   margin: auto;
 }
 
+/******************************* MOBILE *********************************/
+@media (max-width: 576px) {
+  .dashboard .widget {
+    width: 100%;
+  }
+}
 #careteam .member {
   border-radius: 6px;
   border: none;

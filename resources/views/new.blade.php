@@ -6,16 +6,16 @@
         <div class="col-md-12">
 
             <h4 class="mb-3">Hi, {{Auth()->user()->name}}</h4>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center flex-wrap">
                     
-                <a href="{{route('loveone')}}" class="mr-3 link">
+                <a href="{{route('loveone')}}" class="mr-md-3 mb-3 link">
                     <div class="bigBtn bg-primary px-5">
                         <i class="far fa-heart mb-2"></i> <br>
                         Add Loved One
                     </div>
                 </a>
 
-                <a href="{{route('careteam.joinTeam')}}" class="link">
+                <a href="{{route('careteam.joinTeam')}}" class="link mb-3">
                     <div class="bigBtn bg-primary">
                         <i class="fas fa-users mb-2"></i> <br>
                         Join an existing CareTeam

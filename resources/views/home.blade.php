@@ -18,7 +18,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 ">
                 
-                <div class="row p-5 d-flex justify-content-between">
+                <div class="row p-5 d-flex justify-content-between flex-wrap">
 
                     @include('includes.home_careteam')
                     @include('includes.home_carehub')
