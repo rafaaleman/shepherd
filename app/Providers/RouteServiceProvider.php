@@ -47,6 +47,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
         $this->mapLoveoneRoutes();
         $this->mapCareteamRoutes();
+        $this->mapLockboxRoutes();
 
         //
     }
@@ -109,5 +110,20 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+     /**
+     * Define the "lockbox" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapLockboxRoutes()
+    {
+        Route::prefix('lockbox')
+            ->middleware('web', 'auth')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/lockbox.php'));
     }
 }
