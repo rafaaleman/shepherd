@@ -123,6 +123,19 @@
     .photo-container{
         height: 93vh;
     }
+
+    /******************************* MOBILE *********************************/
+    @media (max-width: 576px) {
+        .photo-container{
+            height: 180px;
+        }
+
+        form.row{
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 20px;
+        }
+    }
 </style>
 @endpush
 
