@@ -1,0 +1,153 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container"  id="carehub">
+  
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 events">
+                            <h3 class="card-title font-weight-bold mb-3">{{$event->name}}</h3>
+                            <p class="mb-1" style="color:#cdcdd8" >{{$event->location}}</p>
+                            <div style="padding-left:10px;">
+                                @foreach($event->members as $assigned)
+                                    <img src="{{$assigned->user->photo}}" class="member-img" title="{{$assigned->user->name}} + ' ' + {{$assigned->user->lastname}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                @endforeach
+                            </div>
+                            <hr class="mb-1">
+                            <div class="w-100">
+                                <div class="float-left font-weight-bold vertical-align-top">{{$event->date_title}}</div>
+                                <div class="float-right text-danger font-weight-bold text-uppercase">{{$event->time_cad_gi}} {{$event->time_cad_a}}</div>
+                            </div>
+
+                            <div class="bg w-100 mt-5 ">
+                                {{$event->notes}}
+                            </div>
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading-events w-100 text-center d-none">
+            <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading comments...
+        </div>
+
+        @if(isset($event->comment) && $event->comment->count())
+
+        @else
+            <div class="loading-events w-100 text-center">
+                <span class="spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> There are no messages...
+            </div>
+        @endif
+
+        <form action="">
+
+                <label for="name" class="col-form-label text-md-right" style="color: #78849e;font-size:10px">YOUR MESSAGE </label>
+                <textarea id="mesaje" rows="7" type="date" class="form-control" name="mesaje" required autocomplete="mesaje" v-model="event.mesaje"></textarea>
+                <div class=" w-100 justify-content-center my-4">
+                    <center>
+                        <button class="btn btn-primary btn-lg disabled" disabled>
+                            Reply
+                        </button>
+                    </center>
+                </div>
+            </div>
+        </form>
+
+
+
+
+</div>
+@endsection
+@push('styles')
+<style>
+    .member-img {
+        background-color: #fff;
+        margin-left: -10px;
+        width: 25px;
+        border-radius: 50%;
+    }
+    .bg {
+        padding: 16.5px 25px 13.1px 24px;
+        background-color: #f7f7fa;
+    }
+</style>
+
+@endpush
+@push('scripts')
+<script>
+    $("main").removeClass("py-4").addClass("py-0");
+  /*  const carehub = new Vue ({
+        el: '#carehub',
+        created: function() {
+            console.log('carehub');
+            this.refreshWidgets({{$event}});
+        },
+        data: {
+            type : 1,
+            date : '',
+            events: '',
+            loveone_id : '',
+            current_slug : '',
+            current_members: '',
+            careteam_url: '',
+            date_title: '',
+            calendar: '',
+            week_div: '',
+            day_div:'',
+            month:'',
+            month_name : '',
+            now: ''
+        },
+        filters: {
+        },
+        computed:{ 
+        },
+        methods: {
+            refreshWidgets: function( loveone_id, current_slug, date,month,now){
+                this.event = '';
+               
+                this.getEvent();
+                //this.getCalendar();
+            },
+            
+            getEvent: function() {
+                
+                //console.log("current_slug " + this.current_slug  +  ", loveone_id" + this.loveone_id +  ", date" + this.date_events, ", events" + this.events);
+                
+                $('.events .card-events-date').hide();   
+                $('.loading-event').show();
+
+                var url = '{{ route("carehub.getEvent", ["*EVENT*"]) }}';
+                url = url.replace('*EVENT*', this.event);
+                
+                axios.get(url).then(response => {
+                   
+                    if(response.data.success){
+                        this.events = response.data.data.events_to_day;
+                        this.date_title = response.data.data.date_title;
+                        console.log(this.events);
+                        console.log("------------------------------------------");
+                    } else {
+                        
+                    }
+                    
+                $('.loading-events').hide();
+                $('.events .card-events-date').show();
+                    
+                }).catch( error => {
+                    
+                    msg = 'There was an error getting events. Please reload the page';
+                    swal('Error', msg, 'error');
+                });
+           
+            },
+         
+            
+        },
+    });*/
+
+   
+</script>
+@endpush

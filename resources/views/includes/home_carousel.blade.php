@@ -10,7 +10,7 @@
         @foreach ($loveones as $loveone)
             <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }}" data-id="{{ $loveone->id }}">
                 <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('public/img/no-avatar.png')}}" class="loveone-photo d-block">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption d-md-block">
                     <h5>{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
                     <p>{{ $loveone->relationshipName }}</p>
                     <button class="btn  btn-sm mb-2  btn-primary" @click="refreshWidgets( '{{$loveone->id}}', '{{$loveone->slug}}')">

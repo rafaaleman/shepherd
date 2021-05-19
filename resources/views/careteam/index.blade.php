@@ -22,29 +22,33 @@
                         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading members...
                     </div>
 
-                    <div class="members d-flex flex-wrap">
+                    <div class="members d-flex flex-wrap row">
 
-                    <template v-for="member in members">
-                        <a class="member" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
-                            <img :src="member.photo" class="float-left mr-3">
-                            <div class="data float-left">
-                                <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
-                                <div class="role">@{{ member.careteam.role | mayuscula }}</div>
-                            </div>
-                            
-                            <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
-                        </a>
-                    </template>
-
-                    <div class="member" v-for="invitation in invitations">
-                        <img src="{{asset('/img/no-avatar.png')}}" class="float-left mr-3">
-                        <div class="data float-left">
-                            <div class="name">@{{ invitation.email }}</div>
-                            <div class="role">@{{ invitation.role | mayuscula }}</div>
+                    <div class="col-sm-12 col-md-6 p-1" v-for="member in members">
+                        <div class="member">
+                            <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
+                                <img :src="member.photo" class="float-left mr-3">
+                                <div class="data float-left">
+                                    <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
+                                    <div class="role">@{{ member.careteam.role | mayuscula }}</div>
+                                </div>
+                                
+                                <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
+                            </a>
                         </div>
+                    </div>
 
-                        <i class="fas fa-times-circle text-danger float-right mr-2 mt-3" @click="deleteInvitation(invitation.id)"></i>
-                        <i class="mt-3 info float-right mr-2 text-danger">Pending...</i>
+                    <div class="col-sm-12 col-md-6 p-1" v-for="invitation in invitations">
+                        <div class="member">
+                            <img src="{{asset('/img/no-avatar.png')}}" class="float-left mr-3">
+                            <div class="data float-left">
+                                <div class="name">@{{ invitation.email }}</div>
+                                <div class="role">@{{ invitation.role | mayuscula }}</div>
+                            </div>
+
+                            <i class="fas fa-times-circle text-danger float-right mr-2 mt-3" @click="deleteInvitation(invitation.id)"></i>
+                            <i class="mt-3 info float-right mr-2 text-danger">Pending...</i>
+                        </div>
                     </div>
 
                 </div>

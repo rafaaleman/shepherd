@@ -10216,15 +10216,22 @@ input[type=date]::-webkit-calendar-picker-indicator {
   margin: auto;
 }
 
+/******************************* MOBILE *********************************/
+@media (max-width: 576px) {
+  .dashboard .widget {
+    width: 100%;
+  }
+}
 #careteam .member {
   border-radius: 6px;
   border: none;
   background-color: #f2f4f4;
   padding: 10px;
   margin-bottom: 20px;
-  width: 46%;
-  margin-right: 2%;
   overflow: hidden;
+}
+#careteam .member:nth-child(2n) {
+  margin-left: 5px;
 }
 #careteam .member img {
   height: 50px;
