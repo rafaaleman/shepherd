@@ -22,4 +22,6 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
+storage/debugbar/
+
 shepherd-systems.pem

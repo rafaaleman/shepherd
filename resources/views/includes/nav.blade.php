@@ -13,9 +13,18 @@
                     <!-- Left Side Of Navbar -->
                 @else
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item mr-4">
+                        <li class="nav-item mr-4 d-none d-sm-block">
                             <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
                         </li>
+
+                        <li class="nav-item dropdown mr-4 d-block d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="{{route('home')}}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fas fa-home"></i> Sections</a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @include('includes.common_menu')
+                            </div>
+                        </li>
+
                         <li class="nav-item mr-4">
                             <a href="{{route('loveone')}}" class="nav-link"><i class="far fa-heart"></i> Add Loved One</a>
                         </li>
@@ -79,6 +88,16 @@
 @push('scripts')
 <script>
 $(function(){
+    // open menu dropdown menu
+    // $('.navbar-toggler').click(function(){
+    //     console.log('click');
+    //     $(".navbar .dropdown").each(function(){
+    //         $(this).click();
+    //     });
+    // })
+
+
+
     loveone = localStorage.getItem('loveone');
     if(loveone != null){
         loveone = JSON.parse(loveone);
@@ -86,6 +105,16 @@ $(function(){
         $('.top-bar .name').text(loveone.firstname + ' ' + loveone.lastname);
         $('.top-bar .photo').css('background-image', 'url('+loveone.photo+')');
         $('.top-bar').css('background-color', loveone.color);
+    }
+
+    current_loveone = localStorage.getItem('loveone');
+    if(current_loveone != null){
+        current_loveone = JSON.parse(current_loveone);
+        $('.menu-link').each( function () { 
+            newurl = $(this).attr('href');
+            newurl = newurl.replace('**SLUG**', current_loveone.slug);
+            $(this).attr('href', newurl)
+        });
     }
 });
 </script>

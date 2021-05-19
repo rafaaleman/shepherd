@@ -342,4 +342,19 @@ class CareteamController extends Controller
         $token = substr(str_shuffle($permitted_chars), 0, 20);
         return $token;
     }
+
+    /**
+     * Enable/Disable careteam
+     */
+    public function changeStatus(Request $request)
+    {
+        try {
+            careteam::where('loveone_id', $request->loveoneId)->where('user_id', $request->userId)->update(['status' => $request->status]);
+            return response()->json(['success' => true]);
+
+        } catch (Exception $e) {
+            // dd($e);
+            return response()->json(['success' => false]);
+        }
+    }
 }

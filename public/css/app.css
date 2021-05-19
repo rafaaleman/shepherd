@@ -10002,6 +10002,24 @@ h3 {
     border-color: #dee2e6;
   }
 }
+body {
+  color: #78849e;
+  font-family: "Montserrat";
+  color: #78849e;
+}
+
+.dropdown-menu {
+  border: none;
+}
+.dropdown-menu .item {
+  color: #00000080;
+  margin-bottom: 15px;
+}
+.dropdown-menu .item .fas, .dropdown-menu .item .far {
+  font-size: 16px;
+  padding: 0 10px 0 20px;
+}
+
 .navbar {
   padding: 10px;
   z-index: 10;
@@ -10111,6 +10129,12 @@ input[type=date]::-webkit-calendar-picker-indicator {
   font-size: 200px;
 }
 
+/******************************* MOBILE *********************************/
+@media (max-width: 576px) {
+  .navbar-collapse {
+    margin-top: 30px;
+  }
+}
 .dashboard {
   background: #dedede;
   background: linear-gradient(180deg, #95bbc7 10%, #f8fafc 70%);
@@ -10192,15 +10216,22 @@ input[type=date]::-webkit-calendar-picker-indicator {
   margin: auto;
 }
 
+/******************************* MOBILE *********************************/
+@media (max-width: 576px) {
+  .dashboard .widget {
+    width: 100%;
+  }
+}
 #careteam .member {
   border-radius: 6px;
   border: none;
   background-color: #f2f4f4;
   padding: 10px;
   margin-bottom: 20px;
-  width: 46%;
-  margin-right: 2%;
   overflow: hidden;
+}
+#careteam .member:nth-child(2n) {
+  margin-left: 5px;
 }
 #careteam .member img {
   height: 50px;
