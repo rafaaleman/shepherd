@@ -8,15 +8,19 @@
                 <div class="row">
                     <div class="col-md-12 events">
                             <h3 class="card-title font-weight-bold mb-3">{{$event->name}}</h3>
-                            <p class="text-muted" >{{$event->location}}</p>
-                            <div> Assigned </div>
+                            <p class="mb-1" style="color:#cdcdd8" >{{$event->location}}</p>
+                            <div style="padding-left:10px;">
+                                @foreach($event->members as $assigned)
+                                    <img src="{{$assigned->user->photo}}" class="member-img" title="{{$assigned->user->name}} + ' ' + {{$assigned->user->lastname}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                @endforeach
+                            </div>
                             <hr class="mb-1">
                             <div class="w-100">
                                 <div class="float-left font-weight-bold vertical-align-top">{{$event->date_title}}</div>
                                 <div class="float-right text-danger font-weight-bold text-uppercase">{{$event->time_cad_gi}} {{$event->time_cad_a}}</div>
                             </div>
 
-                            <div class="bg w-100 mt-5">
+                            <div class="bg w-100 mt-5 ">
                                 {{$event->notes}}
                             </div>
                             
@@ -58,82 +62,16 @@
 @endsection
 @push('styles')
 <style>
+    .member-img {
+        background-color: #fff;
+        margin-left: -10px;
+        width: 25px;
+        border-radius: 50%;
+    }
     .bg {
         padding: 16.5px 25px 13.1px 24px;
         background-color: #f7f7fa;
     }
-    .col-day{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .box-day{
-        color :#cdcdd8;
-        line-height: 1;
-        font-size: 18px;
-        line-height:1.3;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        flex-direction: column;
-    }
-    .box-now{
-        width: 50px;
-        height: 50px;
-        box-shadow: 0 5px 15px 0 rgba(94, 102, 137, 0.2);
-        background-color: #d36582;
-        color:#fff;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        flex-direction: column;
-        align-items: center;
-        font-weight: 600;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1;
-        letter-spacing: normal;
-
-    }
-    .box-day small, .box-now small, .week-box small{
-        font-size: 8px;
-        text-transform: uppercase;
-        font-weight: 400;
-
-    }
-
-    .day_month, .day_month_web{
-        padding: 10px 0;
-    }
-
-    .day_month .week-box{
-        background-color: #d36582;
-        color:#fff;
-        font-weight: 600;
-        font-size: 18px;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        flex-direction: column;
-        align-items: center;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1;
-        letter-spacing: normal;
-    }
-
-    .bg-rose{
-        background: #d36582;
-    }
-
-    .day_month:nth-child(4){
-        border-radius: 50px 0px 0px 50px !important;
-    }
-
-    .day_month:nth-child(10){
-        border-radius: 0px 50px 50px 0px !important;
-    }
-    
 </style>
 
 @endpush

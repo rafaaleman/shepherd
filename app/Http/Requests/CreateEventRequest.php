@@ -29,7 +29,7 @@ class CreateEventRequest extends FormRequest
             'location' => 'required|min:2',
             'date' => 'required|min:8',
             'time' => 'required|min:5',
-           // 'assigned' => 'required',
+            'assigned' => 'required',
             'status' => 'required|numeric|max:1',
         ];
     }

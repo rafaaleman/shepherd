@@ -12,7 +12,7 @@ use App\Models\careteam;
 use App\User;
 use DateTime;
 
-
+use function GuzzleHttp\json_decode;
 
 class EventController extends Controller
 {
@@ -57,25 +57,21 @@ class EventController extends Controller
     public function createUpdate(Request $request)
     {
         $data = $request->all();
+        $data['assigned_ids'] = json_encode($data['assigned']);
+        $data['creator_id'] = Auth::user()->id;
         //dd($data);
-        //$data['assigned_ids'] = implode(',', $request->assigned);
-        //$relationship_id = $data['relationship_id'];
-        //$data['phone']   = intval($data['phone']);
-       // $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname'].' '.time());
-        $data['assigned_ids'] = implode(',',$request->assigned);
         unset($data['_token']);
         unset($data['assigned']);
-        //unset($data['relationship_id']);
-
+        //dd($data);
         // edit
         if($request->id > 0)
-            $event = event::update($data);
+            $event = event::where('id',$request->id)->update($data);
         // create
         else{
             $event = event::create($data);
-            //$this->createCareteam(Auth::user()->id, $loveone->id, $relationship_id);
         }
 
+        $event->assigned = json_decode($event->assigned_ids);
         // if ($request->ajax()) 
         return response()->json(['success' => true, 'data' => ['event' => $event]]);
     }
@@ -84,19 +80,19 @@ class EventController extends Controller
     public function getEvents(Request $request)
     {
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
-        //dd($request->date);
-        //$careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
-        //$membersIds = $careteam->pluck('user_id')->toArray();
-        //$members = User::whereIn('id', $membersIds)->get();
-      /*  $is_admin = false;
+        $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
 
-        foreach ($members as $key => $member){
-            $careteam[$member->id]->permissions = unserialize($careteam[$member->id]->permissions);
-            $members[$key]['careteam'] = $careteam[$member->id];
-            $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
-            if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
-                $is_admin = true;
-        }*/
+
+
+        foreach ($careteam as $key => $team){
+           // dd($team);
+            if(isset($team->user)){
+                $team->user->photo = ($team->user->photo != '') ? env('APP_URL').'/public'.$team->user->photo :  asset('public/img/avatar2.png');
+                if(Auth::user()->id == $team->user_id && $team->role == 'admin')
+                    $is_admin = true;
+            }
+           
+        }
         if($request->type == 1){
             $inidate = $request->date;
             $enddate = $request->date;
@@ -124,29 +120,31 @@ class EventController extends Controller
             $enddate = $to_date_end->format('Y-m-d');
 
            
-            //dd($inidate,$enddate);
         }
       //  $invitations = Invitation::where('loveone_id', $loveone->id)->get();
         $events_to_day = event::where('loveone_id', $loveone->id)
         ->whereBetween('date', [$inidate, $enddate])
         ->orderBy("date")->orderBy("time")
-        //->with(['comments'])
+        ->with(['messages'])
         ->get()->groupBy("date")->toArray();
    
        
-        //dd($events);
-        //$events_to_day = $events->whereBetween('date', [$inidate, $enddate]);
-            //->orderBy('date');
-            //->where('date',$request->date);
+        
         $events = array();
+        $time_first_event = '';
         foreach($events_to_day as $cve_event => $event){
             $ftitle_temp = new DateTime($cve_event);
+
            // $events_to_day[$cve_event]['title'] = $ftitle_temp->format('l, j F Y');
             foreach($event as $cve_day => $day){
-                //dd($day);
                 $date_temp = new DateTime($day['date'] . " " . $day['time']);
                 $events_to_day[$cve_event][$cve_day]['time_cad_gi'] = $date_temp->format('g:i');
                 $events_to_day[$cve_event][$cve_day]['time_cad_a'] = $date_temp->format('a');
+                $events_to_day[$cve_event][$cve_day]['members'] = $careteam->whereIn('id',json_decode($events_to_day[$cve_event][$cve_day]['assigned_ids']));
+                $events_to_day[$cve_event][$cve_day]['count_messages'] = count($events_to_day[$cve_event][$cve_day]['messages']);
+                if($cve_day == 0){
+                    $time_first_event = $date_temp->format('g:i a');
+                }
             }
             array_push($events,array('title'=> $ftitle_temp->format('l, j F Y'),'data' => $events_to_day[$cve_event], 'date' => $cve_event));
             
@@ -159,8 +157,8 @@ class EventController extends Controller
             //    'members' => $members,
             //   'invitations' => $invitations,
             //    'is_admin' => $is_admin,
+            'time_first_event' => $time_first_event,
             'events' => $events,
-            'events_to_day' => $events,
             'date_title' => $date->format('l, j F Y')
         ]]);
     }
@@ -273,7 +271,7 @@ class EventController extends Controller
             $datanewini['mes'] = date("M", strtotime($datafecha));
             $datanewini['dia'] = date("d", strtotime($datafecha));
             $datanewini['fecha'] = $datafecha;
-            $datanewini['class'] = 'd-none d-sm-block';
+            $datanewini['class'] = 'd-none d-sm-none d-lg-block mt-2 ';
             //AGREGAR CONSULTAS EVENTO
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             array_unshift($week,$datanewini);
@@ -285,7 +283,7 @@ class EventController extends Controller
             $datanewend['mes'] = date("M", strtotime($datafechaf));
             $datanewend['dia'] = date("d", strtotime($datafechaf));
             $datanewend['fecha'] = $datafechaf;
-            $datanewend['class'] = 'd-none d-sm-block';
+            $datanewend['class'] = 'd-none d-sm-none d-lg-block mt-2 ';
             //AGREGAR CONSULTAS EVENTO
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             array_push($week,$datanewend);
@@ -319,7 +317,7 @@ class EventController extends Controller
           $datanewend['dia'] = date("d", strtotime($datafechaf));
           $datanewend['fecha'] = $datafechaf;
           if($iday > 5){
-                $datanewend['class'] = 'd-none d-sm-block';
+                $datanewend['class'] = 'd-none d-sm-none d-md-none  d-lg-block mt-2';
           }else{
                 $datanewend['class'] = '';
           }
@@ -335,12 +333,26 @@ class EventController extends Controller
     public function getEvent(Request $request)
     {
 
-        $event = event::where('id', $request->event)->first();
+        $event = event::where('id', $request->id)->with('messages')->first();
+        $loveone  = loveone::whereSlug($request->slug)->first();
+        $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
+
+        foreach ($careteam as $key => $team){
+           // dd($team);
+            if(isset($team->user)){
+                $team->user->photo = ($team->user->photo != '') ? env('APP_URL').'/public'.$team->user->photo :  asset('public/img/avatar2.png');
+                if(Auth::user()->id == $team->user_id && $team->role == 'admin')
+                    $is_admin = true;
+            }
+           
+        }
+
+        $event->members = $careteam->whereIn('id',json_decode($event->assigned_ids));
         $date_temp = new DateTime($event->date . " " . $event->time);
         $event->time_cad_gi = $date_temp->format('g:i');
         $event->time_cad_a = $date_temp->format('a');
         $event->date_title = $date_temp->format('l, j F Y');
-        return view('carehub.comments_event',compact('event'));
+        return view('carehub.event_detail',compact('event'));
 
     }
 

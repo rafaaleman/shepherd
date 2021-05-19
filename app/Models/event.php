@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class event extends Model
 {
-    //protected $guarded = [];
+    protected $guarded = [];
+    protected $fillable = ['id','loveone_id','creator_id','name','location','date','time','assigned_ids','notes','status'];
 
-    public function comments(){
-        $this->hasMany('App\Models\comment', 'event_id', 'id');
+    public function messages(){
+        return $this->hasMany('App\Models\message','event_id','id');
     }
     //
 }

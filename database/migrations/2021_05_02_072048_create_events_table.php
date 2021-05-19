@@ -21,7 +21,7 @@ class CreateEventsTable extends Migration
             $table->string('location');
             $table->date('date');
             $table->time('time');
-            $table->string('assigned_ids')->nullable();
+            $table->json('assigned_ids')->nullable();
             $table->string('notes',500);
             $table->boolean('status');
 

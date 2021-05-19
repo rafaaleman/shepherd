@@ -75,7 +75,10 @@ const home = new Vue ({
         loveone_id : '',
         current_slug : '',
         current_members: '',
-        careteam_url: ''
+        careteam_url: '',
+        carehub_url:'',
+        events_to_day:'',
+        hour_first_event:''
     },
     filters: {
     },
@@ -87,6 +90,7 @@ const home = new Vue ({
             this.current_slug = current_slug;
             this.setLoveone(loveone_id);
             this.getCareteamMembers();
+           this.getEvents();
         },
         setLoveone: function(loveone_id) {
 
@@ -122,6 +126,39 @@ const home = new Vue ({
                 
                 $('.widget.team .loading').hide();
                 $('.widget.team .member-img').show();
+                
+            }).catch( error => {
+                
+                msg = 'There was an error getting careteam members. Please reload the page';
+                swal('Error', msg, 'error');
+            });
+        },getEvents: function() {
+            
+           //  console.log(this.current_slug);  
+         /*   $('.widget.team .member-img').hide();  */    
+            $('loading-carehub').show();        
+            const hoy = new Date();
+
+            var url = '{{ route("carehub.getEvents", ["*SLUG*","*DATE*",1]) }}';
+                url = url.replace('*SLUG*', this.current_slug);
+                console.log(formatoFecha(hoy, 'yy-mm-dd'));
+                url = url.replace('*DATE*', formatoFecha(hoy, 'yy-mm-dd'));
+            axios.get(url).then(response => {               
+                 // console.log(response.data);
+                
+                if(response.data.success){
+                    this.events_to_day = response.data.data.events; 
+                    var url = '{{ route("carehub", "*SLUG*") }}';
+                    this.carehub_url = url.replace('*SLUG*', this.current_slug);
+                    this.hour_first_event = response.data.data.time_first_event;
+                } else {
+                    msg = 'There was an error. Please try again';
+                    icon = 'error';
+                    swal(msg, "", icon);
+                }
+                
+                $('.loading-carehub').hide();
+               /* $('.widget.team .member-img').show();*/
                 
             }).catch( error => {
                 
@@ -222,7 +259,16 @@ $(function(){
     }
 });
 
+function formatoFecha(fecha, formato) {
+    const map = {
+        dd: fecha.getDate(),
+        mm: fecha.getMonth() + 1,
+        yy: fecha.getFullYear().toString(),
+        yyyy: fecha.getFullYear()
+    }
 
+    return formato.replace(/dd|mm|yy|yyyy/gi, matched => map[matched])
+}
 </script>
 
 
