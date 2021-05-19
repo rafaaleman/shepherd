@@ -4,7 +4,7 @@
 <a class="menu-link item d-block active" href="{{ route('careteam', '**SLUG**')}}">
     <i class="fas fa-users fa-2x"></i> <span>CareTeam</span>
 </a>
-<a class="menu-link item d-block" href="">
+<a class="menu-link item d-block" href="{{ route('carehub', '**SLUG**')}}">
     <i class="far fa-calendar-plus  fa-2x"></i> <span>CareHub</span>
 </a>
 <a class="menu-link item d-block" href="{{ route('lockbox', '**SLUG**')}}">

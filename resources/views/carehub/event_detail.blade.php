@@ -47,7 +47,7 @@
                 <textarea id="mesaje" rows="7" type="date" class="form-control" name="mesaje" required autocomplete="mesaje" v-model="event.mesaje"></textarea>
                 <div class=" w-100 justify-content-center my-4">
                     <center>
-                        <button class="btn btn-info btn-lg rounded-pill font-weight-bold text-white">
+                        <button class="btn btn-primary btn-lg disabled" disabled>
                             Reply
                         </button>
                     </center>
