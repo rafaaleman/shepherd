@@ -10302,10 +10302,12 @@ input[type=date]::-webkit-calendar-picker-indicator {
 #careteam #inviteMemberModal .section.photo .member-info strong,
 #careteam #editMemberModal .section.photo .member-info strong {
   font-size: 20px;
+  text-shadow: #171616 1px 1px 2px;
 }
 #careteam #inviteMemberModal .section.photo .member-info .role,
 #careteam #editMemberModal .section.photo .member-info .role {
   text-transform: uppercase;
+  text-shadow: #171616 1px 1px 2px;
 }
 #careteam #inviteMemberModal .section table,
 #careteam #editMemberModal .section table {
