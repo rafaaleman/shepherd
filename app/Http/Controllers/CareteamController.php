@@ -38,7 +38,7 @@ class CareteamController extends Controller
         $loveone_slug = $request->loveone_slug;
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         if(!$loveone){
-            // TODO: mostrar pag de error
+            return view('errors.not-found');
         }
 
         $roles         = self::ROLES;
