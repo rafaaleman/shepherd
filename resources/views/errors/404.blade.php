@@ -14,16 +14,21 @@
 
                 <img src="{{asset('/img/LogoShepherd.png')}}"  alt="{{ config('app.name', 'Shepherd') }}" class="mb-5">
 
-                <div class="title mb-3">Page not found :(</div>
+                <div class="title mb-3">404 Page not found :(</div>
 
                 <div class="text-black-50">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut gravida in nisi at volutpat. 
+                    We couldn´t find the page with the provided info. Please Verify it.
                 </div>
 
-                <a class="btn btn-primary btn-lg mt-5 mb-5" href="{{ route('register') }}">Create Account</a>
-                <br>
+                @auth
+                    <a class="btn btn-primary btn-lg mt-5 mb-5" href="{{ route('register') }}">Create Account</a>
+                    <br>
 
-                <div class="text-black-50 ">Already have an account?  <a href="{{ route('login') }}" class="">Login</a></div>
+                    <div class="text-black-50 ">Already have an account?  <a href="{{ route('login') }}" class="">Login</a></div>
+                @else
+                    <a class="btn btn-primary btn-lg mt-5 mb-5" href="{{ route('home') }}">Return to dashboard</a>
+                    <br>
+                @endauth
             </form>
         </div>
     </div>
