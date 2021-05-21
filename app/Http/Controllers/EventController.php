@@ -21,28 +21,19 @@ class EventController extends Controller
         
         $to_day = new DateTime();
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
-        if($loveone){
-            
-            $careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
-            $membersIds = $careteam->pluck('user_id')->toArray();
-            $members = User::whereIn('id', $membersIds)->get();
-            $events = event::where('loveone_id', $loveone->id)->get();
-            foreach ($members as $key => $member){
-                $members[$key]['careteam'] = $careteam[$member->id];
-                if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
-                    $is_admin = true;
-            }
-
-        } else {
-
-            $loveone = null;
-            $membersIds = null;
-            $members = null;
-            $events = null;
-            $careteam = null;
-            $is_admin = false;
+        if(!$loveone){
+            return view('errors.not-found');
         }
-        //dd($loveone);
+            
+        $careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
+        $membersIds = $careteam->pluck('user_id')->toArray();
+        $members = User::whereIn('id', $membersIds)->get();
+        $events = event::where('loveone_id', $loveone->id)->get();
+        foreach ($members as $key => $member){
+            $members[$key]['careteam'] = $careteam[$member->id];
+            if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
+                $is_admin = true;
+        }
 
         return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
