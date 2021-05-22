@@ -185,6 +185,13 @@ $(function(){
         return false;
     });
 
+    $('#condition').on("keypress", function(e) {
+        if (e.keyCode == 13) {
+            e.stopPropagation();
+            return false; // prevent the button click from happening
+        }
+    });
+
     // Conditions autocomplete
     var opts = {
         matchListValue: true,
