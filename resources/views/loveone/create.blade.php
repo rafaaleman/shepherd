@@ -83,14 +83,18 @@
 
             <div class="card p-4 shadow-sm">
 
-                @foreach ($conditions as $condition)
-                    <div class="form-check mb-3 ml-3">
-                        <input class="form-check-input" type="checkbox" value="{{$condition->id}}" id="{{Str::slug($condition->name)}}" v-model="loveone.condition_ids">
-                        <label class="form-check-label" for="{{Str::slug($condition->name)}}">
-                            {{$condition->name}}
-                        </label>
-                    </div>
-                @endforeach
+                <input type="text" id="condition" placeholder="Start typing condition" class="form-control mb-4 pr-2 mt-2" name="condition" autocomplete="off">
+
+                <div class="conditions">
+                    @foreach ($conditions as $condition)
+                        <div class="form-check mb-3 ml-3">
+                            <input class="form-check-input" type="checkbox" value="{{$condition->name}}" id="{{Str::slug($condition->name)}}" v-model="loveone.conditions">
+                            <label class="form-check-label" for="{{Str::slug($condition->name)}}">
+                                {{$condition->name}}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             <div class="form-group row mb-0">
@@ -126,6 +130,10 @@
         height: 93vh;
     }
 
+    #moreResults{
+        display: none !important;
+    }
+
     /******************************* MOBILE *********************************/
     @media (max-width: 576px) {
         .photo-container{
@@ -139,9 +147,11 @@
         }
     }
 </style>
+<link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css' rel="stylesheet">
 @endpush
 
 @push('scripts')
+<script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
 <script>
 
 $(function(){
@@ -174,6 +184,25 @@ $(function(){
         
         return false;
     });
+
+    // Conditions autocomplete
+    var opts = {
+        matchListValue: true,
+    };
+    new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search', opts);
+    Def.Autocompleter.Event.observeListSelections('condition', function(data) {
+        console.log(data.used_list);
+        if(data.used_list){
+            condition = data.final_val;
+            condition_html = '<div class="form-check mb-3 ml-3">'+
+                                '<input class="form-check-input" type="checkbox" value="'+condition+'" id="'+condition+'" v-model="loveone.conditions" checked>'+
+                                '<label class="form-check-label" for="'+condition+'">'+condition +'</label>'+
+                            '</div>';
+            $('.conditions').prepend(condition_html);
+            $('#condition').val('');
+            create_loveone.loveone.conditions.push(condition);
+        }
+    });
 })
 
     const create_loveone = new Vue ({
@@ -193,7 +222,7 @@ $(function(){
                 dob:"{{ $loveone->dob ?? '' }}",
                 status:1,
                 relationship_id:"{{ $loveone->relationship_id ?? '' }}",
-                condition_ids: [{{ $loveone->condition_ids ?? '' }}],
+                conditions: [{{ $loveone->conditions ?? '' }}],
                 photo:"{{ $loveone->photo ?? '' }}",
             }
         },
