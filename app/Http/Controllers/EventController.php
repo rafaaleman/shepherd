@@ -14,8 +14,14 @@ use DateTime;
 
 use function GuzzleHttp\json_decode;
 
+use App\Http\Traits\NotificationTrait;
+
 class EventController extends Controller
 {
+    use NotificationTrait;
+
+    const EVENTS_TABLE = 'events';
+
     public function index(Request $request)
     {   
         
@@ -48,6 +54,7 @@ class EventController extends Controller
     public function createUpdate(Request $request)
     {
         $data = $request->all();
+        $assigned_ids = $data['assigned'];
         $data['assigned_ids'] = json_encode($data['assigned']);
         $data['creator_id'] = Auth::user()->id;
         //dd($data);
@@ -60,6 +67,18 @@ class EventController extends Controller
         // create
         else{
             $event = event::create($data);
+
+            // Create notification rows
+            foreach($assigned_ids as $user_id){
+                $notification = [
+                    'user_id'    => $user_id,
+                    'loveone_id' => $loveone_id,
+                    'table'      => self::EVENTS_TABLE,
+                    'table_id'   => $event->id,
+                    'event_date' => $data['date'].' '.$data['time']
+                ];
+                $this->createNotification($notification);
+            }
         }
 
         $event->assigned = json_decode($event->assigned_ids);
