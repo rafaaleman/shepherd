@@ -10200,6 +10200,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   background-color: #369bb6;
   min-height: 200px;
   max-height: 300px;
+  cursor: pointer;
 }
 #homeCarousel .carousel-item .carousel-caption {
   bottom: 10px;

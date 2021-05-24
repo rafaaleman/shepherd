@@ -185,10 +185,10 @@ $(function(){
         $('.carousel').carousel('next');
     });
 
-    $('#homeCarousel .carousel-item .btn').click(function(){
-        $('#homeCarousel .carousel-item .btn').attr('disabled', false).text('Select').removeClass('disabled').removeClass('btn-secondary').addClass('btn-primary');
-        $(this).attr('disabled', true).text('Selected').addClass('disabled').removeClass('btn-primary').addClass('btn-secondary');
-        setLighterBg($(this).parents('.carousel-item').data('color'));
+    $('#homeCarousel .carousel-item').click(function(){
+        // $('#homeCarousel .carousel-item .btn').attr('disabled', false).text('Select').removeClass('disabled').removeClass('btn-secondary').addClass('btn-primary');
+        // $(this).attr('disabled', true).text('Selected').addClass('disabled').removeClass('btn-primary').addClass('btn-secondary');
+        setLighterBg($(this).data('color'));
     });
 
     setCarouselColors();
