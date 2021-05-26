@@ -135,14 +135,13 @@ const home = new Vue ({
         },getEvents: function() {
             
            //  console.log(this.current_slug);  
-         /*   $('.widget.team .member-img').hide();  */    
-            $('loading-carehub').show();        
+            $('.hub .events-today').hide(); 
+            $('.loading-carehub').show();        
             const hoy = new Date();
 
             var url = '{{ route("carehub.getEvents", ["*SLUG*","*DATE*",1]) }}';
                 url = url.replace('*SLUG*', this.current_slug);
-                console.log(formatoFecha(hoy, 'yy-mm-dd'));
-                url = url.replace('*DATE*', formatoFecha(hoy, 'yy-mm-dd'));
+                url = url.replace('*DATE*', '{{$date->format("Y-m-d")}}');
             axios.get(url).then(response => {               
                  // console.log(response.data);
                 
@@ -158,7 +157,7 @@ const home = new Vue ({
                 }
                 
                 $('.loading-carehub').hide();
-               /* $('.widget.team .member-img').show();*/
+                $('.hub .events-today').show();
                 
             }).catch( error => {
                 
@@ -259,16 +258,6 @@ $(function(){
     }
 });
 
-function formatoFecha(fecha, formato) {
-    const map = {
-        dd: fecha.getDate(),
-        mm: fecha.getMonth() + 1,
-        yy: fecha.getFullYear().toString(),
-        yyyy: fecha.getFullYear()
-    }
-
-    return formato.replace(/dd|mm|yy|yyyy/gi, matched => map[matched])
-}
 </script>
 
 

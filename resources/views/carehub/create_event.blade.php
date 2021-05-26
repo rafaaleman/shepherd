@@ -3,7 +3,7 @@
 @section('content')
 <div class="container" id="create_event">
 
-    <form method="POST" action="#" style="width: 100%;" class="row justify-content-center" v-on:submit.prevent="createEvent()">
+    <form method="POST" action="#" style="width: 100%;" class="row mx-0 fs-0 justify-content-center" v-on:submit.prevent="createEvent()">
         @csrf
 
         <div class="col-md-12">
@@ -12,18 +12,26 @@
 
         <div class="w-100">
 
-            <div class="card  my-2 col-12">
+            <div class="card  my-2 col-12 shadow-sm">
                 <div class="card-body row">
-                    <input id="name" type="text" class="form-control col-12 col-sm-12 col-lg-6 my-2" name="name" value="" placeholder="Event Name" required autocomplete="name" autofocus v-model="event.name">
-                    <input id="location" type="text" class="form-control col-12 col-sm-12 col-lg-6 my-2" name="location" value="" placeholder="Location" required autocomplete="location" autofocus v-model="event.location">
+                    <div class=" col-12 col-sm-12 col-lg-6 my-2 ">
+                        <label for="name" class="label">Event Name</label>
+                        <input id="name" type="text" class="form-control only-border-bottom " name="name" value="" placeholder="Event Name" required autocomplete="name" S v-model="event.name">
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-6 my-2">
+                        <label for="location" class="label">Location</label>
+                        <input id="location" type="text" class="form-control only-border-bottom" name="location" value="" placeholder="Location" required autocomplete="location" S v-model="event.location">
+
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-sm-12 col-lg-4 my-2 accordion" id="accordionMembers">
-                    <div class="card my-2">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 my-2 accordion" id="accordionMembers">
+                    <div class="card my-2 shadow-sm">
                         <div class="card-body" id="headingOne">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseMemers" aria-expanded="true" aria-controls="collapseMemers">
+                            <h2 class="mb-0" id="toggle-members">
+                                <button class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseMemers" aria-expanded="true" aria-controls="collapseMemers">
                                     Assign to...
                                 </button>
                             </h2>
@@ -31,25 +39,36 @@
 
                         <div id="collapseMemers" class="collapse" aria-labelledby="headingOne" data-parent="#accordionMembers">
                             <div class="card-body">
-                                <div class="form-group row" id="careteam">
-                                    <div class="col-md-12 members" id="" class="collapse " aria-labelledby="headingOne" data-parent="#careteam">
+                                <div class="form-group row mx-1" id="careteam">
+                                    <div class="col-md-12 members px-0" id="" class="collapse" aria-labelledby="headingOne" data-parent="#careteam">
                                         @foreach($careteam as $team)
                                         <template>
                                             @if($team->user != null)
-                                            <div class="member w-100">
-                                                <img src="{{ (!empty($team->user->photo) && $team->user->photo != null ) ? env('APP_URL').'/public'.$team->user->photo : asset('public/img/no-avatar.png')}}" class="float-left mr-3">
-                                                <div class="data float-left">
-                                                    <div class="name">{{ $team->user->name }} {{ $team->user->lastname }}</div>
-                                                    <div class="role">{{ ucfirst($team->role) }}</div>
-                                                </div>
+                                            <div class="member w-100 ml-0 mb-2">
+                                                <img src="{{ (!empty($team->user->photo) && $team->user->photo != null ) ? env('APP_URL').'/public'.$team->user->photo : asset('public/img/no-avatar.png')}}" class="float-left mr-2 mr-md-3">
+                                                <div class="row p-0">
+                                                    <div class="data float-left text-truncate col-9 p-0">
+                                                        <div class="name text-truncate">{{ $team->user->name }} </div>
+                                                        <div class="role">{{ ucfirst($team->role) }}</div>
+                                                    </div>
 
-                                                <div class=" float-right ">
-                                                    <input type="checkbox" class=""  value="{{$team->id}}"  v-model="event.assigned">
+                                                    <div class="col-3 justify-content-center align-items-center ccheck">
+                                                        <center>
+                                                        <label class="customcheck">
+                                                            <input type="checkbox" value="{{$team->id}}"  v-model="event.assigned">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        
+                                                            <!--input type="checkbox" class="form-check"  value="{{$team->id}}"  v-model="event.assigned"-->
+                                                        </center>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                             @endif
                                         </template>
                                         @endforeach
+                                        
                                     </div>
 
                                 </div>
@@ -60,35 +79,35 @@
                 </div>
 
 
-                <div class="col-12 col-sm-12 col-lg-4 my-2">
-                    <div class="card  my-2 col-12">
+                <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
+                    <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                            <input id="date" type="date" class="form-control" name="date" value="" required autocomplete="date" autofocus v-model="event.date" placeholder="Date">
+                            <input id="date" type="date" class="form-control no-border" name="date" value="" required autocomplete="date" S v-model="event.date" placeholder="Date" min="{{ $date_now->format('Y-m-d') }}">
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-lg-4 my-2">
-                    <div class="card  my-2">
+                <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
+                    <div class="card shadow-sm my-2">
                         <div class="card-body">
-                            <input id="time" type="time" class="form-control" name="time" value="" required autocomplete="time" autofocus v-model="event.time" placeholder="Time">
+                            <input id="time" type="time" class="form-control no-border" name="time" value="" required autocomplete="time" onclick="" v-model="event.time" placeholder="Time" min="{{ $date_now->format('g:i a') }}">
 
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card  my-2 col-12">
+            <div class="card shadow-sm my-2 col-12">
                 <div class="card-body row">
-                    <textarea id="notes" rows="7" type="date" class="form-control" name="notes" required autocomplete="notes" v-model="event.notes" placeholder="Notes"></textarea>
+                    <textarea id="notes" rows="7" type="date" class="form-control no-border no-focus" name="notes" autocomplete="notes" v-model="event.notes" placeholder="Notes" maxlength="500"></textarea>
                 </div>
             </div>
 
 
 
             <div class="form-group row mb-0">
-                <div class="col-md-12 mt-4 justify-content-center">
+                <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
-                        <button class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Loading..." id="saveBtn">
+                        <button class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
                         </button>
                     </center>
@@ -108,8 +127,106 @@
 @endsection
 
 @push('styles')
-<style>
 
+<style>
+/* The customcheck */
+.ccheck{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.customcheck {
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.customcheck input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #fff;
+    border-radius: 25px;
+}
+
+/* On mouse-over, add a grey background color */
+.customcheck:hover input ~ .checkmark {
+    background-color: #369bb6;
+}
+
+/* When the checkbox is checked, add a blue background */
+.customcheck input:checked ~ .checkmark {
+    background-color: #369bb6;
+    border-radius: 25px;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.customcheck input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.customcheck .checkmark:after {
+    left: 10px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.no-border{
+    border:0;
+}
+.no-focus:focus { outline: none; } 
+.label{
+    opacity: 0.5;
+    color: #78849e;
+    font-size: 10px;
+    margin-bottom:0;
+    padding-left: 11px;
+}
+
+.only-border-bottom{
+    border: 0px ;
+    border-bottom: solid 1px #cdcdd8;
+    border-radius:0.25rem 0.25rem 0 0;
+}
+
+ .dropdown-toggle::after{
+    float:right;
+    margin-top: .5em;
+}
+@media only screen and (max-width: 370px) {
+    #collapseMemers .card-body{
+        padding: .35rem;
+    }        
+
+}
 </style>
 @endpush
 
@@ -140,26 +257,36 @@
         computed: {},
         methods: {
             createEvent: function() {
+                //console.log(this.current_slug);return false;
+                
+
                 //console.log(this.current_slug);
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
                 //this.event.phone = this.event.phone.replace(/\D/g,'');
-                var url_succes = '{{ route("carehub", "*SLUG*") }}';
-                url_succes = url_succes.replace('*SLUG*', this.current_slug);
+                
+                
                    // console.log(url_succes);
                 if(this.event.assigned.length > 0){
                     var url = '{{ route("carehub.event.create") }}';
                     
                     axios.post(url, this.event).then(response => {
-                        console.log(response.data);
-
+    
                         if (response.data.success) {
                             msg = 'Your event was saved successfully!';
                             icon = 'success';
-                            this.event.id = response.data.data.event.id;
-                            swal(msg, "", icon)
-                            .then((value) => {
-                                window.location = url_succes;
+                            //this.event.id = response.data.data.event.id;
+
+                            
+                            swal(
+                                'Your event was saved successfully!',
+                                '',
+                                'success'
+                            ).then((value) => {
+                                    var url_carehub= '{{ route("carehub", ["*SLUG*"]) }}';
+                                        url_carehub = url_carehub.replace('*SLUG*', this.current_slug);
+                                    window.location =  url_carehub;
                             });
+                            return false;
                             
                         } else {
                             msg = 'There was an error. Please try again';
@@ -189,5 +316,16 @@
             }
         }
     });
+    
+    $('.collapse').on('show.bs.collapse', function () {
+        // do something…
+        $("#toggle-members").addClass("dropup");
+    })
+
+    $('.collapse').on('hidden.bs.collapse', function () {
+        // do something…
+        $("#toggle-members").removeClass("dropup");
+
+    })
 </script>
 @endpush
