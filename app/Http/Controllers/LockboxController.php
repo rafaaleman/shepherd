@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\lockbox;
 use App\Models\lockbox_types;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\loveone;
 /**
  * 
  * id
@@ -28,21 +29,39 @@ class LockboxController extends Controller
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
         */
-        if ($request->ajax()) {
+        $loveone_slug = $request->loveone_slug;
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+
+        if(!$loveone){
+           // dd("no existe");
+        }
+
+        if ($request->ajax()) 
+        {
             $types     = lockbox_types::all();
-            $documents = lockbox::where('user_id',Auth::Id())->get();
+            $documents = lockbox::where('user_id',Auth::Id())
+                                ->where('loveones_id',$loveone->id)
+                                ->get();
+
             foreach($types as &$t){
+                $t->asFile = false;
                 foreach($documents as $i => $d){
                     if($t->id == $d->lockbox_types_id && $t->required == 1){
                         $t->file = $d;
+                        $t->asFile = true;
                         unset($documents[$i]);
-                        break;
+                       break;
                     }
+
                 }
             }
-            return array('types' => $types, 'documents' => $documents);
+
+            return array('types' => $types, 'documents' => $documents,'slug' => $loveone_slug );
         }
-        return view('lockbox.index');
+
+        
+
+        return view('lockbox.index',compact('loveone','loveone_slug'));
     }
 
     /**
@@ -133,7 +152,7 @@ class LockboxController extends Controller
 
         ]);
             
-        $repo = 'uploads/' . $request->id_user;
+        $repo = 'uploads/' . $request->user_id;
 
         $doct              = Lockbox::find($request->id);
         $doct->name        = $request->name;
@@ -141,6 +160,10 @@ class LockboxController extends Controller
         $doct->status      = $request->status;
 
         if ($request->hasFile('file')){
+            if(\File::exists(public_path($doct->file))){
+                \File::delete(public_path($doct->file));
+                $doct->delete();
+            }
             $fileName   = time().'_'.$request->file->getClientOriginalName();
             $filePath   = $request->file('file')->storeAs($repo, $fileName, 'public');
             $doct->file = '/storage/' . $filePath;
@@ -158,8 +181,15 @@ class LockboxController extends Controller
      * @param  \App\lockbox  $lockbox
      * @return \Illuminate\Http\Response
      */
-    public function destroy(lockbox $lockbox)
+    public function destroy(Request $request)
     {
-        //
+        $doct = Lockbox::find($request->id_doc);
+        if(\File::exists(public_path($doct->file))){
+            \File::delete(public_path($doct->file));
+            $doct->delete();
+            }else{
+                dd(public_path($doct->file));
+            }
+        return response()->json(['success' => true, 'data' => ['msg' => 'Document deleted!'],'docto' => $doct ], 200);
     }
 }

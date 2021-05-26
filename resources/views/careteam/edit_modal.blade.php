@@ -27,7 +27,7 @@
                         </tr>
                         <tr>
                             <td><i class="fas fa-mobile-alt"></i> Phone</td>
-                            <td><a :href="'tel: ' + member.phone" target="_blank">@{{ member.phone }}</a></td>
+                            <td><a :href="'tel: ' + member.phone" target="_blank">@{{ member.phone | formatPhoneNumber }}</a></td>
                         </tr>
                         <tr>
                             <td><i class="fas fa-map-marker-alt"></i> Address</td>

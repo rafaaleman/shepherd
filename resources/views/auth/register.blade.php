@@ -15,8 +15,10 @@
                 <img src="{{asset('/img/LogoShepherd.png')}}"  alt="{{ config('app.name', 'Shepherd') }}" class="mb-5">
 
                 <div class="form-group row">
-                    {{-- <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label> --}}
-                    <div class="col-md-7 offset-4 d-flex justify-content-center mb-3 ">
+                    <div class="col-md-4 col-form-label float-right">
+                        <div class="img-fluid" id="profile-photo"></div>
+                    </div>
+                    <div class="col-md-7 d-flex justify-content-center mb-3 ">
                         <div class="btn btn-primary btn-block photo-btn">
                             <i class="far fa-user mb-1"></i> Upload Photo
                         </div>
@@ -69,7 +71,7 @@
                     <label for="phone" class="col-md-4 col-form-label text-md-right">Phone Number</label>
 
                     <div class="col-md-7">
-                        <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+                        <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" minlength="10" maxlength="10">
 
                         @error('phone')
                             <span class="invalid-feedback" role="alert">
@@ -147,6 +149,14 @@
     #register_user{
         width: 80%;
     }
+
+    #profile-photo{
+        height: 30px;
+        border-radius: 50%;
+        width: 30px;
+        background-size: cover;
+        float: right;
+    }
 </style>
 @endpush
 
@@ -160,7 +170,31 @@ $(function(){
     $('#register_user').submit(function(){
 
         $('.create').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
-    })
+    });
+
+        //Image on change
+    $('#photo').on('change', function(e) {
+        e.preventDefault();
+
+        var file = $(this);
+        var size = file[0].files[0].size;
+		var ext = $(this).val().split('.').pop().toLowerCase();
+        //Check Size
+        if ((size/1024) < 1024) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#profile-photo').css('background-image', 'url('+e.target.result+')');
+            }
+
+            reader.readAsDataURL(file[0].files[0]);
+        } else {
+            //Show Error
+            swal('Error', 'The maximun file size is 1MB.', 'error')
+        }
+        
+        return false;
+    });
 });
 </script>
 @endpush

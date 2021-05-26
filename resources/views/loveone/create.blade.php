@@ -6,7 +6,7 @@
     <form method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
         @csrf
 
-        <div class="col-md-4 photo-container bg-primary d-flex align-items-center">
+        <div class="col-md-6 photo-container bg-primary d-flex align-items-center">
             <div class="bigBtn">
                 <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
                 Upload Photo
@@ -14,7 +14,7 @@
             <input id="photo" type="file" class="form-control d-none" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
         </div>
 
-        <div class="col-md-4 mt-5">
+        <div class="col-md-5 mt-5">
 
             <h4 class="mb-3">Tell us about your love one</h4>
 
@@ -79,39 +79,45 @@
                 </div>
             </div>
 
-        </div>
-
-        <div class="col-md-4 mt-5">
-
-            <h4 class="mb-3">Conditions</h4>
+            <h4 class="mb-3 mt-5">Conditions</h4>
 
             <div class="card p-4 shadow-sm">
 
-                @foreach ($conditions as $condition)
-                    <div class="form-check mb-4">
-                        <input class="form-check-input" type="checkbox" value="{{$condition->id}}" id="{{Str::slug($condition->name)}}" v-model="loveone.condition_ids">
-                        <label class="form-check-label" for="{{Str::slug($condition->name)}}">
-                            {{$condition->name}}
-                        </label>
-                    </div>
-                @endforeach
+                <input type="text" id="condition" placeholder="Start typing condition" class="form-control mb-4 pr-2 mt-2" name="condition" autocomplete="off">
+
+                <div class="conditions">
+                    @foreach ($conditions as $condition)
+                        <div class="form-check mb-3 ml-3">
+                            <input class="form-check-input" type="checkbox" value="{{$condition->name}}" id="{{Str::slug($condition->name)}}" v-model="loveone.conditions">
+                            <label class="form-check-label" for="{{Str::slug($condition->name)}}">
+                                {{$condition->name}}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             <div class="form-group row mb-0">
                 <div class="col-md-6 mt-4">
-                    <button class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Loading..." id="saveBtn">
+                    <button class="btn btn-primary loadingBtn btn-lg mb-4" type="submit" data-loading-text="Loading..." id="saveBtn">
                         Save
                     </button>
                     <input type="hidden" name="id" v-model="loveone.id" value="">
                 </div>
             </div>
+
         </div>
+
     </form>
 </div>
 @endsection
 
 @push('styles')
 <style>
+
+    .form-group{
+        margin-bottom: 10px;
+    }
     .top-bar{
         display: none !important;
     }
@@ -122,6 +128,10 @@
 
     .photo-container{
         height: 93vh;
+    }
+
+    #moreResults{
+        display: none !important;
     }
 
     /******************************* MOBILE *********************************/
@@ -137,9 +147,11 @@
         }
     }
 </style>
+<link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.css' rel="stylesheet">
 @endpush
 
 @push('scripts')
+<script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
 <script>
 
 $(function(){
@@ -172,6 +184,32 @@ $(function(){
         
         return false;
     });
+
+    $('#condition').on("keypress", function(e) {
+        if (e.keyCode == 13) {
+            e.stopPropagation();
+            return false; // prevent the button click from happening
+        }
+    });
+
+    // Conditions autocomplete
+    var opts = {
+        matchListValue: true,
+    };
+    new Def.Autocompleter.Search('condition', 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search', opts);
+    Def.Autocompleter.Event.observeListSelections('condition', function(data) {
+        console.log(data.used_list);
+        if(data.used_list){
+            condition = data.final_val;
+            condition_html = '<div class="form-check mb-3 ml-3">'+
+                                '<input class="form-check-input" type="checkbox" value="'+condition+'" id="'+condition+'" v-model="loveone.conditions" checked>'+
+                                '<label class="form-check-label" for="'+condition+'">'+condition +'</label>'+
+                            '</div>';
+            $('.conditions').prepend(condition_html);
+            $('#condition').val('');
+            create_loveone.loveone.conditions.push(condition);
+        }
+    });
 })
 
     const create_loveone = new Vue ({
@@ -191,7 +229,7 @@ $(function(){
                 dob:"{{ $loveone->dob ?? '' }}",
                 status:1,
                 relationship_id:"{{ $loveone->relationship_id ?? '' }}",
-                condition_ids: [{{ $loveone->condition_ids ?? '' }}],
+                conditions: [{{ $loveone->conditions ?? '' }}],
                 photo:"{{ $loveone->photo ?? '' }}",
             }
         },
