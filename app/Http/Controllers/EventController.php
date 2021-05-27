@@ -74,7 +74,7 @@ class EventController extends Controller
             foreach($assigned_ids as $user_id){
                 $notification = [
                     'user_id'    => $user_id,
-                    'loveone_id' => $loveone_id,
+                    'loveone_id' => $request->loveone_id,
                     'table'      => self::EVENTS_TABLE,
                     'table_id'   => $event->id,
                     'event_date' => $data['date'].' '.$data['time']
