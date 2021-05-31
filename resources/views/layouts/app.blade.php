@@ -17,6 +17,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/slick/slick.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/slick/slick-theme.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 <body>
@@ -41,6 +43,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/general.js') }}"></script>
+    <script src="{{ asset('plugins/slick/slick.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
