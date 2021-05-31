@@ -10,13 +10,17 @@
                 <div class="card shadow-sm d-flex justify-content-between notification p-4">
                     <i class="far fa-calendar-plus fa-2x mr-3 mt-2"></i>
                     <div class="info">
-                        <div class="title mb-0">Carehub Notification</div>
-                        <div class="event_date mb-3 text-black-50">Today at 20:00</div>
+                        <div class="title mb-0">{{ $notification->name }}</div>
+                        <div class="event_date mb-3 text-black-50">{{ $notification->event_date}}</div>
                         <div class="event-desc text-black-50">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam, alias sunt quia sapiente aspernatur hic accusamus. 
+                            {{$notification->description}}
                         </div>
                     </div>
-                    <i class="fas fa-bell text-danger ml-3 mt-5"></i>
+                    @if ($notification->read == 0)
+                        <i class="fas fa-bell text-danger ml-3 mt-2"></i>
+                    @else
+                        <i class="far fa-bell text-black-50 ml-3 mt-2"></i>
+                    @endif
                 </div>
             @endforeach
             
@@ -31,6 +35,10 @@
 
 .notification{
     flex-direction: row
+}
+
+.notification .info{
+    width: 95%;
 }
 
 .notification .title{
