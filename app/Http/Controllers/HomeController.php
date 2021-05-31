@@ -8,7 +8,7 @@ use App\Models\careteam;
 use App\Models\relationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use DateTime;
 class HomeController extends Controller
 {
     /**
@@ -33,7 +33,8 @@ class HomeController extends Controller
         // dd($loveones->count());
         if($loveones->count() > 0){
             $careteam_users = $this->getCareteamData($loveones[0]->id);
-            return view('home', compact('loveones', 'careteam_users'));
+            $date = new DateTime();
+            return view('home', compact('loveones', 'careteam_users','date'));
         } else {
             return view('new');
         }
