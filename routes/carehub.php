@@ -11,4 +11,5 @@ Route::get('/getEvents/{loveone_slug}/{date}/{type}', 'EventController@getEvents
 Route::post('/event', 'EventController@getEvent')->name('carehub.getEvent');
 Route::get('/getCalendar/{month}', 'EventController@getCalendar')->name('carehub.getCalendar');
 
-//Route::get('/{careteam}', 'LoveoneController@edit')->name('loveone.edit');
+//Messages
+Route::post('/event/message/create', 'MessageController@createMessage')->name('carehub.event.message.create');

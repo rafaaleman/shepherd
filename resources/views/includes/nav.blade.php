@@ -28,8 +28,10 @@
                         <li class="nav-item mr-4">
                             <a href="{{route('loveone')}}" class="nav-link"><i class="far fa-heart"></i> Add Loved One</a>
                         </li>
-                        <li class="nav-item mr-4">
-                            <a href="#" class="nav-link"><i class="far fa-bell"></i> Notifications</a>
+                        <li class="nav-item mr-4 ">
+                            <a href="{{ route('notifications', '**SLUG**')}}" class="menu-link nav-link {{ (Session::get('notifications') > 0) ? 'text-danger font-weight-bold' : ''}}">
+                                <i class="{{ (Session::get('notifications') > 0) ? 'fas' : 'far'}} fa-bell"></i> Notifications
+                            </a>
                         </li>
                     </ul>
                 @endguest
@@ -88,15 +90,6 @@
 @push('scripts')
 <script>
 $(function(){
-    // open menu dropdown menu
-    // $('.navbar-toggler').click(function(){
-    //     console.log('click');
-    //     $(".navbar .dropdown").each(function(){
-    //         $(this).click();
-    //     });
-    // })
-
-
 
     loveone = localStorage.getItem('loveone');
     if(loveone != null){
@@ -112,6 +105,7 @@ $(function(){
         current_loveone = JSON.parse(current_loveone);
         $('.menu-link').each( function () { 
             newurl = $(this).attr('href');
+            console.log(newurl);
             newurl = newurl.replace('**SLUG**', current_loveone.slug);
             $(this).attr('href', newurl)
         });

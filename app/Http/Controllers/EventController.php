@@ -11,38 +11,35 @@ use App\Models\Invitation;
 use App\Models\careteam;
 use App\User;
 use DateTime;
-
+use DateInterval;
 use function GuzzleHttp\json_decode;
+
+use App\Http\Traits\NotificationTrait;
 
 class EventController extends Controller
 {
+    use NotificationTrait;
+
+    const EVENTS_TABLE = 'events';
+
     public function index(Request $request)
     {   
         
         $to_day = new DateTime();
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
-        if($loveone){
-            
-            $careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
-            $membersIds = $careteam->pluck('user_id')->toArray();
-            $members = User::whereIn('id', $membersIds)->get();
-            $events = event::where('loveone_id', $loveone->id)->get();
-            foreach ($members as $key => $member){
-                $members[$key]['careteam'] = $careteam[$member->id];
-                if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
-                    $is_admin = true;
-            }
-
-        } else {
-
-            $loveone = null;
-            $membersIds = null;
-            $members = null;
-            $events = null;
-            $careteam = null;
-            $is_admin = false;
+        if(!$loveone){
+            return view('errors.not-found');
         }
-        //dd($loveone);
+            
+        $careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
+        $membersIds = $careteam->pluck('user_id')->toArray();
+        $members = User::whereIn('id', $membersIds)->get();
+        $events = event::where('loveone_id', $loveone->id)->get();
+        foreach ($members as $key => $member){
+            $members[$key]['careteam'] = $careteam[$member->id];
+            if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
+                $is_admin = true;
+        }
 
         return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
@@ -50,13 +47,16 @@ class EventController extends Controller
     public function createForm($loveone_slug){
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get()->keyBy('user_id');
+        $date_now = new DateTime();
+        $date_now->sub(new DateInterval('P1D'));
         //dd($careteam);
-        return view('carehub.create_event',compact('loveone','careteam'));
+        return view('carehub.create_event',compact('loveone','careteam','date_now'));
     }
 
     public function createUpdate(Request $request)
     {
         $data = $request->all();
+        $assigned_ids = $data['assigned'];
         $data['assigned_ids'] = json_encode($data['assigned']);
         $data['creator_id'] = Auth::user()->id;
         //dd($data);
@@ -69,6 +69,18 @@ class EventController extends Controller
         // create
         else{
             $event = event::create($data);
+
+            // Create notification rows
+            foreach($assigned_ids as $user_id){
+                $notification = [
+                    'user_id'    => $user_id,
+                    'loveone_id' => $request->loveone_id,
+                    'table'      => self::EVENTS_TABLE,
+                    'table_id'   => $event->id,
+                    'event_date' => $data['date'].' '.$data['time']
+                ];
+                $this->createNotification($notification);
+            }
         }
 
         $event->assigned = json_decode($event->assigned_ids);
@@ -81,8 +93,6 @@ class EventController extends Controller
     {
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
-
-
 
         foreach ($careteam as $key => $team){
            // dd($team);
@@ -317,7 +327,7 @@ class EventController extends Controller
           $datanewend['dia'] = date("d", strtotime($datafechaf));
           $datanewend['fecha'] = $datafechaf;
           if($iday > 5){
-                $datanewend['class'] = 'd-none d-sm-none d-md-none  d-lg-block mt-2';
+                $datanewend['class'] = 'd-none d-sm-none d-md-block  d-lg-block mt-2';
           }else{
                 $datanewend['class'] = '';
           }
@@ -333,26 +343,42 @@ class EventController extends Controller
     public function getEvent(Request $request)
     {
 
-        $event = event::where('id', $request->id)->with('messages')->first();
+        $event = event::where('id', $request->id)->with('messages','creator')->first();
         $loveone  = loveone::whereSlug($request->slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
-
+        $is_careteam = false;
+        $id_careteam = 0;
         foreach ($careteam as $key => $team){
-           // dd($team);
             if(isset($team->user)){
                 $team->user->photo = ($team->user->photo != '') ? env('APP_URL').'/public'.$team->user->photo :  asset('public/img/avatar2.png');
-                if(Auth::user()->id == $team->user_id && $team->role == 'admin')
-                    $is_admin = true;
             }
-           
         }
 
         $event->members = $careteam->whereIn('id',json_decode($event->assigned_ids));
+        foreach($event->members as $member){
+            if(Auth::user()->id == $member->user_id ){
+                $is_careteam = true;
+                $id_careteam = $member->id;
+            }
+        }
+
         $date_temp = new DateTime($event->date . " " . $event->time);
         $event->time_cad_gi = $date_temp->format('g:i');
         $event->time_cad_a = $date_temp->format('a');
         $event->date_title = $date_temp->format('l, j F Y');
-        return view('carehub.event_detail',compact('event'));
+        //dd($event->messages);
+        foreach ($event->messages as $key => $message){
+           
+            $date_temp = new DateTime($message->date . " " . $message->time);
+            $event->messages[$key]->time_cad_gi = $date_temp->format('g:i');
+            $event->messages[$key]->time_cad_a = $date_temp->format('a');
+            $event->messages[$key]->date_title = $date_temp->format('l, j F Y');
+            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? env('APP_URL').'/public'.$message->creator->user->photo :  asset('public/img/avatar2.png');
+            
+         }
+         $event->creator->photo = ($event->creator->photo != '') ? env('APP_URL').'/public'.$event->creator->photo :  asset('public/img/avatar2.png');
+        // dd($event);
+        return view('carehub.event_detail',compact('event','is_careteam','id_careteam'));
 
     }
 

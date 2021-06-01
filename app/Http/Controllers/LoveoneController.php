@@ -48,7 +48,7 @@ class LoveoneController extends Controller
         $data = collect($data)->toArray();
         // dd($data);
 
-        $data['condition_ids'] = implode(',', $data['condition_ids']);
+        $data['conditions'] = implode(',', $data['conditions']);
         $relationship_id = $data['relationship_id'];
         $data['phone']   = intval($data['phone']);
         $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname'].' '.time());

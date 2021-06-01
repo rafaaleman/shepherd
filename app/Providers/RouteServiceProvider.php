@@ -49,6 +49,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapCareteamRoutes();
         $this->mapCarehubRoutes();
         $this->mapLockboxRoutes();
+        $this->mapNotificationsRoutes();
 
         //
     }
@@ -97,6 +98,23 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/careteam.php'));
     }
+
+
+    /**
+     * Define the "careteams" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapNotificationsRoutes()
+    {
+        Route::prefix('notifications')
+            ->middleware('web', 'auth')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/notifications.php'));
+    }
+
 
     /**
      * Define the "api" routes for the application.

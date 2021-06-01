@@ -25,8 +25,8 @@
                     <div class="members d-flex flex-wrap row">
 
                     <div class="col-sm-12 col-md-6 p-1" v-for="member in members">
-                        <div class="member">
-                            <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
+                        <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
+                            <div class="member">
                                 <img :src="member.photo" class="float-left mr-3">
                                 <div class="data float-left">
                                     <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
@@ -34,8 +34,8 @@
                                 </div>
                                 
                                 <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
 
                     <div class="col-sm-12 col-md-6 p-1" v-for="invitation in invitations">
@@ -102,6 +102,14 @@
                 value = value.toString();
                 return value.toUpperCase(); 
             },
+            formatPhoneNumber: function(phoneNumberString) {
+                var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+                var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+                if (match) {
+                    return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+                }
+                return null;
+            }
         },
         computed:{ 
         },

@@ -83,7 +83,7 @@ body{
 }
 
 // hide calendar icon on <input date> fields
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator,input[type="time"]::-webkit-calendar-picker-indicator {
     background: transparent;
     bottom: 0;
     color: transparent;
@@ -95,6 +95,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 0;
     width: auto;
 }
+
+
 
 .card {
     border:none;
@@ -137,9 +139,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .far, .fas{
         font-size: 200px;
     }
-}
-
-
+}  
 
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {

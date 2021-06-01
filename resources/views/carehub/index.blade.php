@@ -4,9 +4,9 @@
 <div class="container" id="carehub">
     <div class="row mb-3 align-items-center justify-content-center">
         <div class="col-sm-12 col-md-8 col-lg-8 row">
-            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-danger rounded-top active text-white" id="Today">Today</button></div>
-            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-danger rounded-top disabled" id="Week">Week</button></div>
-            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-danger rounded-top disabled" id="Month">Month</button></div>
+            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
+            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
+            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
         </div>
         <div class="col-4 d-none d-sm-none d-lg-block">
             @if ($is_admin)
@@ -25,7 +25,7 @@
             <template v-for="day in day_div">
 
                 <div class="col col-md-1 text-center col-day" :class="day.class">
-                    <div v-if="month_name == day.mes" class="pb-3">
+                    <div class="pb-3">
                         <div v-if="now == day.dia" class="rounded-circle align-self-center box-now" :class="day.fecha">
                             @{{ day.dia  }} <br>
                             <small>@{{ day.mes  }}</small>
@@ -35,6 +35,7 @@
                             <small>@{{ day.mes  }}</small>
                         </div>
                     </div>
+
                 </div>
 
 
@@ -92,7 +93,7 @@
     </div>
     <div v-if="events.length > 0">
     <template v-for="event in events" >
-        <div class="card mb-3">
+        <div class="card mb-3 shadow-sm">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 events">
@@ -100,14 +101,14 @@
                             <h6 class="card-title font-weight-bold mb-5">@{{event.title}}</h6>
                             <template v-for="(day,index) in event.data">
                                 <div class="row border-bottom-1 mb-3">
-                                    <div class="col-3 col-sm-3 col-lg-2">
+                                    <div class="col-4 col-sm-3 col-lg-2">
                                         <div class="bottom-50 end-50">
-                                            <h3 class="text-danger font-weight-bold text-uppercase" style="line-height:.7">
+                                            <h3 class="text-danger font-weight-bold text-uppercase time" style="line-height:.7">
                                                 @{{day.time_cad_gi}} <br /><small style="font-size:.6em">@{{day.time_cad_a}}</small>
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="col-9 col-sm-9 col-lg-10 row" style="line-height:.7">
+                                    <div class="col-8 col-sm-9 col-lg-10 row eventinf" style="line-height:.7">
 
                                         <div class="col-12 col-lg-6">
                                             <h5 class="font-weight-bold text-truncate">@{{day.name}}</h5>
@@ -123,10 +124,8 @@
                                                         @{{day.count_messages}} <i class="fa fa-comments" style="font-size:15px;"></i>
                                                     </p>
                                                 </div>
-
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <template v-if="event.data.length != (index + 1)">
@@ -141,6 +140,18 @@
     </template>
     </div>
     <div v-else class=" w-100 text-center">No events found...</div>
+
+    <center>
+        <div class=" d-block d-sm-block d-lg-none mb-3">
+            @if ($is_admin)
+            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
+                Add New Event
+            </a>
+            @endif
+        </div>
+    </center>
+
+
     <form action="{{route('carehub.getEvent')}}" method="post" id="formDetail">
         @csrf
         <input type="hidden" name="id" id="id" :value="event_url.id">
@@ -252,6 +263,32 @@
     .day_month:nth-child(10) {
         border-radius: 0px 50px 50px 0px !important;
     }
+
+    @media only screen and (max-width: 400px) {
+        .menuDate {
+            font-size: .8rem;
+            padding:7px 10px;
+        }
+        #calendar_div .col-day{
+            padding-left:0px !important;
+            padding-right:0px !important;
+        }
+        .box-event, .box-now{
+            width:40px;
+            height:40px;
+        }
+        .time{
+            font-size:1.2rem;
+        }
+        .eventinf, .events{
+            padding-left:5px !important;
+            padding-right:5px !important;
+
+        }
+
+    }
+
+
 </style>
 
 @endpush
@@ -307,18 +344,18 @@
                 if (type == 1) {
                     $("#day_div").removeClass("d-none");
                     $("#week_div, #month_div").addClass("d-none");
-                    $("#Today").addClass("active text-white").removeClass("disabled");
-                    $("#Week, #Month").removeClass("active text-white");
+                    $("#Today").addClass("btn-outline-pink-active").removeClass("disabled");
+                    $("#Week, #Month").removeClass("btn-outline-pink-active");
                 } else if (type == 2) {
                     $("#week_div").removeClass("d-none");
                     $("#day_div, #month_div").addClass("d-none");
-                    $("#Week").addClass("active text-white").removeClass("disabled");
-                    $("#Today, #Month").removeClass("active text-white");
+                    $("#Week").addClass("btn-outline-pink-active").removeClass("disabled");
+                    $("#Today, #Month").removeClass("btn-outline-pink-active");
                 } else if (type == 3) {
                     $("#month_div").removeClass("d-none");
                     $("#day_div, #week_div").addClass("d-none");
-                    $("#Month").addClass("active text-white").removeClass("disabled");
-                    $("#Today, #Week").removeClass("active text-white");
+                    $("#Month").addClass("btn-outline-pink-active").removeClass("disabled");
+                    $("#Today, #Week").removeClass("btn-outline-pink-active");
                 } else {
                     alert();
                 }
