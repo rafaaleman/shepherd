@@ -248,8 +248,19 @@
                     if(exts.indexOf(ext) >= 0){
                         str = "{{ URL::to('/') }}" + file;
                     }
+                    else if(ext == "pdf"){
+                        str = "{{asset('public/images/file_pdf.jpg')}}";
+                    }
+                    else if(ext == "doc" || ext == "docx"){
+                        str = "{{asset('public/images/file_doc.jpg')}}";
+                    }else{
+                        str = "{{asset('public/images/file_other.jpg')}}";
+                    }
                 }
                 return str;
+            },
+            urlFile(file){                
+                 return str = "{{ URL::to('/') }}" + file;
             }
         },
         computed:{ 
@@ -289,6 +300,7 @@
                 }else if(doc.file){
                     this.viewDocument(doc.file);
                 }else{
+
                     this.newDocument.name = doc.name;
                     this.newDocument.description = doc.description;
                     this.create_type = true;
