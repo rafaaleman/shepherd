@@ -4,35 +4,35 @@
 <div class="container"  id="lockbox">
     <div class="row justify-content-center">
         <div class="col-12">
-            <h4>RECENT DOCUMENTS</h4>
-            <div id="carouselExampleControls" class="carousel slide justify-content-center" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-20" width="300px" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
+            <h4>RECENT DOCUMENTS</h4>            
+                <div class="carrusel">
+                    <div>
+                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-20" width="300px" src="https://i.stack.imgur.com/y9DpT.jpg" alt="Second slide">
+                    <div>
+                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-20" width="300px" src="https://i.stack.imgur.com/y9DpT.jpg" alt="Third slide">
+                    <div>
+                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
                     </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
+                    <div>
+                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
+                    </div>
+                    <div>
+                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
+                    </div>
+                    <div>
+                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
+                    </div>
+                    
+                </div>            
         </div>
     </div>
     <div class="row mt-3">
         <div class="col-12">
             <h4>MUST-HAVE DOCUMENTS</h4>
         </div>
-                <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.lockbox_types_id,doc.file)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
+                <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
                     <div class="card-body">
                         <h4 class="card-title t1">@{{ doc.name }}</h4>
                         <p class="card-text t2">@{{ doc.description}}</p>
@@ -160,26 +160,58 @@
   border-radius: 24px;
   background-color: #369bb6;
 }
+.carrusel-doc{
+    margin: 5px;
+    padding: 10px;
+    width: 250px;
+}
 </style>
 @endpush
 
 @push('scripts')
 <script>
-    
-   const lockbox = new Vue ({
-        
+    $(document).ready(function(){
+        $('.carrusel').slick({
+            centerMode: true,
+            centerPadding: '100px',
+            slidesToShow: 3,
+            autoplay: true,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 1
+                    }
+                }
+            ]
+        });
+    });
+
+   const lockbox = new Vue ({        
         el: '#lockbox',
         created: function() {
-            console.log('lockbox');
             this.getDocuments();
         },
         data: {
             documents: [],
             types:[],
-            action: '',
+            create_type: false,
             newDocument: {
                 user_id: {{Auth::Id()}},
                 lockbox_types_id: '',
+                loveones_id: {{ $loveone->id }},
                 name: '',
                 description:'',
                 file:'',                
@@ -189,6 +221,7 @@
                 id: '',
                 user_id: {{Auth::Id()}},
                 lockbox_types_id: '',
+                loveones_id: {{ $loveone->id }},
                 name: '',
                 description:'',
                 file:'',                
@@ -206,15 +239,32 @@
                     value = value.split('T');
                     return value[0];
                 }
+            },
+            isImage(file){
+                let exts = ['jpg','jpeg','gif','png','svg'];
+                let str = "{{asset('public/images/no_photo.jpg')}}";
+                if(file){
+                let ext = file.split('.').pop();
+                    if(exts.indexOf(ext) >= 0){
+                        str = "{{ URL::to('/') }}" + file;
+                    }
+                }
+                return str;
             }
         },
         computed:{ 
+
         },
         methods: {
+            hideModal(modal) {
+                this.borrar();
+                $('#'+modal).modal('hide');
+            },
             borrar(){
-                this.newDocument = { 'user_id': {{Auth::Id()}} ,'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : 1 };
-                this.fillDocument = { 'id': '' , 'user_id': {{Auth::Id()}} ,'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : '' };
-                this.errors = [];            
+                this.newDocument = { 'user_id': {{Auth::Id()}} ,'loveones_id': {{ $loveone->id}},'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : 1 };
+                this.fillDocument = { 'id': '' , 'user_id': {{Auth::Id()}} ,'loveones_id': {{ $loveone->id}},'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : '' };
+                this.errors = [];
+                this.create_type = false;
             },
             getDoc(event){
                 this.newDocument.file = event.target.files[0];
@@ -231,11 +281,21 @@
             },
             showM: function(type,doc) {
                 this.newDocument.lockbox_types_id = type;
-                console.log(doc);
-                if(doc){
-                    this.viewDocument(doc);
+                if(doc == null){
+                    $('#createModal').modal({
+                        backdrop: 'static',
+                        keyboard: false  
+                        },'show');
+                }else if(doc.file){
+                    this.viewDocument(doc.file);
                 }else{
-                    $('#createModal').modal('show');
+                    this.newDocument.name = doc.name;
+                    this.newDocument.description = doc.description;
+                    this.create_type = true;
+                    $('#createModal').modal({
+                        backdrop: 'static',
+                        keyboard: false  
+                        },'show');
                 }
 
             },
@@ -244,13 +304,15 @@
                 
                 formData.append('id', this.newDocument.id);
                 formData.append('user_id', this.newDocument.user_id);
+                formData.append('loveones_id', this.newDocument.loveones_id);
                 formData.append('lockbox_types_id', this.newDocument.lockbox_types_id);
                 formData.append('name', this.newDocument.name);
                 formData.append('description', this.newDocument.description);
                 formData.append('file', this.newDocument.file);
                 formData.append('status', this.newDocument.status);
                 
-                var url = "lockbox";
+                var url = "{{route('lockbox.store')}}";
+                console.log("ruta" + url);
                 axios.post(url, formData,{ 
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -270,17 +332,20 @@
                     }
                             
                     swal(msg, "", icon);
+
                     $('#createModal').modal('hide');
                 }).catch(error => {                    
                     this.errors = error.response.data;
                     console.log(error);
                 });
             },
+
             editDocument: function() {
                 var formData = new FormData();
                 
                 formData.append('id', this.fillDocument.id);
                 formData.append('user_id', this.fillDocument.user_id);
+                formData.append('loveones_id', this.fillDocument.loveones_id);
                 formData.append('lockbox_types_id', this.fillDocument.lockbox_types_id);
                 formData.append('name', this.fillDocument.name);
                 formData.append('description', this.fillDocument.description);
@@ -346,16 +411,21 @@
                     }
                 });
             },
-            viewDocument: function(doc){            
+            viewDocument: function(doc){   
+                console.log(doc);
                 this.fillDocument.id          = doc.id;
                 this.fillDocument.user_id     = doc.user_id;
+                this.fillDocument.loveones_id = doc.user_id;
                 this.fillDocument.lockbox_types_id = doc.lockbox_types_id;
                 this.fillDocument.name        = doc.name;
                 this.fillDocument.description = doc.description;
                 this.fillDocument.file        = doc.file;
                 this.fillDocument.status      = doc.status;
-                $('#editModal').modal('show');
-        }
+                $('#editModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                },'show');
+            }
         }
     });
 </script>

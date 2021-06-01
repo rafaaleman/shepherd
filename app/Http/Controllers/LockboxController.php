@@ -82,9 +82,11 @@ class LockboxController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validatedData = $request->validate([
             'user_id'          => 'required|numeric',
             'lockbox_types_id' => 'required|numeric',
+            'loveones_id'      => 'required|numeric',
             'name'             => 'required|max:150',
             'description'      => 'nullable|max:400',
             'file'             => 'required|file',
@@ -92,8 +94,8 @@ class LockboxController extends Controller
 
         ]);
             
-        $repo = 'uploads/' . $request->id_user;
-
+        $repo = 'uploads/' . $request->user_id . '/'. $request->loveones_id;
+        
         if ($request->hasFile('file')){
             $fileName = time().'_'.$request->file->getClientOriginalName();
             $filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
@@ -101,6 +103,7 @@ class LockboxController extends Controller
             $doct = new Lockbox;
             $doct->user_id          = $request->user_id; //change to user_id
             $doct->lockbox_types_id = $request->lockbox_types_id; //change to types
+            $doct->loveones_id      = $request->loveones_id; //change to types
             $doct->name             = $request->name;
             $doct->description      = $request->description;      
             $doct->status           = $request->status;
