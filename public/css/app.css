@@ -10129,85 +10129,6 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-c
   font-size: 200px;
 }
 
-/*----------------------------------------------------- menu carehub ----------------------------------------------*/
-.btn-pink {
-  color: #212529;
-  background-color: #d36582;
-  border-color: #d36582;
-}
-
-.btn-pink:hover {
-  color: #fff;
-  background-color: #d84b71;
-  border-color: #be2b53;
-}
-
-.btn-pink:focus, .btn-pink.focus {
-  color: #fff;
-  background-color: #cf6460;
-  border-color: #cc5b56;
-  box-shadow: 0 0 0 0.2rem rgba(189, 115, 112, 0.5);
-}
-
-.btn-pink.disabled, .btn-pink:disabled {
-  color: #212529;
-  background-color: #d37875;
-  border-color: #db8f8d;
-}
-
-.btn-pink:not(:disabled):not(.disabled):active, .btn-pink:not(:disabled):not(.disabled).active, .show > .btn-pink.dropdown-toggle {
-  color: #fff;
-  background-color: #d84b71;
-  border-color: #be2b53;
-}
-
-.btn-pink:not(:disabled):not(.disabled):active:focus, .btn-pink:not(:disabled):not(.disabled).active:focus, .show > .btn-pink.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(189, 115, 112, 0.5);
-}
-
-.btn-outline-pink {
-  color: #cdcdd8;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  background-color: #fff;
-  border-color: #fff;
-}
-
-.btn-outline-pink:hover {
-  color: #d84b71;
-  /* background-color: #d84b71;*/
-  border-color: #fff;
-}
-
-.btn-outline-pink:focus, .btn-outline-pink.focus {
-  box-shadow: 0 0 0 0 #fff;
-}
-
-.btn-outline-pink.disabled, .btn-outline-pink:disabled {
-  color: #d84b71;
-  background-color: transparent;
-}
-
-.btn-outline-pink:not(:disabled):not(.disabled):active, .btn-outline-pink:not(:disabled):not(.disabled).active, .show > .btn-outline-pink.dropdown-toggle {
-  color: #d84b71;
-  font-weight: bold;
-  font-stretch: normal;
-}
-
-.btn-outline-pink:not(:disabled):not(.disabled):active:focus, .btn-outline-pink:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-pink.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0 #fff;
-}
-
-.btn-outline-pink-active {
-  color: #d84b71;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-}
-
-/*--------------------------------------------------------------------------------*/
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {
   .navbar-collapse {
@@ -10477,3 +10398,83 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-c
   color: #999;
   font-style: italic;
 }
+
+/*----------------------------------------------------- menu carehub ----------------------------------------------*/
+.btn-pink {
+  color: #212529;
+  background-color: #d36582;
+  border-color: #d36582;
+}
+
+.btn-pink:hover {
+  color: #fff;
+  background-color: #d84b71;
+  border-color: #be2b53;
+}
+
+.btn-pink:focus, .btn-pink.focus {
+  color: #fff;
+  background-color: #cf6460;
+  border-color: #cc5b56;
+  box-shadow: 0 0 0 0.2rem rgba(189, 115, 112, 0.5);
+}
+
+.btn-pink.disabled, .btn-pink:disabled {
+  color: #212529;
+  background-color: #d37875;
+  border-color: #db8f8d;
+}
+
+.btn-pink:not(:disabled):not(.disabled):active, .btn-pink:not(:disabled):not(.disabled).active, .show > .btn-pink.dropdown-toggle {
+  color: #fff;
+  background-color: #d84b71;
+  border-color: #be2b53;
+}
+
+.btn-pink:not(:disabled):not(.disabled):active:focus, .btn-pink:not(:disabled):not(.disabled).active:focus, .show > .btn-pink.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(189, 115, 112, 0.5);
+}
+
+.btn-outline-pink {
+  color: #cdcdd8;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.btn-outline-pink:hover {
+  color: #d84b71;
+  /* background-color: #d84b71;*/
+  border-color: #fff;
+}
+
+.btn-outline-pink:focus, .btn-outline-pink.focus {
+  box-shadow: 0 0 0 0 #fff;
+}
+
+.btn-outline-pink.disabled, .btn-outline-pink:disabled {
+  color: #d84b71;
+  background-color: transparent;
+}
+
+.btn-outline-pink:not(:disabled):not(.disabled):active, .btn-outline-pink:not(:disabled):not(.disabled).active, .show > .btn-outline-pink.dropdown-toggle {
+  color: #d84b71;
+  font-weight: bold;
+  font-stretch: normal;
+}
+
+.btn-outline-pink:not(:disabled):not(.disabled):active:focus, .btn-outline-pink:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-pink.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0 #fff;
+}
+
+.btn-outline-pink-active {
+  color: #d84b71;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+}
+
+/*--------------------------------------------------------------------------------*/
