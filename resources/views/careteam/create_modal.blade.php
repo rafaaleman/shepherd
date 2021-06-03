@@ -128,8 +128,8 @@ $(function(){
     $('#inviteMemberModal').on('shown.bs.modal', function (e) {
 
         $('#inviteMemberForm, #inlcudeMemberForm').addClass('d-none');
-        $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
-        $('#s_email').val('');
+        $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled').removeClass('btn-success').addClass('btn-primary');
+        $('#s_email').val('').attr('disabled', false);
     });
 });
 </script>

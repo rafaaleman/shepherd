@@ -68,7 +68,7 @@
                 </div>
                 
                 <div class="form-group row">
-                    <label for="phone" class="col-md-4 col-form-label text-md-right">Phone Number</label>
+                    <label for="phone" class="col-md-4 col-form-label text-md-right">Mobile Number</label>
 
                     <div class="col-md-7">
                         <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" minlength="10" maxlength="10">
@@ -82,12 +82,12 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
+                    <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth</label>
 
                     <div class="col-md-7">
-                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address" >
+                        <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" value="{{ old('dob') }}" autocomplete="dob" >
 
-                        @error('address')
+                        @error('dob')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

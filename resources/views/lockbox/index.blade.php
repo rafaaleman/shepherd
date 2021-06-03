@@ -6,41 +6,25 @@
         <div class="col-12">
             <h4>RECENT DOCUMENTS</h4>            
                 <div class="carrusel">
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    
+                    <div v-for="doc in lastDocuments" v-on:click="showM(doc.id,doc)">
+                        <img :src="doc.file|isImage" class="carrusel-doc">
+                    </div>                    
                 </div>            
         </div>
     </div>
     <div class="row mt-3">
         <div class="col-12">
-            <h4>MUST-HAVE DOCUMENTS</h4>
+            <h4>Essential Documents</h4>
         </div>
                 <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
                     <div class="card-body">
-                        <h4 class="card-title t1">@{{ doc.name }}</h4>
+                        <h5 class="card-title t1">@{{ doc.name }}</h5>
                         <p class="card-text t2">@{{ doc.description}}</p>
                     </div>
                 </div>
         
     </div>
-    <div class="row mt-3">
+    <div class="row mt-5">
         <div class="col-12">
             <h4>ALL DOCUMENTS</h4>
         </div>
@@ -59,7 +43,7 @@
         </div>  
         
         <div class="col-12 mt-4 text-center">
-            <a href="#!" class="btn btn-sm btn-submit"  v-on:click="showM(4,null)">Add New Document</a>
+            <a href="#!" class="btn btn-primary btn-submit"  v-on:click="showM(4,null)">Add New Document</a>
         </div>        
     </div>
      @include('lockbox.create_modal')
@@ -71,41 +55,44 @@
 
 @push('styles')
 <style>
-    .flex {
+.flex {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto
 }
 
+.slick-prev, .slick-next {
+    z-index: 10;
+}
+
 .document-card{
     margin-bottom: .5rem;
+    cursor: pointer;
 }
 .document-card .card-body{
     padding: 10px 0px 10px 50px;
 }
 
 .document-card.si{
-  font-family: Gotham;
-  font-size: 16px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.19;
-  letter-spacing: normal;
-  text-align: left;
-  color: #369bb6;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #369bb6;
 }
 
 .document-card.no{
-  font-family: Gotham;
-  font-size: 16px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.19;
-  letter-spacing: normal;
-  text-align: left;
-  color: #d36582;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #d36582;
 }
 
 .document-card::before {
@@ -149,7 +136,7 @@
     font-weight: bold;
 }
 .t2{
-    font-family: Gotham;
+    /* font-family: Gotham; */
     font-size: 12px;  
 }
 
@@ -163,41 +150,17 @@
 .carrusel-doc{
     margin: 5px;
     padding: 10px;
-    width: 250px;
+    width: 100%;
+    max-height: 175px;
+    cursor: pointer;
 }
+
 </style>
 @endpush
 
 @push('scripts')
 <script>
-    $(document).ready(function(){
-        $('.carrusel').slick({
-            centerMode: true,
-            centerPadding: '100px',
-            slidesToShow: 3,
-            autoplay: true,
-            responsive: [
-                {
-                    breakpoint: 768,
-                    settings: {
-                        arrows: false,
-                        centerMode: true,
-                        centerPadding: '40px',
-                        slidesToShow: 3
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        arrows: false,
-                        centerMode: true,
-                        centerPadding: '40px',
-                        slidesToShow: 1
-                    }
-                }
-            ]
-        });
-    });
+
 
    const lockbox = new Vue ({        
         el: '#lockbox',
@@ -206,6 +169,7 @@
         },
         data: {
             documents: [],
+            lastDocuments: [],
             types:[],
             create_type: false,
             newDocument: {
@@ -237,7 +201,8 @@
             formatDate: function(value) {
                 if (value) {
                     value = value.split('T');
-                    return value[0];
+                    
+                    return moment(String(value[0])).format('MMM Do YYYY hh:mm');
                 }
             },
             isImage(file){
@@ -248,8 +213,19 @@
                     if(exts.indexOf(ext) >= 0){
                         str = "{{ URL::to('/') }}" + file;
                     }
+                    else if(ext == "pdf"){
+                        str = "{{asset('public/images/file_pdf.jpg')}}";
+                    }
+                    else if(ext == "doc" || ext == "docx"){
+                        str = "{{asset('public/images/file_doc.jpg')}}";
+                    }else{
+                        str = "{{asset('public/images/file_other.jpg')}}";
+                    }
                 }
                 return str;
+            },
+            urlFile(file){                
+                 return str = "{{ URL::to('/') }}" + file;
             }
         },
         computed:{ 
@@ -274,28 +250,26 @@
                 var url = '{{ route("lockbox",$loveone_slug) }}';
                 axios.get(url).then(response => {
                     this.types = response.data.types;
-                    this.documents = response.data.documents;                    
-                console.log(response.data);
+                    this.documents = response.data.documents;  
+                    this.lastDocuments = response.data.lastDocuments;  
+                    
+                    console.log(response.data);
+                }).then( data => {
+                    this.creaSlide();
                 });
-                console.log(this.documents);
             },
             showM: function(type,doc) {
                 this.newDocument.lockbox_types_id = type;
                 if(doc == null){
-                    $('#createModal').modal({
-                        backdrop: 'static',
-                        keyboard: false  
-                        },'show');
+                    $('#createModal').modal('show');
                 }else if(doc.file){
                     this.viewDocument(doc.file);
                 }else{
+
                     this.newDocument.name = doc.name;
                     this.newDocument.description = doc.description;
                     this.create_type = true;
-                    $('#createModal').modal({
-                        backdrop: 'static',
-                        keyboard: false  
-                        },'show');
+                    $('#createModal').modal('show');
                 }
 
             },
@@ -318,8 +292,6 @@
                         'Content-Type': 'multipart/form-data'
                     }
                     }).then(response => {
-
-                    console.log(response);
                     if( response.data.success == true ){
                         this.getDocuments();
                         this.borrar();
@@ -358,8 +330,6 @@
                         'Content-Type': 'multipart/form-data'
                     }
                     }).then(response => {
-
-                    console.log(response);
                     if( response.data.success == true ){
                         this.getDocuments();
                         this.borrar();
@@ -421,11 +391,39 @@
                 this.fillDocument.description = doc.description;
                 this.fillDocument.file        = doc.file;
                 this.fillDocument.status      = doc.status;
-                $('#editModal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                },'show');
+                $('#editModal').modal('show');
+            },
+            creaSlide: function (){
+                $('.carrusel').slick({
+            centerMode: true,
+            centerPadding: '10px',
+            slidesToShow: 3,
+            adaptiveHeight: false,
+            autoplay: true,
+            arrows:true,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 1
+                    }
+                }
+            ]
+        });
             }
+
         }
     });
 </script>

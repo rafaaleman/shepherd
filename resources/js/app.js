@@ -10,6 +10,8 @@ import Vue from 'vue';
 window.Vue = Vue;
 
 import swal from 'sweetalert';
+import moment from 'moment'
+window.moment = moment;
 
 
 /**
