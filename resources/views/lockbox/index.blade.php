@@ -34,13 +34,13 @@
         </div>
                 <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
                     <div class="card-body">
-                        <h4 class="card-title t1">@{{ doc.name }}</h4>
+                        <h5 class="card-title t1">@{{ doc.name }}</h5>
                         <p class="card-text t2">@{{ doc.description}}</p>
                     </div>
                 </div>
         
     </div>
-    <div class="row mt-3">
+    <div class="row mt-5">
         <div class="col-12">
             <h4>ALL DOCUMENTS</h4>
         </div>
@@ -59,7 +59,7 @@
         </div>  
         
         <div class="col-12 mt-4 text-center">
-            <a href="#!" class="btn btn-sm btn-submit"  v-on:click="showM(4,null)">Add New Document</a>
+            <a href="#!" class="btn btn-primary btn-submit"  v-on:click="showM(4,null)">Add New Document</a>
         </div>        
     </div>
      @include('lockbox.create_modal')
@@ -79,13 +79,13 @@
 
 .document-card{
     margin-bottom: .5rem;
+    cursor: pointer;
 }
 .document-card .card-body{
     padding: 10px 0px 10px 50px;
 }
 
 .document-card.si{
-  font-family: Gotham;
   font-size: 16px;
   font-weight: bold;
   font-stretch: normal;
@@ -97,7 +97,6 @@
 }
 
 .document-card.no{
-  font-family: Gotham;
   font-size: 16px;
   font-weight: bold;
   font-stretch: normal;
@@ -149,7 +148,7 @@
     font-weight: bold;
 }
 .t2{
-    font-family: Gotham;
+    /* font-family: Gotham; */
     font-size: 12px;  
 }
 

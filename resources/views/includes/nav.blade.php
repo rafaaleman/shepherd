@@ -84,8 +84,8 @@
         
     <div class="col-md-12 p-3 d-flex justify-content-end top-bar">
         <div>
-            <div class="name">Loveone Name</div>
-            Loveone
+            <div class="name">Loved one Name</div>
+            Loved one
         </div>
         <div class="photo" style="" alt=""></div>
 
