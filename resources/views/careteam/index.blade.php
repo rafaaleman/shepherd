@@ -212,7 +212,7 @@
             searchMember: function() {
                 
                 // console.log('saving member');
-                $('.searchBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>').attr('disabled', true);              
+                $('.searchBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>').attr('disabled', true);
 
                 var url = '{{ route( "careteam.searchMember") }}';
                 data = {

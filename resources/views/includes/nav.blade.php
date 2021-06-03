@@ -49,6 +49,11 @@
                             </li>
                         @endif
                     @else
+                        <li class="nav-item">
+                            <a class="nav-link text-danger font-weight-bold mr-3 d-flex align-items-center" href="tel: 911">
+                                <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">Emergency call</span>
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
