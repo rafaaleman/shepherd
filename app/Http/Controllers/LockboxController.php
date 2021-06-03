@@ -39,8 +39,7 @@ class LockboxController extends Controller
         if ($request->ajax()) 
         {
             $types     = lockbox_types::all();
-            $documents = lockbox::where('user_id',Auth::Id())
-                                ->where('loveones_id',$loveone->id)
+            $documents = lockbox::where('loveones_id',$loveone->id)
                                 ->get();
 
             foreach($types as &$t){
@@ -55,8 +54,13 @@ class LockboxController extends Controller
 
                 }
             }
+            /*last 5*/
+            $last = lockbox::where('loveones_id',$loveone->id)
+                            ->orderBy('updated_at', 'desc')
+                            ->take(5)
+                            ->get();
 
-            return array('types' => $types, 'documents' => $documents,'slug' => $loveone_slug );
+            return array('types' => $types, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
         }
 
         
@@ -194,5 +198,18 @@ class LockboxController extends Controller
                 dd(public_path($doct->file));
             }
         return response()->json(['success' => true, 'data' => ['msg' => 'Document deleted!'],'docto' => $doct ], 200);
+    }
+
+    public function lastDocuments(Request $request)
+    {
+        $num = 5;
+        $loveone_slug = $request->loveone_slug;
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $documents = lockbox::where('loveones_id',$loveone->id)
+                            ->orderBy('updated_at', 'desc')
+                            ->take($num)
+                            ->get();
+
+        return array('documents' => $documents,'slug' => $loveone_slug );
     }
 }

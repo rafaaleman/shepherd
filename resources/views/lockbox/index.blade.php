@@ -6,25 +6,9 @@
         <div class="col-12">
             <h4>RECENT DOCUMENTS</h4>            
                 <div class="carrusel">
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    <div>
-                        <img class="carrusel-doc" src="https://i.stack.imgur.com/y9DpT.jpg" alt="First slide">
-                    </div>
-                    
+                    <div v-for="doc in lastDocuments" v-on:click="showM(doc.id,doc)">
+                        <img :src="doc.file|isImage" class="carrusel-doc">
+                    </div>                    
                 </div>            
         </div>
     </div>
@@ -163,6 +147,8 @@
     margin: 5px;
     padding: 10px;
     width: 100%;
+    max-height: 175px;
+    cursor: pointer;
 }
 
 </style>
@@ -208,6 +194,7 @@
         },
         data: {
             documents: [],
+            lastDocuments: [],
             types:[],
             create_type: false,
             newDocument: {
@@ -288,10 +275,13 @@
                 var url = '{{ route("lockbox",$loveone_slug) }}';
                 axios.get(url).then(response => {
                     this.types = response.data.types;
-                    this.documents = response.data.documents;                    
-                console.log(response.data);
+                    this.documents = response.data.documents;  
+                    this.lastDocuments = response.data.lastDocuments;  
+                    
+                    console.log(response.data);
+                }).then( data => {
+                    this.creaSlide();
                 });
-                console.log(this.documents);
             },
             showM: function(type,doc) {
                 this.newDocument.lockbox_types_id = type;
@@ -327,8 +317,6 @@
                         'Content-Type': 'multipart/form-data'
                     }
                     }).then(response => {
-
-                    console.log(response);
                     if( response.data.success == true ){
                         this.getDocuments();
                         this.borrar();
@@ -367,8 +355,6 @@
                         'Content-Type': 'multipart/form-data'
                     }
                     }).then(response => {
-
-                    console.log(response);
                     if( response.data.success == true ){
                         this.getDocuments();
                         this.borrar();
@@ -431,7 +417,38 @@
                 this.fillDocument.file        = doc.file;
                 this.fillDocument.status      = doc.status;
                 $('#editModal').modal('show');
+            },
+            creaSlide: function (){
+                $('.carrusel').slick({
+            centerMode: true,
+            centerPadding: '10px',
+            slidesToShow: 3,
+            adaptiveHeight: false,
+            autoplay: true,
+            arrows:true,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 1
+                    }
+                }
+            ]
+        });
             }
+
         }
     });
 </script>
