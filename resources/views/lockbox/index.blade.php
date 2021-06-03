@@ -30,7 +30,7 @@
     </div>
     <div class="row mt-3">
         <div class="col-12">
-            <h4>MUST-HAVE DOCUMENTS</h4>
+            <h4>Essential Documents</h4>
         </div>
                 <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
                     <div class="card-body">
@@ -163,8 +163,9 @@
 .carrusel-doc{
     margin: 5px;
     padding: 10px;
-    width: 250px;
+    width: 100%;
 }
+
 </style>
 @endpush
 
@@ -173,9 +174,10 @@
     $(document).ready(function(){
         $('.carrusel').slick({
             centerMode: true,
-            centerPadding: '100px',
+            centerPadding: '10px',
             slidesToShow: 3,
             autoplay: true,
+            arrows:false,
             responsive: [
                 {
                     breakpoint: 768,
@@ -293,10 +295,7 @@
             showM: function(type,doc) {
                 this.newDocument.lockbox_types_id = type;
                 if(doc == null){
-                    $('#createModal').modal({
-                        backdrop: 'static',
-                        keyboard: false  
-                        },'show');
+                    $('#createModal').modal('show');
                 }else if(doc.file){
                     this.viewDocument(doc.file);
                 }else{
@@ -304,10 +303,7 @@
                     this.newDocument.name = doc.name;
                     this.newDocument.description = doc.description;
                     this.create_type = true;
-                    $('#createModal').modal({
-                        backdrop: 'static',
-                        keyboard: false  
-                        },'show');
+                    $('#createModal').modal('show');
                 }
 
             },
@@ -433,10 +429,7 @@
                 this.fillDocument.description = doc.description;
                 this.fillDocument.file        = doc.file;
                 this.fillDocument.status      = doc.status;
-                $('#editModal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                },'show');
+                $('#editModal').modal('show');
             }
         }
     });
