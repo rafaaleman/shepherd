@@ -170,6 +170,7 @@
 
 @push('scripts')
 <script>
+    
     $(document).ready(function(){
         $('.carrusel').slick({
             centerMode: true,
@@ -238,7 +239,8 @@
             formatDate: function(value) {
                 if (value) {
                     value = value.split('T');
-                    return value[0];
+                    
+                    return moment(String(value[0])).format('MMM Do YYYY hh:mm');
                 }
             },
             isImage(file){
