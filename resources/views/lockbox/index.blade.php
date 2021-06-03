@@ -55,10 +55,14 @@
 
 @push('styles')
 <style>
-    .flex {
+.flex {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto
+}
+
+.slick-prev, .slick-next {
+    z-index: 10;
 }
 
 .document-card{
@@ -70,25 +74,25 @@
 }
 
 .document-card.si{
-  font-size: 16px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.19;
-  letter-spacing: normal;
-  text-align: left;
-  color: #369bb6;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #369bb6;
 }
 
 .document-card.no{
-  font-size: 16px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.19;
-  letter-spacing: normal;
-  text-align: left;
-  color: #d36582;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #d36582;
 }
 
 .document-card::before {
@@ -156,36 +160,7 @@
 
 @push('scripts')
 <script>
-    
-    $(document).ready(function(){
-        $('.carrusel').slick({
-            centerMode: true,
-            centerPadding: '10px',
-            slidesToShow: 3,
-            autoplay: true,
-            arrows:false,
-            responsive: [
-                {
-                    breakpoint: 768,
-                    settings: {
-                        arrows: false,
-                        centerMode: true,
-                        centerPadding: '40px',
-                        slidesToShow: 3
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        arrows: false,
-                        centerMode: true,
-                        centerPadding: '40px',
-                        slidesToShow: 1
-                    }
-                }
-            ]
-        });
-    });
+
 
    const lockbox = new Vue ({        
         el: '#lockbox',
