@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Models\lockbox;
-use App\Models\lockbox_types;
 use App\Models\loveone;
+
+use App\Models\careteam;
+use Illuminate\Http\Request;
+use App\Models\lockbox_types;
+
+use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\NotificationTrait;
+
 /**
  * 
  * id
@@ -19,6 +23,11 @@ use App\Models\loveone;
  */
 class LockboxController extends Controller
 {
+
+    use NotificationTrait;
+
+    const EVENTS_TABLE = 'lockbox';
+
     /**
      * Display a listing of the resource.
      *
@@ -26,6 +35,7 @@ class LockboxController extends Controller
      */
     public function index(Request $request)
     {
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
         */
@@ -98,7 +108,7 @@ class LockboxController extends Controller
 
         ]);
             
-        $repo = 'loveones/' . $request->loveones_id;
+        $repo = 'loveones/lockbox/' . $request->loveones_id;
         
         if ($request->hasFile('file')){
             $fileName = time().'_'.$request->file->getClientOriginalName();
@@ -116,6 +126,9 @@ class LockboxController extends Controller
             $doct->status           = $request->status;
             $doct->file             =  '/'.$filePath;
             $doct->save();
+            
+            $this->createNotifications($request->loveones_id, $doct->id);
+
             return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
         }
         return response()->json(['success' => false, 'error' => '...']);
@@ -229,5 +242,25 @@ class LockboxController extends Controller
         
 
         return response()->json(['success' => true, 'data' => ['documents' => $documents]], 200);
+    }
+
+    /**
+     * 
+     */
+    protected function createNotifications($loveone_id, $lockbox_table_id)
+    {
+        $team_members = careteam::where('loveone_id', $loveone_id)->get();
+
+        // Create notification rows
+        foreach($team_members as $user){
+            $notification = [
+                'user_id'    => $user->user_id,
+                'loveone_id' => $loveone_id,
+                'table'      => self::EVENTS_TABLE,
+                'table_id'   => $lockbox_table_id,
+                'event_date' => date('Y-m-d H:i:s')
+            ];
+            $this->createNotification($notification);
+        }
     }
 }

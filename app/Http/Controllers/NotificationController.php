@@ -47,6 +47,11 @@ class NotificationController extends Controller
             if($n->table == 'events'){
                 $notification->description = $notification->location;
                 $notification->icon = 'far fa-calendar-plus';
+
+            } else if($n->table == 'lockbox'){
+                $notification->description = '';
+                $notification->icon = 'fas fa-file-medical';
+                
             } else { 
                 $notification->description = '';
                 $notification->icon = 'far fa-calendar-alt';

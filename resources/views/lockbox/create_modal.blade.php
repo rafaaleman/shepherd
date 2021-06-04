@@ -13,26 +13,26 @@
                 <input type="hidden" name="status" id="status" v-model="newDocument.status">
 
                 <label for="name" class="text-black-50">Name:</label>
-                <div class="d-flex mb-4">
+                <div class="mb-4">
                     <input id="name" type="text" class="form-control mr-2" :readonly ="create_type" name="name" autofocus required v-model="newDocument.name">
                     
                 </div>
                 <label for="s_email" class="text-black-50">Description:</label>
-                <div class="d-flex mb-4">
+                <div class="mb-4">
                     <textarea  id="description" class="form-control mr-2" name="description" v-model="newDocument.description" :readonly ="create_type"></textarea>          
                 </div>
-                <div class="d-flex mb-4  text-center">                    
-                    <label class="btn btn-block btn-primary btn-submit">
+                <div class="mb-4  text-center">                    
+                    <label class="btn btn-primary btn-block">
                         <input id="document" name="document" type="file" class="" @change="getDoc" hidden>
                         Choose File
                     </label>
                     
                 </div>
-                <div class="d-flex mb-4  text-center">
-                    <input type="submit" class="btn btn-block btn-primary btn-submit" value="save">
+                <div class="mb-4  text-center">
+                    <button type="submit" class="btn btn-primary btn-submit btn-block">Save</button>
                 </div>
-                <div class="d-flex mb-4  text-center">
-                    <button type="button"  @click="hideModal('createModal')" class="btn btn-block ">Cancel</button>
+                <div class="mb-4  text-center">
+                    <button type="button"  @click="hideModal('createModal')" class="btn btn-light  btn-block">Cancel</button>
                 </div>
             </form>
         </div>
