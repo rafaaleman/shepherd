@@ -200,19 +200,19 @@
             },
             isImage(file){
                 let exts = ['jpg','jpeg','gif','png','svg'];
-                let str = "{{asset('public/images/no_photo.jpg')}}";
+                let str = "{{asset('images/no_photo.jpg')}}";
                 if(file){
                 let ext = file.split('.').pop();
                     if(exts.indexOf(ext) >= 0){
                         str = "{{ URL::to('/') }}" + file;
                     }
                     else if(ext == "pdf"){
-                        str = "{{asset('public/images/file_pdf.jpg')}}";
+                        str = "{{asset('images/file_pdf.jpg')}}";
                     }
                     else if(ext == "doc" || ext == "docx"){
-                        str = "{{asset('public/images/file_doc.jpg')}}";
+                        str = "{{asset('images/file_doc.jpg')}}";
                     }else{
-                        str = "{{asset('public/images/file_other.jpg')}}";
+                        str = "{{asset('images/file_other.jpg')}}";
                     }
                 }
                 return str;

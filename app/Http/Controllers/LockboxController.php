@@ -56,7 +56,7 @@ class LockboxController extends Controller
             }
             /*last 5*/
             $last = lockbox::where('loveones_id',$loveone->id)
-                            ->orderBy('updated_at', 'desc')
+                            ->orderBy('created_at', 'desc')
                             ->take(5)
                             ->get();
 
@@ -98,12 +98,15 @@ class LockboxController extends Controller
 
         ]);
             
-        $repo = 'uploads/' . $request->user_id . '/'. $request->loveones_id;
+        $repo = 'loveones/' . $request->loveones_id;
         
         if ($request->hasFile('file')){
             $fileName = time().'_'.$request->file->getClientOriginalName();
-            $filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
+            $filePath = $repo .'/'. $fileName;
+            //$filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
             
+            $request->file('file')->move(public_path($repo), $fileName);
+
             $doct = new Lockbox;
             $doct->user_id          = $request->user_id; //change to user_id
             $doct->lockbox_types_id = $request->lockbox_types_id; //change to types
@@ -111,7 +114,7 @@ class LockboxController extends Controller
             $doct->name             = $request->name;
             $doct->description      = $request->description;      
             $doct->status           = $request->status;
-            $doct->file             = '/storage/' . $filePath;
+            $doct->file             =  '/'.$filePath;
             $doct->save();
             return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
         }
@@ -159,7 +162,8 @@ class LockboxController extends Controller
 
         ]);
             
-        $repo = 'uploads/' . $request->user_id;
+        //$repo = 'uploads/' . $request->user_id;
+        $repo = 'loveones/' . $request->loveones_id;
 
         $doct              = Lockbox::find($request->id);
         $doct->name        = $request->name;
@@ -172,9 +176,13 @@ class LockboxController extends Controller
                 $doct->delete();
             }
             $fileName   = time().'_'.$request->file->getClientOriginalName();
-            $filePath   = $request->file('file')->storeAs($repo, $fileName, 'public');
-            $doct->file = '/storage/' . $filePath;
-        
+            //$filePath   = $request->file('file')->storeAs($repo, $fileName, 'public');
+            //$doct->file = '/storage/' . $filePath;
+            $filePath = $repo .'/'. $fileName;
+            //$filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
+            
+            $request->file('file')->move(public_path($repo), $fileName);
+            $doct->file = "/" . $filePath;
         }
         $doct->save();
         return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
@@ -211,5 +219,15 @@ class LockboxController extends Controller
                             ->get();
 
         return array('documents' => $documents,'slug' => $loveone_slug );
+    }
+
+    public function countDocuments(Request $request)
+    {
+        $loveone_slug = $request->loveone_slug;
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $documents = lockbox::where('loveones_id',$loveone->id)->count();
+        
+
+        return response()->json(['success' => true, 'data' => ['documents' => $documents]], 200);
     }
 }
