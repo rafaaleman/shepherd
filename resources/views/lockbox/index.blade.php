@@ -208,19 +208,25 @@
             isImage(file){
                 let exts = ['jpg','jpeg','gif','png','svg'];
                 let str = "{{asset('images/no_photo.jpg')}}";
+                let ext = "txt";
+                
                 if(file){
-                let ext = file.split('.').pop();
-                    if(exts.indexOf(ext) >= 0){
+                if(file.name){
+                    ext = file.name.split('.').pop();
+                }else{
+                    ext = file.split('.').pop();
+                }
+                if(exts.indexOf(ext) >= 0){
                         str = "{{ URL::to('/') }}" + file;
-                    }
-                    else if(ext == "pdf"){
+                }
+                else if(ext == "pdf"){
                         str = "{{asset('images/file_pdf.jpg')}}";
-                    }
-                    else if(ext == "doc" || ext == "docx"){
+                }
+                else if(ext == "doc" || ext == "docx"){
                         str = "{{asset('images/file_doc.jpg')}}";
-                    }else{
+                }else{
                         str = "{{asset('images/file_other.jpg')}}";
-                    }
+                }
                 }
                 return str;
             },
@@ -286,7 +292,7 @@
                 formData.append('status', this.newDocument.status);
                 
                 var url = "{{route('lockbox.store')}}";
-                console.log("ruta" + url);
+                
                 axios.post(url, formData,{ 
                     headers: {
                         'Content-Type': 'multipart/form-data'
