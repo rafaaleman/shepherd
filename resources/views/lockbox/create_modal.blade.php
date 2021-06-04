@@ -23,7 +23,7 @@
                 </div>
                 <div class="mb-4  text-center">                    
                     <label class="btn btn-primary btn-block">
-                        <input id="document" name="document" type="file" class="" @change="getDoc" hidden>
+                        <input id="document" name="document" type="file" class="" @change="getDoc" hidden accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
                         Choose File
                     </label>
                     
