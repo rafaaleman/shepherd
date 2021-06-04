@@ -284,6 +284,8 @@
                 formData.append('description', this.newDocument.description);
                 formData.append('file', this.newDocument.file);
                 formData.append('status', this.newDocument.status);
+
+                $('#createModal .btn-submit').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Saving...').attr('disabled', true);
                 
                 var url = "{{route('lockbox.store')}}";
                 console.log("ruta" + url);
