@@ -35,6 +35,7 @@ class LockboxController extends Controller
      */
     public function index(Request $request)
     {
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
         */
