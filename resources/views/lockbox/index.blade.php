@@ -55,10 +55,14 @@
 
 @push('styles')
 <style>
-    .flex {
+.flex {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto
+}
+
+.slick-prev, .slick-next {
+    z-index: 10;
 }
 
 .document-card{
@@ -70,25 +74,25 @@
 }
 
 .document-card.si{
-  font-size: 16px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.19;
-  letter-spacing: normal;
-  text-align: left;
-  color: #369bb6;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #369bb6;
 }
 
 .document-card.no{
-  font-size: 16px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.19;
-  letter-spacing: normal;
-  text-align: left;
-  color: #d36582;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #d36582;
 }
 
 .document-card::before {
@@ -156,6 +160,8 @@
 
 @push('scripts')
 <script>
+
+
    const lockbox = new Vue ({        
         el: '#lockbox',
         created: function() {
@@ -195,7 +201,8 @@
             formatDate: function(value) {
                 if (value) {
                     value = value.split('T');
-                    return value[0];
+                    
+                    return moment(String(value[0])).format('MMM Do YYYY hh:mm');
                 }
             },
             isImage(file){
