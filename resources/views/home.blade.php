@@ -81,8 +81,7 @@ const home = new Vue ({
         events_to_day:'',
         hour_first_event:'',
         medlist_url:'',
-        medlist_to_day:'',
-        count_medications:'',
+        count_medications:0,
         lockBox_count:0
     },
     filters: {
@@ -94,10 +93,9 @@ const home = new Vue ({
             this.loveone_id = loveone_id;
             this.current_slug = current_slug;
             this.setLoveone(loveone_id);
+            this.getMedlist();
             this.getCareteamMembers();
             this.getEvents();
-            this.getMedlist();
-           this.getEvents();
            this.getCountLockBox();
         },
         setLoveone: function(loveone_id) {
@@ -175,7 +173,6 @@ const home = new Vue ({
         },getMedlist: function() {
             var url = '{{ route("medlist", "*SLUG*") }}';
             this.medlist_url = url.replace('*SLUG*', this.current_slug);
-            return true;
             //  console.log(this.current_slug);  
              $('.medlist .medlist-today').hide(); 
              $('.loading-medlist').show();        
@@ -206,7 +203,7 @@ const home = new Vue ({
                  swal('Error', msg, 'error');
              });
          },
-        },
+        
         getCountLockBox(){
             var url = '{{ route("lockbox.countDocuments", "*SLUG*") }}';
                 url = url.replace('*SLUG*', this.current_slug);
