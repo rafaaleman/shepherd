@@ -77,11 +77,13 @@ const home = new Vue ({
         current_members: '',
         careteam_url: '',
         carehub_url:'',
+        lockbox_url:'',
         events_to_day:'',
         hour_first_event:'',
         medlist_url:'',
         medlist_to_day:'',
-        count_medications:''
+        count_medications:'',
+        lockBox_count:0
     },
     filters: {
     },
@@ -95,6 +97,8 @@ const home = new Vue ({
             this.getCareteamMembers();
             this.getEvents();
             this.getMedlist();
+           this.getEvents();
+           this.getCountLockBox();
         },
         setLoveone: function(loveone_id) {
 
@@ -202,12 +206,36 @@ const home = new Vue ({
                  swal('Error', msg, 'error');
              });
          },
+        },
+        getCountLockBox(){
+            var url = '{{ route("lockbox.countDocuments", "*SLUG*") }}';
+                url = url.replace('*SLUG*', this.current_slug);
+            $('.loading-carehub').show();
+            axios.get(url).then(response => {               
+                 if(response.data.success){
+                    this.lockBox_count = response.data.data.documents;  
+                    
+                } else {
+                    this.lockBox_count = 0;
+                }
+                url = '{{ route("lockbox", "*SLUG*") }}';
+                this.lockbox_url = url.replace('*SLUG*', this.current_slug);
+                $('.loading-carehub').hide();                
+            }).catch( error => {
+                
+                msg = 'There was an error getting careteam members. Please reload the page';
+                swal('Error', msg, 'error');
+            });
+            
+        }
     },
 });
 
 
 $(function(){
-    
+    @if (session('err_permisison'))
+    swal('Error','{{ session('err_permisison')}}', 'error');
+    @endif
 
     $('.carousel').carousel({
         interval: false
