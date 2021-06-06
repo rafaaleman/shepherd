@@ -12,3 +12,5 @@ Route::get('/lastDocuments/{loveone_slug}', 'LockboxController@lastDocuments')->
 Route::get('/countDocuments/{loveone_slug}', 'LockboxController@countDocuments')->name('lockbox.countDocuments');
 //Route::post('/create', 'LockboxController@createUpdate')->name('lockbox.create');
 //Route::post('/store', 'LockboxController@store')->name('lockbox.store');
+
+Route::get('/prueba/{loveone_slug}', 'LockboxController@prueba')->name('lockbox.prueba');

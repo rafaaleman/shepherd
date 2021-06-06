@@ -5,11 +5,13 @@ use App\Models\lockbox;
 use App\Models\loveone;
 
 use App\Models\careteam;
+use App\User;
 use Illuminate\Http\Request;
 use App\Models\lockbox_types;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
+use Session;
 
 /**
  * 
@@ -25,9 +27,7 @@ class LockboxController extends Controller
 {
 
     use NotificationTrait;
-
     const EVENTS_TABLE = 'lockbox';
-
     /**
      * Display a listing of the resource.
      *
@@ -35,6 +35,7 @@ class LockboxController extends Controller
      */
     public function index(Request $request)
     {
+        
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
@@ -45,6 +46,13 @@ class LockboxController extends Controller
         if(!$loveone){
            // dd("no existe");
         }
+
+        /* Seguridad */
+        if(!Auth::user()->permission('lockbox',$loveone->id))
+        {
+            return redirect('/home')->with('err_permisison', "You don't have permission to Lockbox!");  
+        }
+
 
         if ($request->ajax()) 
         {

@@ -77,6 +77,7 @@ const home = new Vue ({
         current_members: '',
         careteam_url: '',
         carehub_url:'',
+        lockbox_url:'',
         events_to_day:'',
         hour_first_event:'',
         lockBox_count:0
@@ -92,7 +93,7 @@ const home = new Vue ({
             this.setLoveone(loveone_id);
             this.getCareteamMembers();
            this.getEvents();
-           this.getCountLockBox()
+           this.getCountLockBox();
         },
         setLoveone: function(loveone_id) {
 
@@ -173,10 +174,13 @@ const home = new Vue ({
             $('.loading-carehub').show();
             axios.get(url).then(response => {               
                  if(response.data.success){
-                    this.lockBox_count = response.data.data.documents;                     
+                    this.lockBox_count = response.data.data.documents;  
+                    
                 } else {
                     this.lockBox_count = 0;
                 }
+                url = '{{ route("lockbox", "*SLUG*") }}';
+                this.lockbox_url = url.replace('*SLUG*', this.current_slug);
                 $('.loading-carehub').hide();                
             }).catch( error => {
                 
@@ -190,7 +194,9 @@ const home = new Vue ({
 
 
 $(function(){
-    
+    @if (session('err_permisison'))
+    swal('Error','{{ session('err_permisison')}}', 'error');
+    @endif
 
     $('.carousel').carousel({
         interval: false

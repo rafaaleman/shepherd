@@ -14,6 +14,8 @@ use App\Http\Requests\CreateLoveoneRequest;
 
 class LoveoneController extends Controller
 {
+   
+
     /**
      * Shows the create loveone form
      */
