@@ -78,7 +78,10 @@ const home = new Vue ({
         careteam_url: '',
         carehub_url:'',
         events_to_day:'',
-        hour_first_event:''
+        hour_first_event:'',
+        medlist_url:'',
+        medlist_to_day:'',
+        count_medications:''
     },
     filters: {
     },
@@ -90,7 +93,8 @@ const home = new Vue ({
             this.current_slug = current_slug;
             this.setLoveone(loveone_id);
             this.getCareteamMembers();
-           this.getEvents();
+            this.getEvents();
+            this.getMedlist();
         },
         setLoveone: function(loveone_id) {
 
@@ -164,7 +168,40 @@ const home = new Vue ({
                 msg = 'There was an error getting careteam members. Please reload the page';
                 swal('Error', msg, 'error');
             });
-        },
+        },getMedlist: function() {
+            var url = '{{ route("medlist", "*SLUG*") }}';
+            this.medlist_url = url.replace('*SLUG*', this.current_slug);
+            return true;
+            //  console.log(this.current_slug);  
+             $('.medlist .medlist-today').hide(); 
+             $('.loading-medlist').show();        
+             const hoy = new Date();
+ 
+             var url = '{{ route("medlist.getMedications", ["*SLUG*","*DATE*"]) }}';
+                 url = url.replace('*SLUG*', this.current_slug);
+                 url = url.replace('*DATE*', '{{$date->format("Y-m-d")}}');
+             axios.get(url).then(response => {               
+                  // console.log(response.data);
+                 
+                 if(response.data.success){
+                     this.count_medications = response.data.data.count_medications; 
+                     var url = '{{ route("medlist", "*SLUG*") }}';
+                     this.medlist_url = url.replace('*SLUG*', this.current_slug);
+                 } else {
+                     msg = 'There was an error. Please try again';
+                     icon = 'error';
+                     swal(msg, "", icon);
+                 }
+                 
+                 $('.loading-medlist').hide();
+                 $('.medlist .medlist-today').show();
+                 
+             }).catch( error => {
+                 
+                 msg = 'There was an error getting careteam members. Please reload the page';
+                 swal('Error', msg, 'error');
+             });
+         },
     },
 });
 
