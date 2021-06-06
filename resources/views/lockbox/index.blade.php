@@ -14,7 +14,7 @@
     </div>
     <div class="row mt-3">
         <div class="col-12">
-            <h4>Essential Documents</h4>
+            <h4>ESSENTIAL DOCUMENTS</h4>
         </div>
                 <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
                     <div class="card-body">
@@ -207,20 +207,26 @@
             },
             isImage(file){
                 let exts = ['jpg','jpeg','gif','png','svg'];
-                let str = "{{asset('public/images/no_photo.jpg')}}";
+                let str = "{{asset('images/no_photo.jpg')}}";
+                let ext = "txt";
+                
                 if(file){
-                let ext = file.split('.').pop();
-                    if(exts.indexOf(ext) >= 0){
+                if(file.name){
+                    ext = file.name.split('.').pop();
+                }else{
+                    ext = file.split('.').pop();
+                }
+                if(exts.indexOf(ext) >= 0){
                         str = "{{ URL::to('/') }}" + file;
-                    }
-                    else if(ext == "pdf"){
-                        str = "{{asset('public/images/file_pdf.jpg')}}";
-                    }
-                    else if(ext == "doc" || ext == "docx"){
-                        str = "{{asset('public/images/file_doc.jpg')}}";
-                    }else{
-                        str = "{{asset('public/images/file_other.jpg')}}";
-                    }
+                }
+                else if(ext == "pdf"){
+                        str = "{{asset('images/file_pdf.jpg')}}";
+                }
+                else if(ext == "doc" || ext == "docx"){
+                        str = "{{asset('images/file_doc.jpg')}}";
+                }else{
+                        str = "{{asset('images/file_other.jpg')}}";
+                }
                 }
                 return str;
             },
@@ -284,9 +290,11 @@
                 formData.append('description', this.newDocument.description);
                 formData.append('file', this.newDocument.file);
                 formData.append('status', this.newDocument.status);
+
+                $('#createModal .btn-submit').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Saving...').attr('disabled', true);
                 
                 var url = "{{route('lockbox.store')}}";
-                console.log("ruta" + url);
+                
                 axios.post(url, formData,{ 
                     headers: {
                         'Content-Type': 'multipart/form-data'

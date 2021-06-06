@@ -36,4 +36,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function permission($permission,$loveones){
+        $care = $this->belongsTo('App\Models\careteam','id', 'user_id')->where('loveone_id',$loveones)->first();
+        $permissions =  \unserialize($care->permissions);
+        
+        if($permissions[$permission]){
+            return true;
+        }else{
+            return false;
+        }
+        
+
+    }
+
 }

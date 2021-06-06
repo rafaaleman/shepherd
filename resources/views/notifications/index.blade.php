@@ -10,10 +10,10 @@
                 
             
                 @foreach ($user_notifications as $notification)
-                    <div class="card shadow-sm d-flex justify-content-between notification p-4">
-                        <i class="far fa-calendar-plus fa-2x mr-3 mt-2"></i>
+                    <div class="card shadow-sm d-flex justify-content-between notification p-4 mb-3">
+                        <i class="{{ $notification->icon }} fa-2x mr-3 mt-2"></i>
                         <div class="info">
-                            <div class="title mb-0">{{ $notification->name }}</div>
+                            <div class="title mb-0 text-primary">{{ $notification->name }}</div>
                             <div class="event_date mb-3 text-black-50">{{ $notification->event_date}}</div>
                             <div class="event-desc text-black-50">
                                 {{$notification->description}}

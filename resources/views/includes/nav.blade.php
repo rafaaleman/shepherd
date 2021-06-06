@@ -110,7 +110,7 @@ $(function(){
         current_loveone = JSON.parse(current_loveone);
         $('.menu-link').each( function () { 
             newurl = $(this).attr('href');
-            console.log(newurl);
+            // console.log(newurl);
             newurl = newurl.replace('**SLUG**', current_loveone.slug);
             $(this).attr('href', newurl)
         });

@@ -184,6 +184,8 @@ class EventController extends Controller
         }
         $calendar['week'] = $this->getWeek($calendar,$to_date->format('d'));
         $calendar['day'] = $this->getDay($to_date->format('Y-m-d'));
+        // $calendar['day_medlist'] = $this->getDayMedlist($to_date->format('Y-m-d'));
+
         //dd($calendar);
         return $calendar;
     }
@@ -339,6 +341,8 @@ class EventController extends Controller
 
         return $day;
     }
+
+   
 
     public function getEvent(Request $request)
     {

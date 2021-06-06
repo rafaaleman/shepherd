@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLockboxesTable extends Migration
+class CreateMedlists extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateLockboxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('lockboxes', function (Blueprint $table) {
+        Schema::create('medlist', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('lockbox_type_id');
-            $table->string('name');
-            $table->mediumtext('description')->nullable();            
-            $table->boolean('status');
+            $table->integer('medication_id');
+            $table->date('date');
+            $table->time('time');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateLockboxesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lockboxes');
+        Schema::dropIfExists('medlist');
     }
 }
