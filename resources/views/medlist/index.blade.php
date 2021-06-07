@@ -59,7 +59,7 @@
                     
                     <div class="card-body row row-medlist">
                         <div class="col-xsm col-3 col-sm-2 col-md-2 col-lg-1">
-                            <img src="{{asset('public/img/icons/tablets.png')}}" alt="dosage" class="dosage">
+                            <img src="{{asset('/img/icons/tablets.png')}}" alt="dosage" class="dosage">
                         </div>
                         <div class="col-xsm col-6 col-sm-8 col-md-8 col-lg-10">
                             <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
@@ -213,7 +213,7 @@
     }
 
     .-AM {
-        font-family: Gotham;
+        /* font-family: Gotham; */
         font-size: 15px;
         font-weight: 500;
         font-stretch: normal;
