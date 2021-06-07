@@ -4,9 +4,13 @@
             <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{asset('/img/logo-shepherd.png')}}"  alt="{{ config('app.name', 'Laravel') }}" class="mr-5">
             </a>
+            <a class="nav-link text-danger font-weight-bold  align-items-center d-flex d-sm-none" href="tel: 911">
+                <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 @guest
@@ -50,7 +54,7 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link text-danger font-weight-bold mr-3 d-flex align-items-center" href="tel: 911">
+                            <a class="nav-link text-danger font-weight-bold mr-3 d-none d-md-flex align-items-center" href="tel: 911">
                                 <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">Emergency call</span>
                             </a>
                         </li>
