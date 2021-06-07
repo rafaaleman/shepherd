@@ -14,7 +14,7 @@
     </div>
     <div class="row mt-3">
         <div class="col-12">
-            <h4>Essential Documents</h4>
+            <h4>ESSENTIAL DOCUMENTS</h4>
         </div>
                 <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
                     <div class="card-body">

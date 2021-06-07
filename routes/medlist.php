@@ -9,4 +9,3 @@ Route::post('/create', 'MedlistController@createUpdate')->name('medlist.create')
 
 Route::get('/getMedications/{loveone_slug}/{date}', 'MedlistController@getMedications')->name('medlist.getMedications');
 Route::get('/getCalendar/{month}', 'MedlistController@getCalendar')->name('medlist.getCalendar');
-
