@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
+use App\Http\Traits\NotificationTrait;
+
 class CareteamController extends Controller
 {
+
+    use NotificationTrait;
     
     protected const ROLES = [
         'admin' => 'Careteam Leader', 
@@ -35,6 +39,7 @@ class CareteamController extends Controller
      */
     public function index(Request $request)
     {
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         $loveone_slug = $request->loveone_slug;
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         if(!$loveone){

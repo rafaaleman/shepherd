@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapCarehubRoutes();
         $this->mapLockboxRoutes();
         $this->mapNotificationsRoutes();
-
+        $this->mapMedlistRoutes();
         //
     }
 
@@ -158,5 +158,19 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/lockbox.php'));
+    }
+     /**
+     * Define the "medlist" routes for the application.
+     
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapMedlistRoutes()
+    {
+        Route::prefix('medlist')
+            ->middleware('web', 'auth')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/medlist.php'));
     }
 }

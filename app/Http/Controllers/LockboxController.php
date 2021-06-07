@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Models\lockbox;
-use App\Models\lockbox_types;
 use App\Models\loveone;
+
+use App\Models\careteam;
+use App\User;
+use Illuminate\Http\Request;
+use App\Models\lockbox_types;
+
+use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\NotificationTrait;
+use Session;
+
 /**
  * 
  * id
@@ -19,6 +25,9 @@ use App\Models\loveone;
  */
 class LockboxController extends Controller
 {
+
+    use NotificationTrait;
+    const EVENTS_TABLE = 'lockbox';
     /**
      * Display a listing of the resource.
      *
@@ -26,6 +35,8 @@ class LockboxController extends Controller
      */
     public function index(Request $request)
     {
+        
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
         */
@@ -35,6 +46,13 @@ class LockboxController extends Controller
         if(!$loveone){
            // dd("no existe");
         }
+
+        /* Seguridad */
+        if(!Auth::user()->permission('lockbox',$loveone->id))
+        {
+            return redirect('/home')->with('err_permisison', "You don't have permission to Lockbox!");  
+        }
+
 
         if ($request->ajax()) 
         {
@@ -56,7 +74,7 @@ class LockboxController extends Controller
             }
             /*last 5*/
             $last = lockbox::where('loveones_id',$loveone->id)
-                            ->orderBy('updated_at', 'desc')
+                            ->orderBy('created_at', 'desc')
                             ->take(5)
                             ->get();
 
@@ -98,12 +116,15 @@ class LockboxController extends Controller
 
         ]);
             
-        $repo = 'uploads/' . $request->user_id . '/'. $request->loveones_id;
+        $repo = 'loveones/lockbox/' . $request->loveones_id;
         
         if ($request->hasFile('file')){
             $fileName = time().'_'.$request->file->getClientOriginalName();
-            $filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
+            $filePath = $repo .'/'. $fileName;
+            //$filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
             
+            $request->file('file')->move(public_path($repo), $fileName);
+
             $doct = new Lockbox;
             $doct->user_id          = $request->user_id; //change to user_id
             $doct->lockbox_types_id = $request->lockbox_types_id; //change to types
@@ -111,8 +132,11 @@ class LockboxController extends Controller
             $doct->name             = $request->name;
             $doct->description      = $request->description;      
             $doct->status           = $request->status;
-            $doct->file             = '/storage/' . $filePath;
+            $doct->file             =  '/'.$filePath;
             $doct->save();
+            
+            $this->createNotifications($request->loveones_id, $doct->id);
+
             return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
         }
         return response()->json(['success' => false, 'error' => '...']);
@@ -159,7 +183,8 @@ class LockboxController extends Controller
 
         ]);
             
-        $repo = 'uploads/' . $request->user_id;
+        //$repo = 'uploads/' . $request->user_id;
+        $repo = 'loveones/' . $request->loveones_id;
 
         $doct              = Lockbox::find($request->id);
         $doct->name        = $request->name;
@@ -172,9 +197,13 @@ class LockboxController extends Controller
                 $doct->delete();
             }
             $fileName   = time().'_'.$request->file->getClientOriginalName();
-            $filePath   = $request->file('file')->storeAs($repo, $fileName, 'public');
-            $doct->file = '/storage/' . $filePath;
-        
+            //$filePath   = $request->file('file')->storeAs($repo, $fileName, 'public');
+            //$doct->file = '/storage/' . $filePath;
+            $filePath = $repo .'/'. $fileName;
+            //$filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
+            
+            $request->file('file')->move(public_path($repo), $fileName);
+            $doct->file = "/" . $filePath;
         }
         $doct->save();
         return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
@@ -211,5 +240,35 @@ class LockboxController extends Controller
                             ->get();
 
         return array('documents' => $documents,'slug' => $loveone_slug );
+    }
+
+    public function countDocuments(Request $request)
+    {
+        $loveone_slug = $request->loveone_slug;
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $documents = lockbox::where('loveones_id',$loveone->id)->count();
+        
+
+        return response()->json(['success' => true, 'data' => ['documents' => $documents]], 200);
+    }
+
+    /**
+     * 
+     */
+    protected function createNotifications($loveone_id, $lockbox_table_id)
+    {
+        $team_members = careteam::where('loveone_id', $loveone_id)->get();
+
+        // Create notification rows
+        foreach($team_members as $user){
+            $notification = [
+                'user_id'    => $user->user_id,
+                'loveone_id' => $loveone_id,
+                'table'      => self::EVENTS_TABLE,
+                'table_id'   => $lockbox_table_id,
+                'event_date' => date('Y-m-d H:i:s')
+            ];
+            $this->createNotification($notification);
+        }
     }
 }

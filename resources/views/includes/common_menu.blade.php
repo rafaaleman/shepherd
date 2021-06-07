@@ -10,7 +10,7 @@
 <a class="menu-link item d-block {{(Request::is('lockbox/*') ) ? 'active' : ''}}" href="{{ route('lockbox', '**SLUG**')}}">
     <i class="fas fa-file-medical fa-2x"></i> <span>LockBox</span>
 </a>
-<a class="menu-link item d-block {{(Request::is('medlist/*') ) ? 'active' : ''}}" href="">
+<a class="menu-link item d-block {{(Request::is('medlist/*') ) ? 'active' : ''}}" href="{{ route('medlist', '**SLUG**')}}">
     <i class="fas fa-prescription-bottle-alt fa-2x"></i> <span>MedList</span>
 </a>
 <a class="menu-link item d-block {{(Request::is('resources/*') ) ? 'active' : ''}}" href="">
