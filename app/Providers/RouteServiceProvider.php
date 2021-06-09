@@ -51,6 +51,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapLockboxRoutes();
         $this->mapNotificationsRoutes();
         $this->mapMedlistRoutes();
+        $this->mapMessagesRoutes();
         //
     }
 
@@ -172,5 +173,19 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/medlist.php'));
+    }
+     /**
+     * Define the "messages" routes for the application.
+     
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapMessagesRoutes()
+    {
+        Route::prefix('messages')
+            ->middleware('web', 'auth')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/messages.php'));
     }
 }
