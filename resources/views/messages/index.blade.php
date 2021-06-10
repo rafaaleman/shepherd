@@ -8,50 +8,28 @@
        
         </div>
         <div class="col-4 d-none d-sm-none d-lg-block">
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
-                Add New Event
+            <a href="javascript:;" @click="showModal()" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
+                Add New Message
             </a>        
         </div>
     </div>
 
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-        
+        {{-- {{ dump(Auth::user())}} --}}
             <!-- Row start -->
             <div class="row no-gutters">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
                     <div class="users-container">
                         
-                        <div class="chat_list">
+                        <div class="chat_list" v-for="chat in chats">
                             <div class="chat_people">
                                 <div class="chat_img"> 
                                     <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="sunil"> 
                                 </div>
                                 <div class="chat_ib">
-                                    <h5>Mary Tyler <span class="new_msg"></span></h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat_list active_chat">
-                            <div class="chat_people">
-                                <div class="chat_img"> 
-                                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="sunil"> 
-                                </div>
-                                <div class="chat_ib">
-                                    <h5>John Tyler <span class="new_msg"></span></h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"> 
-                                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="sunil"> 
-                                </div>
-                                <div class="chat_ib">
-                                    <h5>Susan Smith</h5>
+                                    <h5>                                    
+                                        @{{ chat.user.name +' '+  chat.user.lastname}} <span class="new_msg" v-if="chat.status == 1"></span>
+                                    </h5>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
                                 </div>
                             </div>
@@ -96,7 +74,7 @@
             <!-- Row end -->
 
     </div>
-
+    @include('messages.contacts_modal')
 </div>
 
 @endsection
@@ -310,7 +288,83 @@ ul {
 
 @push('scripts')
 <script>
-
-
-</script>
+    const messages = new Vue ({        
+         el: '#messages',
+         created: function() 
+         {
+             this.getCareteam();
+             this.getChats();
+         },
+         data: 
+         {
+            user : {{ Auth::id() }},
+            selected_user: null,
+            contacts: [],
+            chats:[],
+            messages:[],
+            status: false,
+         },
+         filters: {
+            mayuscula: function (value) {
+                if (!value) return ''
+                value = value.toString();
+                return value.toUpperCase(); 
+            },
+            formatDate: function(value) {
+                if (value) {
+                    value = value.split('T');
+                    
+                    return moment(String(value[0])).format('MMM Do YYYY hh:mm');
+                }
+            },
+            Username : function(value){
+                return  this.contacts.find(name => contact.name === value);
+            }
+            
+        },
+         computed:{ 
+ 
+         },
+         methods: 
+         {
+            showModal() {
+                this.borrar();
+                $('#contactsModal').modal('show');
+            },
+            borrar(){
+                this.contacts = [];
+                this.selected_user = 0;
+                this.messages = [];
+                this.status = false;
+            },
+            getCareteam: function(){
+                var url = '{{ route("messages.careteam",$loveone_slug) }}';  
+                axios.get(url).then(response => {
+                    this.contacts = response.data.data.careteam;                    
+                });
+            },
+            getChats: function(){
+                var url = '{{ route("messages.chats",$loveone_slug) }}';
+                
+                axios.get(url).then(response => {
+                    this.chats = response.data.data.chats;  
+                    
+                });
+            },
+            getDocuments: function() {
+                 var url = '{{ route("lockbox",$loveone_slug) }}';
+                 axios.get(url).then(response => {
+                     this.types = response.data.types;
+                     this.documents = response.data.documents;  
+                     this.lastDocuments = response.data.lastDocuments;  
+                     
+                     console.log(response);
+                 }).then( data => {
+                     this.creaSlide();
+                 });
+             },
+             
+         }
+     });
+ </script>
 @endpush
