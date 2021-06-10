@@ -78,16 +78,16 @@ class MedlistController extends Controller
             medlist::insert($medlist);
 
             // Create notification rows
-          /*  foreach($assigned_ids as $user_id){
-                $notification = [
-                    'user_id'    => $user_id,
-                    'loveone_id' => $request->loveone_id,
-                    'table'      => self::MEDICATIONS_TABLE,
-                    'table_id'   => $medication->id,
-                    'medication_date' => $data['date'].' '.$data['time']
-                ];
-                $this->createNotification($notification);
-            }*/
+            // foreach($medlist as $medication){
+            //     $notification = [
+            //         'user_id'    => $user_id,
+            //         'loveone_id' => $request->loveone_id,
+            //         'table'      => self::MEDICATIONS_TABLE,
+            //         'table_id'   => $medication->id,
+            //         'medication_date' => $data['date'].' '.$data['time']
+            //     ];
+            //     $this->createNotification($notification);
+            // }
         }
 
         return response()->json(['success' => true, 'data' => ['medication' => $medication]]);
@@ -106,9 +106,13 @@ class MedlistController extends Controller
         while($tiempoInicio < $tiempoFin){
             $f = array();
             
-                $f['date'] = date("Y-m-d", $tiempoInicio);
-                $f['time'] = date("H:i:s", $tiempoInicio);
-                $f['medication_id'] = $medication_id;
+            $f['date'] = date("Y-m-d", $tiempoInicio);
+            $f['time'] = date("H:i:s", $tiempoInicio);
+            $f['medication_id'] = $medication_id;
+            $f['created_at'] = date("Y-m-d H:i:s");
+            $f['updated_at'] = date("Y-m-d H:i:s");
+
+
             # Sumar el incremento de horas
             array_push($medications, $f);
             $tiempoInicio += $hour;
