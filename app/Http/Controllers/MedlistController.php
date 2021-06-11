@@ -78,16 +78,21 @@ class MedlistController extends Controller
             medlist::insert($medlist);
 
             // Create notification rows
-            // foreach($medlist as $medication){
-            //     $notification = [
-            //         'user_id'    => $user_id,
-            //         'loveone_id' => $request->loveone_id,
-            //         'table'      => self::MEDICATIONS_TABLE,
-            //         'table_id'   => $medication->id,
-            //         'medication_date' => $data['date'].' '.$data['time']
-            //     ];
-            //     $this->createNotification($notification);
-            // }
+            $authorized_members = $this->getLovedoneMembersWithPermission($request->loveone_id, 'medlist');
+            foreach($authorized_members as $member_id){
+
+                foreach ($medlist as $med) {
+                    
+                    $notification = [
+                        'user_id'    => $member_id,
+                        'loveone_id' => $request->loveone_id,
+                        'table'      => self::MEDICATIONS_TABLE,
+                        'table_id'   => $medication->id,
+                        'event_date' => $med['date'].' '.$med['time']
+                    ];
+                    $this->createNotification($notification);
+                }
+            }
         }
 
         return response()->json(['success' => true, 'data' => ['medication' => $medication]]);
@@ -95,7 +100,7 @@ class MedlistController extends Controller
 
 
     public function medicationTime($fechaInicio,$fechaFin,$hour,$medication_id){
-      
+        
         $medications = array();
         # Fecha como segundos
         $tiempoInicio = strtotime($fechaInicio);
