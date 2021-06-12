@@ -20,4 +20,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/new', 'HomeController@newUser')->name('new');
 
-Route::get("/resources","ResourceController@getTopics")->name("topics");
+Route::get("/resources","ResourceController@getTopics")->name("resources");
