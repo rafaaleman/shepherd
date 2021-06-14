@@ -11,6 +11,7 @@ use Session;
 use App\Models\loveone;
 use App\Models\careteam;
 use App\Models\chat;
+use App\Models\chat_message;
 use App\User;
 
 
@@ -75,6 +76,44 @@ class MessagesController extends Controller
     }
 
 
+    /* */
+    public function getChat($id)
+    {
+        $chat = chat_message::where('id_chat',$id)->get();
+        return response()->json(['success' => true, 'data' => ['chat' => $chat]], 200);
+    }
+    
+    /* */
+    public function newChat(Request $request)
+    {
+        $loveone_slug = $request->loveone_slug;
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        
+        $chat = new chat;
+        $chat->loveone_id = $loveone->id;
+        $chat->sender_id = Auth::id();
+        $chat->receiver_id =  $request->user_id;
+        $chat->status = 1;
+        
+        $chat->save();
+        return response()->json(['success' => true, 'data' => ['chat' => $chat]], 200);
+    }
+    /* */
+    public function storeMessage(Request $request){
+        $validatedData = $request->validate([
+            'user_id'     => 'required|numeric',
+            'chat_id'     => 'required|numeric',
+            'message'     => 'required|max:250',
+        ]);
+        $msg = new chat_message;
+        $msg->id_user = $request->user_id; 
+        $msg->id_chat = $request->chat_id; 
+        $msg->message = $request->message; 
+        $msg->status  = 1;
+        $msg->save();
+        $data = chat_message::where('id_chat',$request->chat_id)->get();
+        return response()->json(['success' => true, 'data' => ['chat' => $data]], 200);
+    }
 
 
 
