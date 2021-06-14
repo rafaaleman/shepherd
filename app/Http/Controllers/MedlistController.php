@@ -134,6 +134,7 @@ class MedlistController extends Controller
         $time_first_event = '';
         $inidate = $request->date;
         $medlist = array();
+        $modal = [];
         $medications = medication::where('loveone_id', $loveone->id)
         ->where(function ($query) use($inidate){
             $query->where('ini_date', '<=', $inidate)
