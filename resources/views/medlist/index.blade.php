@@ -62,7 +62,9 @@
                             <img src="{{asset('/img/icons/tablets.png')}}" alt="dosage" class="dosage">
                         </div>
                         <div class="col-xsm col-6 col-sm-8 col-md-8 col-lg-10">
-                            <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
+                            <a href="#!" data-toggle="modal" data-target="#medlist-modal" class="" @click="changeMedication(medicine.medication_id)">
+                                <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
+                            </a>
                             <div class="role">@{{medicine.medicine}}</div>
                         </div>
                         <div class="col-xsm col-3 col-sm-2 col-md-2 col-lg-1 justify-content-center align-items-center text-right">
@@ -93,9 +95,10 @@
             @endif
         </div>
     </center>
-
-
+ 
     
+    
+@include('medlist.medlist_modal')
 </div>
 
 @endsection
@@ -356,6 +359,8 @@
             current_slug: '',
             date_title: '',
             calendar: '',
+            medlist_complete : '',
+            medication_complete : ''
             
         },
         methods: {
@@ -367,6 +372,8 @@
                 this.now = now;
                 this.day_div = '';
                 this.medlist = '';
+                this.medlist_complete = '';
+                this.medication_complete = '';
                 this.getCalendar();
                 this.getMedications();
             },
@@ -385,7 +392,7 @@
 
                     if (response.data.success) {
                         this.medlist = response.data.data.medlist;
-                       
+                        this.medlist_complete = response.data.data.medlist_modal;
                     } 
 
                     $('.loading-medlist').hide();
@@ -421,7 +428,13 @@
                 });
 
             },
-            
+            changeMedication: function(medication) {
+
+                // console.log(member);
+                this.medication_complete = this.medlist_complete[medication];
+                console.log(medication);
+                console.log(this.medication_complete);
+            }
            
 
         },

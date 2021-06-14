@@ -78,16 +78,21 @@ class MedlistController extends Controller
             medlist::insert($medlist);
 
             // Create notification rows
-            // foreach($medlist as $medication){
-            //     $notification = [
-            //         'user_id'    => $user_id,
-            //         'loveone_id' => $request->loveone_id,
-            //         'table'      => self::MEDICATIONS_TABLE,
-            //         'table_id'   => $medication->id,
-            //         'medication_date' => $data['date'].' '.$data['time']
-            //     ];
-            //     $this->createNotification($notification);
-            // }
+            $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'medlist');
+            foreach($notified_members as $member_id){
+
+                foreach ($medlist as $med) {
+                    
+                    $notification = [
+                        'user_id'    => $member_id,
+                        'loveone_id' => $request->loveone_id,
+                        'table'      => self::MEDICATIONS_TABLE,
+                        'table_id'   => $medication->id,
+                        'event_date' => $med['date'].' '.$med['time']
+                    ];
+                    $this->createNotification($notification);
+                }
+            }
         }
 
         return response()->json(['success' => true, 'data' => ['medication' => $medication]]);
@@ -95,7 +100,7 @@ class MedlistController extends Controller
 
 
     public function medicationTime($fechaInicio,$fechaFin,$hour,$medication_id){
-      
+        
         $medications = array();
         # Fecha como segundos
         $tiempoInicio = strtotime($fechaInicio);
@@ -126,7 +131,6 @@ class MedlistController extends Controller
     {
         //dd($_POST);
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
-        $events = array();
         $time_first_event = '';
         $inidate = $request->date;
         $medlist = array();
@@ -142,8 +146,8 @@ class MedlistController extends Controller
         //dd($medications);
         $count_medications = $medications->count();
         foreach($medications as $medication){
-           // dd($medication);
-            foreach($medication->medlist->where('date',$inidate) as $medicine){
+
+            foreach($medication->medlist as $medicine){
                 $med = array();
                 $med['id'] = $medicine->id;
                 $med['medication_id'] = $medicine->medication_id;
@@ -152,13 +156,18 @@ class MedlistController extends Controller
                 $med['dosage'] = $medication->dosage;
                 $med['medicine'] = $medication->medicine;
                 $date_temp = new DateTime($medicine->date . " " . $medicine->time);
+                $med['date_usa'] = $date_temp->format('Y-d-m');
+
                 $date_now = new DateTime();
                 $med['time_cad_gi'] = $date_temp->format('g:i');
                 $med['time_cad_a'] = $date_temp->format('a');
                 if($date_now->format('H:i:s') >= $date_temp->format('H:i:s')){
                     $med['status'] = 1;
                 }
-                array_push($medlist,$med);
+                if($medicine->date == $inidate){
+                    array_push($medlist,$med);
+                }
+                $modal[$medication->id][] = $med;
             }
         }
         usort($medlist, function ($a, $b) {
@@ -173,6 +182,7 @@ class MedlistController extends Controller
             'time_first_event' => $time_first_event,
             'medlist' => $medlist,
             'date_title' => $date->format('l, j F Y'),
+            'medlist_modal' => $modal,
             'count_medications' => count($medlist)
         ]]);
     }
