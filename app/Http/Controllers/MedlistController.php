@@ -78,8 +78,8 @@ class MedlistController extends Controller
             medlist::insert($medlist);
 
             // Create notification rows
-            $authorized_members = $this->getLovedoneMembersWithPermission($request->loveone_id, 'medlist');
-            foreach($authorized_members as $member_id){
+            $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'medlist');
+            foreach($notified_members as $member_id){
 
                 foreach ($medlist as $med) {
                     

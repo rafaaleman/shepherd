@@ -42,7 +42,7 @@ trait NotificationTrait {
     /**
      * Query the users related to a lovedone and with specific permission
      */
-    public function getLovedoneMembersWithPermission($loveone_id, $permission)
+    public function getLovedoneMembersToBeNotified($loveone_id, $permission)
     {
         $authorized_members = [];
         $members = careteam::where('loveone_id', $loveone_id)->where('status', 1)->get();
