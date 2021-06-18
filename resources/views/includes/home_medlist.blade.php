@@ -3,7 +3,7 @@
     <div class="card h-100">
         <div class="card-body">
             
-            <h5 class="card-title"><i class="far fa-calendar-plus fa-2x"></i> Medlist</h5>
+            <h5 class="card-title"><i class="fas fa-prescription-bottle-alt fa-2x"></i> Medlist</h5>
             <p class="card-text medlist-today">
                 <span>@{{count_medications}}</span> Medications for today <br>    
             </p>
