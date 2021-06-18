@@ -24,7 +24,8 @@
                     @include('includes.home_carehub')
                     @include('includes.home_lockbox')
                     @include('includes.home_medlist')
-
+                    @include('includes.home_messages')
+                    @include('includes.home_resources')
                 </div>
             </div>
             
@@ -78,6 +79,7 @@ const home = new Vue ({
         careteam_url: '',
         carehub_url:'',
         lockbox_url:'',
+        resources_url:'{{ route("resources")}}',
         events_to_day:'',
         hour_first_event:'',
         medlist_url:'',

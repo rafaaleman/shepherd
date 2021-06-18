@@ -30,7 +30,11 @@ class EventController extends Controller
         if(!$loveone){
             return view('errors.not-found');
         }
-            
+        
+        if(!Auth::user()->permission('carehub',$loveone->id))
+        {
+            return redirect('/home')->with('err_permisison', "You don't have permission to Carehub!");  
+        }
         $careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
         $membersIds = $careteam->pluck('user_id')->toArray();
         $members = User::whereIn('id', $membersIds)->get();
