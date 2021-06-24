@@ -114,15 +114,17 @@ class LoveoneController extends Controller
      */
     public function edit(Request $request)
     {
-        // TODO: verificar si es el admin del grupo para permitir la edicion del loveone
-        // TODO: obtener el careteam Y si es "admin", mostrar esta pagina, sino mostrar una alerta
-        $loveone = loveone::whereSlug($request->loveone_slug)->first();
+        $loveone  = loveone::whereSlug($request->loveone_slug)->first();
 
         if(!$loveone){
             return view('errors.404');
         }
 
-        $careteam          = careteam::where('loveone_id', $loveone->id)->where('user_id', Auth::user()->id)->first();
+        $careteam = careteam::where('loveone_id', $loveone->id)->where('user_id', Auth::user()->id)->first();
+        if($careteam->role != 'admin'){
+            return view('errors.404');
+        }
+
         $loveone->careteam = $careteam;
         $relationships     = relationship::where('status', 1)->get();
         $conditions        = condition::where('status', 1)->get();
