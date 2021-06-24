@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
+use App\Events\NewMessage;
 use Session;
 
 
@@ -111,7 +112,11 @@ class MessagesController extends Controller
         $msg->message = $request->message; 
         $msg->status  = 1;
         $msg->save();
+
+        broadcast(new NewMessage($msg));
+
         $data = chat_message::where('id_chat',$request->chat_id)->get();
+
         return response()->json(['success' => true, 'data' => ['chat' => $data]], 200);
     }
 

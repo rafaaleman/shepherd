@@ -285,8 +285,8 @@ body{margin-top:20px;}
          el: '#messages',
          created: function() 
          {
-             this.getCareteam();
-             this.getChats();
+            this.getCareteam();
+            this.getChats();
          },
          data: 
          {
@@ -390,11 +390,17 @@ body{margin-top:20px;}
                 $('#contactsModal').modal('hide');
             },
             selectChat: function(chat){
+
                 console.log('conversacion seleccionada: ' + chat.id);
                 this.selected_chat = chat.id;
                 this.message = null;
                 this.changeUser(chat);
                 this.getChat();
+
+                Echo.private("chat."+ chat.id ) 
+                    .listen('NewMessage',(e)=>{
+                        this.newM(e.message);
+                    });
              },
              changeUser: function (chat){
                 if(chat.sender_id != this.user){
@@ -416,10 +422,13 @@ body{margin-top:20px;}
                     };
                 axios.post(url, msg).then(response => {
                     this.message = null;
-                    this.messages = response.data.data.chat;
+                    //this.messages = response.data.data.chat;
                     
                 });
              },
+             newM: function(M){
+                this.messages.push(M);
+             }
          }
      });
  </script>

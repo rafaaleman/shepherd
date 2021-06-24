@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\chat;
 use App\Models\chat_message;
 
-class NewMessage
+class NewMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -25,7 +25,8 @@ class NewMessage
      */
     public function __construct(chat_message $chat_message)
     {
-        $this.chat_message = $chat_message;
+        $this->chat_message = $chat_message;
+        
     }
 
     /**
@@ -35,6 +36,11 @@ class NewMessage
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.' . $this->message->id_chat);
+        return new PrivateChannel('chat.'. $this->chat_message->id_chat );
+    }
+
+    public function broadcastWith(){
+        
+       return ["message" => $this->chat_message->toarray()];
     }
 }
