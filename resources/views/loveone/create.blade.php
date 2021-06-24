@@ -6,7 +6,7 @@
     <form method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
         @csrf
 
-        <div class="col-md-6 photo-container bg-primary d-flex align-items-center">
+        <div class="col-md-6 photo-container bg-primary d-flex align-items-center" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
             <div class="bigBtn">
                 <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
                 Upload Photo
@@ -23,14 +23,14 @@
                     <label for="firstname" class="col-md-4 col-form-label text-md-right">First Name</label>
 
                     <div class="col-md-7">
-                        <input id="firstname" type="text" class="form-control" name="firstname" value="" required autocomplete="firstname" autofocus v-model="loveone.firstname">
+                        <input id="firstname" type="text" class="form-control" name="firstname" value="{{(isset($loveone)) ? $loveone->firstname : ''}}" required autocomplete="firstname" autofocus v-model="loveone.firstname">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="lastname" class="col-md-4 col-form-label text-md-right">Lastname</label>
 
                     <div class="col-md-7">
-                        <input id="lastname" type="text" class="form-control" name="lastname" value="" required autocomplete="lastname" autofocus v-model="loveone.lastname">
+                        <input id="lastname" type="text" class="form-control" name="lastname" value="{{(isset($loveone)) ? $loveone->lastname : ''}}" required autocomplete="lastname" autofocus v-model="loveone.lastname">
                     </div>
                 </div>
 
@@ -38,7 +38,7 @@
                     <label for="email" class="col-md-4 col-form-label text-md-right">E-mail</label>
 
                     <div class="col-md-7">
-                        <input id="email" type="email" class="form-control" name="email" value="" autocomplete="email" v-model="loveone.email">
+                        <input id="email" type="email" class="form-control" name="email" value="{{(isset($loveone)) ? $loveone->email : ''}}" autocomplete="email" v-model="loveone.email">
                     </div>
                 </div>
                 
@@ -46,7 +46,7 @@
                     <label for="phone" class="col-md-4 col-form-label text-md-right">Phone #</label>
 
                     <div class="col-md-7">
-                        <input id="phone" type="tel" class="form-control" name="phone" value="" required autocomplete="phone" autofocus v-model="loveone.phone">
+                        <input id="phone" type="tel" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" required autocomplete="phone" autofocus v-model="loveone.phone">
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
                     <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                     <div class="col-md-7">
-                        <input id="address" type="text" class="form-control" name="address" value="" required autocomplete="address" autofocus v-model="loveone.address">
+                        <input id="address" type="text" class="form-control" name="address" value="{{(isset($loveone)) ? $loveone->address : ''}}" required autocomplete="address" autofocus v-model="loveone.address">
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth</label>
 
                     <div class="col-md-7">
-                        <input id="dob" type="date" class="form-control" name="dob" required autocomplete="dob" v-model="loveone.dob">
+                        <input id="dob" type="date" class="form-control" name="dob" required autocomplete="dob" v-model="loveone.dob" value="{{(isset($loveone)) ? $loveone->dob : ''}}">
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@
                     <div class="col-md-7">
                         <select name="relationship" id="relationship" v-model="loveone.relationship_id" class="form-control">
                             @foreach ($relationships as $relationship)
-                                <option value="{{$relationship->id}}" {{(isset($loveone) && $relationship->id  == $loveone->relationship_id) ? 'selected' : ''}}>{{$relationship->name}}</option>
+                                <option value="{{$relationship->id}}" {{(isset($loveone) && $relationship->id  == $loveone->careteam->relationship_id) ? 'selected' : ''}}>{{$relationship->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -86,6 +86,32 @@
                 <input type="text" id="condition" placeholder="Start typing condition" class="form-control mb-4 pr-2 mt-2" name="condition" autocomplete="off">
 
                 <div class="conditions">
+                @if (isset($loveone))
+                    @php
+                        $loveone_conditions = explode(',', $loveone->conditions);
+                    @endphp
+                    @foreach ($loveone_conditions as $condition)
+                        <div class="form-check mb-3 ml-3">
+                            <input class="form-check-input" type="checkbox" value="{{$condition}}" id="{{Str::slug($condition)}}" v-model="loveone.conditions" checked>
+                            <label class="form-check-label" for="{{Str::slug($condition)}}">
+                                {{$condition}}
+                            </label>
+                        </div>
+                    @endforeach
+
+                    @foreach ($conditions as $condition)
+                        @if (!in_array($condition->name, $loveone_conditions))
+                        
+                            <div class="form-check mb-3 ml-3">
+                                <input class="form-check-input" type="checkbox" value="{{$condition->name}}" id="{{Str::slug($condition->name)}}" v-model="loveone.conditions">
+                                <label class="form-check-label" for="{{Str::slug($condition->name)}}">
+                                    {{$condition->name}}
+                                </label>
+                            </div>
+                        @endif
+                    @endforeach
+                @else
+                
                     @foreach ($conditions as $condition)
                         <div class="form-check mb-3 ml-3">
                             <input class="form-check-input" type="checkbox" value="{{$condition->name}}" id="{{Str::slug($condition->name)}}" v-model="loveone.conditions">
@@ -94,6 +120,7 @@
                             </label>
                         </div>
                     @endforeach
+                @endif
                 </div>
             </div>
 
@@ -212,6 +239,14 @@ $(function(){
     });
 })
 
+@php
+if(isset($loveone) && $loveone->conditions != ''){
+    $loveone_conditions = explode(',', $loveone->conditions);
+} else {
+    $loveone_conditions = [];
+}
+@endphp
+
     const create_loveone = new Vue ({
         el: '#create_loveone',
         created: function() {
@@ -228,9 +263,9 @@ $(function(){
                 address:"{{ $loveone->address ?? '' }}",
                 dob:"{{ $loveone->dob ?? '' }}",
                 status:1,
-                relationship_id:"{{ $loveone->relationship_id ?? '' }}",
-                conditions: [{{ $loveone->conditions ?? '' }}],
-                photo:"{{ $loveone->photo ?? '' }}",
+                relationship_id:"{{ $loveone->careteam->relationship_id ?? '' }}",
+                conditions: [@php foreach($loveone_conditions as $condition){ echo "'".$condition."',";} @endphp],
+                photo:"",
             }
         },
         filters: {

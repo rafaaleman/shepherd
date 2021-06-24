@@ -59,24 +59,51 @@ class LoveoneController extends Controller
         unset($data['relationship_id']);
         unset($data['photo']);
 
-        // Verify if exists
-        $loveone = loveone::where('email', $data['email'])->orWhere('phone', $data['phone'])->first();
-        // dd($loveone);
-        if($loveone){
-            return response()->json(['success' => false, 'error' => 'This Loveone already exists (email/phone). Please verify.']);
-        }
-        // dd($data);
-        $loveone = loveone::create($data);
-        $this->createCareteam(Auth::user()->id, $loveone->id, $relationship_id);
+        // CREATE
+        if($data['id'] == 0){
+            // Verify if exists
+            $loveone = loveone::where('email', $data['email'])->orWhere('phone', $data['phone'])->first();
+            // dd($loveone);
+            if($loveone){
+                return response()->json(['success' => false, 'error' => 'This Loveone already exists (email/phone). Please verify.']);
+            }
+            // dd($data);
+            $loveone = loveone::create($data);
+            $this->createCareteam(Auth::user()->id, $loveone->id, $relationship_id);
 
-        if($request->file){
+            if($request->file){
 
-            $prefix = $data['phone'];
-            $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
-            $request->file->move(public_path('loveones/'.$loveone->id.'/'), $photoName);
-            $data['photo'] = '/loveones/'.$loveone->id.'/'.$photoName;
-            loveone::where('id', $loveone->id)->update(['photo' => $data['photo']]);
+                $prefix = $data['phone'];
+                $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+                $request->file->move(public_path('loveones/'.$loveone->id.'/'), $photoName);
+                $data['photo'] = '/loveones/'.$loveone->id.'/'.$photoName;
+                loveone::where('id', $loveone->id)->update(['photo' => $data['photo']]);
+            }
+            $loveone_id = $loveone->id;
+
+        } else {
+
+            // Verify if exists
+            $loveone = loveone::find($data['id']);
+            // dd($loveone);
+            if(!$loveone){
+                return response()->json(['success' => false, 'error' => "This Loveone doesn't exists. Please verify."]);
+            }
+
+            loveone::where('id', $data['id'])->update($data);
+            careteam::where('loveone_id', $loveone->id)->where('user_id', Auth::user()->id)->update(['relationship_id' => $relationship_id]);
+
+            if($request->file){
+
+                $prefix = $data['phone'];
+                $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+                $request->file->move(public_path('loveones/'.$loveone->id.'/'), $photoName);
+                $data['photo'] = '/loveones/'.$loveone->id.'/'.$photoName;
+                loveone::where('id', $data['id'])->update(['photo' => $data['photo']]);
+            }
+            $loveone_id = $data['id'];
         }
+        $loveone = loveone::find($loveone_id);
 
         // if ($request->ajax()) 
         return response()->json(['success' => true, 'data' => ['loveone' => $loveone]]);
@@ -85,13 +112,23 @@ class LoveoneController extends Controller
     /**
      * Shows the edit loveone form
      */
-    public function edit(loveone $loveone)
+    public function edit(Request $request)
     {
-        // TODO: verificar si es el admin del grupo para permitir la edicion del loveone
-        // TODO: obtener el careteam Y si es "admin", mostrar esta pagina, sino mostrar una alerta
-        // $loveone->load('mycareteam'); 
-        $relationships = relationship::where('status', 1)->get();
-        $conditions    = condition::where('status', 1)->get();
+        $loveone  = loveone::whereSlug($request->loveone_slug)->first();
+
+        if(!$loveone){
+            return view('errors.404');
+        }
+
+        $careteam = careteam::where('loveone_id', $loveone->id)->where('user_id', Auth::user()->id)->first();
+        if($careteam->role != 'admin'){
+            return view('errors.404');
+        }
+
+        $loveone->careteam = $careteam;
+        $relationships     = relationship::where('status', 1)->get();
+        $conditions        = condition::where('status', 1)->get();
+
         return view('loveone.create', compact('relationships', 'conditions', 'loveone'));
     }
 

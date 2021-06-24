@@ -68,6 +68,7 @@ class HomeController extends Controller
             $loveone->relationshipName = $relationshipName;
             $loveone->careteam = $careteams[$loveone->id];
         }
+        // dd($loveones);
         return $loveones;
     }
 

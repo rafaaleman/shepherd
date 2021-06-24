@@ -13,6 +13,10 @@
                 <div class="carousel-caption d-md-block">
                     <h5>{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
                     <p>{{ $loveone->relationshipName }}</p>
+
+                    @if ($loveone->careteam->role == 'admin')
+                        <a href="/loveone/{{$loveone->slug}}" class="text-white">Edit</a>
+                    @endif
                 </div>
             </div>
         @endforeach

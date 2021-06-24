@@ -10172,6 +10172,7 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-c
   margin-left: -10px;
   width: 35px;
   border-radius: 50%;
+  border: 1px solid #999;
 }
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
   color: #f78383;

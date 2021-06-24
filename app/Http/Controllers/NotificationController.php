@@ -52,12 +52,19 @@ class NotificationController extends Controller
                 $notification->description = '';
                 $notification->icon = 'fas fa-file-medical';
                 
+            } else if($n->table == 'medications'){
+                $notification->name = $notification->medicine . ' ' .$notification->dosage;
+                $notification->description = '';
+                $notification->icon = 'fas fa-prescription-bottle-alt';
+                
             } else { 
                 $notification->description = '';
                 $notification->icon = 'far fa-calendar-alt';
             }
             $user_notifications[] = $notification;
         }
+
+        // TODO: Mark as read all above notifications
 
         // dd($user_notifications);
         return view('notifications.index', compact('user_notifications'));
