@@ -28,7 +28,8 @@
                     <textarea  id="description" class="form-control mr-2" name="description" v-model="fillDocument.description" :readonly ="create_type"></textarea>          
                 </div>
 
-                <div class="d-flex mb-4  text-center">                    
+                <div class="d-flex mb-4  text-center">  
+                    <span id="ffile"></span>                        
                     <label class="btn btn-block btn-primary btn-submit">
                         <input id="document" name="document" type="file" class="" @change="getDoc" hidden>
                         Choose File

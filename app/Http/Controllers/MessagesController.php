@@ -113,6 +113,10 @@ class MessagesController extends Controller
         $msg->status  = 1;
         $msg->save();
 
+        $chat = chat::find($request->chat_id);
+        $chat->last_message = $request->message; 
+        $chat->status  = 1;
+        $chat->save();
         broadcast(new NewMessage($msg));
 
         $data = chat_message::where('id_chat',$request->chat_id)->get();

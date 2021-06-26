@@ -30,9 +30,10 @@
                                 </div>
                                 <div class="chat_ib">
                                     <h5>                                    
-                                        @{{ chat.user.name +' '+  chat.user.lastname}} <span class="new_msg" v-if="chat.status == 1"></span>
+                                        @{{ chat.user.name +' '+  chat.user.lastname}} 
+                                        <span class="new_msg" v-if="chat.status == 1"></span>
                                     </h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                    <p>@{{chat.last_message}} </p>
                                 </div>
                             </div>
                         </div>
@@ -287,6 +288,7 @@ body{margin-top:20px;}
          {
             this.getCareteam();
             this.getChats();
+
          },
          data: 
          {
@@ -399,6 +401,7 @@ body{margin-top:20px;}
 
                 Echo.private("chat."+ chat.id ) 
                     .listen('NewMessage',(e)=>{
+                        
                         this.newM(e.message);
                     });
              },
@@ -427,6 +430,7 @@ body{margin-top:20px;}
                 });
              },
              newM: function(M){
+
                 this.messages.push(M);
              }
          }
