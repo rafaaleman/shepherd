@@ -8,15 +8,16 @@
             </button>
         </div>
         <div class="modal-body ">
-            
-            <div class="list-group">
+            waiting for api...
+
+            <!--div class="list-group">
                 <template v-for="med in medication_complete">
                     <div class="d-flex w-100 justify-content-between active">
                         <h5 class="mb-1"><b>@{{med.date_usa}}</b> @{{med.medicine}}</h5>
                         <small><b>@{{med.time}}</b></small>
                     </div>
                 </template>
-            </div>
+            </div-->
            
         </div>
         </div>
