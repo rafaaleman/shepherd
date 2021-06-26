@@ -79,7 +79,7 @@ const home = new Vue ({
         careteam_url: '',
         carehub_url:'',
         lockbox_url:'',
-        resources_url:'{{ route("resources")}}',
+        resources_url:'',
         events_to_day:'',
         hour_first_event:'',
         medlist_url:'',
@@ -99,6 +99,7 @@ const home = new Vue ({
             this.getCareteamMembers();
             this.getEvents();
            this.getCountLockBox();
+           this.getResources();
         },
         setLoveone: function(loveone_id) {
 
@@ -228,7 +229,12 @@ const home = new Vue ({
                 swal('Error', msg, 'error');
             });
             
+        },
+        getResources(){
+            var url = '{{ route("resources", "*SLUG*") }}';
+            this.resources_url  = url.replace('*SLUG*', this.current_slug);
         }
+
     },
 });
 

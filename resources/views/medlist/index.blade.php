@@ -408,7 +408,7 @@
             getCalendar: function() {
 
 
-                $('#day_div').hide();
+               // $('#day_div').hide();
                 $('#calendar_div .loading').show();
 
                 var url = '{{ route("medlist.getCalendar", ["*DATE*"]) }}';
@@ -419,7 +419,7 @@
                     this.week_div = response.data.week;*/
                     this.day_div = response.data.day_medlist;
                     $('#calendar_div .loading').hide();
-                    $('#day_div').show();
+                  //  $('#day_div').show();
 
                 }).catch(error => {
 
@@ -431,9 +431,9 @@
             changeMedication: function(medication) {
 
                 // console.log(member);
-                this.medication_complete = this.medlist_complete[medication];
-                console.log(medication);
-                console.log(this.medication_complete);
+               // this.medication_complete = this.medlist_complete[medication];
+               // console.log(medication);
+               // console.log(this.medication_complete);
             }
            
 
