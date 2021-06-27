@@ -16,6 +16,6 @@
  <a class="menu-link item d-block {{(Request::is('resources/*') ) ? 'active' : ''}}" href="{{ route('resources', '**SLUG**')}}">
     <i class="fas fa-globe"></i> <span>Resources</span>
 </a>
-<a class="menu-link item d-block {{(Request::is('messages/*') ) ? 'active' : ''}}" href="">
+<a class="menu-link item d-block {{(Request::is('messages/*') ) ? 'active' : ''}}" href="{{ route('messages', '**SLUG**')}}">
     <i class="far fa-comment-alt"></i> <span>Messages</span>
 </a>
