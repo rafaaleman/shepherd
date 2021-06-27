@@ -26,7 +26,7 @@
 
                             <div class="chat_people">
                                 <div class="chat_img"> 
-                                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="sunil"> 
+                                    <img :src="chat.user.photo" alt="sunil"> 
                                 </div>
                                 <div class="chat_ib">
                                     <h5>                                    
@@ -46,7 +46,10 @@
 
                             <li class="chat" v-for="message in messages">
                                 <div class="chat-avatar">
-                                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
+
+                                    <img :src="selected_chat2.user.photo" v-if="message.id_user == user">
+                                    
+                                    <img src="https://2mingenieria.com.ve/wp-content/uploads/2018/10/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" v-if="message.id_user != user">
                                     
                                 </div>
                                 <div class="chat-text">
@@ -295,6 +298,7 @@ body{margin-top:20px;}
             user : {{ Auth::id() }},
             user_send: null,
             selected_chat: null,
+            selected_chat2: null,
             contacts: [],
             chats:[],
             messages:[],
@@ -333,8 +337,6 @@ body{margin-top:20px;}
          {
             scrollToBottom(){
                 setTimeout(() => {
-                    console.log(this.$refs.message_list);
-                    console.log(this.$refs);
                     this.$refs.message_list.scrollTop = this.$refs.message_list.scrollHeight - this.$refs.message_list.clientHeight;
                 },50);
             },
@@ -369,6 +371,7 @@ body{margin-top:20px;}
                 url = url.replace('*ID*', this.selected_chat);                
                 axios.get(url).then(response => {
                     this.messages = response.data.data.chat;
+                    console.log(this.messages);
                 });
             },
             newChat: function(contact){
@@ -395,10 +398,10 @@ body{margin-top:20px;}
 
                 console.log('conversacion seleccionada: ' + chat.id);
                 this.selected_chat = chat.id;
+                this.selected_chat2 = chat;
                 this.message = null;
                 this.changeUser(chat);
                 this.getChat();
-
                 Echo.private("chat."+ chat.id ) 
                     .listen('NewMessage',(e)=>{
                         
