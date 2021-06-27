@@ -251,6 +251,8 @@
             getDoc(event){
                 this.newDocument.file = event.target.files[0];
                 this.fillDocument.file = event.target.files[0];
+                
+                $('#ffile').html(event.target.files[0].name);
             },
             getDocuments: function() {
                 var url = '{{ route("lockbox",$loveone_slug) }}';

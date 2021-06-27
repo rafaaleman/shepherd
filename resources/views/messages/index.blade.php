@@ -21,16 +21,19 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
                     <div class="users-container">
                         
-                        <div class="chat_list" v-for="chat in chats">
+                        <div class="chat_list" v-for="chat in chats" :id=" 'chat_' + chat.id " @click="selectChat(chat)" :class="(selected_chat == chat.id
+                        ) ? 'active_chat' : '' ">
+
                             <div class="chat_people">
                                 <div class="chat_img"> 
                                     <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="sunil"> 
                                 </div>
                                 <div class="chat_ib">
                                     <h5>                                    
-                                        @{{ chat.user.name +' '+  chat.user.lastname}} <span class="new_msg" v-if="chat.status == 1"></span>
+                                        @{{ chat.user.name +' '+  chat.user.lastname}} 
+                                        <span class="new_msg" v-if="chat.status == 1"></span>
                                     </h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                    <p>@{{chat.last_message}} </p>
                                 </div>
                             </div>
                         </div>
@@ -38,35 +41,23 @@
                     </div>
                 </div>
                 <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-                    <div class="chat-container">
-                        <ul class="chat-box chatContainerScroll">
+                    <div class="chat-container" v-if="selected_chat">
+                        <ul class="chat-box chatContainerScroll" ref="message_list">
 
-                            <li class="chat">
+                            <li class="chat" v-for="message in messages">
                                 <div class="chat-avatar">
                                     <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
                                     
                                 </div>
                                 <div class="chat-text">
-                                    Etiam in neque ac leo faucibus aliquam a in massa. Pellentesque vestibulum semper justo, a scelerisque lacus efficitur sit amet. Aenean hendrerit quis leo ac lacinia.
+                                    @{{ message.message }}
                                 </div>
-                                <div class="chat-hour">08:55<br> AM</div>
-                            </li>
-                            
-                            <li class="chat">
-                                <div class="chat-avatar">
-                                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                    
-                                </div>
-                                <div class="chat-text">
-                                    Vestibulum lobortis in massa ac luctus. Nulla sit amet erat sit amet magna eleifend eleifend.
-                                </div>
-                                <div class="chat-hour">08:56<br> AM</div>
-                                
-                            </li>
+                                <div class="chat-hour">@{{ message.created_at | formatDate }}<br> AM</div>
+                            </li>                           
                
                         </ul>
                         <div class="form-group mt-3 mb-0">
-                            <textarea class="form-control" rows="3" placeholder="Type your message here..."></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Type your message here..." v-model="message" v-on:keyup.enter="sendMessage"></textarea>
                         </div>
                     </div>
                 </div>
@@ -277,10 +268,13 @@ body{margin-top:20px;}
     border-top: 1px solid white;
 }
 
-ul {
+.chatContainerScroll {
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 30px 10px 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height : 600px;
 }
 
 </style>
@@ -292,16 +286,19 @@ ul {
          el: '#messages',
          created: function() 
          {
-             this.getCareteam();
-             this.getChats();
+            this.getCareteam();
+            this.getChats();
+
          },
          data: 
          {
             user : {{ Auth::id() }},
-            selected_user: null,
+            user_send: null,
+            selected_chat: null,
             contacts: [],
             chats:[],
             messages:[],
+            message:null,
             status: false,
          },
          filters: {
@@ -312,9 +309,11 @@ ul {
             },
             formatDate: function(value) {
                 if (value) {
-                    value = value.split('T');
                     
-                    return moment(String(value[0])).format('MMM Do YYYY hh:mm');
+                    value = value.split('T');   
+                    value = value[1].split('.');   
+                    return value[0];
+                   // return moment(String(value[0])).format('hh:mm');
                 }
             },
             Username : function(value){
@@ -325,22 +324,37 @@ ul {
          computed:{ 
  
          },
+         watch:{
+            messages(messages){
+                this.scrollToBottom();
+            }
+         },
          methods: 
          {
+            scrollToBottom(){
+                setTimeout(() => {
+                    console.log(this.$refs.message_list);
+                    console.log(this.$refs);
+                    this.$refs.message_list.scrollTop = this.$refs.message_list.scrollHeight - this.$refs.message_list.clientHeight;
+                },50);
+            },
             showModal() {
-                this.borrar();
+                //this.borrar();
                 $('#contactsModal').modal('show');
             },
             borrar(){
+                this.user_send= null;
                 this.contacts = [];
-                this.selected_user = 0;
+                this.selected_chat = null; 
                 this.messages = [];
+                this.chats = [];
                 this.status = false;
+                this.message = null;       
             },
             getCareteam: function(){
                 var url = '{{ route("messages.careteam",$loveone_slug) }}';  
                 axios.get(url).then(response => {
-                    this.contacts = response.data.data.careteam;                    
+                    this.contacts = response.data.data.careteam;
                 });
             },
             getChats: function(){
@@ -348,22 +362,77 @@ ul {
                 
                 axios.get(url).then(response => {
                     this.chats = response.data.data.chats;  
-                    
                 });
             },
-            getDocuments: function() {
-                 var url = '{{ route("lockbox",$loveone_slug) }}';
-                 axios.get(url).then(response => {
-                     this.types = response.data.types;
-                     this.documents = response.data.documents;  
-                     this.lastDocuments = response.data.lastDocuments;  
-                     
-                     console.log(response);
-                 }).then( data => {
-                     this.creaSlide();
-                 });
+            getChat: function(){
+                var url = '{{ route("messages.chat","*ID*") }}';
+                url = url.replace('*ID*', this.selected_chat);                
+                axios.get(url).then(response => {
+                    this.messages = response.data.data.chat;
+                });
+            },
+            newChat: function(contact){
+                let x = this.chats.find(chat => chat.receiver_id === contact.id);
+                let y = this.chats.find(chat => chat.sender_id === contact.id);
+                if(x){
+                    this.selectChat(x);                    
+                }else if(y){
+                    this.selectChat(y);
+                }else{
+                    var url = '{{ route("messages.chat.new",$loveone_slug) }}';
+                    let msg = {
+                        user_id: contact.id,
+                    };
+                    axios.post(url, msg).then(response => {
+                        let chat = response.data.data.chat;
+                        this.selectChat(chat);
+                        this.getChats();                   
+                    });   
+                }
+                $('#contactsModal').modal('hide');
+            },
+            selectChat: function(chat){
+
+                console.log('conversacion seleccionada: ' + chat.id);
+                this.selected_chat = chat.id;
+                this.message = null;
+                this.changeUser(chat);
+                this.getChat();
+
+                Echo.private("chat."+ chat.id ) 
+                    .listen('NewMessage',(e)=>{
+                        
+                        this.newM(e.message);
+                    });
              },
-             
+             changeUser: function (chat){
+                if(chat.sender_id != this.user){
+                    this.user_send = chat.sender_id;
+                }else{
+                    this.user_send = chat.receiver_id;
+                }
+             },
+             sendMessage: function(e){
+                 e.preventDefault();
+                 
+                if(this.message == '' ){ return;}
+
+                var url = '{{ route("messages.store") }}';
+                let msg = {
+                        user_id: this.user_send,
+                        chat_id: this.selected_chat,
+                        message: this.message
+                    };
+                axios.post(url, msg).then(response => {
+                    this.message = null;
+                    //this.messages = response.data.data.chat;
+                    
+                });
+             },
+             newM: function(M){
+
+                this.messages.push(M);
+             }
          }
      });
  </script>

@@ -11,7 +11,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="users-container">
 
-                        <div class="chat_list" v-for="cc in contacts">
+                        <div class="chat_list" v-for="cc in contacts" @click="newChat(cc)">
                             <div class="chat_people">
                                 <div class="chat_img"> 
                                     <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="sunil"> 
