@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
 
     <!-- Styles -->
+    <link href="{{ asset('css/vanillaCalendar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/slick/slick.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/slick/slick-theme.css') }}" rel="stylesheet">
@@ -43,6 +44,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/general.js') }}"></script>
+    <script src="{{ asset('js/vanillaCalendar.js') }}"></script>
     <script src="{{ asset('plugins/slick/slick.js') }}"></script>
     @stack('scripts')
 </body>
