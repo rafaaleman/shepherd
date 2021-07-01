@@ -123,7 +123,7 @@
                             Create Account
                         </button>
                         <input type="hidden" name="token" value="{{isset($token) ? $token : ''}}">
-
+                        <input type="hidden" name="company" value="{{isset($company) ? $company : ''}}">
                         <br>
                         <div class="text-black-50"> Have an account? <a href="{{ route('login') }}">Login</a></div>
                     </div>
