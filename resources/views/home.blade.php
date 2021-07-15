@@ -296,7 +296,7 @@ $(function(){
             current_loveone = localStorage.getItem('loveone');
             if(current_loveone != null){
                 current_loveone = JSON.parse(current_loveone);
-                if(current_loveone.id == item.getAttribute('data-id')) setLighterBg(color);
+                // if(current_loveone.id == item.getAttribute('data-id')) setLighterBg(color);
             }
         });
     }
