@@ -46,6 +46,14 @@
     <script src="{{ asset('js/general.js') }}"></script>
     <script src="{{ asset('js/vanillaCalendar.js') }}"></script>
     <script src="{{ asset('plugins/slick/slick.js') }}"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7ST81KZCPG"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7ST81KZCPG');
+    </script>
     @stack('scripts')
 </body>
 </html>

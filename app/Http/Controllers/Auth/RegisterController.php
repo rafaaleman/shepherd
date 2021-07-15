@@ -79,6 +79,7 @@ class RegisterController extends Controller
             'email'    => $data['email'],
             'photo'    => ($data['photo']) ?: '',
             'status'   => 1,
+            'company'    => ($data['company']) ?: 't',
             'password' => Hash::make($data['password']),
         ]);
     }
@@ -91,12 +92,14 @@ class RegisterController extends Controller
     public function showRegistrationForm2(Request $request)
     {
         $token = $request->token;
+        $company = (!empty($request->company))? $request->company : '';
         $invitation = Invitation::whereToken($token)->first();
         if($invitation){
             $email = $invitation->email;
-            return view('auth.register', compact('email', 'token'));
+            return view('auth.register', compact('email', 'token','company'));
         } else {
             return view('auth.register');
+
         }
     }
 
