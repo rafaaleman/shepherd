@@ -265,7 +265,7 @@ $(function(){
     $('#homeCarousel .carousel-item').click(function(){
         // $('#homeCarousel .carousel-item .btn').attr('disabled', false).text('Select').removeClass('disabled').removeClass('btn-secondary').addClass('btn-primary');
         // $(this).attr('disabled', true).text('Selected').addClass('disabled').removeClass('btn-primary').addClass('btn-secondary');
-        setLighterBg($(this).data('color'));
+        //setLighterBg($(this).data('color'));
     });
 
     setCarouselColors();
