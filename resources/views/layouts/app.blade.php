@@ -53,7 +53,6 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-7ST81KZCPG');
-    gtag('cookieDomain': 'none');
     </script>
     @stack('scripts')
 </body>
