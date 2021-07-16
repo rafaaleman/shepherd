@@ -16,7 +16,7 @@
 
         <div class="col-md-5 mt-5">
 
-            <h4 class="mb-3">Tell us about your love one</h4>
+            <h4 class="mb-3">Tell us about your loved one</h4>
 
             <div class="card p-4 shadow-sm">
                 <div class="form-group row">
