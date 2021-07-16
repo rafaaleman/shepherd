@@ -89,29 +89,36 @@
         max-height: 300px;
         cursor: pointer;
 
-        .carousel-caption{
-            bottom: 10px;
-            text-align: left;
+        &__container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .carousel__caption{
+            color: white;
 
             h5{
                 font-size: 24px;
                 font-weight: bold;
                 text-shadow: #686868 2px 2px;
             }
+
+            a.text-white{
+                text-decoration: underline;
+            }
         }
+
 
         img{
             height: 300px;
             width: auto;
-            margin: auto;
+            margin-right: 4em;
         }
     }
 }
 
-#home_new{
-
-    
-}
 
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {
