@@ -53,6 +53,9 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-7ST81KZCPG');
+    gtag('config', 'MEASUREMENT_ID', {
+    'user_id': "{{ Auth::user()->email }}"
+    });
     </script>
     @stack('scripts')
 </body>
