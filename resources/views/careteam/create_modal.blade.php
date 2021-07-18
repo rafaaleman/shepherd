@@ -110,7 +110,10 @@
 
 
             <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
-                <label style="font-size: 20px;" class="text-danger">No Shepherd account associated with this email. <a href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an invite</a></label>
+                <div class="col text-center">
+                    <p style="font-size: 20px;" class="text-danger">No Shepherd account associated with this email.</p>
+                    <a class="btn btn-primary centered" href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an invite</a>
+                </div>            
             </form>
         </div>
         </div>
