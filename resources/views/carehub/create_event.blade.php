@@ -45,7 +45,7 @@
                                         <template>
                                             @if($team->user != null)
                                             <div class="member w-100 ml-0 mb-2">
-                                                <img src="{{ (!empty($team->user->photo) && $team->user->photo != null ) ? asset('/public'.$team->user->photo) : asset('public/img/no-avatar.png')}}" class="float-left mr-2 mr-md-3">
+                                                <img src="{{ (!empty($team->user->photo) && $team->user->photo != null ) ? asset($team->user->photo) : asset('public/img/no-avatar.png')}}" class="float-left mr-2 mr-md-3">
                                                 <div class="row p-0">
                                                     <div class="data float-left text-truncate col-9 p-0">
                                                         <div class="name text-truncate">{{ $team->user->name }} </div>
