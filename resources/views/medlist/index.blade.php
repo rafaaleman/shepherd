@@ -59,10 +59,16 @@
                     
                     <div class="card-body row row-medlist">
                         <div class="col-xsm col-3 col-sm-2 col-md-2 col-lg-1">
-                            <img src="{{asset('/img/icons/tablets.png')}}" alt="dosage" class="dosage">
+                            <template v-if="medicine.route == 'Intravenous'">
+                                <img src="{{asset('/img/icons/injection.png')}}" alt="dosage" class="dosage">
+                            </template>
+                            <template v-else>
+                                <img src="{{asset('/img/icons/tablets.png')}}" alt="dosage" class="dosage">
+                            </template>
                         </div>
                         <div class="col-xsm col-6 col-sm-8 col-md-8 col-lg-10">
-                            <a href="#!" data-toggle="modal" data-target="#medlist-modal" class="" @click="changeMedication(medicine.medication_id)">
+                            <a href="#!" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine)">
+                                
                                 <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
                             </a>
                             <div class="role">@{{medicine.medicine}}</div>
@@ -74,7 +80,6 @@
                             <template v-else>
                                 <i class="fa fa-check-circle-o" style="font-size:40px;color:#cdcdd8"></i>
                             </template>
-
                         
                         </div>
                     </div>
@@ -360,7 +365,8 @@
             date_title: '',
             calendar: '',
             medlist_complete : '',
-            medication_complete : ''
+            medication_complete : '',
+            products:''
             
         },
         methods: {
@@ -428,8 +434,24 @@
                 });
 
             },
-            changeMedication: function(medication) {
+            viewMedication: function(medication) {
+                console.log(medication);
+                var url = '{{ route("medicine.search.wiki") }}';
+                    this.medications_search = [];
+                    
+                    const sendPostRequest = async () => {
+                        try {
+                            const resp = await axios.post(url, {keyword:medication.drugbank_pcid});
+                            this.products = resp.data.products;
+                          //  $("#message-search").removeClass('d-none').html('Results');
+                        } catch (err) {
+                            // Handle Error Here
+                            console.error(err);
+                        }
+                    };
 
+                    sendPostRequest();
+                //drugbank_pcid
                 // console.log(member);
                // this.medication_complete = this.medlist_complete[medication];
                // console.log(medication);

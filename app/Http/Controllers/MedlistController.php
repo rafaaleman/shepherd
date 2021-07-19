@@ -10,18 +10,19 @@ use App\Http\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Models\medication;
 use App\Models\medlist;
-
+use GuzzleHttp\Client;
 use App\Models\loveone;
 use App\Models\event;
-
 use App\Models\Invitation;
 use App\Models\careteam;
+use Illuminate\Support\Collection;
+
 use App\User;
 
 class MedlistController extends Controller
 {
     use NotificationTrait;
-
+    protected $apikey = "b2fd462e298e18c8345d3ec9490589cf";
     const MEDICATIONS_TABLE = 'medications';
 
     public function index(Request $request)
@@ -159,6 +160,8 @@ class MedlistController extends Controller
                 $med['date'] = $medicine->date;
                 $med['time'] = $medicine->time;
                 $med['dosage'] = $medication->dosage;
+                $med['drugbank_pcid'] = $medication->drugbank_pcid;
+                $med['route'] = $medication->route;
                 $med['medicine'] = $medication->medicine;
                 $date_temp = new DateTime($medicine->date . " " . $medicine->time);
                 $med['date_usa'] = $date_temp->format('Y-d-m');
@@ -252,5 +255,59 @@ class MedlistController extends Controller
 
 
         return $day;
+    }
+
+    public function getMedicineSearch(Client $client, Request $request){
+        //dd($request->keyword);// keyword
+        $medicines = array();
+        $response = $client->request('GET', 'https://api.drugbank.com/v1/us/product_concepts?q='.$request->keyword,[
+        'headers' => ['Authorization' => $this->apikey]
+        ]);
+        $resp = json_decode($response->getBody());
+        foreach($resp as $m){
+            $tmp = array();
+            
+            foreach($m->hits as $hit){
+                $tmp['hit'] = $hit->value;
+                $tmp['name'] = $m->name;
+                $tmp['drugbank_pcid'] = $m->drugbank_pcid;
+                array_push($medicines,$tmp);
+            }
+            
+
+        }
+        return response()->json(['success' => true, 'medicines' => $medicines]);
+    }
+
+    public function getRouteSearch(Client $client, Request $request){
+       // dd($request->keyword);// keyword
+        $medicines = array();
+        $response = $client->request('GET', 'https://api.drugbank.com/v1/us/product_concepts/'.$request->keyword.'/routes',[
+        'headers' => ['Authorization' => $this->apikey]
+        ]);
+        $routes = json_decode($response->getBody());
+        return response()->json(['success' => true, 'routes' => $routes]);
+    }
+
+    function getStrengthSearch(Client $client, Request $request){
+        // dd($request->keyword);// keyword
+        $medicines = array();
+        $response = $client->request('GET', 'https://api.drugbank.com/v1/us/product_concepts/'.$request->keyword.'/strengths',[
+        'headers' => ['Authorization' => $this->apikey]
+        ]);
+        $strengths = json_decode($response->getBody());
+        return response()->json(['success' => true, 'strengths' => $strengths]);
+    }
+
+
+    function getWikiSearch(Client $client, Request $request){
+        // dd($request->keyword);// keyword
+        $medicines = array();
+        $response = $client->request('GET', 'https://api.drugbank.com/v1/us/product_concepts/'.$request->keyword,[
+        'headers' => ['Authorization' => $this->apikey]
+        ]);
+        $products = json_decode($response->getBody());
+        //dd($products);
+        return response()->json(['success' => true, 'products' => $products]);
     }
 }
