@@ -14,10 +14,10 @@
 
                 <img src="{{asset('/img/LogoShepherd.png')}}"  alt="{{ config('app.name', 'Shepherd') }}" class="mb-5">
 
-                <div class="title mb-3">Dolor sit amet</div>
+                <div class="title mb-3">Welcome to ShepherdCares</div>
 
                 <div class="text-black-50">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut gravida in nisi at volutpat. 
+                Create your account and get immediate access to the tools and resources you need to better care for your loved one while regaining balance in your life.
                 </div>
 
                 <a class="btn btn-primary btn-lg mt-5 mb-5" href="{{ route('register') }}">Create Account</a>

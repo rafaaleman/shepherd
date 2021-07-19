@@ -79,8 +79,20 @@ class RegisterController extends Controller
             'email'    => $data['email'],
             'photo'    => ($data['photo']) ?: '',
             'status'   => 1,
+            'company'  => ($data['company']) ?: '',
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * Show the application registration form from email receiving possible "company" variable
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        $company = (!empty($request->company))? $request->company : '';
+        return view('auth.register', compact('company'));
     }
 
     /**
@@ -97,6 +109,7 @@ class RegisterController extends Controller
             return view('auth.register', compact('email', 'token'));
         } else {
             return view('auth.register');
+
         }
     }
 

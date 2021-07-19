@@ -1,10 +1,10 @@
 // General styles for all the site
 body{
-    color: #78849e;
-    font-family: 'Montserrat';
-    color: #78849e;
+    color: #595858;
+    font-family: $font-family-sans-serif;
 }
 
+.dropdown-menu
 .dropdown-menu
 {
     border: none;
@@ -23,6 +23,12 @@ body{
 .navbar{
     padding: 10px;
     z-index: 10;
+
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #505869;
+    letter-spacing: .2px;
 }
 
 .top-bar{
@@ -58,7 +64,7 @@ body{
 
     .item{
 
-        color: #78849e;
+        color: #505869;
         text-decoration: none;
         padding: 20px 25px;
         font-size: 16px;
