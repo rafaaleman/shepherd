@@ -61,7 +61,7 @@ class LockboxController extends Controller
         foreach($cm as $u){
             $role = "";
             $user = $u->user;
-            if(Auth::user()->id == $user->id || $u->role  == "admin" ){ $role ='admin'; }
+            if(Auth::user()->id == $user->id && $u->role  == "admin" ){ $role ='admin'; }
             else{ $role ="user"; }
 
             if(Auth::user()->id == $user->id && $u->role  == "admin" ){ $isAdmin = 1; }

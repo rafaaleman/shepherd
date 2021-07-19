@@ -6,7 +6,7 @@
         <div class="col-12">
             <h4>RECENT DOCUMENTS</h4>            
                 <div class="carrusel">
-                    <div v-for="doc in lastDocuments" v-on:click="showM(doc.id,doc)">
+                    <div v-for="doc in lastDocuments" v-on:click="showM(doc.id,doc)" :class="docVisible(doc,'r')">
                         <img :src="doc.file|isImage" class="carrusel-doc">
                     </div>                    
                 </div>            
@@ -16,7 +16,7 @@
         <div class="col-12">
             <h4>ESSENTIAL DOCUMENTS</h4>
         </div>
-                <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle">
+                <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle"  :class="docVisible(doc,'r')" >
                     <div class="card-body">
                         <h5 class="card-title t1">@{{ doc.name }}</h5>
                         <p class="card-text t2">@{{ doc.description}}</p>
@@ -312,15 +312,32 @@ a:hover {
         },
         methods: {
             docVisible: function (doc,p) {
+                console.log(doc);
                 let d= [];
                 let show = false;
+                if(this.auth_role == 1){
+                    show = false;
+                }else{
                 if(doc.permissions != null){
                     dp = doc.permissions.find( item => item.user === this.auth_user);
-                    show = (dp.p == 1)? false:true;
+                    
+                    switch(p){
+                        case 'r':
+                        show = (dp.r == 1)? false:true;
+                        break;
+                        case 'u':
+                        show = (dp.u == 1)? false:true;
+                        break;
+                        case 'd':
+                        show = (dp.d == 1)? false:true;
+                        break;
+                    }
+                }
                 }
                 
+                
                  return {                 
-                    'd.none': show
+                    'd-none': show
                 }
                     
             },
