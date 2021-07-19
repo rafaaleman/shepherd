@@ -8,9 +8,21 @@
             </button>
         </div>
         <div class="modal-body row">
+
+            <div class="row d-flex justify-content-between mt-4 mx-1 mx-sm-3 mb-0 pb-0 border-0">
+                <div class="tabs active" id="tab01">
+                    <h6 class="font-weight-bold">Document</h6>
+                </div>
+                <div class="tabs" id="tab02">
+                    <h6 class="text-muted">Permission</h6>
+                </div>
+            </div>
+            <div class="line"></div>
             <form method="post" id="createDocumentform" class="col-md-12 p-3" v-on:submit.prevent="createDocument()">                
                 <input type="hidden" name="type" id="type" v-model="newDocument.lockbox_types_id">
                 <input type="hidden" name="status" id="status" v-model="newDocument.status">
+            <fieldset id="tab011" class="show col-md-12 p-3">
+            
 
                 <label for="name" class="text-black-50">Name:</label>
                 <div class="mb-4">
@@ -29,13 +41,51 @@
                     </label>
                     
                 </div>
-                <div class="mb-4  text-center">
-                    <button type="submit" class="btn btn-primary btn-submit btn-block">Save</button>
+                
+            </fieldset>
+            <fieldset id="tab021" class="col-md-12 p-3">
+                <div class="section p-3">
+                    <table class="w-100">
+                        <tr>
+                            <th></th>
+                            <th>Read</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                    </tr>
+                        <tr v-for="c in careteam">
+                            <td >
+                                <span>@{{ c.name }}</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.role == 'admin'" :id=`read-${c.id}` @change="assignPermission('r',c.id)">
+                                    <label class="custom-control-label" :for=`read-${c.id}` ></label>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.role == 'admin'" :id=`update-${c.id}` @change="assignPermission('u',c.id)">
+                                    <label class="custom-control-label" :for=`update-${c.id}`></label>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.role == 'admin'" :id=`delete-${c.id}` @change="assignPermission('d',c.id)">
+                                    <label class="custom-control-label" :for=`delete-${c.id}`></label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="mb-4  text-center">
-                    <button type="button"  @click="hideModal('createModal')" class="btn btn-light  btn-block">Cancel</button>
-                </div>
-            </form>
+
+            </fieldset>
+            <div class="mb-4  text-center">
+                <button type="submit" class="btn btn-primary btn-submit btn-block">Save</button>
+            </div>
+            <div class="mb-4  text-center">
+                <button type="button"  @click="hideModal('createModal')" class="btn btn-light  btn-block">Cancel</button>
+            </div>
+        </form>
         </div>
         </div>
     </div>
@@ -44,8 +94,8 @@
 @push('css')
 <style>
     [hidden] {
-  display: none !important;
-}
+        display: none !important;
+    }
 </style>
 @endpush
 

@@ -35,7 +35,8 @@ class LockboxController extends Controller
      */
     public function index(Request $request)
     {
-        
+        $careteam = array();
+       $isAdmin= 0 ;
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
@@ -53,12 +54,29 @@ class LockboxController extends Controller
             return redirect('/home')->with('err_permisison', "You don't have permission to Lockbox!");  
         }
 
+        
+
+        $cm = careteam::where('loveone_id',$loveone->id)->get();
+        $p = json_encode("{ 'user' : 0, 'r' : 0 , 'u': 0, 'd': 0}");
+        foreach($cm as $u){
+            $role = "";
+            $user = $u->user;
+            if(Auth::user()->id == $user->id || $u->role  == "admin" ){ $role ='admin'; }
+            else{ $role ="user"; }
+
+            if(Auth::user()->id == $user->id && $u->role  == "admin" ){ $isAdmin = 1; }
+
+            $careteam[] =array('id'=>$user->id,'name'=> $user->name . ' ' . $user->lastname,'photo' => $user->photo, 'status' => $user->status,'role' => $role, 'permissions' => $p);            
+        }
 
         if ($request->ajax()) 
         {
             $types     = lockbox_types::all();
             $documents = lockbox::where('loveones_id',$loveone->id)
                                 ->get();
+            foreach($documents as $i => &$d){
+                $d->permissions  = \json_decode($d->permissions);
+            }
 
             foreach($types as &$t){
                 $t->asFile = false;
@@ -77,13 +95,15 @@ class LockboxController extends Controller
                             ->orderBy('created_at', 'desc')
                             ->take(5)
                             ->get();
-
-            return array('types' => $types, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
+            foreach($last as &$d){
+                $d->permissions  = \json_decode($d->permissions);
+            }
+            return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug,'isAdmin' =>$isAdmin );
         }
 
         
 
-        return view('lockbox.index',compact('loveone','loveone_slug'));
+        return view('lockbox.index',compact('loveone','loveone_slug','careteam'));
     }
 
     /**
@@ -132,6 +152,8 @@ class LockboxController extends Controller
             $doct->name             = $request->name;
             $doct->description      = $request->description;      
             $doct->status           = $request->status;
+            $doct->permissions      = $request->permissions;
+
             $doct->file             =  '/'.$filePath;
             $doct->save();
             
