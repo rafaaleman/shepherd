@@ -79,9 +79,20 @@ class RegisterController extends Controller
             'email'    => $data['email'],
             'photo'    => ($data['photo']) ?: '',
             'status'   => 1,
-            'company'    => ($data['company']) ?: 't',
+            'company'  => ($data['company']) ?: '',
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * Show the application registration form from email receiving possible "company" variable
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        $company = (!empty($request->company))? $request->company : '';
+        return view('auth.register', compact('company'));
     }
 
     /**
@@ -92,11 +103,10 @@ class RegisterController extends Controller
     public function showRegistrationForm2(Request $request)
     {
         $token = $request->token;
-        $company = (!empty($request->company))? $request->company : '';
         $invitation = Invitation::whereToken($token)->first();
         if($invitation){
             $email = $invitation->email;
-            return view('auth.register', compact('email', 'token','company'));
+            return view('auth.register', compact('email', 'token'));
         } else {
             return view('auth.register');
 
