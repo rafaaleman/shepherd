@@ -118,18 +118,18 @@
             },
             acceptInvitation: function(user_id, token) {
 
-                swal({
-                    title: "Warning",
-                    text: "Are you sure accept this invitation?",
-                    icon: "warning",
-                    buttons: [
-                        'No, cancel it!',
-                        "Yes, I'm sure!"
-                    ],
-                    dangerMode: true,
-                }).then(function(isConfirm) {
+                // swal({
+                //     title: "Warning",
+                //     text: "Are you sure accept this invitation?",
+                //     icon: "warning",
+                //     buttons: [
+                //         'No, cancel it!',
+                //         "Yes, I'm sure!"
+                //     ],
+                //     dangerMode: true,
+                // }).then(function(isConfirm) {
 
-                    if(isConfirm){
+                //     if(isConfirm){
                         var url = '{{ route("careteam.acceptInvitation") }}';
                         data = {
                             user_id: user_id,
@@ -150,8 +150,8 @@
                             
                             swal(msg, "", icon);
                         });
-                    }
-                });
+                //     }
+                // });
             }
         },
     });

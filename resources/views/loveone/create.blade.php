@@ -9,7 +9,7 @@
         <div class="col-md-6 photo-container bg-primary d-flex align-items-center" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
             <div class="bigBtn">
                 <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
-                Upload Photo
+                Upload photo of your loved one
             </div>
             <input id="photo" type="file" class="form-control d-none" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
         </div>
@@ -20,14 +20,14 @@
 
             <div class="card p-4 shadow-sm">
                 <div class="form-group row">
-                    <label for="firstname" class="col-md-4 col-form-label text-md-right">First Name</label>
+                    <label for="firstname" class="col-md-4 col-form-label text-md-right">First Name <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="firstname" type="text" class="form-control" name="firstname" value="{{(isset($loveone)) ? $loveone->firstname : ''}}" required autocomplete="firstname" autofocus v-model="loveone.firstname">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="lastname" class="col-md-4 col-form-label text-md-right">Lastname</label>
+                    <label for="lastname" class="col-md-4 col-form-label text-md-right">Last Name <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="lastname" type="text" class="form-control" name="lastname" value="{{(isset($loveone)) ? $loveone->lastname : ''}}" required autocomplete="lastname" autofocus v-model="loveone.lastname">
@@ -46,7 +46,7 @@
                     <label for="phone" class="col-md-4 col-form-label text-md-right">Phone #</label>
 
                     <div class="col-md-7">
-                        <input id="phone" type="tel" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" required autocomplete="phone" autofocus v-model="loveone.phone">
+                        <input id="phone" type="tel" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" autocomplete="phone" autofocus v-model="loveone.phone">
                     </div>
                 </div>
 
@@ -54,12 +54,14 @@
                     <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                     <div class="col-md-7">
-                        <input id="address" type="text" class="form-control" name="address" value="{{(isset($loveone)) ? $loveone->address : ''}}" required autocomplete="address" autofocus v-model="loveone.address">
+                        <textarea id="address" class="form-control" name="address" rows="3" autofocus v-model="loveone.address">
+                            {{(isset($loveone)) ? $loveone->address : ''}}
+                        </textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth</label>
+                    <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="dob" type="date" class="form-control" name="dob" required autocomplete="dob" v-model="loveone.dob" value="{{(isset($loveone)) ? $loveone->dob : ''}}">
@@ -83,7 +85,9 @@
 
             <div class="card p-4 shadow-sm">
 
-                <input type="text" id="condition" placeholder="Start typing condition" class="form-control mb-4 pr-2 mt-2" name="condition" autocomplete="off">
+                Select the health conditions relevant to your loved one:
+
+                <input type="text" id="condition" placeholder="Start typing condition" class="form-control mb-4 pr-2 mt-3" name="condition" autocomplete="off">
 
                 <div class="conditions">
                 @if (isset($loveone))
@@ -195,7 +199,7 @@ $(function(){
         var size = file[0].files[0].size;
 		var ext = $(this).val().split('.').pop().toLowerCase();
         //Check Size
-        if ((size/1024) < 1024) {
+        if ((size/1024) < 30720) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
@@ -206,7 +210,7 @@ $(function(){
             reader.readAsDataURL(file[0].files[0]);
         } else {
             //Show Error
-            swal('Error', 'The maximun file size is 1MB.', 'error')
+            swal('Error', 'The maximun file size is 30MB.', 'error')
         }
         
         return false;
