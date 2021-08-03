@@ -252,6 +252,7 @@ class CareteamController extends Controller
                 'role' => $request->role_id,
                 'loveone_name' => $loveone->firstname . ' ' . $loveone->lastname,
                 'loveone_photo' => $loveone->photo,
+                'leader' => Auth::user()->name . ' ' . Auth::user()->lastname,
             ];
     
             Mail::to($request->email)->send(new sendJoinTeamMail($details));

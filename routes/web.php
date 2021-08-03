@@ -9,7 +9,7 @@ Route::get('/', function () {
 Auth::routes([
     'register' => true,
     'verify' => true,
-    'reset' => false
+    'reset' => true
 ]);
 
 Route::post('/user/profile/update', 'Auth\RegisterController@updateUser')->name('user.profile.update')->middleware('auth');
