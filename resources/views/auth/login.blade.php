@@ -12,7 +12,12 @@
             <form method="POST" action="{{ route('login') }}" id="login_form">
                 @csrf
 
-                <img src="{{asset('/img/LogoShepherd.png')}}"  alt="{{ config('app.name', 'Shepherd') }}" class="mb-5">
+                <img srcset="{{asset('/img/LogoShepherd.png')}},
+                        {{asset('/img/LogoShepherd@2x.png')}} 2x,
+                        {{asset('/img/LogoShepherd@3x.png')}} 3x"
+                src="{{asset('/img/LogoShepherd.png')}}"
+                alt="Main Shepherd logo"
+                class="mb-5" >
 
                 <div class="form-group row">
                     <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
