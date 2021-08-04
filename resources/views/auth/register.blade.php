@@ -76,7 +76,7 @@
                     <label for="phone" class="col-md-4 col-form-label text-md-right">Mobile Number</label>
 
                     <div class="col-md-7">
-                        <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" minlength="10" maxlength="10">
+                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" >
 
                         @error('phone')
                             <span class="invalid-feedback" role="alert">
@@ -175,14 +175,23 @@
 @endpush
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
 <script>
+
+
 $(function(){
+    new Cleave('#phone', {
+        numericOnly: true,
+        blocks: [0, 3, 0, 3, 4],
+        delimiters: ["(", ")", " ", "-"]
+    });
+
     $('.photo-btn').click(function(){
         $('#photo').click();
     });
 
     $('#register_user').submit(function(){
-
+        $('#phone').val($('#phone').val().replace(/\D/g,''));
         $('.create').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
     });
 

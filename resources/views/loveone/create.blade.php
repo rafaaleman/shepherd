@@ -182,10 +182,17 @@
 @endpush
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
 <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
 <script>
 
 $(function(){
+
+    new Cleave('#phone', {
+        numericOnly: true,
+        blocks: [0, 3, 0, 3, 4],
+        delimiters: ["(", ")", " ", "-"]
+    });
 
     $('.bigBtn').click(function(){
         $(' #photo').click();
@@ -279,6 +286,7 @@ if(isset($loveone) && $loveone->conditions != ''){
         methods: {
             createLoveone: function() {
                 console.log('creating');
+                this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
                 this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
 
