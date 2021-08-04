@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-7 d-flex justify-content-center mb-3 ">
                         <div class="btn btn-primary btn-block photo-btn">
-                            <i class="far fa-user mb-1"></i> Upload Photo
+                            <i class="far fa-user mb-1"></i> Upload your Profile Photo
                         </div>
                         <input id="photo" type="file" class="d-none" name="photo" accept=".jpg, .png">
                     </div>
@@ -130,7 +130,7 @@
                         <input type="hidden" name="token" value="{{isset($token) ? $token : ''}}">
                         <input type="hidden" name="company" value="{{isset($company) ? $company : ''}}">
                         <br>
-                        <div class="text-black-50"> Have an account? <a href="{{ route('login') }}">Login</a></div>
+                        <div class="text-black-50"> Already have an account? <a href="{{ route('login') }}">Login</a></div>
                     </div>
                 </div>
             </form>
@@ -185,7 +185,7 @@ $(function(){
         var size = file[0].files[0].size;
 		var ext = $(this).val().split('.').pop().toLowerCase();
         //Check Size
-        if ((size/1024) < 1024) {
+        if ((size/1024) < 30720) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
@@ -195,7 +195,7 @@ $(function(){
             reader.readAsDataURL(file[0].files[0]);
         } else {
             //Show Error
-            swal('Error', 'The maximun file size is 1MB.', 'error')
+            swal('Error', 'The maximun file size is 30MB.', 'error')
         }
         
         return false;

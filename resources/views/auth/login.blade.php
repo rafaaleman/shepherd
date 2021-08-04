@@ -67,7 +67,6 @@
                             <a class="btn btn-link" href="{{ route('password.request') }}">
                                 {{ __('Forgot Your Password?') }}
                             </a>
-                            |
                         @endif
 
                         <div class="text-black-50 ">New on Shepherd? <a href="{{ route('register') }}" class="">Register</a></div>
