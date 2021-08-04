@@ -69,7 +69,7 @@
                             </a>
                         @endif
 
-                        <div class="text-black-50 ">New on Shepherd? <a href="{{ route('register') }}" class="">Register</a></div>
+                        <div class="text-black-50 ">New to Shepherd? <a href="{{ route('register') }}" class="">Create an account</a></div>
                     </div>
                 </div>
             </form>

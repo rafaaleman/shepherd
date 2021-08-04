@@ -86,7 +86,7 @@
     .carousel-item{
         background-color: $primary-color;
         min-height: 200px;
-        max-height: 300px;
+        max-height: 200px;
         cursor: pointer;
 
         &__container {
@@ -112,11 +112,28 @@
 
 
         img{
-            height: 300px;
+            height: 200px;
             width: auto;
-            margin-right: 4em;
+            margin-right: 1em;
+            margin-left: -1em;
+        }
+        
+    }
+
+    @media (min-width: 576px) {
+        .carousel-item{
+            min-height: 200px;
+            max-height: 300px;
+    
+            img{
+                height: 300px;
+                width: auto;
+                margin-right: 4em;
+                margin-left: 0;
+            }
         }
     }
+    
 }
 
 
