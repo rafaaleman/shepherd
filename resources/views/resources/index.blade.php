@@ -5,7 +5,7 @@
 //dump($topics['articles']);
 @endphp
 <div class="container" id="topics">
-
+    {{--
     <h5 class="mb-3 font-weight-bolder text-dark">Trending topics</h5>
     <div class="d-flex mb-4">
         <div class="input-group">
@@ -44,6 +44,7 @@
                 </div>
             </div>
         </div>
+        --}}
   
         
     
@@ -97,7 +98,6 @@
 @endsection
 @push('styles')
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-// Add the new slick-theme.css if you want the default styling
 <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 <style>
 
@@ -125,7 +125,7 @@ var app = new Vue({
         
     },
     created: function(){
-        this.searchArticlesIni();
+        //this.searchArticlesIni();
 
     },
     updated:function(){
@@ -190,13 +190,6 @@ var app = new Vue({
                 });
         },
   
-      /*  fetchMembers: function(){
-            app.articles=[];
-            axios.post('action.php')
-                .then(function(response){
-                    app.articles = response.data.articles;
-                });
-        },*/
   
         toFormData: function(obj){
             var form_data = new FormData();

@@ -28,7 +28,8 @@ class ResourceController extends Controller
         return view('resources.index',compact('topics','conditions_loveone'));
 
     }
-
+    
+    // general query to API, no longer used
     public function getTopicsSearch(Client $client, Request $request){
         //dd($_POST);// keyword
         $response = $client->request('GET', 'https://newsapi.org/v2/top-headlines?q='.$request->keyword.'&apiKey='.$this->apikey);
@@ -37,6 +38,7 @@ class ResourceController extends Controller
         return response()->json(['success' => true, 'topics' => $topics]);
     }
 
+    // general query to API, no longer used
     public function getTopicsSearchIni(Client $client, Request $request){
         //dd($_POST);// keyword
         $response = $client->request('GET', "https://newsapi.org/v2/top-headlines?country=us&apiKey=".$this->apikey);
