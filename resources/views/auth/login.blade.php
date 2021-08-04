@@ -60,7 +60,7 @@
                 </div> --}}
 
                 <div class="form-group row mb-0">
-                    <div class="col-md-7 offset-3">
+                    <div class="col-md-7 offset-md-3">
                         <button type="submit" class="btn btn-primary btn-lg mt-3 mb-5" id="loginBtn">Login</button>
                         <br>
                         @if (Route::has('password.request'))
