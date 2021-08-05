@@ -11,7 +11,7 @@
                             <p class="mb-1" style="color:#cdcdd8" >{{$event->location}}</p>
                             <div style="padding-left:10px;">
                                 @foreach($event->members as $assigned)
-                                    <img src="{{$assigned->user->photo}}" class="member-img" title="{{$assigned->user->name}} + ' ' + {{$assigned->user->lastname}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                    <img src="{{ (!empty($assigned->user->photo) && $assigned->user->photo != null ) ? asset($assigned->user->photo) : asset('/img/no-avatar.png')}}" class="member-img" title="{{$assigned->user->photo}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 @endforeach
                             </div>
                             <hr class="mb-1">
@@ -22,7 +22,7 @@
 
                             @if(!empty($event->notes))
                                 <div class="bg w-100 mt-5 @if($event->creator_id == $id_careteam) creator @else member @endif">
-                                    <img src="{{$event->creator->photo}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                    <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? asset($event->creator->photo) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                     {{$event->notes}}
                                 </div>
                             @endif
@@ -43,7 +43,7 @@
                     @if($message->creator_id == $id_careteam)
                         <div class="row col-12 justify-content-center align-items-center m-2 creator" >
                             <div class="col-10 col-sm-11 alert alert-dark text-white text-left m-0 msg">
-                                <img src="{{$message->creator_img}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? asset($message->creator_img) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 {{$message->message}}
                             </div>
                             <div class="col-2 col-sm-1 text-uppercase time justify-content-center align-items-center">
@@ -58,7 +58,7 @@
                                 {{$message->time_cad_a}}
                             </div>
                             <div class="col-10 col-sm-11 alert alert-dark text-white text-right m-0 msg">
-                                <img src="{{$message->creator_img}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? asset($message->creator_img) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 {{$message->message}}
                             </div>
                             
@@ -92,7 +92,7 @@
 <style>
     .member-img {
         background-color: #fff;
-        margin-left: -10px;
+        margin-left: -10px !important;
         width: 25px;
         border-radius: 50%;
     }
@@ -116,12 +116,12 @@
     }
 
     .creator div .member-img,.creator .member-img, .member div .member-img{
-        margin-left: -35px;
+        margin-left: -35px !important;
         margin-top: -45px;
     }
 
     .member div .member-img, .member .member-img{
-        margin-right: -35px;
+        margin-right: -35px !important;
         margin-top: -25px;
         float: right;
     }
