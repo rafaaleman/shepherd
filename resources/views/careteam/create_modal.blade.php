@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Invite Someone to <span id="loveoneName"></span> Care Team</h5>
+            <h5 class="modal-title">Invite Someone to <span id="loveoneName"></span>'s Care Team</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
