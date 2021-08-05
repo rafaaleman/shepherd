@@ -10007,16 +10007,18 @@ body {
   font-family: "Arial", sans-serif;
 }
 
-.dropdown-menu .dropdown-menu {
+.dropdown-menu {
   border: none;
 }
-.dropdown-menu .dropdown-menu .item {
+.dropdown-menu .item {
   color: #00000080;
   margin-bottom: 15px;
 }
-.dropdown-menu .dropdown-menu .item .fas, .dropdown-menu .dropdown-menu .item .far {
-  font-size: 16px;
+.dropdown-menu .item .fas, .dropdown-menu .item .far {
+  font-size: 21px;
   padding: 0 10px 0 20px;
+  min-width: 61px;
+  text-align: center;
 }
 
 .navbar {
@@ -10204,7 +10206,7 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-c
 #homeCarousel .carousel-item {
   background-color: #369bb6;
   min-height: 200px;
-  max-height: 300px;
+  max-height: 200px;
   cursor: pointer;
 }
 #homeCarousel .carousel-item__container {
@@ -10225,9 +10227,22 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-c
   text-decoration: underline;
 }
 #homeCarousel .carousel-item img {
-  height: 300px;
+  height: 200px;
   width: auto;
-  margin-right: 4em;
+  margin-right: 1em;
+  margin-left: -1em;
+}
+@media (min-width: 576px) {
+  #homeCarousel .carousel-item {
+    min-height: 200px;
+    max-height: 300px;
+  }
+  #homeCarousel .carousel-item img {
+    height: 300px;
+    width: auto;
+    margin-right: 4em;
+    margin-left: 0;
+  }
 }
 
 /******************************* MOBILE *********************************/

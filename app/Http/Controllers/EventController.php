@@ -358,7 +358,7 @@ class EventController extends Controller
         $id_careteam = 0;
         foreach ($careteam as $key => $team){
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? env('APP_URL').'/public'.$team->user->photo :  asset('public/img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? '/public'.$team->user->photo :  asset('public/img/avatar2.png');
             }
         }
 
@@ -381,10 +381,10 @@ class EventController extends Controller
             $event->messages[$key]->time_cad_gi = $date_temp->format('g:i');
             $event->messages[$key]->time_cad_a = $date_temp->format('a');
             $event->messages[$key]->date_title = $date_temp->format('l, j F Y');
-            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? env('APP_URL').'/public'.$message->creator->user->photo :  asset('public/img/avatar2.png');
+            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? '/public'.$message->creator->user->photo :  asset('public/img/avatar2.png');
             
          }
-         $event->creator->photo = ($event->creator->photo != '') ? env('APP_URL').'/public'.$event->creator->photo :  asset('public/img/avatar2.png');
+         $event->creator->photo = ($event->creator->photo != '') ? '/public'.$event->creator->photo :  asset('public/img/avatar2.png');
         // dd($event);
         return view('carehub.event_detail',compact('event','is_careteam','id_careteam'));
 

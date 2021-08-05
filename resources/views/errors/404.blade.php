@@ -8,11 +8,16 @@
     <div class="row">
         <div class="col-md-6 image" style="background-image: url('{{asset('/img/bg'.$bg.'.png')}}')"></div>
 
-        <div class="col d-flex justify-content-center align-items-center text-center">
+        <div class="col d-flex justify-content-center align-items-center text-center mt-4">
             <form method="POST" action="{{ route('login') }}" id="login_form">
                 @csrf
 
-                <img src="{{asset('/img/LogoShepherd.png')}}"  alt="{{ config('app.name', 'Shepherd') }}" class="mb-5">
+                <img srcset="{{asset('/img/LogoShepherd.png')}},
+                        {{asset('/img/LogoShepherd@2x.png')}} 2x,
+                        {{asset('/img/LogoShepherd@3x.png')}} 3x"
+                src="{{asset('/img/LogoShepherd.png')}}"
+                alt="Main Shepherd logo"
+                class="mb-5" >
 
                 <div class="title mb-3">404 Page not found :(</div>
 
@@ -44,8 +49,16 @@
     
     .image{
         background-size: cover;
-        background-position: center;
-        height: 100vh;
+        background-position: top left;
+        height: 60vh;
+    }
+
+    @media (min-width: 576px) {
+        .image{
+            background-size: cover;
+            background-position: top left;
+            height: 100vh;
+        }
     }
 
     .title{

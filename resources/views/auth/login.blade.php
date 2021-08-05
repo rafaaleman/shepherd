@@ -8,11 +8,16 @@
     <div class="row">
         <div class="col-md-6 image" style="background-image: url('{{asset('/img/bg'.$bg.'.png')}}')"></div>
 
-        <div class="col d-flex justify-content-center align-items-center text-center">
+        <div class="col d-flex justify-content-center align-items-center text-center mt-4">
             <form method="POST" action="{{ route('login') }}" id="login_form">
                 @csrf
 
-                <img src="{{asset('/img/LogoShepherd.png')}}"  alt="{{ config('app.name', 'Shepherd') }}" class="mb-5">
+                <img srcset="{{asset('/img/LogoShepherd.png')}},
+                        {{asset('/img/LogoShepherd@2x.png')}} 2x,
+                        {{asset('/img/LogoShepherd@3x.png')}} 3x"
+                src="{{asset('/img/LogoShepherd.png')}}"
+                alt="Main Shepherd logo"
+                class="mb-5" >
 
                 <div class="form-group row">
                     <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
@@ -55,7 +60,7 @@
                 </div> --}}
 
                 <div class="form-group row mb-0">
-                    <div class="col-md-7 offset-3">
+                    <div class="col-md-7 offset-md-3">
                         <button type="submit" class="btn btn-primary btn-lg mt-3 mb-5" id="loginBtn">Login</button>
                         <br>
                         @if (Route::has('password.request'))
@@ -64,7 +69,7 @@
                             </a>
                         @endif
 
-                        <div class="text-black-50 ">New on Shepherd? <a href="{{ route('register') }}" class="">Register</a></div>
+                        <div class="text-black-50 ">New to Shepherd? <a href="{{ route('register') }}" class="">Create an account</a></div>
                     </div>
                 </div>
             </form>
@@ -82,8 +87,16 @@
     
     .image{
         background-size: cover;
-        background-position: center;
-        height: 100vh;
+        background-position: top left;
+        height: 60vh;
+    }
+
+    @media (min-width: 576px) {
+        .image{
+            background-size: cover;
+            background-position: top left;
+            height: 100vh;
+        }
     }
 
     #login_form{

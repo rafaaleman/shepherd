@@ -8,11 +8,16 @@
     <div class="row">
         <div class="col-md-6 image" style="background-image: url('{{asset('/img/bg'.$bg.'.png')}}')"></div>
 
-        <div class="col d-flex justify-content-center align-items-center text-center">
+        <div class="col d-flex justify-content-center align-items-center text-center mt-4">
             <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" id="register_user">
                 @csrf
 
-                <img src="{{asset('/img/LogoShepherd.png')}}"  alt="{{ config('app.name', 'Shepherd') }}" class="mb-5">
+                <img srcset="{{asset('/img/LogoShepherd.png')}},
+                        {{asset('/img/LogoShepherd@2x.png')}} 2x,
+                        {{asset('/img/LogoShepherd@3x.png')}} 3x"
+                src="{{asset('/img/LogoShepherd.png')}}"
+                alt="Main Shepherd logo"
+                class="mb-5" >
 
                 <div class="form-group row">
                     <div class="col-md-4 col-form-label float-right">
@@ -27,7 +32,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('First Name') }}</label>
 
                     <div class="col-md-7">
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -40,7 +45,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="lastname" class="col-md-4 col-form-label text-md-right">Lastname</label>
+                    <label for="lastname" class="col-md-4 col-form-label text-md-right">Last Name</label>
 
                     <div class="col-md-7">
                         <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname">
@@ -71,7 +76,7 @@
                     <label for="phone" class="col-md-4 col-form-label text-md-right">Mobile Number</label>
 
                     <div class="col-md-7">
-                        <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" minlength="10" maxlength="10">
+                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" >
 
                         @error('phone')
                             <span class="invalid-feedback" role="alert">
@@ -140,10 +145,19 @@
     .top-navigation{
         display: none;
     }
+    
     .image{
         background-size: cover;
-        background-position: center;
-        height: 100vh;
+        background-position: top left;
+        height: 60vh;
+    }
+
+    @media (min-width: 576px) {
+        .image{
+            background-size: cover;
+            background-position: top left;
+            height: 100vh;
+        }
     }
 
     #register_user{
@@ -161,14 +175,23 @@
 @endpush
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
 <script>
+
+
 $(function(){
+    new Cleave('#phone', {
+        numericOnly: true,
+        blocks: [0, 3, 0, 3, 4],
+        delimiters: ["(", ")", " ", "-"]
+    });
+
     $('.photo-btn').click(function(){
         $('#photo').click();
     });
 
     $('#register_user').submit(function(){
-
+        $('#phone').val($('#phone').val().replace(/\D/g,''));
         $('.create').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
     });
 
