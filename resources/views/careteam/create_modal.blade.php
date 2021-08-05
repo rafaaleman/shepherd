@@ -10,16 +10,13 @@
         <div class="modal-body row">
             
             <form method="post" id="searchMemberForm" class="col-md-12 p-3" v-on:submit.prevent="searchMember()">
-
                 
                 <label for="s_email" class="text-black-50">Search by email:</label>
-                <div class="d-flex mb-4">
+                <div class="d-flex mb-1">
                     <input id="s_email" type="email" class="form-control mr-2" name="s_email" autofocus required>
                     <button class="btn btn-primary searchBtn"> <i class="fas fa-search"></i> </button>
                 </div>
             </form>
-
-            
 
             <form method="post" id="inlcudeMemberForm" class="col-md-12 p-3 d-none" v-on:submit.prevent="addMember2Careteam()">
 
@@ -108,12 +105,8 @@
                 <button class="btn btn-primary loadingBtn btn-lg my-2" type="submit" data-loading-text="Sending..." id="includeMember">Send invite</button>
             </form>
 
-
-
-
             <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
                 <div class="col text-center">
-                    <p style="font-size: 20px;" class="text-danger">No Shepherd account associated with this email.</p>
                     <a class="btn btn-primary centered" href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an invite</a>
                 </div>            
             </form>
