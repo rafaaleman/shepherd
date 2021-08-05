@@ -48,7 +48,7 @@
                                                 <img src="{{ (!empty($team->user->photo) && $team->user->photo != null ) ? asset($team->user->photo) : asset('/img/no-avatar.png')}}" class="float-left mr-2 mr-md-3">
                                                 <div class="row p-0">
                                                     <div class="data float-left text-truncate col-9 p-0">
-                                                        <div class="name text-truncate">{{ $team->user->name }} </div>
+                                                        <div class="name text-truncate">{{ $team->user->name }} {{ $team->user->lastname }} </div>
                                                         <div class="role">{{ ucfirst($team->role) }}</div>
                                                     </div>
 
@@ -82,14 +82,14 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                            <input id="date" type="date" class="form-control no-border" name="date" value="" required autocomplete="date" S v-model="event.date" placeholder="Date" min="{{ $date_now->format('Y-m-d') }}">
+                            <input id="date" type="date" class="form-control no-border" name="date" required autocomplete="date" v-model="event.date" placeholder="Select Date" min="{{ $date_now->format('Y-m-d') }}" format="Y-m-d" >
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
                     <div class="card shadow-sm my-2">
                         <div class="card-body">
-                            <input id="time" type="time" class="form-control no-border" name="time" value="" required autocomplete="time" onclick="" v-model="event.time" placeholder="Time" min="{{ $date_now->format('g:i a') }}">
+                            <input id="time" type="time" class="form-control no-border" name="time" value="" required autocomplete="time" onclick="" v-model="event.time" placeholder="Select Time" min="{{ $date_now->format('g:i a') }}">
 
                         </div>
                     </div>
@@ -117,11 +117,6 @@
             </div>
         </div>
 
-
-
-
-
-
     </form>
 </div>
 @endsection
@@ -129,6 +124,15 @@
 @push('styles')
 
 <style>
+input[type=date], input[type=time] {
+  text-align: right;
+}
+
+input[type="date"]:before, input[type=time]:before {
+  content: attr(placeholder) !important;
+  margin-right: 0.5em;
+}
+
 /* The customcheck */
 .ccheck{
     padding-left: 5px;
@@ -162,6 +166,7 @@
     width: 25px;
     background-color: #fff;
     border-radius: 25px;
+    border: 1px solid;
 }
 
 /* On mouse-over, add a grey background color */
@@ -173,6 +178,7 @@
 .customcheck input:checked ~ .checkmark {
     background-color: #369bb6;
     border-radius: 25px;
+    border:0;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -198,6 +204,20 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+    color:#78849e;
+}
+
+.customcheck .checkmark:after {
+    left: 10px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    color:red;
 }
 .no-border{
     border:0;
@@ -221,6 +241,8 @@
     float:right;
     margin-top: .5em;
 }
+
+
 @media only screen and (max-width: 370px) {
     #collapseMemers .card-body{
         padding: .35rem;
@@ -232,6 +254,7 @@
 
 @push('scripts')
 <script>
+
     const create_event = new Vue({
         el: '#create_event',
         created: function() {
