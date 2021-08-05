@@ -208,6 +208,9 @@
                         permissions: member.careteam.permissions,
                     };
                 }
+
+                loveoneName = JSON.parse(localStorage.getItem('loveone')).firstname;
+                $('#loveoneName').text(loveoneName);
             },
             searchMember: function() {
                 
