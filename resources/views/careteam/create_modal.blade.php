@@ -18,6 +18,12 @@
                 </div>
             </form>
 
+            <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
+                <div class="col text-center">
+                    <p class="text-danger">Configure role and permissions to send an invite.</p>
+                </div>            
+            </form>
+
             <form method="post" id="inlcudeMemberForm" class="col-md-12 p-3 d-none" v-on:submit.prevent="addMember2Careteam()">
 
                 <div class="section ">
