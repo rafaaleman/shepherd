@@ -41,9 +41,6 @@
 
     #inviteMemberModal, 
     #editMemberModal {
-
-
-        
         // Bootstrap switch
         .custom-control-label::after{
             width:15px; 
@@ -110,7 +107,7 @@
                         padding: 10px;
 
                         &:nth-of-type(1){
-                            width: 30%;
+                            width: 40%;
                             color: #aaa;
                         }
 

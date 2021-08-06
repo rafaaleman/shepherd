@@ -10352,7 +10352,7 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-c
 }
 #careteam #inviteMemberModal .section table tr td:nth-of-type(1),
 #careteam #editMemberModal .section table tr td:nth-of-type(1) {
-  width: 30%;
+  width: 40%;
   color: #aaa;
 }
 #careteam #inviteMemberModal .section table tr td a,
