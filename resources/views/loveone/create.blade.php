@@ -86,9 +86,9 @@
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth <span class="text-danger">*</span></label>
 
                     <div class="col-md-7 birthdate">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_month" id="dob_month" placeholder="MM" value="{{explode('-', $loveone->dob)[1]}}" v-model="loveone.dob_month" class="">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_day" id="dob_day" placeholder="DD" value="{{explode('-', $loveone->dob)[2]}}" v-model="loveone.dob_day" class="">
-                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob_year" id="dob_year" placeholder="YYYY" value="{{explode('-', $loveone->dob)[0]}}" v-model="loveone.dob_year" class="">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_month" id="dob_month" placeholder="MM" value="{{ isset($loveone) ? explode('-', $loveone->dob)[1] : '' }}" v-model="loveone.dob_month" class="">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_day" id="dob_day" placeholder="DD" value="{{ isset($loveone) ? explode('-', $loveone->dob)[2] : '' }}" v-model="loveone.dob_day" class="">
+                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob_year" id="dob_year" placeholder="YYYY" value="{{ isset($loveone) ? explode('-', $loveone->dob)[0] : '' }}" v-model="loveone.dob_year" class="">
                     </div>
                 </div>
 
@@ -321,9 +321,9 @@ if(isset($loveone) && $loveone->conditions != ''){
                 state:"{{ $loveone->state ?? '' }}",
                 zip:"{{ $loveone->zip ?? '' }}",
                 dob:"{{ $loveone->dob ?? '' }}",
-                dob_day:"{{ explode('-', $loveone->dob)[2] ?? '' }}",
-                dob_month:"{{ explode('-', $loveone->dob)[1] ?? '' }}",
-                dob_year:"{{ explode('-', $loveone->dob)[0] ?? '' }}",
+                dob_day:"{{ (isset($loveone)) ? explode('-', $loveone->dob)[2] : '' }}",
+                dob_month:"{{ (isset($loveone)) ? explode('-', $loveone->dob)[1] : '' }}",
+                dob_year:"{{ (isset($loveone)) ? explode('-', $loveone->dob)[0] : '' }}",
                 status:1,
                 relationship_id:"{{ $loveone->careteam->relationship_id ?? '' }}",
                 conditions: [@php foreach($loveone_conditions as $condition){ echo "'".$condition."',";} @endphp],
