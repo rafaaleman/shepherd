@@ -62,7 +62,7 @@ class LoveoneController extends Controller
         // CREATE
         if($data['id'] == 0){
             // Verify if exists
-            $loveone = loveone::where('email', $data['email'])->orWhere('phone', $data['phone'])->first();
+            $loveone = loveone::where('phone', $data['phone'])->first();
             // dd($loveone);
             if($loveone){
                 return response()->json(['success' => false, 'error' => 'This Loveone already exists (email/phone). Please verify.']);
