@@ -12,8 +12,8 @@
             
 
             <div class="col-12 text-center">
-                <a :href="fillDocument.file|urlFile" target="_blank">
-                    <img :src="fillDocument.file|isImage" class="w-50">
+                <a :href="document.file|urlFile" target="_blank">
+                    <img :src="document.file|isImage" class="w-50">
                 </a>
             </div>
 
@@ -21,33 +21,34 @@
                 <div class="tabs active" id="tab03">
                     <h6 class="font-weight-bold">Document</h6>
                 </div>
-                <div class="tabs" :class="(auth_user == fillDocument.user_id || auth_role == 1) ? 'show' :'d.none'" id="tab04">
+                
+                <div class="tabs" :class="(auth_user == document.user_id || auth_role == 1) ? 'show' :'d.none'" id="tab04">
                     <h6 class="text-muted">Permission</h6>
                 </div>
             </div>
             <div class="line"></div>
             <form method="post" id="editDocumentform" class="col-md-12" v-on:submit.prevent="editDocument()">  
 
-            <fieldset id="tab031" class="show col-md-12 p-3" :class="(docPermissions.u == 1 || auth_role == 1) ? 'show' :'d.none'">
+            <fieldset id="tab031" class="show col-md-12 p-3" :class="(docPermissions.u == 1 || auth_role == 1) ? 'show' :'d-none'">
                           
-                <input type="hidden" name="id" id="id" v-model="fillDocument.id">
-                <input type="hidden" name="type" id="type" v-model="fillDocument.locbox_types_id">
-                <input type="hidden" name="status" id="status" v-model="fillDocument.status">
+                <input type="hidden" name="id" id="ide" v-model="document.id">
+                <input type="hidden" name="type" id="typee" v-model="document.locbox_types_id">
+                <input type="hidden" name="status" id="statuse" v-model="document.status">
 
                 <label for="name" class="text-black-50">Name:</label>
                 <div class="d-flex mb-4">
-                    <input id="name" type="text" class="form-control mr-2" name="name" autofocus required v-model="fillDocument.name" :readonly ="create_type">
+                    <input id="namee" type="text" class="form-control mr-2" name="name" autofocus required v-model="document.name" :readonly ="edit_doc">
                     
                 </div>
                 <label for="s_email" class="text-black-50">Description:</label>
                 <div class="d-flex mb-4">
-                    <textarea  id="description" class="form-control mr-2" name="description" v-model="fillDocument.description" :readonly ="create_type"></textarea>          
+                    <textarea  id="descriptione" class="form-control mr-2" name="description" v-model="document.description" ></textarea>          
                 </div>
 
                 <div class="d-flex mb-4  text-center">  
                     <span id="ffile"></span>                        
                     <label class="btn btn-block btn-primary btn-submit">
-                        <input id="document" name="document" type="file" class="" @change="getDoc" hidden>
+                        <input id="documente" name="document" type="file" class="" @change="getDoc" hidden>
                         Choose File
                     </label>                    
                 </div>
@@ -70,20 +71,20 @@
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.permissions.r == 1 || c.role == 'admin'" :id=`read-${c.id}` @change="assignPermission('r',c.id)">
-                                    <label class="custom-control-label" :for=`read-${c.id}` ></label>
+                                    <input type="checkbox" class="custom-control-input" :disabled=" c.id == auth_user || c.role == 'admin'" :checked="c.id == auth_user || c.permissions.r == 1 || c.role == 'admin'" :id=`reade-${c.id}` @change="assignPermission('r',c.id)">
+                                    <label class="custom-control-label" :for=`reade-${c.id}` ></label>
                                 </div>
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.permissions.u == 1 || c.role == 'admin'" :id=`update-${c.id}` @change="assignPermission('u',c.id)">
-                                    <label class="custom-control-label" :for=`update-${c.id}`></label>
+                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.permissions.u == 1 || c.role == 'admin'" :id=`updatee-${c.id}` @change="assignPermission('u',c.id)">
+                                    <label class="custom-control-label" :for=`updatee-${c.id}`></label>
                                 </div>
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.permissions.d == 1 || c.role == 'admin'" :id=`delete-${c.id}` @change="assignPermission('d',c.id)">
-                                    <label class="custom-control-label" :for=`delete-${c.id}`></label>
+                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.permissions.d == 1 || c.role == 'admin'" :id=`deletee-${c.id}` @change="assignPermission('d',c.id)">
+                                    <label class="custom-control-label" :for=`deletee-${c.id}`></label>
                                 </div>
                             </td>
                         </tr>
