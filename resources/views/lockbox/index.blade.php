@@ -391,7 +391,7 @@ a:hover {
                     }).then(response => {
                         
                     if( response.data.success == true ){
-                        msg = 'The Document has created';
+                        msg = 'Your document has been uploaded';
                         icon = 'success';
                     } else {
                         msg = 'There was an error. Please try again';
