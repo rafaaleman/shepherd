@@ -111,8 +111,9 @@ class EventController extends Controller
             $inidate = $request->date;
             $enddate = $request->date;
         }else if($request->type == 2){
+           // dd($request->date);
             $to_date = new DateTime($request->date);
-            $calendar = $this->calendar_month($to_date->format('Y-m'));
+            $calendar = $this->calendar_week_month($to_date->format('Y-m'));
             //$calendar['calendar'][0]['datos'];
             foreach($calendar['calendar'] as $i => $w){
                 foreach($w['datos'] as $day){
@@ -186,8 +187,8 @@ class EventController extends Controller
             $to_date = new DateTime($request->month);
             $calendar = $this->calendar_month($to_date->format('Y-m'));
         }
-        $calendar['week'] = $this->getWeek($calendar,$to_date->format('d'));
         $calendar['day'] = $this->getDay($to_date->format('Y-m-d'));
+        $calendar['week'] = $this->getWeek($this->calendar_week_month($to_date->format('Y-m')),$to_date->format('d'));
         // $calendar['day_medlist'] = $this->getDayMedlist($to_date->format('Y-m-d'));
 
         //dd($calendar);
@@ -198,6 +199,7 @@ class EventController extends Controller
     public static function calendar_month($month){
         //$mes = date("Y-m");
         $mes = $month;
+      //  dump($mes);
         //sacar el ultimo de dia del mes
         $daylast =  date("Y-m-d", strtotime("last day of ".$mes));
         //sacar el dia de dia del mes
@@ -205,8 +207,90 @@ class EventController extends Controller
         $daysmonth  =  date("d", strtotime($fecha));
         $montmonth  =  date("m", strtotime($fecha));
         $yearmonth  =  date("Y", strtotime($fecha));
+        
+      //  dump($montmonth);
         // sacar el lunes de la primera semana
         $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
+
+       // dd($nuevaFecha);
+        $diaDeLaSemana = date("w", $nuevaFecha);
+        $nuevaFecha = $nuevaFecha - ($diaDeLaSemana*24*3600); //Restar los segundos totales de los dias transcurridos de la semana
+        $dateini = date ("Y-m-d",$nuevaFecha);
+        //$dateini = date("Y-m-d",strtotime($dateini."+ 1 day"));
+        // numero de primer semana del mes
+        $semana1 = date("W",strtotime($fecha));
+        // numero de ultima semana del mes
+        $semana2 = date("W",strtotime($daylast));
+        // semana todal del mes
+        // en caso si es diciembre
+       // dump($semana1, $semana2,date("m", strtotime($mes)),$fecha, $dateini);
+        if (date("m", strtotime($mes))==12) {
+            $semana = 5;
+        }
+        else {
+          $semana = ($semana2-$semana1)+1;
+        }
+        // semana todal del mes
+        $datafecha = $dateini;
+        $calendario = array();
+        $iweek = 0;
+        while ($iweek < $semana):
+            $iweek++;
+            //echo "Semana $iweek <br>";
+            //
+            $weekdata = [];
+            for ($iday=0; $iday < 7 ; $iday++){
+              // code...
+              //dd(date("Y-m-d",strtotime($datafecha."+ 1 day")));
+              //$datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              $datanew['mes'] = date("M", strtotime($datafecha));
+              $datanew['dia'] = date("d", strtotime($datafecha));
+              $datanew['fecha'] = $datafecha;
+              $datanew['class'] = '';
+              //AGREGAR CONSULTAS EVENTO
+              //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+              array_push($weekdata,$datanew);
+            }
+            $dataweek['semana'] = $iweek;
+            $dataweek['datos'] = $weekdata;
+            //$datafecha['horario'] = $datahorario;
+            array_push($calendario,$dataweek);
+        endwhile;
+        $nextmonth = date("Y-M",strtotime($mes."+ 1 month"));
+        $lastmonth = date("Y-M",strtotime($mes."- 1 month"));
+        $month = date("M",strtotime($mes));
+        $yearmonth = date("Y",strtotime($mes));
+        //$month = date("M",strtotime("2019-03"));
+       // dd($calendario);
+        $data = array(
+          'next' => $nextmonth,
+          'month'=> $month,
+          'year' => $yearmonth,
+          'last' => $lastmonth,
+          'calendar' => $calendario,
+        );
+     //   dd($data);
+        return $data;
+      }
+
+      public static function calendar_week_month($month){
+        //$mes = date("Y-m");
+        $mes = $month;
+      //  dump($mes);
+        //sacar el ultimo de dia del mes
+        $daylast =  date("Y-m-d", strtotime("last day of ".$mes));
+        //sacar el dia de dia del mes
+        $fecha      =  date("Y-m-d", strtotime("first day of ".$mes));
+        $daysmonth  =  date("d", strtotime($fecha));
+        $montmonth  =  date("m", strtotime($fecha));
+        $yearmonth  =  date("Y", strtotime($fecha));
+        $montmonth =  $montmonth -1; 
+      //  dump($montmonth);
+        // sacar el lunes de la primera semana
+        $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
+
+       // dd($nuevaFecha);
         $diaDeLaSemana = date("w", $nuevaFecha);
         $nuevaFecha = $nuevaFecha - ($diaDeLaSemana*24*3600); //Restar los segundos totales de los dias transcurridos de la semana
         $dateini = date ("Y-m-d",$nuevaFecha);

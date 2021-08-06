@@ -25,3 +25,5 @@ Route::post("/resources/search","ResourceController@getTopicsSearch")->name("res
 Route::post("/resources/search/ini","ResourceController@getTopicsSearchIni")->name("resources.ini");
 
 
+Route::view('/terms', 'terms');
+Route::view('/privacy', 'privacy');
