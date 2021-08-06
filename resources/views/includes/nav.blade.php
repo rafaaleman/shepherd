@@ -68,8 +68,7 @@
                                     <i class="fas fa-user-cog mr-2"></i> Profile
                                 </a>
                             
-                                <a class="dropdown-item text-black-50" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item text-black-50" href="#" id="logoutLnk">
                                     <i class="fas fa-sign-out-alt mr-2 text-danger"></i> {{ __('Logout') }}
                                 </a>
 
@@ -119,6 +118,12 @@ $(function(){
             $(this).attr('href', newurl)
         });
     }
+
+    $('#logoutLnk').click(function(event){
+        event.preventDefault(); 
+        localStorage.removeItem('loveone');
+        document.getElementById('logout-form').submit();
+    });
 });
 </script>
 @endpush

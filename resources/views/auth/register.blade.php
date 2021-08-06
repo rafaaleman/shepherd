@@ -89,8 +89,10 @@
                 <div class="form-group row">
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth</label>
 
-                    <div class="col-md-7">
-                        <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" value="{{ old('dob') }}" autocomplete="dob" >
+                    <div class="col-md-7 birthdate">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-month" id="dob-month" autocomplete="dob-month" placeholder="MM">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-day" id="dob-day" autocomplete="dob-day" placeholder="DD">
+                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob-year" id="dob-year" autocomplete="dob-year" placeholder="YYYY">
 
                         @error('dob')
                             <span class="invalid-feedback" role="alert">
@@ -141,6 +143,35 @@
 
 @push('styles')
 <style>
+
+    .birthdate {
+        display: flex;
+        padding: 0 15px;
+        justify-content: space-between;
+    }
+
+    .birthdate input {
+        padding: 0.375rem 0.75rem;
+        border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    }
+
+    .birthdate #dob-month,
+    .birthdate #dob-day{
+        width: 22%;
+    }
+    
+    .birthdate #dob-year{
+        width: 47%;
+    }
+
+    .form-group{
+        margin-bottom: 10px;
+    }
+    
+    .form-group:nth-last-child(2){
+        margin-bottom: 2rem;
+    }
 
     .top-navigation{
         display: none;
