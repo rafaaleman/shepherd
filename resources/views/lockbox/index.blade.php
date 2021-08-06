@@ -307,10 +307,14 @@ a:hover {
                 this.errors = [];
                 this.permissions = [];
                 this.docPermissions = {};
+                this.lastDocuments= [];
+                this.documents= [];
+                this.types=[];
                 this.edit_doc = false;
                 this.save = false;
                 this.img_url = "{{asset('images/no_photo.jpg')}}";
                 $('#ffile').html('');
+                $('.carrusel').slick('destroy');
             },
 
             getDoc(event){
@@ -334,6 +338,7 @@ a:hover {
             getDocuments: function() {
                 var url = '{{ route("lockbox",$loveone_slug) }}';
                 axios.get(url).then(response => {
+
                     this.types = response.data.types;
                     
                     //this.getPermissions (response.data.documents);
@@ -342,9 +347,9 @@ a:hover {
                     this.lastDocuments = response.data.lastDocuments;  
                     this.careteam = response.data.careteam;
                     this.auth_role = response.data.isAdmin;
-                    console.table(response.data);
+                    //console.table(response.data);
 
-                }).then( data => {
+                }).then ( () => {
                     this.creaSlide();
                 });
             },
@@ -384,18 +389,17 @@ a:hover {
                         'Content-Type': 'multipart/form-data'
                     }
                     }).then(response => {
+                        
                     if( response.data.success == true ){
-                        this.getDocuments();
-                        this.borrar();
-                                msg = 'The Document has created';
-                                icon = 'success';
-                                
+                        msg = 'The Document has created';
+                        icon = 'success';
                     } else {
-                                msg = 'There was an error. Please try again';
-                                icon = 'error';
-                    }
-                            
+                        msg = 'There was an error. Please try again';
+                        icon = 'error';
+                    }                            
                     swal(msg, "", icon);
+                    this.borrar();                        
+                    this.getDocuments();
 
                     $('#createModal').modal('hide');
 
@@ -441,6 +445,41 @@ a:hover {
                     console.log(error);
                 });
             },
+            			
+            deleteDocument: function(doc){
+                var url = "{{route('lockbox.delete')}}";
+
+                swal({
+                    title: "Warning",
+                    text: "Are you sure delete this document?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+                    if(isConfirm){
+                        data = {
+                            id_doc: doc.id,
+                        };
+                        axios.post(url, data).then(response => {
+                            console.log(response.data);
+                            if( response.data.success == true ){
+                                msg = 'Document deleted';
+                                icon = 'success';
+                                
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            lockbox.getDocuments();
+                            swal(msg, "", icon);
+                        });
+                    }
+                });
+            },
+			
             buildPermission: function (){
                 this.permissions = [];
                 for(var i = 0, len = this.careteam.length; i < len; i++) {
@@ -515,6 +554,7 @@ a:hover {
             },
 
             creaSlide: function (){
+                //$('.carrusel').slick('init');
                 $('.carrusel').slick({
                     centerMode: true,
                     centerPadding: '10px',
