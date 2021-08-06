@@ -45,69 +45,74 @@ class LoveoneController extends Controller
      */
     public function createUpdate(Request $request)
     {
-        $data = $request->all();
-        $data = json_decode($data['loveone']);
-        $data = collect($data)->toArray();
-        // dd($data);
-
-        $data['conditions'] = implode(',', $data['conditions']);
-        $relationship_id = $data['relationship_id'];
-        $data['phone']   = intval($data['phone']);
-        
-        
-        unset($data['_token']);
-        unset($data['relationship_id']);
-        unset($data['photo']);
-
-        // CREATE
-        if($data['id'] == 0){
-            // Verify if exists
-            $loveone = loveone::where('phone', $data['phone'])->first();
-            // dd($loveone);
-            if($loveone){
-                return response()->json(['success' => false, 'error' => 'This Loveone already exists (email/phone). Please verify.']);
-            }
+        try{
+            $data = $request->all();
+            $data = json_decode($data['loveone']);
+            $data = collect($data)->toArray();
             // dd($data);
-            $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname']);
-            $loveone = loveone::create($data);
-            $this->createCareteam(Auth::user()->id, $loveone->id, $relationship_id);
 
-            if($request->file){
+            $data['conditions'] = implode(',', $data['conditions']);
+            $relationship_id = $data['relationship_id'];
+            $data['phone']   = intval($data['phone']);
+            
+            
+            unset($data['_token']);
+            unset($data['relationship_id']);
+            unset($data['photo']);
 
-                $prefix = $data['phone'];
-                $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
-                $request->file->move(public_path('loveones/'.$loveone->id.'/'), $photoName);
-                $data['photo'] = '/loveones/'.$loveone->id.'/'.$photoName;
-                loveone::where('id', $loveone->id)->update(['photo' => $data['photo']]);
+            // CREATE
+            if($data['id'] == 0){
+                // Verify if exists
+                $loveone = loveone::where('phone', $data['phone'])->first();
+                // dd($loveone);
+                if($loveone){
+                    return response()->json(['success' => false, 'error' => 'This Loveone already exists (email/phone). Please verify.']);
+                }
+                // dd($data);
+                $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname']);
+                $loveone = loveone::create($data);
+                $this->createCareteam(Auth::user()->id, $loveone->id, $relationship_id);
+
+                if($request->file){
+
+                    $prefix = $data['phone'];
+                    $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+                    $request->file->move(public_path('loveones/'.$loveone->id.'/'), $photoName);
+                    $data['photo'] = '/loveones/'.$loveone->id.'/'.$photoName;
+                    loveone::where('id', $loveone->id)->update(['photo' => $data['photo']]);
+                }
+                $loveone_id = $loveone->id;
+
+            } else {
+
+                // Verify if exists
+                $loveone = loveone::find($data['id']);
+                // dd($loveone);
+                if(!$loveone){
+                    return response()->json(['success' => false, 'error' => "This Loveone doesn't exists. Please verify."]);
+                }
+
+                loveone::where('id', $data['id'])->update($data);
+                careteam::where('loveone_id', $loveone->id)->where('user_id', Auth::user()->id)->update(['relationship_id' => $relationship_id]);
+
+                if($request->file){
+
+                    $prefix = $data['phone'];
+                    $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+                    $request->file->move(public_path('loveones/'.$loveone->id.'/'), $photoName);
+                    $data['photo'] = '/loveones/'.$loveone->id.'/'.$photoName;
+                    loveone::where('id', $data['id'])->update(['photo' => $data['photo']]);
+                }
+                $loveone_id = $data['id'];
             }
-            $loveone_id = $loveone->id;
+            $loveone = loveone::find($loveone_id);
 
-        } else {
-
-            // Verify if exists
-            $loveone = loveone::find($data['id']);
-            // dd($loveone);
-            if(!$loveone){
-                return response()->json(['success' => false, 'error' => "This Loveone doesn't exists. Please verify."]);
-            }
-
-            loveone::where('id', $data['id'])->update($data);
-            careteam::where('loveone_id', $loveone->id)->where('user_id', Auth::user()->id)->update(['relationship_id' => $relationship_id]);
-
-            if($request->file){
-
-                $prefix = $data['phone'];
-                $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
-                $request->file->move(public_path('loveones/'.$loveone->id.'/'), $photoName);
-                $data['photo'] = '/loveones/'.$loveone->id.'/'.$photoName;
-                loveone::where('id', $data['id'])->update(['photo' => $data['photo']]);
-            }
-            $loveone_id = $data['id'];
+            // if ($request->ajax()) 
+            return response()->json(['success' => true, 'data' => ['loveone' => $loveone]]);
+            
+        } catch( \Exception $e){
+            return response()->json(['success' => false, 'msg' => $e->getMessage()]);
         }
-        $loveone = loveone::find($loveone_id);
-
-        // if ($request->ajax()) 
-        return response()->json(['success' => true, 'data' => ['loveone' => $loveone]]);
     }
 
     /**

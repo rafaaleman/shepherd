@@ -373,16 +373,14 @@ if(isset($loveone) && $loveone->conditions != ''){
                             window.location = '{{ route("home") }}';
                         });
                     } else {
-                        msg = 'There was an error. Please try again';
-                        icon = 'error';
-                        swal(msg, "", icon);
+                        swal('There was an error.', response.data.msg , 'error');
                     }
                     
                     $('.loadingBtn').html('Save').attr('disabled', false);
                     
                         
                 }).catch( error => {
-                    
+                    console.log(response.data);
                     txt = "";
                     $('.loadingBtn').html('Save').attr('disabled', false);
                     $.each( error.response.data.errors, function( key, error ) {
@@ -392,6 +390,7 @@ if(isset($loveone) && $loveone->conditions != ''){
                     swal('There was an Error', txt, 'error');
                 });
             },
+
             onFileChange(e){
                 console.log(e.target.files[0]);
                 this.loveone.photo = e.target.files[0];

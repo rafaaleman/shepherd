@@ -46,7 +46,7 @@
                         <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                         <div class="col-md-7">
-                            <input id="email" type="email" class="form-control" name="email" value="{{ Auth::user()->email }}" required autocomplete="email" {{isset($email) ? 'readonly' : ''}} v-model="user.email">
+                            <input id="email" type="email" class="form-control" name="email" value="{{ Auth::user()->email }}" required autocomplete="email" {{isset(Auth::user()->email) ? 'readonly' : ''}} v-model="user.email">
                         </div>
                     </div>
                     
@@ -293,16 +293,14 @@ const profile = new Vue ({
                 console.log(response.data);
                 
                 if(response.data.success){
-                    msg  = 'Your user was updated successfully!';
-                    icon = 'success';
                     if(response.data.photo != '')
                         profile.user.photo = response.data.photo; 
                     
-                    swal(msg, "", icon);    
+                    swal('Your user was updated successfully!', "", 'success');  
+                    
                 } else {
-                    msg = 'There was an error. Please try again';
-                    icon = 'error';
-                    swal(msg, "", icon);
+                    
+                    swal('There was an error.', response.data.msg, 'error');
                 }
                 
                 $('.btn.update').html('Save').attr('disabled', false);
