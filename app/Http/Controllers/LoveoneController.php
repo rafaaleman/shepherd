@@ -53,7 +53,7 @@ class LoveoneController extends Controller
         $data['conditions'] = implode(',', $data['conditions']);
         $relationship_id = $data['relationship_id'];
         $data['phone']   = intval($data['phone']);
-        $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname'].' '.time());
+        
         
         unset($data['_token']);
         unset($data['relationship_id']);
@@ -68,6 +68,7 @@ class LoveoneController extends Controller
                 return response()->json(['success' => false, 'error' => 'This Loveone already exists (email/phone). Please verify.']);
             }
             // dd($data);
+            $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname']);
             $loveone = loveone::create($data);
             $this->createCareteam(Auth::user()->id, $loveone->id, $relationship_id);
 

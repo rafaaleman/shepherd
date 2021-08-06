@@ -51,12 +51,34 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
+                    <label for="street" class="col-md-4 col-form-label text-md-right">Street Address</label>
 
                     <div class="col-md-7">
-                        <textarea id="address" class="form-control" name="address" rows="3" autofocus v-model="loveone.address">
-                            {{(isset($loveone)) ? $loveone->address : ''}}
-                        </textarea>
+                        <input type="text" id="street" class="form-control" name="street" autofocus v-model="loveone.street" value="{{(isset($loveone)) ? $loveone->street : ''}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="city" class="col-md-4 col-form-label text-md-right">City</label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="city" class="form-control" name="city" autofocus v-model="loveone.city" value="{{(isset($loveone)) ? $loveone->city : ''}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="state" class="col-md-4 col-form-label text-md-right">State</label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="state" class="form-control" name="state" autofocus v-model="loveone.state" value="{{(isset($loveone)) ? $loveone->state : ''}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="zip" class="col-md-4 col-form-label text-md-right">Zip</label>
+
+                    <div class="col-md-7">
+                        <input type="number" maxlength="5" id="zip" class="form-control" name="zip" autofocus v-model="loveone.zip" value="{{(isset($loveone)) ? $loveone->zip : ''}}">
                     </div>
                 </div>
 
@@ -271,7 +293,10 @@ if(isset($loveone) && $loveone->conditions != ''){
                 lastname:"{{ $loveone->lastname ?? '' }}",
                 email:"{{ $loveone->email ?? '' }}",
                 phone:"{{ $loveone->phone ?? '' }}",
-                address:"{{ $loveone->address ?? '' }}",
+                street:"{{ $loveone->street ?? '' }}",
+                city:"{{ $loveone->city ?? '' }}",
+                state:"{{ $loveone->state ?? '' }}",
+                zip:"{{ $loveone->zip ?? '' }}",
                 dob:"{{ $loveone->dob ?? '' }}",
                 status:1,
                 relationship_id:"{{ $loveone->careteam->relationship_id ?? '' }}",
@@ -288,7 +313,6 @@ if(isset($loveone) && $loveone->conditions != ''){
                 console.log('creating');
                 this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
-                this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
 
                 const config = {
                     headers: { 'content-type': 'multipart/form-data' }
