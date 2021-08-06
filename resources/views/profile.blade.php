@@ -62,12 +62,12 @@
                         <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                         <div class="col-md-7">
-                            <input id="address" type="text" class="form-control" name="address" value="{{ Auth::user()->address }}" required autocomplete="address"  v-model="user.address">
+                            <input id="address" type="text" class="form-control" name="address" value="{{ Auth::user()->address }}" autocomplete="address"  v-model="user.address">
                         </div>
                     </div>
 
                     <div class="form-group row mt-2">
-                        <i class="text-black-50 p-4" style="font-size: 12px">Leave in blank if you want to preserve your current password</i>
+                        <i class="text-black-50 p-4" style="font-size: 12px">Leave blank if you want to preserve your current password</i>
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                         <div class="col-md-7">
@@ -92,7 +92,7 @@
         </div>
     </form>
 
-    <h5 class="">Love Ones</h5>
+    <h5 class="">Your Loved Ones</h5>
     <div class="col-md-12 mb-5 p-0">
         <div class="card">
             <div class="card-body loveones shadow-sm">
