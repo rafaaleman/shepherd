@@ -86,9 +86,9 @@
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth <span class="text-danger">*</span></label>
 
                     <div class="col-md-7 birthdate">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-month" id="dob-month" autocomplete="dob-month" placeholder="MM" value="{{explode('-', $loveone->dob)[1]}}" v-model="loveone.dob-month">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-day" id="dob-day" autocomplete="dob-day" placeholder="DD" value="{{explode('-', $loveone->dob)[2]}}" v-model="loveone.dob-day">
-                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob-year" id="dob-year" autocomplete="dob-year" placeholder="YYYY" value="{{explode('-', $loveone->dob)[0]}}" v-model="loveone.dob-year">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_month" id="dob_month" placeholder="MM" value="{{explode('-', $loveone->dob)[1]}}" v-model="loveone.dob_month" class="">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_day" id="dob_day" placeholder="DD" value="{{explode('-', $loveone->dob)[2]}}" v-model="loveone.dob_day" class="">
+                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob_year" id="dob_year" placeholder="YYYY" value="{{explode('-', $loveone->dob)[0]}}" v-model="loveone.dob_year" class="">
                     </div>
                 </div>
 
@@ -182,12 +182,12 @@
     border-radius: 0.25rem;
     }
 
-    .birthdate #dob-month,
-    .birthdate #dob-day{
+    .birthdate #dob_month,
+    .birthdate #dob_day{
         width: 22%;
     }
     
-    .birthdate #dob-year{
+    .birthdate #dob_year{
         width: 47%;
     }
 
@@ -340,7 +340,11 @@ if(isset($loveone) && $loveone->conditions != ''){
                 this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
                 this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
-                this.loveone.dob = this.loveone.dob_year+'-'+this.loveone.dob_month+'-'+this.love.dob_year;
+                this.loveone.dob = this.loveone.dob_year+'-'+this.loveone.dob_month+'-'+this.loveone.dob_day;
+
+                delete this.loveone.dob_day;
+                delete this.loveone.dob_month;
+                delete this.loveone.dob_year;
 
                 const config = {
                     headers: { 'content-type': 'multipart/form-data' }
