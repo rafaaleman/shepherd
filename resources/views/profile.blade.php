@@ -12,9 +12,9 @@
                     <div class="bigBtn" style="{{ (Auth::user()->photo) ? 'justify-content: flex-end;' : 'justify-content: center;'}}">
                         @if (empty(Auth::user()->photo))
                             <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
-                            Upload Photo
+                            Click To Upload Photo
                         @else
-                            Upload New Photo
+                            Click To Change Photo
                         @endif
                     </div>
                     <input id="photo" type="file" class="d-none form-control" name="photo" accept=".jpg, .png" v-on:change="onFileChange">
@@ -165,6 +165,16 @@
     background-size: cover;
     background-position: center;
     background-color: azure;
+}
+
+.photo-container{
+    padding: 0;
+
+}
+
+.photo-container .bigBtn {
+    background: rgb(49, 133, 152);
+    background: linear-gradient(0deg, rgba(49, 133, 152, 0.8491771709) 0%, rgba(49, 133, 152, 0.7763480392) 9%, rgba(49, 133, 152, 0) 17%);
 }
 </style>
 @endpush
