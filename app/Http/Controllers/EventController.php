@@ -111,8 +111,9 @@ class EventController extends Controller
             $inidate = $request->date;
             $enddate = $request->date;
         }else if($request->type == 2){
+           // dd($request->date);
             $to_date = new DateTime($request->date);
-            $calendar = $this->calendar_month($to_date->format('Y-m'));
+            $calendar = $this->calendar_week_month($to_date->format('Y-m'));
             //$calendar['calendar'][0]['datos'];
             foreach($calendar['calendar'] as $i => $w){
                 foreach($w['datos'] as $day){
