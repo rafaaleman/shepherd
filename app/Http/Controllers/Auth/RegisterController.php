@@ -75,7 +75,7 @@ class RegisterController extends Controller
             'name'     => $data['name'],
             'lastname' => $data['lastname'],
             'phone'    => $data['phone'],
-            'dob'      => $data['dob'],
+            'dob'      => $data['dob-year'].'-'.$data['dob-month'].'-'.$data['dob-day'],
             'email'    => $data['email'],
             'photo'    => (isset($data['photo'])) ? $data['photo'] : '/images/avatar2.png',
             'status'   => 1,

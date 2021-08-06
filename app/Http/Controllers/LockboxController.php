@@ -8,6 +8,7 @@ use App\Models\careteam;
 use App\User;
 use Illuminate\Http\Request;
 use App\Models\lockbox_types;
+use App\Models\lockbox_permissions;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
@@ -35,7 +36,7 @@ class LockboxController extends Controller
      */
     public function index(Request $request)
     {
-        $careteam = array();
+       $careteam = array();
        $isAdmin= 0 ;
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         /** 
@@ -57,11 +58,12 @@ class LockboxController extends Controller
         
 
         $cm = careteam::where('loveone_id',$loveone->id)->get();
-        $p = json_encode("{ 'user' : 0, 'r' : 0 , 'u': 0, 'd': 0}");
+        $p = json_encode("{'user':0, 'r' : 0 , 'u': 0, 'd': 0}");
+        
         foreach($cm as $u){
             $role = "";
             $user = $u->user;
-            if(Auth::user()->id == $user->id && $u->role  == "admin" ){ $role ='admin'; }
+            if( $u->role  == "admin" ){ $role ='admin'; }
             else{ $role ="user"; }
 
             if(Auth::user()->id == $user->id && $u->role  == "admin" ){ $isAdmin = 1; }
@@ -69,15 +71,35 @@ class LockboxController extends Controller
             $careteam[] =array('id'=>$user->id,'name'=> $user->name . ' ' . $user->lastname,'photo' => $user->photo, 'status' => $user->status,'role' => $role, 'permissions' => $p);            
         }
 
+        /*
+        $documents = lockbox::where('loveones_id',$loveone->id)
+        ->get();
+
+        if($isAdmin != 1){
+            foreach($documents as $d ){
+                foreach($d->permissions as $p){
+                    if($p->user_id == Auth::user()->id){
+                        dump($p);
+                        break;
+                    }
+                }
+            }
+            dd('x');
+        }
+        */
+
+
         if ($request->ajax()) 
         {
+           
+           
             $types     = lockbox_types::all();
             $documents = lockbox::where('loveones_id',$loveone->id)
                                 ->get();
-            foreach($documents as $i => &$d){
-                $d->permissions  = \json_decode($d->permissions);
-            }
-
+            //filtar los q se pueden ver
+                                     
+            
+            //Obligatorios
             foreach($types as &$t){
                 $t->asFile = false;
                 foreach($documents as $i => $d){
@@ -90,6 +112,7 @@ class LockboxController extends Controller
 
                 }
             }
+            
             /*last 5*/
             $last = lockbox::where('loveones_id',$loveone->id)
                             ->orderBy('created_at', 'desc')
@@ -98,10 +121,11 @@ class LockboxController extends Controller
             foreach($last as &$d){
                 $d->permissions  = \json_decode($d->permissions);
             }
-            return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug,'isAdmin' =>$isAdmin );
-        }
 
-        
+            return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug,'isAdmin' =>$isAdmin );
+
+
+        }
 
         return view('lockbox.index',compact('loveone','loveone_slug','careteam'));
     }
@@ -135,7 +159,7 @@ class LockboxController extends Controller
             'status'           => 'required|boolean',
 
         ]);
-            
+        $permisisons = \json_decode($request->permissions);
         $repo = 'loveones/lockbox/' . $request->loveones_id;
         
         if ($request->hasFile('file')){
@@ -152,14 +176,24 @@ class LockboxController extends Controller
             $doct->name             = $request->name;
             $doct->description      = $request->description;      
             $doct->status           = $request->status;
-            $doct->permissions      = $request->permissions;
-
             $doct->file             =  '/'.$filePath;
-            $doct->save();
             
-            $this->createNotifications($request->loveones_id, $doct->id);
-
-            return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
+            if($doct->save()){
+                foreach($permisisons as $p){
+                    $perm = new lockbox_permissions;
+                    $perm->user_id    = $p->user;
+                    $perm->lockbox_id = $doct->id; //change to types
+                    $perm->r          = $p->r; //change to types
+                    $perm->u          = $p->u;
+                    $perm->d          = $p->d;            
+                    $perm->save();
+                }
+                $this->createNotifications($request->loveones_id, $doct->id);
+    
+                return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
+            }else{
+                return response()->json(['success' => false, 'error' => '...']);        
+            }            
         }
         return response()->json(['success' => false, 'error' => '...']);
     }
@@ -204,7 +238,7 @@ class LockboxController extends Controller
             'status'           => 'required|boolean',
 
         ]);
-            
+        $permisisons = \json_decode($request->permissions);
         //$repo = 'uploads/' . $request->user_id;
         $repo = 'loveones/' . $request->loveones_id;
 
@@ -227,10 +261,24 @@ class LockboxController extends Controller
             $request->file('file')->move(public_path($repo), $fileName);
             $doct->file = "/" . $filePath;
         }
-        $doct->save();
-        return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
 
-        //return response()->json(['success' => false, 'error' => '...']);
+        
+        if($doct->save()){
+            foreach($permisisons as $p){
+                $perm = lockbox_permissions::updateOrCreate(
+                    ['user_id' => $p->user, 'lockbox_id' => $request->id],
+                    ['r' => $p->r, 'u' => $p->u, 'd'=> $p->d]
+                );
+
+            }
+            
+
+            return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
+        }else{
+            return response()->json(['success' => false, 'error' => '...']);        
+        }   
+
+        return response()->json(['success' => false, 'error' => '...']);
     }
 
     /**

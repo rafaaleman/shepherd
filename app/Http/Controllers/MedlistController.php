@@ -27,7 +27,7 @@ class MedlistController extends Controller
 
     public function index(Request $request)
     {   
-        
+        $is_admin = false;
         $to_day = new DateTime();
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         if(!$loveone){
