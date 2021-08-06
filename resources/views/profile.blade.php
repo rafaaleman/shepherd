@@ -295,8 +295,8 @@ const profile = new Vue ({
                 if(response.data.success){
                     msg  = 'Your user was updated successfully!';
                     icon = 'success';
-                    if(response.data.data.photo != '')
-                        profile.user.photo = response.data.data.photo; 
+                    if(response.data.photo != '')
+                        profile.user.photo = response.data.photo; 
                     
                     swal(msg, "", icon);    
                 } else {
@@ -313,6 +313,13 @@ const profile = new Vue ({
         onFileChange(e){
             console.log(e.target.files[0]);
             this.user.photo = e.target.files[0];
+
+            var file = $('#photo');
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.photo-container').css('background-image', 'url('+e.target.result+')');
+            }
+            reader.readAsDataURL(file[0].files[0]);
         },
         getInvitations: function() {
 
