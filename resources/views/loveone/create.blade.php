@@ -85,8 +85,10 @@
                 <div class="form-group row">
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth <span class="text-danger">*</span></label>
 
-                    <div class="col-md-7">
-                        <input id="dob" type="date" class="form-control" name="dob" required autocomplete="dob" v-model="loveone.dob" value="{{(isset($loveone)) ? $loveone->dob : ''}}">
+                    <div class="col-md-7 birthdate">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-month" id="dob-month" autocomplete="dob-month" placeholder="MM" value="{{explode('-', $loveone->dob)[1]}}" v-model="loveone.dob-month">
+                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-day" id="dob-day" autocomplete="dob-day" placeholder="DD" value="{{explode('-', $loveone->dob)[2]}}" v-model="loveone.dob-day">
+                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob-year" id="dob-year" autocomplete="dob-year" placeholder="YYYY" value="{{explode('-', $loveone->dob)[0]}}" v-model="loveone.dob-year">
                     </div>
                 </div>
 
@@ -167,6 +169,27 @@
 
 @push('styles')
 <style>
+
+    .birthdate {
+        display: flex;
+        padding: 0 15px;
+        justify-content: space-between;
+    }
+
+    .birthdate input {
+        padding: 0.375rem 0.75rem;
+        border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    }
+
+    .birthdate #dob-month,
+    .birthdate #dob-day{
+        width: 22%;
+    }
+    
+    .birthdate #dob-year{
+        width: 47%;
+    }
 
     .form-group{
         margin-bottom: 10px;
@@ -298,6 +321,9 @@ if(isset($loveone) && $loveone->conditions != ''){
                 state:"{{ $loveone->state ?? '' }}",
                 zip:"{{ $loveone->zip ?? '' }}",
                 dob:"{{ $loveone->dob ?? '' }}",
+                dob_day:"{{ explode('-', $loveone->dob)[2] ?? '' }}",
+                dob_month:"{{ explode('-', $loveone->dob)[1] ?? '' }}",
+                dob_year:"{{ explode('-', $loveone->dob)[0] ?? '' }}",
                 status:1,
                 relationship_id:"{{ $loveone->careteam->relationship_id ?? '' }}",
                 conditions: [@php foreach($loveone_conditions as $condition){ echo "'".$condition."',";} @endphp],
@@ -313,6 +339,8 @@ if(isset($loveone) && $loveone->conditions != ''){
                 console.log('creating');
                 this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
+                this.loveone.phone = this.loveone.phone.replace(/\D/g,'');
+                this.loveone.dob = this.loveone.dob_year+'-'+this.loveone.dob_month+'-'+this.love.dob_year;
 
                 const config = {
                     headers: { 'content-type': 'multipart/form-data' }
