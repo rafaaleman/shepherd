@@ -144,7 +144,21 @@
                                         <template>
                                             <div class="member w-100 ml-0 mb-2">
                                                 <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>6 h</label></div>
+                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>6x per day (Every 4 hrs)</label></div>
+                                                    <div class="col-1 justify-content-center align-items-center ccheck">
+                                                        <center>
+                                                        <label class="customcheck">
+                                                        <input type="radio" value="4" v-model="medication.frequency">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="member w-100 ml-0 mb-2">
+                                                <div class="row p-0">
+                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>4x per day (Every 6 hrs)</label></div>
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
@@ -155,11 +169,10 @@
                                                         </center>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
                                             <div class="member w-100 ml-0 mb-2">
                                                 <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>8 h</label></div>
+                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>3x per day (Every 8 hrs)</label></div>
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
@@ -174,7 +187,7 @@
                                             </div>
                                             <div class="member w-100 ml-0 mb-2">
                                                 <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>12 h</label></div>
+                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>2x per day (Every 12 hrs)</label></div>
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
@@ -189,41 +202,11 @@
                                             </div>
                                             <div class="member w-100 ml-0 mb-2">
                                                 <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>24 h</label></div>
+                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>1x per day (Every 24 hrs)</label></div>
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
                                                         <input type="radio" value="24" v-model="medication.frequency">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                        
-                                                        </center>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                            <div class="member w-100 ml-0 mb-2">
-                                                <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>48 h</label></div>
-                                                    <div class="col-1 justify-content-center align-items-center ccheck">
-                                                        <center>
-                                                        <label class="customcheck">
-                                                        <input type="radio" value="48" v-model="medication.frequency">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                        
-                                                        </center>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                            <div class="member w-100 ml-0 mb-2">
-                                                <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>72 h</label></div>
-                                                    <div class="col-1 justify-content-center align-items-center ccheck">
-                                                        <center>
-                                                        <label class="customcheck">
-                                                        <input type="radio" value="72" v-model="medication.frequency">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
