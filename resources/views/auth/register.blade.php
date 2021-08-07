@@ -21,7 +21,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-4 col-form-label float-right">
-                        <div class="img-fluid" id="profile-photo"></div>
+                        <div class="img-fluid d-none" id="profile-photo"></div>
                     </div>
                     <div class="col-md-7 d-flex justify-content-center mb-3 ">
                         <div class="btn btn-primary btn-block photo-btn">
@@ -249,7 +249,7 @@ $(function(){
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#profile-photo').css('background-image', 'url('+e.target.result+')');
+                $('#profile-photo').removeClass('d-none').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(file[0].files[0]);
