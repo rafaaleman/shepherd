@@ -54,7 +54,7 @@
                         <label for="phone" class="col-md-4 col-form-label text-md-right">Phone Number</label>
 
                         <div class="col-md-7">
-                            <input id="phone" type="tel" class="form-control" name="phone" value="{{ Auth::user()->phone }}" required autocomplete="phone" v-model="user.phone">
+                            <input id="phone" type="tel" class="form-control" name="phone" value="{{ Auth::user()->phone }}" autocomplete="phone" v-model="user.phone">
                         </div>
                     </div>
 
@@ -180,9 +180,17 @@
 @endpush
 
 @push('scripts')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
 <script>
 
 $(function(){
+
+    new Cleave('#phone', {
+        numericOnly: true,
+        blocks: [0, 3, 0, 3, 4],
+        delimiters: ["(", ")", " ", "-"]
+    });
 
     $('.bigBtn').click(function(){
         $(' #photo').click();
