@@ -245,7 +245,7 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                        <input id="time" type="time" class="form-control no-border" name="time" value="" required autocomplete="time" onclick="" v-model="medication.time" placeholder="Time" min="{{ $date_now->format('g:i a') }}">
+                        <input id="time" type="text" class="form-control no-border" name="time" value="" required v-model="medication.time" placeholder="Start Time" min="{{ $date_now->format('g:i a') }}">
                         </div>
                     </div>
                 </div>
@@ -376,7 +376,8 @@
 @endsection
 
 @push('styles')
-
+<link href="{{asset('public/css/iconos_datepicker.css')}}" rel="stylesheet">
+<link href="{{asset('public/css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
 <style>
 /* The customcheck */
 .ccheck{
@@ -410,6 +411,8 @@
     width: 25px;
     background-color: #fff;
     border-radius: 25px;
+    border: 1px solid;
+
 }
 
 /* On mouse-over, add a grey background color */
@@ -421,6 +424,7 @@
 .customcheck input:checked ~ .checkmark {
     background-color: #369bb6;
     border-radius: 25px;
+    border:0;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -488,14 +492,26 @@
 .dropdown-item em{
     color:#235c6b !important;
 }
+#create_medication .dropdown-toggle{
+    color: #495057 !important;
+}
 </style>
 @endpush
 
 @push('scripts')
+<script src="{{asset('public/js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
 
 
 <script>
-    const create_event = new Vue({
+
+$(function () {
+    $('#time').datetimepicker({format: 'LT'});
+    $('#time').on('dp.change',function(e){
+        create_medication.medication.time= moment(e.date,"h:mm:ss a").format('h:mm a');
+    });
+});
+
+    const create_medication = new Vue({
         el: '#create_medication',
         created: function() {
             console.log('create_medication');
@@ -566,8 +582,7 @@
                             const resp = await axios.post(url, {keyword:medicineSelected.drugbank_pcid});
                             console.log(resp.data.routes);
                             this.routes = resp.data.routes;
-                            //this.medications_search = resp.data.medicines;
-                            //$("#message-search").removeClass('d-none').html('Results');
+                            
                         } catch (err) {
                             // Handle Error Here
                             console.error(err);
@@ -601,12 +616,12 @@
                 
 
                 //console.log(this.current_slug);
-                $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
-                //this.event.phone = this.event.phone.replace(/\D/g,'');
                 
                 
-                   // console.log(url_succes);
-                //if(this.event.assigned.length > 0){
+                if(this.medication.route != "" && this.medication.dosage != ""  && this.medication.frequency != ""  && this.medication.time != ""  && this.medication.days != ""){
+                    $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
+                    //this.event.phone = this.event.phone.replace(/\D/g,'');
+                    this.medication.time= moment(this.medication.time,"h:mm:ss a").format('HH:mm');
                     var url = '{{ route("medlist.create") }}';
                     
                     axios.post(url, this.medication).then(response => {
@@ -646,13 +661,27 @@
 
                         swal('There was an Error', txt, 'error');
                     });
-                /*}else{
-                    msg = 'has not assigned the sale to anyone. Please try again';
-                    icon = 'error';
-                    $("#collapseMemers").addClass("show");
-                    $('.loadingBtn').html('Save').attr('disabled', false);
-                    swal(msg, "", icon);
-                }*/
+                }else{
+                    
+                    if(this.medication.route == "" ){
+                        msg = 'Please enter "Route"';
+                        $("#collapseRoute").addClass("show");
+                    }else if(this.medication.dosage == ""){
+                        msg = 'Please enter "Dosage"';
+                        $("#collapseDosage").addClass("show");
+                    }else if(this.medication.frequency == ""){
+                        msg = 'Please enter "Frequency"';
+                        $("#collapsefrequency").addClass("show");
+                    }else if(this.medication.time == ""){
+                        msg = 'Please enter "Start time"';
+                    }else if(this.medication.days == ""){
+                        msg = 'Please enter "Days"';
+                        $("#collapseDays").addClass("show");
+                    }
+                        icon = 'error';
+                    // $('.loadingBtn').html('Save').attr('disabled', false);
+                        swal(msg, "", icon);
+                }
             },
             toFormData: function(obj){
                 var form_data = new FormData();
