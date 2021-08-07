@@ -89,7 +89,9 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
                     <div class="card shadow-sm my-2">
                         <div class="card-body">
-                            <input id="time" type="time" class="form-control no-border" name="time" value="" required autocomplete="time" onclick="" v-model="event.time" placeholder="Select Time" min="{{ $date_now->format('g:i a') }}">
+                            <input id="time" type="text" class="form-control no-border" name="time" value="--:--" required  onclick="" v-model="event.time" placeholder="Select Time">
+
+                           
 
                         </div>
                     </div>
@@ -122,13 +124,16 @@
 @endsection
 
 @push('styles')
+<link href="{{asset('public/css/iconos_datepicker.css')}}" rel="stylesheet">
+<link href="{{asset('public/css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
+
 
 <style>
-input[type=date], input[type=time] {
+input[type=date] {
   text-align: right;
 }
 
-input[type="date"]:before, input[type=time]:before {
+input[type="date"]:before {
   content: attr(placeholder) !important;
   margin-right: 0.5em;
 }
@@ -253,8 +258,21 @@ input[type="date"]:before, input[type=time]:before {
 @endpush
 
 @push('scripts')
+<script src="{{asset('public/js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
 <script>
-
+    $(function () {
+        $('#time').datetimepicker({format: 'LT'});
+        $('#time').on('dp.change',function(e){
+           // var min = moment(e.date,"DD-MM-YYYY").add(1,'day');
+           create_event.event.time= moment(e.date,"h:mm:ss a").format('h:mm a');
+         /*  var min = moment(e.date,"DD-MM-YYYY");
+            var f = $('input[name=fin]').data("DateTimePicker").date();
+            $('input[name=fin]').data("DateTimePicker").minDate(min);
+            if (e == null || f == null) {
+                $('input[name=fin]').data("DateTimePicker").clear();
+            }*/
+        });
+    });
     const create_event = new Vue({
         el: '#create_event',
         created: function() {
@@ -281,7 +299,8 @@ input[type="date"]:before, input[type=time]:before {
         methods: {
             createEvent: function() {
                 //console.log(this.current_slug);return false;
-                
+                create_event.event.time= moment(this.event.time,"h:mm:ss a").format('HH:mm');
+
 
                 //console.log(this.current_slug);
                 $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
