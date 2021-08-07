@@ -26,6 +26,8 @@
         <main class="">
             @yield('content')
         </main>
+
+        @include('includes.footer')
     </div>
 
     <!-- Scripts -->

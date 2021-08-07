@@ -10135,6 +10135,13 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=time]::-webkit-c
   font-size: 200px;
 }
 
+footer {
+  text-align: center;
+  margin: 4em 0 2em 0;
+  font-size: 12px;
+  padding: 0 10%;
+}
+
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {
   .navbar-collapse {
