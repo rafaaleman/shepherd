@@ -25,6 +25,7 @@
 <body>
     <div id="app">
         @include('includes.nav')
+        @include('includes.top_bar')
 
         <main class="container-fluid">
 
