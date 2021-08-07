@@ -60,7 +60,9 @@ body{
     padding: 70px 0;
     margin-left: -10px;
     margin-top: -70px;
-    z-index: -5;
+    z-index: 0;
+    position: sticky;
+    top: 0;
 
     .item{
 
@@ -145,7 +147,14 @@ input[type="date"]::-webkit-calendar-picker-indicator,input[type="time"]::-webki
     .far, .fas{
         font-size: 200px;
     }
-}  
+}
+
+footer {
+    text-align: center;
+    margin: 4em 0 2em 0;
+    font-size: 12px;
+    padding: 0 10%;
+}
 
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {
