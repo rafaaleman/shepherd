@@ -9,7 +9,7 @@
         </div>
         <div class="col-4 d-none d-sm-none d-lg-block">
             <a href="javascript:;" @click="showModal()" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
-                Add New Message
+                Send New Message
             </a>        
         </div>
     </div>
