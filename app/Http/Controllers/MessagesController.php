@@ -73,7 +73,7 @@ class MessagesController extends Controller
             }
             $data[] = $c;
         }
-        return response()->json(['success' => true, 'data' => ['chats' => $data]], 200);
+        return response()->json(['success' => true, 'data' => ['chats' => $data,'count_chats' => count($data)]], 200);
     }
 
 
@@ -117,6 +117,7 @@ class MessagesController extends Controller
         $chat->last_message = $request->message; 
         $chat->status  = 1;
         $chat->save();
+        
         broadcast(new NewMessage($msg));
 
         $data = chat_message::where('id_chat',$request->chat_id)->get();
