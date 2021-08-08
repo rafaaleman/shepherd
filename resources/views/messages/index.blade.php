@@ -315,8 +315,7 @@ body{margin-top:20px;}
                 return value.toUpperCase(); 
             },
             formatDate: function(value) {
-                if (value) {
-                    
+                if (value) {                    
                     value = value.split('T');   
                     value = value[1].split('.');   
                     return value[0];
