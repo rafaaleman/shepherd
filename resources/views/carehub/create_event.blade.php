@@ -263,14 +263,7 @@ input[type="date"]:before {
     $(function () {
         $('#time').datetimepicker({format: 'LT'});
         $('#time').on('dp.change',function(e){
-           // var min = moment(e.date,"DD-MM-YYYY").add(1,'day');
            create_event.event.time= moment(e.date,"h:mm:ss a").format('h:mm a');
-         /*  var min = moment(e.date,"DD-MM-YYYY");
-            var f = $('input[name=fin]').data("DateTimePicker").date();
-            $('input[name=fin]').data("DateTimePicker").minDate(min);
-            if (e == null || f == null) {
-                $('input[name=fin]').data("DateTimePicker").clear();
-            }*/
         });
     });
     const create_event = new Vue({
