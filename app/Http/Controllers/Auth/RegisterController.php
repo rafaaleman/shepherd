@@ -147,7 +147,6 @@ class RegisterController extends Controller
             'name'     => $user->name,
             'lastname' => $user->lastname,
             'phone'    => $user->phone,
-            'dob'      => $user->dob,
             'email'    => $user->email,
         ];
         
@@ -172,8 +171,9 @@ class RegisterController extends Controller
             
             User::where('id', Auth()->user()->id )->update($data);
             return response()->json(['success' => true, 'photo' => $photo]);
-        } catch (\Throwable $th) {
-            return response()->json(['success' => false]);
+            
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'msg' => $e->getMessage()]);
         }
 
     }

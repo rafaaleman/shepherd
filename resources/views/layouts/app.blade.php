@@ -25,6 +25,7 @@
 <body>
     <div id="app">
         @include('includes.nav')
+        @include('includes.top_bar')
 
         <main class="container-fluid">
 
@@ -37,8 +38,9 @@
                     @yield('content')
                 </div>
             </div>
-
         </main>
+
+        @include('includes.footer')
     </div>
 
     <!-- Scripts -->

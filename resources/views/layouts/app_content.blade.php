@@ -23,7 +23,6 @@
     <div id="app">
         <div class="shadow-sm mb-5 top-navigation">
             @include('includes.nav')
-            @include('includes.top_bar')
         </div>
 
         <main class="">

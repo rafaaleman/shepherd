@@ -6,7 +6,7 @@
 @endphp
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 image" style="background-image: url('{{asset('/img/bg'.$bg.'.png')}}')"></div>
+        <div class="col-md-6 image d-none d-lg-block" style="background-image: url('{{asset('/img/bg'.$bg.'.png')}}')"></div>
 
         <div class="col d-flex justify-content-center align-items-center text-center mt-4">
             <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" id="register_user">
@@ -21,7 +21,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-4 col-form-label float-right">
-                        <div class="img-fluid" id="profile-photo"></div>
+                        <div class="img-fluid d-none" id="profile-photo"></div>
                     </div>
                     <div class="col-md-7 d-flex justify-content-center mb-3 ">
                         <div class="btn btn-primary btn-block photo-btn">
@@ -132,7 +132,7 @@
                         <input type="hidden" name="token" value="{{isset($token) ? $token : ''}}">
                         <input type="hidden" name="company" value="{{isset($company) ? $company : ''}}">
                         <br>
-                        <div class="text-black-50"> Already have an account? <a href="{{ route('login') }}">Login</a></div>
+                        <div class="text-black-50 mb-5 pb-5"> Already have an account? <a href="{{ route('login') }}">Login</a></div>
                     </div>
                 </div>
             </form>
@@ -183,24 +183,35 @@
         height: 60vh;
     }
 
+    #register_user{
+        width: 80%;
+    }
+
+    #profile-photo {
+            height: 150px;
+            border-radius: 10%;
+            width: 150px;
+            margin: -2em auto 0 auto;
+            background-size: cover;
+        }
+
+    
+
     @media (min-width: 576px) {
         .image{
             background-size: cover;
             background-position: top left;
             height: 100vh;
         }
-    }
 
-    #register_user{
-        width: 80%;
-    }
-
-    #profile-photo{
-        height: 30px;
-        border-radius: 50%;
-        width: 30px;
-        background-size: cover;
-        float: right;
+        #profile-photo{
+            height: 30px;
+            border-radius: 50%;
+            width: 30px;
+            background-size: cover;
+            float: right;
+            margin: 0;
+        }        
     }
 </style>
 @endpush
@@ -238,7 +249,7 @@ $(function(){
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#profile-photo').css('background-image', 'url('+e.target.result+')');
+                $('#profile-photo').removeClass('d-none').css('background-image', 'url('+e.target.result+')');
             }
 
             reader.readAsDataURL(file[0].files[0]);

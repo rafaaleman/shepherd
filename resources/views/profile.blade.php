@@ -12,9 +12,9 @@
                     <div class="bigBtn" style="{{ (Auth::user()->photo) ? 'justify-content: flex-end;' : 'justify-content: center;'}}">
                         @if (empty(Auth::user()->photo))
                             <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
-                            Upload Photo
+                            Click To Upload Photo
                         @else
-                            Upload New Photo
+                            Click To Change Photo
                         @endif
                     </div>
                     <input id="photo" type="file" class="d-none form-control" name="photo" accept=".jpg, .png" v-on:change="onFileChange">
@@ -46,7 +46,7 @@
                         <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                         <div class="col-md-7">
-                            <input id="email" type="email" class="form-control" name="email" value="{{ Auth::user()->email }}" required autocomplete="email" {{isset($email) ? 'readonly' : ''}} v-model="user.email">
+                            <input id="email" type="email" class="form-control" name="email" value="{{ Auth::user()->email }}" required autocomplete="email" {{isset(Auth::user()->email) ? 'readonly' : ''}} v-model="user.email">
                         </div>
                     </div>
                     
@@ -54,7 +54,7 @@
                         <label for="phone" class="col-md-4 col-form-label text-md-right">Phone Number</label>
 
                         <div class="col-md-7">
-                            <input id="phone" type="tel" class="form-control" name="phone" value="{{ Auth::user()->phone }}" required autocomplete="phone" v-model="user.phone">
+                            <input id="phone" type="tel" class="form-control" name="phone" value="{{ Auth::user()->phone }}" autocomplete="phone" v-model="user.phone">
                         </div>
                     </div>
 
@@ -62,12 +62,12 @@
                         <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                         <div class="col-md-7">
-                            <input id="address" type="text" class="form-control" name="address" value="{{ Auth::user()->address }}" required autocomplete="address"  v-model="user.address">
+                            <input id="address" type="text" class="form-control" name="address" value="{{ Auth::user()->address }}" autocomplete="address"  v-model="user.address">
                         </div>
                     </div>
 
                     <div class="form-group row mt-2">
-                        <i class="text-black-50 p-4" style="font-size: 12px">Leave in blank if you want to preserve your current password</i>
+                        <i class="text-black-50 p-4" style="font-size: 12px">Leave blank if you want to preserve your current password</i>
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                         <div class="col-md-7">
@@ -92,7 +92,7 @@
         </div>
     </form>
 
-    <h5 class="">Love Ones</h5>
+    <h5 class="">Your Loved Ones</h5>
     <div class="col-md-12 mb-5 p-0">
         <div class="card">
             <div class="card-body loveones shadow-sm">
@@ -166,13 +166,31 @@
     background-position: center;
     background-color: azure;
 }
+
+.photo-container{
+    padding: 0;
+
+}
+
+.photo-container .bigBtn {
+    background: rgb(49, 133, 152);
+    background: linear-gradient(0deg, rgba(49, 133, 152, 0.8491771709) 0%, rgba(49, 133, 152, 0.7763480392) 9%, rgba(49, 133, 152, 0) 17%);
+}
 </style>
 @endpush
 
 @push('scripts')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
 <script>
 
 $(function(){
+
+    new Cleave('#phone', {
+        numericOnly: true,
+        blocks: [0, 3, 0, 3, 4],
+        delimiters: ["(", ")", " ", "-"]
+    });
 
     $('.bigBtn').click(function(){
         $(' #photo').click();
@@ -293,16 +311,14 @@ const profile = new Vue ({
                 console.log(response.data);
                 
                 if(response.data.success){
-                    msg  = 'Your user was updated successfully!';
-                    icon = 'success';
-                    if(response.data.data.photo != '')
-                        profile.user.photo = response.data.data.photo; 
+                    if(response.data.photo != '')
+                        profile.user.photo = response.data.photo; 
                     
-                    swal(msg, "", icon);    
+                    swal('Your user was updated successfully!', "", 'success');  
+                    
                 } else {
-                    msg = 'There was an error. Please try again';
-                    icon = 'error';
-                    swal(msg, "", icon);
+                    
+                    swal('There was an error.', response.data.msg, 'error');
                 }
                 
                 $('.btn.update').html('Save').attr('disabled', false);
@@ -313,6 +329,13 @@ const profile = new Vue ({
         onFileChange(e){
             console.log(e.target.files[0]);
             this.user.photo = e.target.files[0];
+
+            var file = $('#photo');
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.photo-container').css('background-image', 'url('+e.target.result+')');
+            }
+            reader.readAsDataURL(file[0].files[0]);
         },
         getInvitations: function() {
 

@@ -48,7 +48,7 @@
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading medications...
     </div>
     <div v-if="medlist.length > 0">
-        <template v-for="medicine in medlist">
+        <template v-for="(medicine,key) in medlist">
         
         <div class="row col-12 justify-content-center align-items-center m-2 row-medlist" >
                 <div class="-AM col-2 col-sm-1 text-uppercase time justify-content-center align-items-center text-right">
@@ -67,9 +67,12 @@
                             </template>
                         </div>
                         <div class="col-xsm col-6 col-sm-8 col-md-8 col-lg-10">
-                            <a href="#!" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine)">
+                            <a href="#!" data-toggle="modal" data-target="#api-medlist-modal" class=""  @click.prevent="wikiMedication(medicine)">
                                 
                                 <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
+                            </a>
+                            <a href="" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine,key)">
+                                <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment
                             </a>
                             <div class="role">@{{medicine.medicine}}</div>
                         </div>
@@ -232,6 +235,10 @@
         color: #d36582;
     }
 
+    .list-group-item {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+    }
+
     @media only screen and (min-width: 774px) and (max-width: 1250px) {
 
         #calendar_div .col-day {
@@ -366,6 +373,7 @@
             calendar: '',
             medlist_complete : '',
             medication_complete : '',
+            medication_view : '',
             products:''
             
         },
@@ -380,6 +388,7 @@
                 this.medlist = '';
                 this.medlist_complete = '';
                 this.medication_complete = '';
+                this.medication_view = '',
                 this.getCalendar();
                 this.getMedications();
             },
@@ -399,6 +408,7 @@
                     if (response.data.success) {
                         this.medlist = response.data.data.medlist;
                         this.medlist_complete = response.data.data.medlist_modal;
+                       // console.log(response.data.data.medlist_modal);
                     } 
 
                     $('.loading-medlist').hide();
@@ -434,8 +444,8 @@
                 });
 
             },
-            viewMedication: function(medication) {
-                console.log(medication);
+            wikiMedication: function(medication) {
+                //console.log(medication);
                 var url = '{{ route("medicine.search.wiki") }}';
                     this.medications_search = [];
                     
@@ -451,13 +461,37 @@
                     };
 
                     sendPostRequest();
-                //drugbank_pcid
-                // console.log(member);
-               // this.medication_complete = this.medlist_complete[medication];
-               // console.log(medication);
-               // console.log(this.medication_complete);
+              
+            },
+            viewMedication: function(medication,key) {
+                
+                this.medication_view = medication;
+                this.medication_view.key = key;
+                //console.log(this.medlist_complete[medication.medication_id]);
+                this.medication_complete = this.medlist_complete[medication.medication_id];
+            },
+            deleteMedication: function(medication){
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to eliminate the " + medication.time_cad_gi + " " +  medication.time_cad_a + " drug intake on " + medication.date_usa +"?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    console.log(isConfirm);
+                    if (isConfirm) {
+                        console.log(this.medication[this.medication_view.skey]);
+                        console.log(medication);
+                        medication = "";
+                        
+                    } else {
+                    }
+                });
             }
-           
 
         },
     });

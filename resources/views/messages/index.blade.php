@@ -9,7 +9,7 @@
         </div>
         <div class="col-4 d-none d-sm-none d-lg-block">
             <a href="javascript:;" @click="showModal()" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
-                Add New Message
+                Send New Message
             </a>        
         </div>
     </div>
@@ -61,7 +61,7 @@
                
                         </ul>
                         <div class="form-group mt-3 mb-0">
-                            <textarea class="form-control" rows="3" placeholder="Type your message here..." v-model="message" v-on:keyup.enter="sendMessage"></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Type your message and press Enter..." v-model="message" v-on:keyup.enter="sendMessage"></textarea>
                         </div>
                     </div>
                 </div>
