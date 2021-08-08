@@ -305,8 +305,8 @@ body{margin-top:20px;}
             messages:[],
             message:null,
             status: false,
-            m1: true,
-            m2: true
+            m1: false,
+            m2: false
          },
          filters: {
             mayuscula: function (value) {
