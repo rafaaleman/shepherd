@@ -148,7 +148,7 @@
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                        <input type="radio" value="4" v-model="medication.frequency">
+                                                        <input type="radio" value="4" @click="selectFrequency(4)" v-model="medication.frequency">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
@@ -162,7 +162,7 @@
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                        <input type="radio" value="6" v-model="medication.frequency">
+                                                        <input type="radio" value="6" @click="selectFrequency(6)" v-model="medication.frequency">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
@@ -176,7 +176,7 @@
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                        <input type="radio" value="8" v-model="medication.frequency">
+                                                        <input type="radio" value="8" @click="selectFrequency(8)" v-model="medication.frequency">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
@@ -191,7 +191,7 @@
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                        <input type="radio" value="12" v-model="medication.frequency">
+                                                        <input type="radio" value="12" @click="selectFrequency(12)" v-model="medication.frequency">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
@@ -206,7 +206,22 @@
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                        <input type="radio" value="24" v-model="medication.frequency">
+                                                        <input type="radio" value="24" @click="selectFrequency(24)" v-model="medication.frequency">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="member w-100 ml-0 mb-2">
+                                                <div class="row p-0">
+                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>As needed</label></div>
+                                                    <div class="col-1 justify-content-center align-items-center ccheck">
+                                                        <center>
+                                                        <label class="customcheck">
+                                                        <input type="radio" value="as needed" @click="selectFrequency('needed')" v-model="medication.frequency">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
@@ -497,7 +512,7 @@ $(function () {
     const create_medication = new Vue({
         el: '#create_medication',
         created: function() {
-            console.log('create_medication');
+            //console.log('create_medication');
         },
         data: {
             current_slug: '{{$loveone->slug}}',
@@ -563,7 +578,7 @@ $(function () {
                     const sendMedicineRequest = async () => {
                         try {
                             const resp = await axios.post(url, {keyword:medicineSelected.drugbank_pcid});
-                            console.log(resp.data.routes);
+                           // console.log(resp.data.routes);
                             this.routes = resp.data.routes;
                             
                         } catch (err) {
@@ -582,7 +597,7 @@ $(function () {
                     const sendRouteRequest = async () => {
                         try {
                             const resp = await axios.post(url, {keyword:routeSelected.drugbank_pcid});
-                            console.log(resp.data.strengths);
+                           // console.log(resp.data.strengths);
                             this.dosages = resp.data.strengths;
                             //this.medications_search = resp.data.medicines;
                             //$("#message-search").removeClass('d-none').html('Results');
@@ -594,14 +609,26 @@ $(function () {
 
                     sendRouteRequest();
             },
+            selectFrequency: function(value){
+                if(value == 'needed'){
+                    this.medication.time = '';
+                    $("#time").attr('disabled',true);
+                }else{
+                    $("#time").attr('disabled',false);
+                }
+            },
             createMedication: function() {
-                //console.log(this.current_slug);return false;
-                
-
-                //console.log(this.current_slug);
                 
                 
-                if(this.medication.route != "" && this.medication.dosage != ""  && this.medication.frequency != ""  && this.medication.time != ""  && this.medication.days != ""){
+                
+                if(this.medication.route != "" && this.medication.dosage != ""  && this.medication.frequency != ""  && this.medication.days != "" && ((this.medication.frequency != "as needed"  && this.medication.time != "") || (this.medication.frequency == "as needed"  && this.medication.time == ""))){
+                    if(this.medication.time == "Invalid date"){
+                        icon = 'error';
+                        msg = 'Please enter a valid "Time"';
+                        swal(msg, "", icon);
+                        return false;
+                    }
+                    
                     $('.loadingBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.loadingBtn').data('loading-text')).attr('disabled', true);
                     //this.event.phone = this.event.phone.replace(/\D/g,'');
                     this.medication.time= moment(this.medication.time,"h:mm:ss a").format('HH:mm');
@@ -655,11 +682,13 @@ $(function () {
                     }else if(this.medication.frequency == ""){
                         msg = 'Please enter "Frequency"';
                         $("#collapsefrequency").addClass("show");
-                    }else if(this.medication.time == ""){
+                    }else if(this.medication.time == "" && this.medication.frequency != "as needed"){
                         msg = 'Please enter "Start time"';
                     }else if(this.medication.days == ""){
                         msg = 'Please enter "Days"';
                         $("#collapseDays").addClass("show");
+                    }else{
+                        msg = "???????";
                     }
                         icon = 'error';
                     // $('.loadingBtn').html('Save').attr('disabled', false);
