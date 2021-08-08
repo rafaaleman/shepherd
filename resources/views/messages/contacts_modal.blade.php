@@ -10,6 +10,7 @@
             <div class="modal-body row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="users-container">
+                        <div class="alert alert-info ml-auto mr-auto text-center" :class="m2?'block':'d-none'"><h4></h4>Please add members to your careteam in order to send messages.</h4></div>
 
                         <div class="chat_list" v-for="cc in contacts" @click="newChat(cc)">
                             <div class="chat_people">
