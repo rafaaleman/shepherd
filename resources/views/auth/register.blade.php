@@ -17,7 +17,7 @@
                         {{asset('/img/LogoShepherd@3x.png')}} 3x"
                 src="{{asset('/img/LogoShepherd.png')}}"
                 alt="Main Shepherd logo"
-                class="mb-5" >
+                class="mt-4 mb-5" >
 
                 <div class="form-group row">
                     <div class="col-md-4 col-form-label float-right">
