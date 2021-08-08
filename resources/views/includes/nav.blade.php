@@ -2,7 +2,13 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
-            <img src="{{asset('/img/logo-shepherd.png')}}"  alt="{{ config('app.name', 'Laravel') }}" class="mr-5">
+            <img srcset="{{asset('/img/LogoShepherd.png')}},
+                        {{asset('/img/LogoShepherd@2x.png')}} 2x,
+                        {{asset('/img/LogoShepherd@3x.png')}} 3x"
+                src="{{asset('/img/LogoShepherd.png')}}"
+                alt="Shepherd logo"
+                class="mr-5"
+                width="114">
         </a>
         <a class="nav-link text-danger font-weight-bold  align-items-center d-flex d-sm-none" href="tel: 911">
             <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>

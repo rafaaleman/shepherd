@@ -32,7 +32,7 @@
                                 <div class="chat_ib">
                                     <h5>                                    
                                         @{{ chat.user.name +' '+  chat.user.lastname}} 
-                                        <span class="new_msg" v-if="chat.status == 1"></span>
+                                        <span class="new_msg" :id=" 'newchat_' + chat.id "  v-if="chat.status == 1"></span>
                                     </h5>
                                     <p>@{{chat.last_message}} </p>
                                 </div>
@@ -305,8 +305,8 @@ body{margin-top:20px;}
             messages:[],
             message:null,
             status: false,
-            m1: true,
-            m2: true
+            m1: false,
+            m2: false
          },
          filters: {
             mayuscula: function (value) {
@@ -408,12 +408,12 @@ body{margin-top:20px;}
                 $('#contactsModal').modal('hide');
             },
             selectChat: function(chat){
-
+                $("#newchat_"+chat.id).addClass('d-none');
                 this.selected_chat = chat.id;
                 this.selected_chat2 = chat;
                 this.message = null;
                 this.changeUser(chat);
-                console.log('conversacion seleccionada: ' + chat.id + "chat id:" + this.selected_chat);
+                
                 this.getChat();
                 Echo.private("chat."+ chat.id ) 
                     .listen('NewMessage',(e)=>{ 
@@ -445,7 +445,6 @@ body{margin-top:20px;}
                 });
              },
              newM: function(M){
-                 console.log("nueov emnsaje via pusher",M);
                 this.messages.push(M);
              }
          }
