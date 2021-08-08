@@ -26,9 +26,8 @@ class NewMessage implements ShouldBroadcast
     public function __construct(chat_message $chat_message)
     {
         $this->chat_message = $chat_message;
-        
     }
-
+    
     /**
      * Get the channels the event should broadcast on.
      *
@@ -38,9 +37,8 @@ class NewMessage implements ShouldBroadcast
     {
         return new PrivateChannel('chat.'. $this->chat_message->id_chat );
     }
-
+    
     public function broadcastWith(){
-        
        return ["message" => $this->chat_message->toarray()];
     }
 }

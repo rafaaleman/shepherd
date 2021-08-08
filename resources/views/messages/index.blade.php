@@ -16,11 +16,12 @@
 
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
         {{-- {{ dump(Auth::user())}} --}}
+            <div class="alert alert-info col-8 ml-auto mr-auto text-center" :class="m1 ? 'block': 'd-none'">     <h3>No mesagges </h3>
+            </div>
             <!-- Row start -->
             <div class="row no-gutters">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
                     <div class="users-container">
-                        
                         <div class="chat_list" v-for="chat in chats" :id=" 'chat_' + chat.id " @click="selectChat(chat)" :class="(selected_chat == chat.id
                         ) ? 'active_chat' : '' ">
 
@@ -31,7 +32,7 @@
                                 <div class="chat_ib">
                                     <h5>                                    
                                         @{{ chat.user.name +' '+  chat.user.lastname}} 
-                                        <span class="new_msg" v-if="chat.status == 1"></span>
+                                        <span class="new_msg" :id=" 'newchat_' + chat.id "  v-if="chat.status == 1"></span>
                                     </h5>
                                     <p>@{{chat.last_message}} </p>
                                 </div>
@@ -304,6 +305,8 @@ body{margin-top:20px;}
             messages:[],
             message:null,
             status: false,
+            m1: false,
+            m2: false
          },
          filters: {
             mayuscula: function (value) {
@@ -312,8 +315,7 @@ body{margin-top:20px;}
                 return value.toUpperCase(); 
             },
             formatDate: function(value) {
-                if (value) {
-                    
+                if (value) {                    
                     value = value.split('T');   
                     value = value[1].split('.');   
                     return value[0];
@@ -356,13 +358,23 @@ body{margin-top:20px;}
             getCareteam: function(){
                 var url = '{{ route("messages.careteam",$loveone_slug) }}';  
                 axios.get(url).then(response => {
+                    if(response.data.data.careteam != null){
+                        this.m2 = false;
+                    }else{
+                        this.m2 = true;
+                    }
                     this.contacts = response.data.data.careteam;
                 });
             },
             getChats: function(){
                 var url = '{{ route("messages.chats",$loveone_slug) }}';
-                
                 axios.get(url).then(response => {
+                    
+                    if(response.data.data.chats != null){
+                        this.m1 = false;
+                    }else{
+                         this.m1 = true;
+                    }
                     this.chats = response.data.data.chats;  
                 });
             },
@@ -371,7 +383,8 @@ body{margin-top:20px;}
                 url = url.replace('*ID*', this.selected_chat);                
                 axios.get(url).then(response => {
                     this.messages = response.data.data.chat;
-                    console.log(this.messages);
+
+                    console.info(this.messages);
                 });
             },
             newChat: function(contact){
@@ -395,16 +408,16 @@ body{margin-top:20px;}
                 $('#contactsModal').modal('hide');
             },
             selectChat: function(chat){
-
-                console.log('conversacion seleccionada: ' + chat.id);
+                $("#newchat_"+chat.id).addClass('d-none');
                 this.selected_chat = chat.id;
                 this.selected_chat2 = chat;
                 this.message = null;
                 this.changeUser(chat);
+                
                 this.getChat();
                 Echo.private("chat."+ chat.id ) 
-                    .listen('NewMessage',(e)=>{
-                        
+                    .listen('NewMessage',(e)=>{ 
+                        console.log(e);                       
                         this.newM(e.message);
                     });
              },
@@ -428,12 +441,10 @@ body{margin-top:20px;}
                     };
                 axios.post(url, msg).then(response => {
                     this.message = null;
-                    //this.messages = response.data.data.chat;
-                    
+                    this.messages = response.data.data.chat;                    
                 });
              },
              newM: function(M){
-
                 this.messages.push(M);
              }
          }
