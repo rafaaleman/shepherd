@@ -24,49 +24,53 @@ class NotificationController extends Controller
         $this->areNewNotifications($request->slug, Auth::user()->id);
 
         $loveone = loveone::whereSlug($request->slug)->first();
-        $from    = date('Y-m-d 00:00:00');
-        $to      = new DateTime('tomorrow');
-        $to      = $to->format('Y-m-d').' 23:59:00';
+        if($loveone){
+            $from    = date('Y-m-d 00:00:00');
+            $to      = new DateTime('tomorrow');
+            $to      = $to->format('Y-m-d').' 23:59:00';
 
 
-        $notifications = notification::where('user_id', Auth::user()->id)
-                                        ->where('loveone_id', $loveone->id)
-                                        ->whereBetween('event_date', [$from, $to])
-                                        ->orderBy('event_date', 'desc')
-                                        ->get();
-        
-        $user_notifications = [];
-        foreach ($notifications as $n) {
-            $notification = DB::table($n->table)->where('id', $n->table_id)->first();
-            $notification->type = $n->table;
-            $notification->read = $n->read;
-            $notification->event_date = (date('Y-m-d', strtotime($n->event_date)) == date('Y-m-d')) ? 'Today' : 'Tomorrow';
-            $notification->event_date .= ' at ' . Carbon::parse($n->event_date)->format('g:i a');
-            // dd(date('Y-m-d', strtotime($n->event_date)), date('Y-m-d'));
+            $notifications = notification::where('user_id', Auth::user()->id)
+                                            ->where('loveone_id', $loveone->id)
+                                            ->whereBetween('event_date', [$from, $to])
+                                            ->orderBy('event_date', 'desc')
+                                            ->get();
+            
+            $user_notifications = [];
+            foreach ($notifications as $n) {
+                $notification = DB::table($n->table)->where('id', $n->table_id)->first();
+                $notification->type = $n->table;
+                $notification->read = $n->read;
+                $notification->event_date = (date('Y-m-d', strtotime($n->event_date)) == date('Y-m-d')) ? 'Today' : 'Tomorrow';
+                $notification->event_date .= ' at ' . Carbon::parse($n->event_date)->format('g:i a');
+                // dd(date('Y-m-d', strtotime($n->event_date)), date('Y-m-d'));
 
-            if($n->table == 'events'){
-                $notification->description = $notification->location;
-                $notification->icon = 'far fa-calendar-plus';
+                if($n->table == 'events'){
+                    $notification->description = $notification->location;
+                    $notification->icon = 'far fa-calendar-plus';
 
-            } else if($n->table == 'lockbox'){
-                $notification->description = '';
-                $notification->icon = 'fas fa-file-medical';
-                
-            } else if($n->table == 'medications'){
-                $notification->name = $notification->medicine . ' ' .$notification->dosage;
-                $notification->description = '';
-                $notification->icon = 'fas fa-prescription-bottle-alt';
-                
-            } else { 
-                $notification->description = '';
-                $notification->icon = 'far fa-calendar-alt';
+                } else if($n->table == 'lockbox'){
+                    $notification->description = '';
+                    $notification->icon = 'fas fa-file-medical';
+                    
+                } else if($n->table == 'medications'){
+                    $notification->name = $notification->medicine . ' ' .$notification->dosage;
+                    $notification->description = '';
+                    $notification->icon = 'fas fa-prescription-bottle-alt';
+                    
+                } else { 
+                    $notification->description = '';
+                    $notification->icon = 'far fa-calendar-alt';
+                }
+                $user_notifications[] = $notification;
             }
-            $user_notifications[] = $notification;
+
+            // TODO: Mark as read all above notifications
+
+            // dd($user_notifications);
+        } else {
+            $user_notifications = [];
         }
-
-        // TODO: Mark as read all above notifications
-
-        // dd($user_notifications);
         return view('notifications.index', compact('user_notifications'));
     }
 
