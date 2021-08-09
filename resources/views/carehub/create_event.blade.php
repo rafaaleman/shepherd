@@ -89,7 +89,7 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
                     <div class="card shadow-sm my-2">
                         <div class="card-body">
-                            <input id="time" type="text" class="form-control no-border" name="time" value="--:--" required  onclick="" v-model="event.time" placeholder="Select Time">
+                            <input id="time" type="text" class="no-border" name="time" value="--:--" required  onclick="" v-model="event.time" placeholder="Select Time">
 
                            
 

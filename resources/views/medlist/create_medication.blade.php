@@ -243,7 +243,7 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                        <input id="time" type="text" class="form-control no-border" name="time" value="" required v-model="medication.time" placeholder="Start Time" min="{{ $date_now->format('g:i a') }}">
+                        <input id="time" type="text" class="no-border" name="time" value="" required v-model="medication.time" placeholder="Start Time" min="{{ $date_now->format('g:i a') }}">
                         </div>
                     </div>
                 </div>
