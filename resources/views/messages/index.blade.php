@@ -16,7 +16,7 @@
 
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
         {{-- {{ dump(Auth::user())}} --}}
-            <div class="alert alert-info col-8 ml-auto mr-auto text-center" :class="m1 ? 'block': 'd-none'">     <h3>No mesagges </h3>
+            <div class="alert alert-info col-8 ml-auto mr-auto text-center" :class="m1 ? 'block': 'd-none'">     <h3>No messages </h3>
             </div>
             <!-- Row start -->
             <div class="row no-gutters">
@@ -358,7 +358,7 @@ body{margin-top:20px;}
             getCareteam: function(){
                 var url = '{{ route("messages.careteam",$loveone_slug) }}';  
                 axios.get(url).then(response => {
-                    if(response.data.data.careteam.lenght > 0){
+                    if(response.data.data.careteam.length > 0){
                         this.m2 = false;
                     }else{
                         this.m2 = true;
@@ -370,8 +370,7 @@ body{margin-top:20px;}
                 var url = '{{ route("messages.chats",$loveone_slug) }}';
 
                 axios.get(url).then(response => {
-                    console.log('algo',response.data.data.chats);
-                    if(response.data.data.chats.lenght > 0){
+                    if(response.data.data.chats.length > 0){
                         this.m1 = false;
                     }else{
                          this.m1 = true;
