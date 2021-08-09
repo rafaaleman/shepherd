@@ -24,19 +24,23 @@ trait NotificationTrait {
      */
     public function areNewNotifications($slug, $user_id)
     {
+        
         if(empty($slug)) return 0; 
         
         $loveone = loveone::whereSlug($slug)->first();
-        $from    = date('Y-m-d 00:00:00');
-        $to      = new DateTime('tomorrow');
-        $to      = $to->format('Y-m-d').' 23:59:00';
+        if($loveone){
+
+            $from    = date('Y-m-d 00:00:00');
+            $to      = new DateTime('tomorrow');
+            $to      = $to->format('Y-m-d').' 23:59:00';
 
 
-        $notifications = notification::where('user_id', $user_id)
-                                        ->where('loveone_id', $loveone->id)
-                                        ->whereBetween('event_date', [$from, $to])
-                                        ->get()->count();
-        Session::put('notifications',  $notifications);
+            $notifications = notification::where('user_id', $user_id)
+                                            ->where('loveone_id', $loveone->id)
+                                            ->whereBetween('event_date', [$from, $to])
+                                            ->get()->count();
+            Session::put('notifications',  $notifications);
+        }
     }
 
     /**
