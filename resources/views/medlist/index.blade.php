@@ -50,7 +50,7 @@
     <div v-if="medlist.length > 0">
         <template v-for="(medicine,key) in medlist">
         
-        <div class="row col-12 justify-content-center align-items-center m-2 row-medlist" >
+        <div class="row col-12 justify-content-center align-items-center mb-2 row-medlist" style="padding: 0;">
                 <div class="-AM col-2 col-sm-1 text-uppercase time justify-content-center align-items-center text-right" v-if="medicine.frequency != 'as needed'">
                     <b>@{{medicine.time_cad_gi}}</b> <br>
                     @{{medicine.time_cad_a}}
