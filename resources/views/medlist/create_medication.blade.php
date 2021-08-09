@@ -374,8 +374,8 @@
 @endsection
 
 @push('styles')
-<link href="{{asset('public/css/iconos_datepicker.css')}}" rel="stylesheet">
-<link href="{{asset('public/css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
+<link href="{{asset('css/iconos_datepicker.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
 <style>
 /* The customcheck */
 .ccheck{
@@ -497,7 +497,7 @@
 @endpush
 
 @push('scripts')
-<script src="{{asset('public/js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{asset('js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
 
 
 <script>
