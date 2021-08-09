@@ -38,7 +38,7 @@
                     <li class="nav-item mr-4">
                         <a href="{{route('loveone')}}" class="nav-link"><i class="far fa-heart"></i> Add Loved One</a>
                     </li>
-                    <li class="nav-item mr-4 ">
+                    <li class="nav-item mr-4 notificationsLnk">
                         <a href="{{ route('notifications', '**SLUG**')}}" class="menu-link nav-link {{ (Session::get('notifications') > 0) ? 'text-danger font-weight-bold' : ''}}">
                             <i class="{{ (Session::get('notifications') > 0) ? 'fas' : 'far'}} fa-bell"></i> Notifications
                         </a>

@@ -358,7 +358,7 @@ body{margin-top:20px;}
             getCareteam: function(){
                 var url = '{{ route("messages.careteam",$loveone_slug) }}';  
                 axios.get(url).then(response => {
-                    if(response.data.data.careteam != null){
+                    if(response.data.data.careteam.lenght > 0){
                         this.m2 = false;
                     }else{
                         this.m2 = true;
@@ -368,9 +368,10 @@ body{margin-top:20px;}
             },
             getChats: function(){
                 var url = '{{ route("messages.chats",$loveone_slug) }}';
+
                 axios.get(url).then(response => {
-                    
-                    if(response.data.data.chats != null){
+                    console.log('algo',response.data.data.chats);
+                    if(response.data.data.chats.lenght > 0){
                         this.m1 = false;
                     }else{
                          this.m1 = true;

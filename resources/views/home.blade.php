@@ -247,7 +247,8 @@ const home = new Vue ({
 
 $(function(){
     @if (session('err_permisison'))
-    swal('Error','{{ session('err_permisison')}}', 'error');
+    
+    swal('Error',"{!! session('err_permisison') !!}", 'error');
     @endif
 
     $('.carousel').carousel({

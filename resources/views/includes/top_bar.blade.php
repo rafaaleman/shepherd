@@ -29,6 +29,8 @@ $(function(){
             newurl = newurl.replace('**SLUG**', current_loveone.slug);
             $(this).attr('href', newurl)
         });
+    } else {
+        $('.notificationsLnk').hide();
     }
 });
 </script>
