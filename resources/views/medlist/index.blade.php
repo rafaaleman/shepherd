@@ -76,7 +76,7 @@
                                 <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
                             </a>
                             <a href="" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine,key)" v-if="medicine.frequency != 'as needed'">
-                                <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment
+                                <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment Schedule
                             </a>
                             <div class="role">@{{medicine.medicine}}</div>
                         </div>
