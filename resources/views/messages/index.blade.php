@@ -16,7 +16,7 @@
 
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p-0">
         {{-- {{ dump(Auth::user())}} --}}
-            <div class="alert alert-info col-8 ml-auto mr-auto text-center" :class="m1 ? 'block': 'd-none'">     <h3>No mesagges </h3>
+            <div class="alert alert-info col-8 ml-auto mr-auto text-center" :class="m1 ? 'block': 'd-none'">     <h3>No messages </h3>
             </div>
             <!-- Row start -->
             <div class="row no-gutters">
