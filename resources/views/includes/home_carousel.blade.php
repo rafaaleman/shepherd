@@ -9,7 +9,7 @@
         @foreach ($loveones as $loveone)
             <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }}" data-id="{{ $loveone->id }}" @click="refreshWidgets( '{{$loveone->id}}', '{{$loveone->slug}}')">
                 <div class="carousel-item__container">
-                    <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('public/img/no-avatar.png')}}" class="loveone-photo">
+                    <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('/img/no-avatar.png')}}" class="loveone-photo">
                     <div class="carousel__caption">
                         <h5>{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
                         <p>{{ $loveone->relationshipName }}</p>
