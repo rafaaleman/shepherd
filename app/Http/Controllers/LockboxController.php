@@ -52,7 +52,7 @@ class LockboxController extends Controller
         /* Seguridad */
         if(!Auth::user()->permission('lockbox',$loveone->id))
         {
-            return redirect('/home')->with('err_permisison', "You don't have permission to Lockbox!");  
+            return redirect('/home')->with('err_permisison','You don\'t have permission to access LockBox');  
         }
 
         

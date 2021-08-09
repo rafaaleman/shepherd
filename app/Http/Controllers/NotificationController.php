@@ -68,10 +68,11 @@ class NotificationController extends Controller
             // TODO: Mark as read all above notifications
 
             // dd($user_notifications);
+            return view('notifications.index', compact('user_notifications'));
         } else {
-            $user_notifications = [];
+            return redirect()->route('home');
         }
-        return view('notifications.index', compact('user_notifications'));
+        
     }
 
     
