@@ -65,6 +65,9 @@ class MedlistController extends Controller
     {
 
         $data = $request->all();
+        if($data['frequency'] == 'as needed'){
+            $data['time'] = '00:00';
+        }
         unset($data['_token']);
         unset($data['assigned']);
         $date_i = $date = new DateTime(date('Y-m-d').' '.$data['time']);
@@ -113,6 +116,9 @@ class MedlistController extends Controller
         $tiempoFin = strtotime($fechaFin);
 
         #60 minutos por hora * 60 segundos por minuto
+        if($hour == 'as needed'){
+            $hour = 24;
+        }
         $hour = 3600 * $hour;
         while($tiempoInicio < $tiempoFin){
             $f = array();
@@ -162,6 +168,7 @@ class MedlistController extends Controller
                 $med['dosage'] = $medication->dosage;
                 $med['drugbank_pcid'] = $medication->drugbank_pcid;
                 $med['route'] = $medication->route;
+                $med['frequency'] = $medication->frequency;
                 $med['medicine'] = $medication->medicine;
                 $date_temp = new DateTime($medicine->date . " " . $medicine->time);
                 $med['date_usa'] = $date_temp->format('Y-d-m');

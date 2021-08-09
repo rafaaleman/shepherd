@@ -51,9 +51,13 @@
         <template v-for="(medicine,key) in medlist">
         
         <div class="row col-12 justify-content-center align-items-center m-2 row-medlist" >
-                <div class="-AM col-2 col-sm-1 text-uppercase time justify-content-center align-items-center text-right">
+                <div class="-AM col-2 col-sm-1 text-uppercase time justify-content-center align-items-center text-right" v-if="medicine.frequency != 'as needed'">
                     <b>@{{medicine.time_cad_gi}}</b> <br>
                     @{{medicine.time_cad_a}}
+                </div>
+                <div class="-AM col-2 col-sm-1 text-uppercase time justify-content-center align-items-center text-right" v-else>
+                    <b>As needed</b> <br>
+                    
                 </div>
                 <div class="col-10 col-sm-11 m-0 card">
                     
@@ -71,12 +75,12 @@
                                 
                                 <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
                             </a>
-                            <a href="" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine,key)">
+                            <a href="" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine,key)" v-if="medicine.frequency != 'as needed'">
                                 <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment
                             </a>
                             <div class="role">@{{medicine.medicine}}</div>
                         </div>
-                        <div class="col-xsm col-3 col-sm-2 col-md-2 col-lg-1 justify-content-center align-items-center text-right">
+                        <div class="col-xsm col-3 col-sm-2 col-md-2 col-lg-1 justify-content-center align-items-center text-right" v-if="medicine.frequency != 'as needed'">
                             <template v-if="medicine.status == 1">
                                 <i class="fa fa-check-circle" style="font-size:40px;color:#369bb6;"></i>
                             </template>
