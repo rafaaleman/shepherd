@@ -605,6 +605,11 @@ $(function () {
                             const resp = await axios.post(url, {keyword:routeSelected.drugbank_pcid});
                            // console.log(resp.data.strengths);
                             this.dosages = resp.data.strengths;
+                            console.log(this.dosages);
+                            this.dosages.unshift({
+                                'strengths': 'Other',
+                                'dosage':  'Other'
+                            });
                             //this.medications_search = resp.data.medicines;
                             //$("#message-search").removeClass('d-none').html('Results');
                         } catch (err) {
