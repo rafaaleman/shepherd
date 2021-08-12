@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('First Name') }}</label>
+                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('First Name') }} <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="lastname" class="col-md-4 col-form-label text-md-right">Last Name</label>
+                    <label for="lastname" class="col-md-4 col-form-label text-md-right">Last Name <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname">
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }} <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', (isset($email)) ? $email : '' ) }}" required autocomplete="email" {{isset($email) ? 'readonly' : ''}}>
@@ -73,10 +73,10 @@
                 </div>
                 
                 <div class="form-group row">
-                    <label for="phone" class="col-md-4 col-form-label text-md-right">Mobile Number</label>
+                    <label for="phone" class="col-md-4 col-form-label text-md-right">Mobile Number <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
-                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" >
+                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" autocomplete="phone" >
 
                         @error('phone')
                             <span class="invalid-feedback" role="alert">
@@ -87,12 +87,12 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth</label>
+                    <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth <span class="text-danger">*</span></label>
 
                     <div class="col-md-7 birthdate">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-month" id="dob-month" autocomplete="dob-month" placeholder="MM">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob-day" id="dob-day" autocomplete="dob-day" placeholder="DD">
-                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob-year" id="dob-year" autocomplete="dob-year" placeholder="YYYY">
+                        <input required type="text" pattern="[0-9]+" maxlength="2" name="dob-month" id="dob-month" autocomplete="dob-month" placeholder="MM">
+                        <input required type="text" pattern="[0-9]+" maxlength="2" name="dob-day" id="dob-day" autocomplete="dob-day" placeholder="DD">
+                        <input required type="text" pattern="[0-9]+" maxlength="4" name="dob-year" id="dob-year" autocomplete="dob-year" placeholder="YYYY">
 
                         @error('dob')
                             <span class="invalid-feedback" role="alert">
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }} <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -117,10 +117,18 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right"></label>
+
+                    <div class="col-md-7">
+                        *Asterisk indicates required field
                     </div>
                 </div>
 
