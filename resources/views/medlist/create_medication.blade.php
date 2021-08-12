@@ -243,7 +243,9 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                        <input id="time" type="text" class="form-control no-border" name="time" value="" required v-model="medication.time" placeholder="Start Time" min="{{ $date_now->format('g:i a') }}">
+
+                            <input id="time" type="text" class="form-control no-border" name="time" value="" required v-model="medication.time" placeholder="Start Time" min="{{ $date_now->format('g:i a') }}">
+
                         </div>
                     </div>
                 </div>
@@ -493,6 +495,7 @@
 #create_medication .dropdown-toggle{
     color: #495057 !important;
 }
+
 </style>
 @endpush
 
@@ -503,7 +506,10 @@
 <script>
 
 $(function () {
-    $('#time').datetimepicker({format: 'LT'});
+    $('#time').datetimepicker({format: 'LT', widgetPositioning: {
+            horizontal: 'left',
+            vertical: 'bottom'
+        }});
     $('#time').on('dp.change',function(e){
         create_medication.medication.time= moment(e.date,"h:mm:ss a").format('h:mm a');
     });
@@ -599,6 +605,11 @@ $(function () {
                             const resp = await axios.post(url, {keyword:routeSelected.drugbank_pcid});
                            // console.log(resp.data.strengths);
                             this.dosages = resp.data.strengths;
+                            console.log(this.dosages);
+                            this.dosages.unshift({
+                                'strengths': 'Other',
+                                'dosage':  'Other'
+                            });
                             //this.medications_search = resp.data.medicines;
                             //$("#message-search").removeClass('d-none').html('Results');
                         } catch (err) {

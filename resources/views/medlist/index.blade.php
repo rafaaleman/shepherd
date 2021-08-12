@@ -50,7 +50,7 @@
     <div v-if="medlist.length > 0">
         <template v-for="(medicine,key) in medlist">
         
-        <div class="row col-12 justify-content-center align-items-center m-2 row-medlist" >
+        <div class="row col-12 justify-content-center align-items-center mb-2 row-medlist" style="padding: 0;">
                 <div class="-AM col-2 col-sm-1 text-uppercase time justify-content-center align-items-center text-right" v-if="medicine.frequency != 'as needed'">
                     <b>@{{medicine.time_cad_gi}}</b> <br>
                     @{{medicine.time_cad_a}}
@@ -76,7 +76,7 @@
                                 <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
                             </a>
                             <a href="" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine,key)" v-if="medicine.frequency != 'as needed'">
-                                <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment
+                                <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment Schedule
                             </a>
                             <div class="role">@{{medicine.medicine}}</div>
                         </div>
