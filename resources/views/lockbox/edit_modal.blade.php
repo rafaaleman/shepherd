@@ -49,7 +49,7 @@
                     <span id="ffile"></span>                        
                     <label class="btn btn-block btn-primary btn-submit">
                         <input id="documente" name="document" type="file" class="" @change="getDoc" hidden>
-                        Choose File
+                        <u>Select Your File</u>
                     </label>                    
                 </div>
 

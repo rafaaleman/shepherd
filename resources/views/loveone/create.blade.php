@@ -9,7 +9,7 @@
         <div class="col-md-6 photo-container bg-primary d-flex align-items-center" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
             <div class="bigBtn">
                 <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
-                Upload photo of your loved one
+                Click here to upload a photo of your loved one
             </div>
             <input id="photo" type="file" class="form-control d-none" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
         </div>
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="email" class="col-md-4 col-form-label text-md-right">E-mail (optional)</label>
+                    <label for="email" class="col-md-4 col-form-label text-md-right">E-mail</label>
 
                     <div class="col-md-7">
                         <input id="email" type="email" class="form-control" name="email" value="{{(isset($loveone)) ? $loveone->email : ''}}" autocomplete="email" v-model="loveone.email">
@@ -43,10 +43,10 @@
                 </div>
                 
                 <div class="form-group row">
-                    <label for="phone" class="col-md-4 col-form-label text-md-right">Phone #</label>
+                    <label for="phone" class="col-md-4 col-form-label text-md-right">Phone # <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
-                        <input id="phone" type="tel" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" autocomplete="phone" autofocus v-model="loveone.phone">
+                        <input required id="phone" type="tel" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" autocomplete="phone" autofocus v-model="loveone.phone">
                     </div>
                 </div>
 
@@ -86,21 +86,28 @@
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth <span class="text-danger">*</span></label>
 
                     <div class="col-md-7 birthdate">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_month" id="dob_month" placeholder="MM" value="{{ isset($loveone) ? explode('-', $loveone->dob)[1] : '' }}" v-model="loveone.dob_month" class="">
-                        <input type="text" pattern="[0-9]+" maxlength="2" name="dob_day" id="dob_day" placeholder="DD" value="{{ isset($loveone) ? explode('-', $loveone->dob)[2] : '' }}" v-model="loveone.dob_day" class="">
-                        <input type="text" pattern="[0-9]+" maxlength="4" name="dob_year" id="dob_year" placeholder="YYYY" value="{{ isset($loveone) ? explode('-', $loveone->dob)[0] : '' }}" v-model="loveone.dob_year" class="">
+                        <input required type="text" pattern="[0-9]+" maxlength="2" name="dob_month" id="dob_month" placeholder="MM" value="{{ isset($loveone) ? explode('-', $loveone->dob)[1] : '' }}" v-model="loveone.dob_month" class="">
+                        <input required type="text" pattern="[0-9]+" maxlength="2" name="dob_day" id="dob_day" placeholder="DD" value="{{ isset($loveone) ? explode('-', $loveone->dob)[2] : '' }}" v-model="loveone.dob_day" class="">
+                        <input required type="text" pattern="[0-9]+" maxlength="4" name="dob_year" id="dob_year" placeholder="YYYY" value="{{ isset($loveone) ? explode('-', $loveone->dob)[0] : '' }}" v-model="loveone.dob_year" class="">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="relationship" class="col-md-4 col-form-label text-md-right">Relationship</label>
+                    <label for="relationship" class="col-md-4 col-form-label text-md-right">Relationship <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
-                        <select name="relationship" id="relationship" v-model="loveone.relationship_id" class="form-control">
+                        <select required name="relationship" id="relationship" v-model="loveone.relationship_id" class="form-control">
                             @foreach ($relationships as $relationship)
                                 <option value="{{$relationship->id}}" {{(isset($loveone) && $relationship->id  == $loveone->careteam->relationship_id) ? 'selected' : ''}}>{{$relationship->name}}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="relationship" class="col-md-4 col-form-label text-md-right"></label>
+
+                    <div class="col-md-7">
+                        *Asterisk indicates required fields
                     </div>
                 </div>
             </div>

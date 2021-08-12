@@ -589,6 +589,12 @@ a:hover {
     });
 
     $(document).ready(function(){
+        $('#createModal').on('hidden.bs.modal', function (e) {
+            lockbox.getDocuments();
+        });
+        $('#editModal').on('hidden.bs.modal', function (e) {
+            lockbox.getDocuments();
+        });
         $(".tabs").click(function(){
             
             $(".tabs").removeClass("active");

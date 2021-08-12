@@ -37,9 +37,9 @@
                 </div>
                 <div class="mb-4  text-center">        
                     <span id="ffile"></span>            
-                    <label class="btn btn-primary btn-block">
+                    <label class=" btn-block">
                         <input id="document" name="document" type="file" class="" @change="getDoc" hidden accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
-                        Choose File
+                        <u>Select Your File</u>
                     </label>
                     
                 </div>
