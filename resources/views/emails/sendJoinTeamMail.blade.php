@@ -5,13 +5,14 @@
 </a>
 
 <br><br>
-Hey!
-
 @component('mail::table')
-<img src="{{ config('app.url') . $details['loveone_photo']}}" alt="Shepherd" title="Shepherd" style="float: left; margin-right: 10px; border-radius: 50%; width: 150px;"> 
-You have been invited by {{$details['leader']}} to join the <i>CareTeam</i> of <strong>{{$details['loveone_name']}}</strong> in the Shepherd caregiving platform on your phone, tablet or computer. <br><br>
+<img src="{{ config('app.url') . $details['loveone_photo']}}" alt="Shepherd" title="Shepherd" style="float: left; margin-right: 10px; border-radius: 50%; width: 150px;">  
+You have been invited to become a member of the CareTeam for {{$details['loveone_name']}} in the ShepherdCares platform.
 
-If you would like to accept, please click on the "<strong>Register</strong>" button below. 
+ShepherdCares enables families to more easily manage the care and affairs of their loved ones who need assistance. You would be a valuable addition to this team.
+
+If you would like to join this CareTeam, please click on the button below to register.
+
 @endcomponent
 
 <br><br>
