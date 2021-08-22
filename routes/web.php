@@ -2,8 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Mail\sendJoinTeamMail;
+use App\Mail\sendInvitationMail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/prueba', function () {
+    // send email
+    $details = [
+        'url' => 'prueba.com',
+        'role' => '2',
+        'loveone_name' => 'mi abuelito',
+        'loveone_photo' => 'no_hay.jpg',
+    ];
+
+    Mail::to('karonte.von.ravnos@gmail.com')->send(new sendInvitationMail($details));
+    echo "holi";
 });
 
 Auth::routes([
@@ -27,3 +46,5 @@ Route::post("/resources/search/ini","ResourceController@getTopicsSearchIni")->na
 
 Route::view('/terms', 'terms');
 Route::view('/privacy', 'privacy');
+
+

@@ -135,4 +135,21 @@ class MessagesController extends Controller
         $messages = chat::where('id',$request->id);
         return response()->json(['success' => true, 'data' => ['messages' => $messages]], 200);
     }
+
+    public function deleteMessage($id){
+        $data = chat_message::find($id);
+        $data->delete();
+        return response()->json(['success' => true, 'data' => ['message' => 'deleted']], 200);
+    }
+
+    public function deleteChat($id){
+        $data = chat::find($id);
+        $x = chat_message::where('id_chat',$id)->get();
+        foreach($x as $y){
+            $y->delete();
+        }
+        $data->delete();
+        
+        return response()->json(['success' => true, 'data' => ['message' => 'deleted']], 200);
+    }
 }
