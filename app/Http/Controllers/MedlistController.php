@@ -34,7 +34,7 @@ class MedlistController extends Controller
             return view('errors.not-found');
         }
         /* Seguridad */
-        if(!Auth::user()->permission('medlist',$loveone->id))
+       if(!Auth::user()->permission('medlist',$loveone->id))
         {
             return redirect('/home')->with('err_permisison', 'You don\'t have permission to access MedList');  
         }
@@ -316,5 +316,17 @@ class MedlistController extends Controller
         $products = json_decode($response->getBody());
         //dd($products);
         return response()->json(['success' => true, 'products' => $products]);
+    }
+
+    function deleteMedlist(Request $request){
+       // dd($request->medlist, $request->slug);
+        medlist::where('medication_id',$request->medlist['medication_id'])->delete();
+        medication::where('id',$request->medlist['medication_id'])->delete();
+        //dd($request->medlist['medication_id'],$med->get());
+        return response()->json(['success' => true, 'data' => [
+            'success' => 1,
+            'slug' => $request->slug
+        ]]);
+
     }
 }
