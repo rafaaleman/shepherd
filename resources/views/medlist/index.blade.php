@@ -486,13 +486,53 @@
                     dangerMode: true,
                 }).then(function(isConfirm) {
 
-                    console.log(isConfirm);
+                    //console.log(isConfirm);
                     if (isConfirm) {
                         console.log(this.medication[this.medication_view.skey]);
                         console.log(medication);
                         medication = "";
                         
                     } else {
+                    }
+                });
+            },
+            deleteMedlist: function(medlist,slug){
+               // console.log(medlist);
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to delete the '"+medlist.medicine+"' medication?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    if(isConfirm){
+                        var url = '{{ route("medlist.delete") }}';
+                        data = {
+                            medlist: medlist,
+                            slug: slug
+                        };
+
+                        axios.post(url, data).then(response => {
+                            
+                            if( response.data.success == true ){
+                                //joinTeam.getInvitations();
+                                msg = 'The medication was deleted';
+                                icon = 'success';
+                                swal(msg, "", icon).then((value) => {
+                                    location.reload();
+                                });
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                                swal(msg, "", icon)
+                            }
+                            
+                            
+                        });
                     }
                 });
             }

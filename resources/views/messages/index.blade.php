@@ -22,7 +22,7 @@
             <div class="row no-gutters">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
                     <div class="users-container">
-                        <div class="chat_list" v-for="chat in chats" :id=" 'chat_' + chat.id " @click="selectChat(chat)" :class="(selected_chat == chat.id
+                        <div class="chat_list" v-for="(chat, i) in chats" :id=" 'chat_' + chat.id " @click="selectChat(chat)" :class="(selected_chat == chat.id
                         ) ? 'active_chat' : '' ">
 
                             <div class="chat_people">
@@ -33,10 +33,12 @@
                                     <h5>                                    
                                         @{{ chat.user.name +' '+  chat.user.lastname}} 
                                         <span class="new_msg" :id=" 'newchat_' + chat.id "  v-if="chat.status == 1"></span>
+                                        
                                     </h5>
                                     <p>@{{chat.last_message}} </p>
                                 </div>
                             </div>
+                            <span class="trash fa fa-trash " @click="deleteChat(i,chat)"></span>
                         </div>
 
                     </div>
@@ -45,7 +47,7 @@
                     <div class="chat-container" v-if="selected_chat">
                         <ul class="chat-box chatContainerScroll" ref="message_list">
 
-                            <li class="chat" v-for="message in messages">
+                            <li class="chat" v-for="(message,i) in messages">
                                 <div class="chat-avatar">
 
                                     <img :src="selected_chat2.user.photo" v-if="message.id_user == user">
@@ -55,6 +57,7 @@
                                 </div>
                                 <div class="chat-text">
                                     @{{ message.message }}
+                                    <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
                                 </div>
                                 <div class="chat-hour">@{{ message.created_at | formatDate }}<br> AM</div>
                             </li>                           
@@ -95,6 +98,7 @@ body{margin-top:20px;}
   cursor: pointer;
   background: #ffffff;
   border-bottom: 1px solid #f0f4f8;
+  position: relative;
 }
 .active_chat{
   background: transparent;
@@ -122,9 +126,21 @@ body{margin-top:20px;}
   width: 78%;
 }
 
+
 .chat_ib h5{ font-size:19px; color:#32a4ea; margin:0 0 8px 0;font-weight: bold;}
 .chat_ib h5 span{ font-size:13px; float:right;}
 .chat_ib p{ font-size:13px; color:#78849e; margin:auto;font-weight: bold;}
+
+
+.chat_list:hover .trash{
+    display: block;
+}
+.chat_list .trash{
+    display: none;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
 
 .new_msg {
     width: 10px;
@@ -207,6 +223,16 @@ body{margin-top:20px;}
     line-height: 150%;
     position: relative;
     width: 90%
+}
+.chat-container li .chat-text:hover .trash {
+    display:block;	
+}
+
+.chat-container .trash{
+    display: none;
+    position: absolute;
+    bottom: -6px;
+    right: 0px;
 }
 
 .chat-container li .chat-hour {
@@ -446,6 +472,21 @@ body{margin-top:20px;}
              },
              newM: function(M){
                 this.messages.push(M);
+             },
+             deleteMsg(index,message){
+                var url = '{{ route("messages.delete","*ID*") }}';                
+                url = url.replace('*ID*', message.id);
+                axios.get(url).then(response => {                    
+                    this.messages.splice(index,1);
+                });
+             },
+             deleteChat(index,chat){                
+                var url = '{{ route("messages.chat.delete","*ID*") }}';                
+                url = url.replace('*ID*', chat.id);
+                axios.get(url).then(response => {                    
+                    location.reload();
+                });
+                
              }
          }
      });

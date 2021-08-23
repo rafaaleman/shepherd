@@ -98,13 +98,17 @@
                 <div class="row">
                     <div class="col-md-12 events">
                         <div class="pl-3 avatar-imgs">
-                            <h6 class="card-title font-weight-bold mb-5">@{{event.title}}</h6>
-                            <template v-for="(day,index) in event.data">
-                                <div class="row border-bottom-1 mb-3">
+                            <h6 class="card-title font-weight-bold mb-5">
+                                @{{event.title}} 
+                                
+                            </h6>
+                            <template v-for="(day,index) in event.data" >
+                                <div class="row border-bottom-1 mb-3" v-if="day.status">
                                     <div class="col-4 col-sm-3 col-lg-2">
                                         <div class="bottom-50 end-50">
                                             <h3 class="text-danger font-weight-bold text-uppercase time" style="line-height:.7">
                                                 @{{day.time_cad_gi}} <br /><small style="font-size:.6em">@{{day.time_cad_a}}</small>
+                                               
                                             </h3>
                                         </div>
                                     </div>
@@ -117,11 +121,16 @@
                                         <div class="widget team col-12 col-lg-6 p-0">
                                             <div class="d-flex">
                                                 <div class="pl-0 pl-md-3 pl-lg-3 avatar-imgs ml-0 ml-lg-0 ml-lg-auto">
-                                                    <p class="btn btn-link" v-on:click="eventDetails(day.id)" style="text-decoration: none;">
-                                                        <template v-for="member in day.members">
-                                                            <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
-                                                        </template>
-                                                        @{{day.count_messages}} <i class="fa fa-comments" style="font-size:15px;"></i>
+                                                    <p>
+                                                        <span class="btn btn-link" v-on:click="eventDetails(day.id)" style="text-decoration: none;">
+                                                            <template v-for="member in day.members">
+                                                                <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                                            </template>
+                                                            @{{day.count_messages}} <i class="fa fa-comments" style="font-size:15px;"></i>
+                                                        </span>
+                                                        <a href="" class="text-danger " v-on:click.prevent="deleteEvent(day)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -415,7 +424,7 @@
                 });
 
             },
-            eventDetails(event) {
+            eventDetails: function(event) {
                 $("#formDetail #id").val(event);
                 //this.event_url.id = event;
                 $("#formDetail").submit();
@@ -425,6 +434,43 @@
                 $.each(this.events,function(index, day){
                     console.log(day.date);
                     $("."+day.date).addClass("box-event rounded-circle").removeClass("week-box");
+                });
+            },
+            deleteEvent: function(event){
+                //console.log(event);
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to delete the '"+event.name+"' event?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    if(isConfirm){
+                        var url = '{{ route("carehub.event.delete") }}';
+                        data = {
+                            id: event.id,
+                        };
+
+                        axios.post(url, data).then(response => {
+                            console.log(response.data);
+                            
+                            if( response.data.success == true ){
+                                //joinTeam.getInvitations();
+                                msg = 'The event was deleted';
+                                icon = 'success';
+                                event.status = 0;
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            
+                            swal(msg, "", icon);
+                        });
+                    }
                 });
             }
 

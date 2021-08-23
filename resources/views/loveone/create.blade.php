@@ -3,22 +3,11 @@
 @section('content')
 <div class="container-fluid"  id="create_loveone">
 
-    <form method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
+    <form id="create_lovedone_form" method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
         @csrf
-
-        <div class="col-md-6 photo-container bg-primary d-flex align-items-center" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
-            <div class="bigBtn">
-                <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
-                Click here to upload a photo of your loved one
-            </div>
-            <input id="photo" type="file" class="form-control d-none" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
-        </div>
-
-        <div class="col-md-5 mt-5">
-
-            <h4 class="mb-3">Tell us about your loved one</h4>
-
-            <div class="card p-4 shadow-sm">
+        <div class="cards col-md-5 mt-5">
+            <div data-slide="1" class="card p-4 shadow-sm">
+                <h4 class="mb-3">Step 1 of 4: Tell us about your loved one</h4>
                 <div class="form-group row">
                     <label for="firstname" class="col-md-4 col-form-label text-md-right">First Name <span class="text-danger">*</span></label>
 
@@ -33,52 +22,12 @@
                         <input id="lastname" type="text" class="form-control" name="lastname" value="{{(isset($loveone)) ? $loveone->lastname : ''}}" required autocomplete="lastname" autofocus v-model="loveone.lastname">
                     </div>
                 </div>
-
-                <div class="form-group row">
-                    <label for="email" class="col-md-4 col-form-label text-md-right">E-mail</label>
-
-                    <div class="col-md-7">
-                        <input id="email" type="email" class="form-control" name="email" value="{{(isset($loveone)) ? $loveone->email : ''}}" autocomplete="email" v-model="loveone.email">
-                    </div>
-                </div>
                 
                 <div class="form-group row">
                     <label for="phone" class="col-md-4 col-form-label text-md-right">Phone # <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
                         <input required id="phone" type="tel" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" autocomplete="phone" autofocus v-model="loveone.phone">
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="street" class="col-md-4 col-form-label text-md-right">Street Address</label>
-
-                    <div class="col-md-7">
-                        <input type="text" id="street" class="form-control" name="street" autofocus v-model="loveone.street" value="{{(isset($loveone)) ? $loveone->street : ''}}">
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="city" class="col-md-4 col-form-label text-md-right">City</label>
-
-                    <div class="col-md-7">
-                        <input type="text" id="city" class="form-control" name="city" autofocus v-model="loveone.city" value="{{(isset($loveone)) ? $loveone->city : ''}}">
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="state" class="col-md-4 col-form-label text-md-right">State</label>
-
-                    <div class="col-md-7">
-                        <input type="text" id="state" class="form-control" name="state" autofocus v-model="loveone.state" value="{{(isset($loveone)) ? $loveone->state : ''}}">
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="zip" class="col-md-4 col-form-label text-md-right">Zip</label>
-
-                    <div class="col-md-7">
-                        <input type="number" maxlength="5" id="zip" class="form-control" name="zip" autofocus v-model="loveone.zip" value="{{(isset($loveone)) ? $loveone->zip : ''}}">
                     </div>
                 </div>
 
@@ -112,11 +61,9 @@
                 </div>
             </div>
 
-            <h4 class="mb-3 mt-5">Conditions</h4>
-
-            <div class="card p-4 shadow-sm">
-
-                Select the health conditions relevant to your loved one:
+            <div data-slide="2" class="card p-4 shadow-sm" style="display:none;">
+                <h4 class="mb-3">Step 2 of 4: What are their current medical issues</h4>
+                <p>Select the health conditions relevant to your loved one</p>
 
                 <input type="text" id="condition" placeholder="Start typing condition" class="form-control mb-4 pr-2 mt-3" name="condition" autocomplete="off">
 
@@ -159,24 +106,100 @@
                 </div>
             </div>
 
+            <div data-slide="3" class="card p-4 shadow-sm" style="display:none;">
+                <h4 class="mb-3">Step 3 of 4: Additional information</h4>
+                <p>Everything here is optional, but it can be helpul to your CareTeam to have this information in the platform.</p>
+                <div class="form-group row">
+                    <label for="email" class="col-md-4 col-form-label text-md-right">E-mail</label>
+
+                    <div class="col-md-7">
+                        <input id="email" type="email" class="form-control" name="email" value="{{(isset($loveone)) ? $loveone->email : ''}}" autocomplete="email" v-model="loveone.email">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="street" class="col-md-4 col-form-label text-md-right">Street Address</label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="street" class="form-control" name="street" autofocus v-model="loveone.street" value="{{(isset($loveone)) ? $loveone->street : ''}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="city" class="col-md-4 col-form-label text-md-right">City</label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="city" class="form-control" name="city" autofocus v-model="loveone.city" value="{{(isset($loveone)) ? $loveone->city : ''}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="state" class="col-md-4 col-form-label text-md-right">State</label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="state" class="form-control" name="state" autofocus v-model="loveone.state" value="{{(isset($loveone)) ? $loveone->state : ''}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="zip" class="col-md-4 col-form-label text-md-right">Zip</label>
+
+                    <div class="col-md-7">
+                        <input type="number" maxlength="5" id="zip" class="form-control" name="zip" autofocus v-model="loveone.zip" value="{{(isset($loveone)) ? $loveone->zip : ''}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="relationship" class="col-md-4 col-form-label text-md-right"></label>
+                </div>
+            </div>
+
+            <div data-slide="4" class="card p-4 shadow-sm" style="display:none;">
+                <h4 class="mb-3">Final Step: Loved One Photo</h4>
+                <p>Upload a photo of your loved one, it will be used as their user photo.</p>
+
+                <div class="col-md-6 photo-container bg-primary d-flex align-items-center" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
+                    <div class="bigBtn">
+                        <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
+                        Click here to upload a photo of your loved one
+                    </div>
+                    <input id="photo" type="file" class="form-control d-none" name="photo"  v-on:change="onFileChange" accept=".jpg, .png">
+                </div>
+            </div>
+
             <div class="form-group row mb-0">
                 <div class="col-md-6 mt-4">
-                    <button class="btn btn-primary loadingBtn btn-lg mb-4" type="submit" data-loading-text="Loading..." id="saveBtn">
-                        Save
+                    <button class="d-none btn btn-primary loadingBtn btn-lg mb-4" type="submit" data-loading-text="Loading..." id="saveBtn">
+                        Create Loved One
                     </button>
                     <input type="hidden" name="id" v-model="loveone.id" value="">
                 </div>
             </div>
-
         </div>
-
     </form>
+    <div class="form-group row mb-0">
+        <div class="col-md-6 mt-4">
+            <button class="btn btn-primary loadingBtn btn-lg mb-4 d-none" id="prevBtn">
+                Previous Step
+            </button>
+            <button class="btn btn-primary loadingBtn btn-lg mb-4" id="nextBtn">
+                Next Step
+            </button>
+        </div>
+    </div>
 </div>
 @endsection
 
 @push('styles')
 <style>
+    .error { color: red; }
 
+    #dob_day-error,
+    #dob_month-error,
+    #dob_year-error {
+        position: absolute;
+        bottom: -25px;
+    }
+    
     .birthdate {
         display: flex;
         padding: 0 15px;
@@ -220,7 +243,7 @@
     /******************************* MOBILE *********************************/
     @media (max-width: 576px) {
         .photo-container{
-            height: 180px;
+            height: 240px;
         }
 
         form.row{
@@ -234,6 +257,7 @@
 @endpush
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
 <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/17.0.2/autocomplete-lhc.min.js'></script>
 <script>
@@ -281,6 +305,61 @@ $(function(){
             return false; // prevent the button click from happening
         }
     });
+
+    // Registration stepper
+    let currSlide = 1;
+    let prevBtn = $('#prevBtn');
+    let nextBtn = $('#nextBtn');
+    let lastSlide = 4;
+    let form = $('#create_lovedone_form');
+    let validator = $( "#create_lovedone_form" ).validate();
+
+
+    nextBtn.on('click', function(){
+
+        function next(){
+            $('#prevBtn').removeClass('d-none');
+            $(".cards").find('[data-slide="'+currSlide+'"]').fadeToggle();
+            $(".cards").find('[data-slide="'+ (currSlide+1) +'"]').fadeToggle();
+            currSlide = currSlide + 1;
+        }
+
+        if(currSlide > 1){
+            next();
+        }
+
+        if( currSlide === 1){
+            if(validator.element( "input#firstname" )
+                && validator.element( "input#lastname" )
+                && validator.element( "input#phone" )
+                && validator.element( "input#dob_month" )
+                && validator.element( "input#dob_day" )
+                && validator.element( "input#dob_year" )
+                && validator.element( "select#relationship" ))
+            {    
+                next()
+            }
+        }
+        
+        if( currSlide >= lastSlide){
+            $('#nextBtn').addClass('d-none');
+            $('#prevBtn').addClass('d-none');
+            $('#saveBtn').removeClass('d-none');
+        }
+    })
+    
+    prevBtn.on('click', function(){
+        if(currSlide > 0)
+            $(".cards").find('[data-slide="'+currSlide+'"]').fadeToggle();
+            $(".cards").find('[data-slide="'+ (currSlide-1) +'"]').fadeToggle();
+            currSlide = currSlide - 1;
+        
+        if( currSlide === 1)
+            $('#prevBtn').addClass('d-none');
+
+        if(currSlide <= lastSlide)
+            $('#nextBtn').removeClass('d-none');
+    })
 
     // Conditions autocomplete
     var opts = {
