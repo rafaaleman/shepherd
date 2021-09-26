@@ -55,7 +55,7 @@
                                                     <div class="col-3 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                            <input type="checkbox" value="{{$team->id}}"  v-model="event.assigned">
+                                                            <input type="checkbox" value="{{$team->user_id}}"  v-model="event.assigned">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         

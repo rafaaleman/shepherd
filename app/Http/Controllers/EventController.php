@@ -44,6 +44,7 @@ class EventController extends Controller
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
 
         return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
