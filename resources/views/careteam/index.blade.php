@@ -3,7 +3,7 @@
 @section('content')
 <div class="container"  id="careteam">
 
-    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember btn btn-primary btn-lg mb-3" @click="changeAction('CREATE', '')">
+    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember btn btn-primary btn-lg mb-3" @click="changeAction('CREATE', '')" v-if="is_admin">
         Invite a New Member
     </a>
     
@@ -30,7 +30,7 @@
                                 <img :src="member.photo" class="float-left mr-3">
                                 <div class="data float-left">
                                     <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
-                                    <div class="role">@{{ member.careteam.role | mayuscula }}</div>
+                                    <div class="role">@{{ (member.careteam.role == 'admin') ? 'Leader' : member.careteam.role | mayuscula }}</div>
                                 </div>
                                 
                                 <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
@@ -308,7 +308,7 @@
             sendInvitation: function() {
 
                 // console.log('saving permissions');
-                $('#sendLink').html('<br> <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Sending... ').attr('disabled', true);              
+                $('#sendLink').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Sending... ').attr('disabled', true);              
 
                 var url = '{{ route("careteam.sendInvitation") }}';
                 data = {
