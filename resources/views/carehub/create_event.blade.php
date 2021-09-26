@@ -40,8 +40,20 @@
                         <div id="collapseMemers" class="collapse" aria-labelledby="headingOne" data-parent="#accordionMembers">
                             <div class="card-body">
                                 <div class="form-group row mx-1" id="careteam">
+                                    
+                                <div class="custom-control custom-checkbox mr-sm-2 float-right pb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing" v-model="selectallval" value="1" v-on:click="selectAll()">
+                                    <label class="custom-control-label" for="customControlAutosizing">Select all</label>
+                                </div>
+                                
+                                   
+                                
                                     <div class="col-md-12 members px-0" id="" class="collapse" aria-labelledby="headingOne" data-parent="#careteam">
+                                        @php
+                                            $select_all = array();
+                                        @endphp
                                         @foreach($careteam as $team)
+
                                         <template>
                                             @if($team->user != null)
                                             <div class="member w-100 ml-0 mb-2">
@@ -65,6 +77,9 @@
                                                     
                                                 </div>
                                             </div>
+                                            @php
+                                                array_push($select_all, $team->user_id);
+                                            @endphp
                                             @endif
                                         </template>
                                         @endforeach
@@ -285,7 +300,9 @@ input[type="date"]:before {
                 assigned:  [],
                 creator_id: "{{ $event->creator_id ?? '' }}",
                 status: 1,
-            }
+            },
+            select_all: @json($select_all),
+            selectallval: ''
         },
         filters: {},
         computed: {},
@@ -347,6 +364,13 @@ input[type="date"]:before {
                     $("#collapseMemers").addClass("show");
                     $('.loadingBtn').html('Save').attr('disabled', false);
                     swal(msg, "", icon);
+                }
+            },
+            selectAll : function(){
+                if(!this.selectallval == true){
+                    this.event.assigned = this.select_all
+                }else{
+                    this.event.assigned = []
                 }
             }
         }
