@@ -25,7 +25,7 @@ class MessageController extends Controller
         $message = message::create($data);
         $message->time_cad_gi = $date->format('g:i');
         $message->time_cad_a = $date->format('a');
-        $message->photo = (Auth::user()->photo != '') ? env('APP_URL').'/public'.Auth::user()->photo :  asset('public/img/avatar2.png');
+        $message->photo = (Auth::user()->photo != '') ? asset(Auth::user()->photo) :  asset('public/img/avatar2.png');
 
         // if ($request->ajax()) 
         return response()->json(['success' => true, 'message' => $message]);
