@@ -10186,8 +10186,9 @@ footer {
   background-color: #fff;
   margin-left: -10px;
   width: 35px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid #999;
+  border: 1px solid #cacaca;
 }
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
   color: #f78383;

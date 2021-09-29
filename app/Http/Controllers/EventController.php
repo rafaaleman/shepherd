@@ -44,6 +44,7 @@ class EventController extends Controller
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
 
         return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
@@ -156,8 +157,9 @@ class EventController extends Controller
                 $date_temp = new DateTime($day['date'] . " " . $day['time']);
                 $events_to_day[$cve_event][$cve_day]['time_cad_gi'] = $date_temp->format('g:i');
                 $events_to_day[$cve_event][$cve_day]['time_cad_a'] = $date_temp->format('a');
-                $events_to_day[$cve_event][$cve_day]['members'] = $careteam->whereIn('id',json_decode($events_to_day[$cve_event][$cve_day]['assigned_ids']));
+                $events_to_day[$cve_event][$cve_day]['members'] = $careteam->whereIn('user_id',json_decode($day['assigned_ids']));
                 $events_to_day[$cve_event][$cve_day]['count_messages'] = count($events_to_day[$cve_event][$cve_day]['messages']);
+               // dd($careteam->toArray(),json_decode($day['assigned_ids']));
                 if($cve_day == 0){
                     $time_first_event = $date_temp->format('g:i a');
                 }
@@ -447,7 +449,7 @@ class EventController extends Controller
             }
         }
 
-        $event->members = $careteam->whereIn('id',json_decode($event->assigned_ids));
+        $event->members = $careteam->whereIn('user_id',json_decode($event->assigned_ids));
         foreach($event->members as $member){
             if(Auth::user()->id == $member->user_id ){
                 $is_careteam = true;

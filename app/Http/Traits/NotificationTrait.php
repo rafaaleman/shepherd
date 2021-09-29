@@ -34,11 +34,11 @@ trait NotificationTrait {
             $to      = new DateTime('tomorrow');
             $to      = $to->format('Y-m-d').' 23:59:00';
 
-
             $notifications = notification::where('user_id', $user_id)
                                             ->where('loveone_id', $loveone->id)
                                             ->whereBetween('event_date', [$from, $to])
                                             ->get()->count();
+                                            // dd($user_id, $loveone->id);
             Session::put('notifications',  $notifications);
         }
     }
