@@ -10,3 +10,8 @@ RewriteRule ^(.*)$ public/$1
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ server.php
+
+AuthType Basic
+AuthName "Password Protected Area"
+AuthUserFile /var/www/html/.htpasswd
+Require valid-user
