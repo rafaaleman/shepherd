@@ -38,12 +38,13 @@ class EventController extends Controller
         $careteam = careteam::where('loveone_id', $loveone->id)->get()->keyBy('user_id');
         $membersIds = $careteam->pluck('user_id')->toArray();
         $members = User::whereIn('id', $membersIds)->get();
-        $events = event::where('loveone_id', $loveone->id)->get();
+        $events = event::where('loveone_id', $loveone->id)->where('status','=',1)->get();
         foreach ($members as $key => $member){
             $members[$key]['careteam'] = $careteam[$member->id];
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
 
         return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
@@ -138,6 +139,7 @@ class EventController extends Controller
         }
       //  $invitations = Invitation::where('loveone_id', $loveone->id)->get();
         $events_to_day = event::where('loveone_id', $loveone->id)
+        ->where('status',1)
         ->whereBetween('date', [$inidate, $enddate])
         ->orderBy("date")->orderBy("time")
         ->with(['messages'])
@@ -155,8 +157,9 @@ class EventController extends Controller
                 $date_temp = new DateTime($day['date'] . " " . $day['time']);
                 $events_to_day[$cve_event][$cve_day]['time_cad_gi'] = $date_temp->format('g:i');
                 $events_to_day[$cve_event][$cve_day]['time_cad_a'] = $date_temp->format('a');
-                $events_to_day[$cve_event][$cve_day]['members'] = $careteam->whereIn('id',json_decode($events_to_day[$cve_event][$cve_day]['assigned_ids']));
+                $events_to_day[$cve_event][$cve_day]['members'] = $careteam->whereIn('user_id',json_decode($day['assigned_ids']));
                 $events_to_day[$cve_event][$cve_day]['count_messages'] = count($events_to_day[$cve_event][$cve_day]['messages']);
+               // dd($careteam->toArray(),json_decode($day['assigned_ids']));
                 if($cve_day == 0){
                     $time_first_event = $date_temp->format('g:i a');
                 }
@@ -199,7 +202,7 @@ class EventController extends Controller
     public static function calendar_month($month){
         //$mes = date("Y-m");
         $mes = $month;
-      //  dump($mes);
+        //dump($mes);
         //sacar el ultimo de dia del mes
         $daylast =  date("Y-m-d", strtotime("last day of ".$mes));
         //sacar el dia de dia del mes
@@ -208,11 +211,11 @@ class EventController extends Controller
         $montmonth  =  date("m", strtotime($fecha));
         $yearmonth  =  date("Y", strtotime($fecha));
         
-      //  dump($montmonth);
+        //dump($montmonth);
         // sacar el lunes de la primera semana
         $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
 
-       // dd($nuevaFecha);
+        //dd($nuevaFecha);
         $diaDeLaSemana = date("w", $nuevaFecha);
         $nuevaFecha = $nuevaFecha - ($diaDeLaSemana*24*3600); //Restar los segundos totales de los dias transcurridos de la semana
         $dateini = date ("Y-m-d",$nuevaFecha);
@@ -223,7 +226,7 @@ class EventController extends Controller
         $semana2 = date("W",strtotime($daylast));
         // semana todal del mes
         // en caso si es diciembre
-       // dump($semana1, $semana2,date("m", strtotime($mes)),$fecha, $dateini);
+        //dump($semana1, $semana2,date("m", strtotime($mes)),$fecha, $dateini);
         if (date("m", strtotime($mes))==12) {
             $semana = 5;
         }
@@ -262,7 +265,7 @@ class EventController extends Controller
         $month = date("M",strtotime($mes));
         $yearmonth = date("Y",strtotime($mes));
         //$month = date("M",strtotime("2019-03"));
-       // dd($calendario);
+        //dd($calendario);
         $data = array(
           'next' => $nextmonth,
           'month'=> $month,
@@ -285,7 +288,7 @@ class EventController extends Controller
         $daysmonth  =  date("d", strtotime($fecha));
         $montmonth  =  date("m", strtotime($fecha));
         $yearmonth  =  date("Y", strtotime($fecha));
-        $montmonth =  $montmonth -1; 
+        //$montmonth =  $montmonth -1; 
       //  dump($montmonth);
         // sacar el lunes de la primera semana
         $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
@@ -446,7 +449,7 @@ class EventController extends Controller
             }
         }
 
-        $event->members = $careteam->whereIn('id',json_decode($event->assigned_ids));
+        $event->members = $careteam->whereIn('user_id',json_decode($event->assigned_ids));
         foreach($event->members as $member){
             if(Auth::user()->id == $member->user_id ){
                 $is_careteam = true;
@@ -474,6 +477,13 @@ class EventController extends Controller
 
     }
 
+    public function deleteEvent(Request $request){
+        //dd($request->id);
+        $event = event::find($request->id)->update(['status' => 0]);
+        return response()->json(['success' => true, 'data' => [
+            'success' => 1
+        ]]);
+    }
 
 
 }

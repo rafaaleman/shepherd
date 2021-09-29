@@ -5,7 +5,7 @@
 
     <form id="create_lovedone_form" method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
         @csrf
-        <div class="cards col-md-5 mt-5">
+        <div class="cards col-md-5 mt-5 mx-auto">
             <div data-slide="1" class="card p-4 shadow-sm">
                 <h4 class="mb-3">Step 1 of 4: Tell us about your loved one</h4>
                 <div class="form-group row">
@@ -157,7 +157,7 @@
                 <h4 class="mb-3">Final Step: Loved One Photo</h4>
                 <p>Upload a photo of your loved one, it will be used as their user photo.</p>
 
-                <div class="col-md-6 photo-container bg-primary d-flex align-items-center" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
+                <div class="col-md-6 photo-container bg-primary d-flex align-items-center mx-auto pt-2" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
                     <div class="bigBtn">
                         <i class="far fa-user mb-1" style="font-size: 100px"></i> <br>
                         Click here to upload a photo of your loved one
@@ -166,8 +166,8 @@
                 </div>
             </div>
 
-            <div class="form-group row mb-0">
-                <div class="col-md-6 mt-4">
+            <div class="form-group row mb-0 mx-auto">
+                <div class="col-md-6 mt-4 mx-auto text-center">
                     <button class="d-none btn btn-primary loadingBtn btn-lg mb-4" type="submit" data-loading-text="Loading..." id="saveBtn">
                         Create Loved One
                     </button>
@@ -177,7 +177,7 @@
         </div>
     </form>
     <div class="form-group row mb-0">
-        <div class="col-md-6 mt-4">
+        <div class="col-md-6 mt-4 mx-auto text-center">
             <button class="btn btn-primary loadingBtn btn-lg mb-4 d-none" id="prevBtn">
                 Previous Step
             </button>

@@ -17,8 +17,12 @@
             <div class="card  my-2 col-12 shadow-sm">
                 <div class="card-body row">
                 <div class="input-group">
-                    
                     <div class="input-group-append w-100">
+                        <input type="text" autocomplete="off" class="form-control only-border-bottom"  id="medicine" name="medicine" value="" placeholder="Medicine" required v-model="medication.medicine">
+
+                    </div>    
+
+                    {{--<div class="input-group-append w-100">
                         <input type="text" autocomplete="off" class="form-control only-border-bottom" @keyup.prevent="seachMedication()" data-toggle="dropdown"  aria-label="Text input with dropdown button" id="medicine" name="medicine" value="" placeholder="Medicine" required v-model="medication.medicine">
 
                         <div class="dropdown-menu">
@@ -30,7 +34,7 @@
                             </template>
                             
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
             </div>
@@ -59,7 +63,8 @@
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                            <input type="radio" v-bind:value="route.route" @click="selectRoute(route)" v-model="medication.route" >
+                                                            {{--<input type="radio" v-bind:value="route.route" @click="selectRoute(route)" v-model="medication.route" >--}}
+                                                            <input type="radio" v-bind:value="route.route" v-model="medication.route" >
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
@@ -96,11 +101,11 @@
                                         <template v-for="dosage in dosages">
                                             <div class="member w-100 ml-0 mb-2">
                                                 <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>@{{dosage.strengths}}</label></div>
+                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>@{{dosage.dosage}}</label></div>
                                                     <div class="col-1 justify-content-center align-items-center ccheck">
                                                         <center>
                                                         <label class="customcheck">
-                                                            <input type="radio" v-bind:value="dosage.strengths" v-model="medication.dosage">
+                                                            <input type="radio" v-bind:value="dosage.dosage" v-model="medication.dosage">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         
@@ -525,8 +530,8 @@ $(function () {
             characters_medication: 3,
             count_chatacters: 3,
             medications_search:[],
-            routes: [],
-            dosages:[],
+            routes: @json($routes),
+            dosages:@json($dosages),
             medication: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: "{{ $medication->id ?? 0 }}",

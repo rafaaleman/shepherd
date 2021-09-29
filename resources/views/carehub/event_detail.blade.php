@@ -168,7 +168,7 @@
                    // console.log(url_succes);
                     var url = '{{ route("carehub.event.message.create") }}';
                     axios.post(url, this.message).then(response => {
-                        //console.log(response.data);
+                        console.log(response);
 
                         if (response.data.success) {
                             $("#messagess").append('<div class="row col-12 justify-content-center align-items-center m-2 creator" ><div class="col-10 col-sm-11 alert alert-dark text-white text-left m-0 msg"><img src="'+response.data.message.photo+'" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">'+ response.data.message.message +'</div><div class="col-2 col-sm-1 text-uppercase time justify-content-center align-items-center">'+ response.data.message.time_cad_gi + '<br/>'+ response.data.message.time_cad_a +'</div></div>');

@@ -33,7 +33,16 @@
                 </button>
             </div>
             <div class="modal-body ">
-                <h3><b>@{{medication_view.medicine}}</b><br> <small>@{{products.drugbank_pcid}}</small></h3>
+                <div class="modal-title">
+                    <h3>
+                        <b>@{{medication_view.medicine}}</b>
+                        <a href="" class="text-danger float-right" v-on:click.prevent="deleteMedlist(medication_view,current_slug)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        
+                        <br> <small>@{{products.drugbank_pcid}}</small>    
+                    </h3>
+                </div>
 
                 <ul class="list-group list-group-flush" v-for="med in medication_complete">
                     <li class="list-group-item">

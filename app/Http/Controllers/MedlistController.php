@@ -10,6 +10,8 @@ use App\Http\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Models\medication;
 use App\Models\medlist;
+use App\Models\route;
+use App\Models\dosage;
 use GuzzleHttp\Client;
 use App\Models\loveone;
 use App\Models\event;
@@ -34,7 +36,7 @@ class MedlistController extends Controller
             return view('errors.not-found');
         }
         /* Seguridad */
-        if(!Auth::user()->permission('medlist',$loveone->id))
+       if(!Auth::user()->permission('medlist',$loveone->id))
         {
             return redirect('/home')->with('err_permisison', 'You don\'t have permission to access MedList');  
         }
@@ -54,11 +56,12 @@ class MedlistController extends Controller
 
     public function createForm($loveone_slug){
         $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $routes  = route::orderBy('route')->get();
+        $dosages  = dosage::orderBy('dosage')->get();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get()->keyBy('user_id');
         $date_now = new DateTime();
         $date_now->sub(new DateInterval('P1D'));
-        //dd($careteam);
-        return view('medlist.create_medication',compact('loveone','careteam','date_now'));
+        return view('medlist.create_medication',compact('loveone','careteam','date_now','routes','dosages'));
     }
 
     public function createUpdate(Request $request)
@@ -316,5 +319,17 @@ class MedlistController extends Controller
         $products = json_decode($response->getBody());
         //dd($products);
         return response()->json(['success' => true, 'products' => $products]);
+    }
+
+    function deleteMedlist(Request $request){
+       // dd($request->medlist, $request->slug);
+        medlist::where('medication_id',$request->medlist['medication_id'])->delete();
+        medication::where('id',$request->medlist['medication_id'])->delete();
+        //dd($request->medlist['medication_id'],$med->get());
+        return response()->json(['success' => true, 'data' => [
+            'success' => 1,
+            'slug' => $request->slug
+        ]]);
+
     }
 }
