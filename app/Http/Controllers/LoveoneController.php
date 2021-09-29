@@ -66,7 +66,7 @@ class LoveoneController extends Controller
                 $loveone = loveone::where('phone', $data['phone'])->first();
                 // dd($loveone);
                 if($loveone){
-                    return response()->json(['success' => false, 'error' => 'This Loveone already exists (email/phone). Please verify.']);
+                    return response()->json(['success' => false, 'error' => 'This Loved One already exists (email/phone). Please verify.']);
                 }
                 // dd($data);
                 $data['slug']    = Str::slug($data['firstname'].' '.$data['lastname']);
