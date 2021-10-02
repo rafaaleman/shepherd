@@ -30,8 +30,9 @@ trait NotificationTrait {
         $loveone = loveone::whereSlug($slug)->first();
         if($loveone){
 
-            $from    = date('Y-m-d 00:00:00');
-            $to      = new DateTime('tomorrow');
+            $from    = new DateTime('-30 days');
+            $from    = $from->format('Y-m-d').' 00:00:00';
+            $to      = new DateTime('today');
             $to      = $to->format('Y-m-d').' 23:59:00';
 
             $notifications = notification::where('user_id', $user_id)

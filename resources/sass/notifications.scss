@@ -1,0 +1,19 @@
+#notifications{
+
+    .notification{
+        flex-direction: row;
+
+        &.read{
+            opacity: 0.6;
+        }
+
+        .info{
+            width: 95%;
+        }
+
+        .title{
+            font-weight: bold;
+            font-size: 20px;
+        }
+    }
+}
