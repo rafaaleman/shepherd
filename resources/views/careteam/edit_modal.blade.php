@@ -44,9 +44,13 @@
                                 <span>CareHub</span>
                             </td>
                             <td align="right">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="carehub" :checked="member.permissions.carehub" :disabled="!is_admin" v-model="member.permissions.carehub">
+                                <div class="custom-control custom-switch" v-if="is_admin">
+                                    <input type="checkbox" class="custom-control-input" id="carehub" :checked="member.permissions.carehub" v-model="member.permissions.carehub">
                                     <label class="custom-control-label" for="carehub"></label>
+                                </div>
+                                <div class="" v-else>
+                                    <div class="" v-if="member.permissions.carehub">ON</div>
+                                    <div class="" v-else>OFF</div>
                                 </div>
                             </td>
                         </tr>
@@ -56,9 +60,13 @@
                                 <span>LockBox</span>
                             </td>
                             <td align="right">
-                                <div class="custom-control custom-switch">
+                                <div class="custom-control custom-switch" v-if="is_admin">
                                     <input type="checkbox" class="custom-control-input" id="lockbox" :checked="member.permissions.lockbox" :disabled="!is_admin" v-model="member.permissions.lockbox">
                                     <label class="custom-control-label" for="lockbox"></label>
+                                </div>
+                                <div class="" v-else>
+                                    <div class="" v-if="member.permissions.lockbox">ON</div>
+                                    <div class="" v-else>OFF</div>
                                 </div>
                             </td>
                         </tr>
@@ -68,9 +76,13 @@
                                 <span>MedList</span>
                             </td>
                             <td align="right">
-                                <div class="custom-control custom-switch">
+                                <div class="custom-control custom-switch" v-if="is_admin">
                                     <input type="checkbox" class="custom-control-input" id="medlist" :checked="member.permissions.medlist" :disabled="!is_admin" v-model="member.permissions.medlist">
                                     <label class="custom-control-label" for="medlist"></label>
+                                </div>
+                                <div class="" v-else>
+                                    <div class="" v-if="member.permissions.medlist">ON</div>
+                                    <div class="" v-else>OFF</div>
                                 </div>
                             </td>
                         </tr>
@@ -80,9 +92,13 @@
                                 <span>Resources</span>
                             </td>
                             <td align="right">
-                                <div class="custom-control custom-switch">
+                                <div class="custom-control custom-switch" v-if="is_admin">
                                     <input type="checkbox" class="custom-control-input" id="resources" :checked="member.permissions.resources" :disabled="!is_admin" v-model="member.permissions.resources">
                                     <label class="custom-control-label" for="resources"></label>
+                                </div>
+                                <div class="" v-else>
+                                    <div class="" v-if="member.permissions.resources">ON</div>
+                                    <div class="" v-else>OFF</div>
                                 </div>
                             </td>
                         </tr>
