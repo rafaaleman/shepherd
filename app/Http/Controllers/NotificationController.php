@@ -27,7 +27,7 @@ class NotificationController extends Controller
         if($loveone){
             $from    = new DateTime('-30 days');
             $from    = $from->format('Y-m-d').' 00:00:00';
-            $to      = new DateTime('today');
+            $to      = new DateTime('tomorrow');
             $to      = $to->format('Y-m-d').' 23:59:00';
 
 
