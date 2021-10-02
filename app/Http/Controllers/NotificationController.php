@@ -25,8 +25,9 @@ class NotificationController extends Controller
 
         $loveone = loveone::whereSlug($request->slug)->first();
         if($loveone){
-            $from    = date('Y-m-d 00:00:00');
-            $to      = new DateTime('tomorrow');
+            $from    = new DateTime('-30 days');
+            $from    = $from->format('Y-m-d').' 00:00:00';
+            $to      = new DateTime('today');
             $to      = $to->format('Y-m-d').' 23:59:00';
 
 
@@ -40,9 +41,11 @@ class NotificationController extends Controller
             foreach ($notifications as $n) {
                 $notification = DB::table($n->table)->where('id', $n->table_id)->first();
                 $notification->type = $n->table;
+                $notification->nid = $n->id;
                 $notification->read = $n->read;
-                $notification->event_date = (date('Y-m-d', strtotime($n->event_date)) == date('Y-m-d')) ? 'Today' : 'Tomorrow';
-                $notification->event_date .= ' at ' . Carbon::parse($n->event_date)->format('g:i a');
+                $notification->event_date = (date('Y-m-d', strtotime($n->event_date)) == date('Y-m-d')) ? 'Today' : date('M, d Y g:i a', strtotime($n->event_date));
+                // $notification->event_date .= ' at ' . Carbon::parse($n->event_date)->format('g:i a');
+                // $notification->event_date = date('M, d Y g:i a', strtotime($n->event_date));
                 // dd(date('Y-m-d', strtotime($n->event_date)), date('Y-m-d'));
 
                 if($n->table == 'events'){
@@ -65,8 +68,6 @@ class NotificationController extends Controller
                 $user_notifications[] = $notification;
             }
 
-            // TODO: Mark as read all above notifications
-
             // dd($user_notifications);
             return view('notifications.index', compact('user_notifications'));
         } else {
@@ -75,5 +76,12 @@ class NotificationController extends Controller
         
     }
 
-    
+    /**
+     * 
+     */
+    public function readNotification(Request $request)
+    {
+        notification::where('id', $request->id)->update(['read' => 1]);
+        return response()->json(['success' => true]);
+    }
 }

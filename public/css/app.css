@@ -10516,3 +10516,16 @@ footer {
 }
 
 /*--------------------------------------------------------------------------------*/
+#notifications .notification {
+  flex-direction: row;
+}
+#notifications .notification.read {
+  opacity: 0.6;
+}
+#notifications .notification .info {
+  width: 95%;
+}
+#notifications .notification .title {
+  font-weight: bold;
+  font-size: 20px;
+}
