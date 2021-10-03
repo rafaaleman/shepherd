@@ -7,7 +7,7 @@
     <div class="carousel-inner">
 
         @foreach ($loveones as $loveone)
-            <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }}" data-id="{{ $loveone->id }}" @click="refreshWidgets( '{{$loveone->id}}', '{{$loveone->slug}}')">
+            <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }}" data-id="{{ $loveone->id }}"  data-slug="{{ $loveone->slug }}" @click="refreshWidgets( '{{$loveone->id}}', '{{$loveone->slug}}')">
                 <div class="carousel-item__container">
                     <img src="{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('/img/no-avatar.png')}}" class="loveone-photo">
                     <div class="carousel__caption">
