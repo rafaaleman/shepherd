@@ -51,6 +51,8 @@ class MedlistController extends Controller
                 $is_admin = true;
         }
 
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
+
         return view('medlist.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
 
