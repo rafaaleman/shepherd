@@ -27,7 +27,7 @@
                     <label for="phone" class="col-md-4 col-form-label text-md-right">Phone # <span class="text-danger">*</span></label>
 
                     <div class="col-md-7">
-                        <input required id="phone" type="tel" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" autocomplete="phone" autofocus v-model="loveone.phone">
+                        <input required id="phone" type="text" class="form-control" name="phone" value="{{(isset($loveone)) ? $loveone->phone : ''}}" autocomplete="phone" autofocus v-model="loveone.phone">
                     </div>
                 </div>
 
@@ -35,9 +35,9 @@
                     <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth <span class="text-danger">*</span></label>
 
                     <div class="col-md-7 birthdate">
-                        <input required type="text" pattern="[0-9]+" maxlength="2" name="dob_month" id="dob_month" placeholder="MM" value="{{ isset($loveone) ? explode('-', $loveone->dob)[1] : '' }}" v-model="loveone.dob_month" class="">
-                        <input required type="text" pattern="[0-9]+" maxlength="2" name="dob_day" id="dob_day" placeholder="DD" value="{{ isset($loveone) ? explode('-', $loveone->dob)[2] : '' }}" v-model="loveone.dob_day" class="">
-                        <input required type="text" pattern="[0-9]+" maxlength="4" name="dob_year" id="dob_year" placeholder="YYYY" value="{{ isset($loveone) ? explode('-', $loveone->dob)[0] : '' }}" v-model="loveone.dob_year" class="">
+                        <input required type="number" pattern="[0-9]+" maxlength="2" min="1" max="12" name="dob_month" id="dob_month" placeholder="MM" value="{{ isset($loveone) ? explode('-', $loveone->dob)[1] : '' }}" v-model="loveone.dob_month" class="">
+                        <input required type="number" pattern="[0-9]+" maxlength="2" min="1" max="31" name="dob_day" id="dob_day" placeholder="DD" value="{{ isset($loveone) ? explode('-', $loveone->dob)[2] : '' }}" v-model="loveone.dob_day" class="">
+                        <input required type="number" min="1910" max="{{date('Y')}}" pattern="[0-9]+" maxlength="4" name="dob_year" id="dob_year" placeholder="YYYY" value="{{ isset($loveone) ? explode('-', $loveone->dob)[0] : '' }}" v-model="loveone.dob_year" class="">
                     </div>
                 </div>
 
@@ -310,7 +310,7 @@ $(function(){
     let currSlide = 1;
     let prevBtn = $('#prevBtn');
     let nextBtn = $('#nextBtn');
-    let lastSlide = 4;
+    let lastSlide = 3;
     let form = $('#create_lovedone_form');
     let validator = $( "#create_lovedone_form" ).validate();
 
@@ -319,9 +319,11 @@ $(function(){
 
         function next(){
             $('#prevBtn').removeClass('d-none');
-            $(".cards").find('[data-slide="'+currSlide+'"]').fadeToggle();
-            $(".cards").find('[data-slide="'+ (currSlide+1) +'"]').fadeToggle();
-            currSlide = currSlide + 1;
+            $(".cards").find('[data-slide="'+currSlide+'"]').fadeToggle('fast', function () {
+                $(".cards").find('[data-slide="'+ (currSlide+1) +'"]').fadeToggle();
+                currSlide = currSlide + 1;
+            });
+            
         }
 
         if(currSlide > 1){
@@ -340,6 +342,8 @@ $(function(){
                 next()
             }
         }
+
+        console.log(currSlide);
         
         if( currSlide >= lastSlide){
             $('#nextBtn').addClass('d-none');
@@ -350,9 +354,10 @@ $(function(){
     
     prevBtn.on('click', function(){
         if(currSlide > 0)
-            $(".cards").find('[data-slide="'+currSlide+'"]').fadeToggle();
-            $(".cards").find('[data-slide="'+ (currSlide-1) +'"]').fadeToggle();
-            currSlide = currSlide - 1;
+            $(".cards").find('[data-slide="'+currSlide+'"]').fadeToggle('fast', function(){
+                $(".cards").find('[data-slide="'+ (currSlide-1) +'"]').fadeToggle();
+                currSlide = currSlide - 1;
+            });
         
         if( currSlide === 1)
             $('#prevBtn').addClass('d-none');

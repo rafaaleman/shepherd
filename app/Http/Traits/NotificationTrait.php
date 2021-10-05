@@ -54,8 +54,8 @@ trait NotificationTrait {
         foreach ($members as $member) {
             $permissions = unserialize($member->permissions);
         
-            if($permissions[$permission]){
-                $authorized_members[] = $member->id;
+            if($permissions[$permission] == 1){
+                $authorized_members[] = $member->user_id;
             }
         }
         return $authorized_members;

@@ -257,10 +257,16 @@ $(function(){
 
     $('.carousel-control-prev').click(function(){
         $('.carousel').carousel('prev');
+        $active_id = $('.carousel-item.active').data('id');
+        $active_slug = $('.carousel-item.active').data('slug');
+        home.refreshWidgets($active_id, $active_slug);
     });
 
     $('.carousel-control-next').click(function(){
         $('.carousel').carousel('next');
+        $active_id = $('.carousel-item.active').data('id');
+        $active_slug = $('.carousel-item.active').data('slug');
+        home.refreshWidgets($active_id, $active_slug);
     });
 
     $('#homeCarousel .carousel-item').click(function(){
@@ -335,6 +341,7 @@ $(function(){
 
         return "#"+RR+GG+BB;
     }
+    
 });
 
     

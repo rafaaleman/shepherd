@@ -51,6 +51,8 @@ class MedlistController extends Controller
                 $is_admin = true;
         }
 
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
+
         return view('medlist.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
 
@@ -169,6 +171,7 @@ class MedlistController extends Controller
                 $med['date'] = $medicine->date;
                 $med['time'] = $medicine->time;
                 $med['dosage'] = $medication->dosage;
+                $med['prescribing'] = $medication->prescribing;
                 $med['drugbank_pcid'] = $medication->drugbank_pcid;
                 $med['route'] = $medication->route;
                 $med['frequency'] = $medication->frequency;
