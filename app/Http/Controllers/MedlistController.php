@@ -171,6 +171,7 @@ class MedlistController extends Controller
                 $med['date'] = $medicine->date;
                 $med['time'] = $medicine->time;
                 $med['dosage'] = $medication->dosage;
+                $med['prescribing'] = $medication->prescribing;
                 $med['drugbank_pcid'] = $medication->drugbank_pcid;
                 $med['route'] = $medication->route;
                 $med['frequency'] = $medication->frequency;

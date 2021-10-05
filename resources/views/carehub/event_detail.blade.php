@@ -19,7 +19,7 @@
                                 <div class="float-left font-weight-bold vertical-align-top">{{$event->date_title}}</div>
                                 <div class="float-right text-danger font-weight-bold text-uppercase">{{$event->time_cad_gi}} {{$event->time_cad_a}}</div>
                             </div>
-
+                            
                             @if(!empty($event->notes))
                                 <div class="bg w-100 mt-5 @if($event->creator_id == $id_careteam) creator @else member @endif">
                                     <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? asset($event->creator->photo) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
@@ -32,6 +32,8 @@
             </div>
         </div>
 
+
+        
         <div class="loading-events w-100 text-center d-none">
             <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading comments...
         </div>

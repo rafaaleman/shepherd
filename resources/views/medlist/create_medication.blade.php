@@ -39,6 +39,18 @@
                 </div>
             </div>
 
+            <div class="card  my-2 col-12 shadow-sm">
+                <div class="card-body row">
+                <div class="input-group">
+                    <div class="input-group-append w-100">
+                        <input type="text" autocomplete="off" class="form-control only-border-bottom"  id="prescribing" name="prescribing" value="" placeholder="Prescribing doctor" required v-model="medication.prescribing">
+
+                    </div>    
+
+                    
+                </div>
+                </div>
+            </div>
 
 
             <div class="row">
@@ -267,7 +279,7 @@
                         <div class="card-body" id="headingDays">
                             <h2 class="mb-0 toggle-data">
                                 <button class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseDays" aria-expanded="true" aria-controls="collapseDays">
-                                    Days @{{ medication.days }}
+                                    Days of duration @{{ medication.days }}
                                 </button>
                             </h2>
                         </div>

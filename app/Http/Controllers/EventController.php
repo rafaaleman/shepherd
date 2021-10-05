@@ -12,6 +12,9 @@ use App\Models\careteam;
 use App\User;
 use DateTime;
 use DateInterval;
+use App\Notifications\EventNotification;
+use Illuminate\Support\Facades\Notification;
+
 use function GuzzleHttp\json_decode;
 
 use App\Http\Traits\NotificationTrait;
@@ -19,6 +22,7 @@ use App\Http\Traits\NotificationTrait;
 class EventController extends Controller
 {
     use NotificationTrait;
+    //use Notification;
 
     const EVENTS_TABLE = 'events';
 
@@ -85,10 +89,22 @@ class EventController extends Controller
                     'event_date' => $data['date'].' '.$data['time']
                 ];
                 $this->createNotification($notification);
+
             }
         }
 
         $event->assigned = json_decode($event->assigned_ids);
+        $users = User::whereIn('id',$event->assigned)->get();
+        //dd($users);
+            //$user->notification(new EventNotification($event));
+            Notification::send($users, new EventNotification ($event));  
+
+       /*     $when = now()->addMinutes(10);
+            foreach($users as $user){
+                $user->notify((new EventNotification($event))->delay($when));
+
+            }*/
+       
         // if ($request->ajax()) 
         return response()->json(['success' => true, 'data' => ['event' => $event]]);
     }
