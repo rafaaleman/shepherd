@@ -109,9 +109,10 @@
                         this.invitations = response.data.invitations;
                         
                     } else {
-                        msg = 'There are no pending invitations';
-                        icon = 'success';
-                        swal(msg, "", icon);
+                        // msg = 'There are no pending invitations';
+                        // icon = 'success';
+                        // swal(msg, "", icon);
+                        window.location.href = '/dashboard';
                     }
                     
                 });
