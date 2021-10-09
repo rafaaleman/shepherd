@@ -85,7 +85,8 @@ const home = new Vue ({
         hour_first_event:'',
         medlist_url:'',
         count_medications:0,
-        lockBox_count:0
+        lockBox_count:0, 
+        is_admin: false,
     },
     filters: {
     },
@@ -129,6 +130,7 @@ const home = new Vue ({
                     this.members = response.data.data.members; 
                     var url = '{{ route("careteam", "*SLUG*") }}';
                     this.careteam_url = url.replace('*SLUG*', this.current_slug);
+                    this.is_admin = response.data.data.is_admin; 
                 } else {
                     msg = 'There was an error. Please try again';
                     icon = 'error';
@@ -275,7 +277,7 @@ $(function(){
         //setLighterBg($(this).data('color'));
     });
 
-    setCarouselColors();
+    //setCarouselColors();
 
     function setCarouselColors(){
 
