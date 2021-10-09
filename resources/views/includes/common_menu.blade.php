@@ -1,11 +1,11 @@
 <a class="menu-link item d-block d-md-none" href="{{ route('home') }}">
-    <i class="fas fa-users fa-2x"></i> <span>Dashboard</span>
+    <i class="fas fa-users fa-2x"></i> <span>CareHub</span>
 </a>
 <a class="menu-link item d-block {{(Request::is('careteam/*') ) ? 'active' : ''}}" href="{{ route('careteam', '**SLUG**')}}">
     <i class="fas fa-users fa-2x"></i> <span>CareTeam</span>
 </a>
 <a class="menu-link item d-block {{(Request::is('carehub/*') ) ? 'active' : ''}} " href="{{ route('carehub', '**SLUG**')}}">
-    <i class="far fa-calendar-plus  fa-2x"></i> <span>CareHub</span>
+    <i class="far fa-calendar-plus  fa-2x"></i> <span>Carepoints</span>
 </a>
 <a class="menu-link item d-block {{(Request::is('lockbox/*') ) ? 'active' : ''}}" href="{{ route('lockbox', '**SLUG**')}}">
     <i class="fas fa-file-medical fa-2x"></i> <span>LockBox</span>

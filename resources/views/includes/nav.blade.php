@@ -24,7 +24,7 @@
             @else
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item mr-4 d-none d-sm-block">
-                        <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home"></i> CareHub</a>
                     </li>
 
                     <li class="nav-item dropdown mr-4 d-block d-sm-none">
