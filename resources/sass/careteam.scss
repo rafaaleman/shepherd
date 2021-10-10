@@ -1,18 +1,11 @@
 #careteam {
-    .member {
-        border-radius: 6px;
-        border: none;
-        background-color: #f2f4f4;
-        padding: 10px;
-        margin-bottom: 20px;
-        overflow: hidden;
 
-        &:nth-child(2n){
-            margin-left: 5px;
-        }
+    .member {
+        overflow: hidden;
 
         img{
             height: 50px;
+            width: 50px;
             border-radius: 50%;
         }
 
