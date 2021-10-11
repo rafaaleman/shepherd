@@ -16,8 +16,7 @@ class ResourceController extends Controller
             return view('errors.not-found');
         }
         // Produce: <body text='black'>
-        $conditions = str_replace(",", "||", $loveone->conditions);
-        $conditions = '('.$conditions.')';
+        $conditions = str_replace(",", " OR ", $loveone->conditions);
         $response = $client->request('GET', 'https://newsapi.org/v2/everything?q='.$conditions.'&apiKey='.$this->apikey);
         $conditions_loveone = explode(',',$loveone->conditions);
         //$response = $client->request('GET', "https://newsapi.org/v2/top-headlines?q=(litecoin||covid)&country=us&apiKey=".$this->apikey);
