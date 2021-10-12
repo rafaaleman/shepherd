@@ -276,7 +276,7 @@ input[type="date"]:before {
 <script src="{{asset('js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
 <script>
     $(function () {
-        $('#time').datetimepicker({format: 'LT'});
+        $('#time').datetimepicker({format: 'LT',stepping: 15});
         $('#time').on('dp.change',function(e){
            create_event.event.time= moment(e.date,"h:mm:ss a").format('h:mm a');
         });

@@ -537,10 +537,11 @@ input[type="date"]:before {
 $(function () {
 
 
-    $('#time').datetimepicker({format: 'LT', widgetPositioning: {
+    $('#time').datetimepicker({format: 'LT',stepping: 15, widgetPositioning: {
             horizontal: 'left',
             vertical: 'bottom'
         }});
+
     $('#time').on('dp.change',function(e){
         create_medication.medication.time= moment(e.date,"h:mm:ss a").format('h:mm a');
     });
