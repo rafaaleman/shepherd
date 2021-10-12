@@ -276,7 +276,7 @@ input[type="date"]:before {
 <script src="{{asset('js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
 <script>
     $(function () {
-        $('#time').datetimepicker({format: 'LT'});
+        $('#time').datetimepicker({format: 'LT',stepping: 15});
         $('#time').on('dp.change',function(e){
            create_event.event.time= moment(e.date,"h:mm:ss a").format('h:mm a');
         });
@@ -329,15 +329,31 @@ input[type="date"]:before {
                             //this.event.id = response.data.data.event.id;
 
                             
-                            swal(
-                                'Your event was saved successfully!',
-                                '',
-                                'success'
-                            ).then((value) => {
+                            
+
+                            swal({
+                                title: "",
+                                text: "Your event was saved successfully!",
+                                icon: "success",
+                                buttons: [
+                                    'Return to carehub',
+                                    "Continue!"
+                                ],
+                            }).then((value) => {
+                                //alert(value);
+                                if(value){
                                     var url_carehub= '{{ route("carehub", ["*SLUG*"]) }}';
                                         url_carehub = url_carehub.replace('*SLUG*', this.current_slug);
                                     window.location =  url_carehub;
+                                }else{
+
+                                    var url_medlist= '{{ route("home") }}';
+                                    window.location =  url_medlist;
+                                }
                             });
+
+
+
                             return false;
                             
                         } else {

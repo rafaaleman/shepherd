@@ -78,12 +78,14 @@ const home = new Vue ({
         current_members: '',
         careteam_url: '',
         carehub_url:'',
+        carehub_add_url:'',
         lockbox_url:'',
         messages_url:'',
         resources_url:'',
         events_to_day:'',
         hour_first_event:'',
         medlist_url:'',
+        medlist_add_url:'',
         count_medications:0,
         lockBox_count:0, 
         is_admin: false,
@@ -161,8 +163,12 @@ const home = new Vue ({
                 
                 if(response.data.success){
                     this.events_to_day = response.data.data.events; 
+
                     var url = '{{ route("carehub", "*SLUG*") }}';
+                    var url_add = '{{ route("carehub.event.form.create", "*SLUG*") }}';
                     this.carehub_url = url.replace('*SLUG*', this.current_slug);
+                    this.carehub_add_url = url_add.replace('*SLUG*', this.current_slug);
+
                     this.hour_first_event = response.data.data.time_first_event;
                 } else {
                     msg = 'There was an error. Please try again';
@@ -175,13 +181,17 @@ const home = new Vue ({
                 
             }).catch( error => {
                 
-                msg = 'There was an error getting careteam members. Please reload the page';
+                msg = 'There was an error getting event. Please reload the page';
                 swal('Error', msg, 'error');
             });
         },
         getMedlist: function() {
             var url = '{{ route("medlist", "*SLUG*") }}';
+            var url_add = '{{ route("medlist.form.create", "*SLUG*") }}';
             this.medlist_url = url.replace('*SLUG*', this.current_slug);
+
+
+            this.medlist_add_url = url_add.replace('*SLUG*', this.current_slug);
             //  console.log(this.current_slug);  
             $('.medlist .medlist-today').hide(); 
             $('.loading-medlist').show();        
@@ -208,7 +218,7 @@ const home = new Vue ({
                 
             }).catch( error => {
                 
-                msg = 'There was an error getting careteam members. Please reload the page';
+                msg = 'There was an error getting medlist. Please reload the page';
                 swal('Error', msg, 'error');
             });
         },
@@ -229,7 +239,7 @@ const home = new Vue ({
                 $('.loading-carehub').hide();                
             }).catch( error => {
                 
-                msg = 'There was an error getting careteam members. Please reload the page';
+                msg = 'There was an error getting lockbox. Please reload the page';
                 swal('Error', msg, 'error');
             });
             

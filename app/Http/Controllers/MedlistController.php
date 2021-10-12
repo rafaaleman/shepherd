@@ -105,7 +105,17 @@ class MedlistController extends Controller
                         'event_date' => $med['date'].' '.$med['time']
                     ];
                     $this->createNotification($notification);
+
                 }
+
+                $notification = [
+                    'user_id'    => $member_id,
+                    'loveone_id' => $request->loveone_id,
+                    'table'      => self::MEDICATIONS_TABLE,
+                    'table_id'   => $medication->id,
+                    'event_date' => $medication->refill_date.' 00:00:00'
+                ];
+                $this->createNotification($notification);
             }
         }
 

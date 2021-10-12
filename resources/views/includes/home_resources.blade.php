@@ -1,4 +1,4 @@
-<a :href="resources_url" class="widget team shadow-sm">
+<a :href="resources_url" class="card widget resources shadow-sm">
     <div class="card h-100">
         <div class="card-body">
             
