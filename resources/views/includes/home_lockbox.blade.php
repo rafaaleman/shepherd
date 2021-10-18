@@ -1,4 +1,4 @@
-<a :href="lockbox_url" class="widget lockbox shadow-sm">
+<a :href="lockbox_url" class="card widget lockbox shadow-sm">
     <div class="card h-100">
         <div class="card-body">
             <h5 class="card-title"><i class="fas fa-file-medical fa-2x"></i> LockBox</h5>

@@ -15,7 +15,7 @@
                         {{-- <p>{{ $loveone->relationshipName }}</p> --}}
     
                         @if ($loveone->careteam->role == 'admin')
-                            <a href="/loveone/{{$loveone->slug}}" class="text-white"><i class="fas fa-user-edit"></i> Edit Profile</a>
+                            <a href="/loveone/{{$loveone->slug}}"><i class="fas fa-user-edit"></i> Edit Profile</a>
                         @endif
                     </div>
                 </div>

@@ -10174,8 +10174,11 @@ footer {
 .dashboard .widget {
   width: 33%;
   min-height: 180px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   transition: width 0.3s;
+}
+.dashboard .widget.card {
+  border-radius: 0;
 }
 .dashboard .widget a {
   text-decoration: none;
@@ -10185,6 +10188,7 @@ footer {
 }
 .dashboard .widget .card-title {
   font-weight: bold;
+  color: #515151;
 }
 .dashboard .widget .card-text span {
   font-size: 20px;
@@ -10194,7 +10198,7 @@ footer {
   color: #aaa;
 }
 .dashboard .widget.team .fas, .dashboard .widget.team .card-text span {
-  color: #3490dc;
+  color: #cf6cf9;
   font-weight: bold;
 }
 .dashboard .widget.team .member-img {
@@ -10205,16 +10209,24 @@ footer {
   border-radius: 50%;
   border: 1px solid #cacaca;
 }
+.dashboard .widget.messages .fas, .dashboard .widget.messages .card-text span {
+  color: #f79151;
+  font-weight: bold;
+}
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
   color: #f78383;
   font-weight: bold;
 }
 .dashboard .widget.lockbox .fas, .dashboard .widget.lockbox .card-text span {
-  color: #58c69c;
+  color: #58c67e;
+  font-weight: bold;
+}
+.dashboard .widget.resources .fas, .dashboard .widget.resources .card-text span {
+  color: #3490dc;
   font-weight: bold;
 }
 .dashboard .widget.medlist .fas, .dashboard .widget.medlist .card-text span {
-  color: #4dc0b5;
+  color: #ffd468;
   font-weight: bold;
 }
 
@@ -10233,8 +10245,6 @@ footer {
   position: absolute;
 }
 #homeCarousel .carousel-item {
-  min-height: 200px;
-  max-height: 200px;
   cursor: pointer;
 }
 #homeCarousel .carousel-item__container {
@@ -10242,6 +10252,12 @@ footer {
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
+}
+@media (max-width: 576px) {
+  #homeCarousel .carousel-item__container {
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 #homeCarousel .carousel-item .loveone-photo {
   border-radius: 50%;
@@ -10253,12 +10269,11 @@ footer {
   margin-left: -1em;
 }
 #homeCarousel .carousel-item .carousel__caption {
-  color: white;
+  color: #515151;
 }
 #homeCarousel .carousel-item .carousel__caption h5 {
   font-size: 24px;
   font-weight: bold;
-  text-shadow: #686868 2px 2px;
 }
 #homeCarousel .carousel-item .carousel__caption a.text-white {
   text-decoration: underline;
@@ -10269,7 +10284,7 @@ footer {
     max-height: 300px;
   }
   #homeCarousel .carousel-item .loveone-photo {
-    margin: 50px 4em;
+    margin: 50px 2em;
   }
 }
 @media (max-width: 576px) {
@@ -10277,8 +10292,11 @@ footer {
     padding: 15px;
   }
   #homeCarousel .carousel-item .loveone-photo {
+    min-height: 120px;
+    min-width: 120px;
     height: 120px;
     width: 120px;
+    border: 3px solid white;
   }
 }
 

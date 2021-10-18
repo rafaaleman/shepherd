@@ -6,8 +6,12 @@
     .widget{
         width: 33%;
         min-height: 180px;
-        margin-bottom: 20px;
+        margin-bottom:5px;
         transition: width 0.3s;
+
+        &.card {
+            border-radius: 0;
+        }
 
         a{
             text-decoration: none;
@@ -19,6 +23,7 @@
 
         .card-title {
             font-weight: bold;
+            color:rgb(81, 81, 81);
         }
 
         .card-text span{
@@ -33,7 +38,7 @@
         &.team{
 
             .fas, .card-text span{
-                color: $blue;
+                color: #cf6cf9;
                 font-weight: bold;
             }
 
@@ -47,6 +52,13 @@
             }
         }
 
+        &.messages{
+            .fas, .card-text span{
+                color: #f79151;
+                font-weight: bold;
+            }
+        }
+        
         &.hub{
             .far, .card-text span{
                 color: #f78383;
@@ -56,14 +68,21 @@
 
         &.lockbox{
             .fas, .card-text span{
-                color: #58c69c;
+                color: #58c67e;
+                font-weight: bold;
+            }
+        }
+        
+        &.resources{
+            .fas, .card-text span{
+                color: $blue;
                 font-weight: bold;
             }
         }
 
         &.medlist{
             .fas, .card-text span{
-                color: $teal;
+                color: #ffd468;
                 font-weight: bold;
             }
         }
@@ -88,9 +107,6 @@
     }
 
     .carousel-item{
-        // background-color: $primary-color;
-        min-height: 200px;
-        max-height: 200px;
         cursor: pointer;
 
         &__container {
@@ -98,6 +114,11 @@
             justify-content: center;
             align-items: center;
             flex-wrap: nowrap;
+
+            @media (max-width: 576px) {
+                width: 80%;
+                margin: 0 auto;
+            }
         }
 
         .loveone-photo{
@@ -111,12 +132,11 @@
         }
 
         .carousel__caption{
-            color: white;
-
+            color: rgb(81, 81, 81);
+            
             h5{
                 font-size: 24px;
                 font-weight: bold;
-                text-shadow: #686868 2px 2px;
             }
 
             a.text-white{
@@ -135,7 +155,7 @@
             max-height: 300px;
     
             .loveone-photo{
-                margin: 50px 4em ;
+                margin: 50px 2em ;
             }
         }
     }
@@ -145,8 +165,11 @@
             padding: 15px;
     
             .loveone-photo{
+                min-height: 120px;
+                min-width: 120px;
                 height: 120px;
                 width: 120px;
+                border: 3px solid white;
             }
         }
     }
