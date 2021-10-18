@@ -36,12 +36,15 @@ class LockboxController extends Controller
      */
     public function index(Request $request)
     {
-       $careteam = array();
-       $isAdmin= 0 ;
+        $careteam = array();
+        $isAdmin = 0 ;
+        $tmpUser = null;
+
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
         */
+
         $loveone_slug = $request->loveone_slug;
         $loveone  = loveone::whereSlug($loveone_slug)->first();
 
@@ -55,80 +58,136 @@ class LockboxController extends Controller
             return redirect('/home')->with('err_permisison','You don\'t have permission to access LockBox');  
         }
 
-        
-
         $cm = careteam::where('loveone_id',$loveone->id)->get();
-        $p = json_encode("{'user':0, 'r' : 0 , 'u': 0, 'd': 0}");
+
+        $p = json_encode("{'user':0, 'r' : 0 }");
         
-        foreach($cm as $u){
-            $role = "";
-            $user = $u->user;
-            if( $u->role  == "admin" ){ $role ='admin'; }
-            else{ $role ="user"; }
-
-            if(Auth::user()->id == $user->id && $u->role  == "admin" ){ $isAdmin = 1; }
-
-            $careteam[] =array('id'=>$user->id,'name'=> $user->name . ' ' . $user->lastname,'photo' => $user->photo, 'status' => $user->status,'role' => $role, 'permissions' => $p);            
-        }
-
-        /*
-        $documents = lockbox::where('loveones_id',$loveone->id)
-        ->get();
-
-        if($isAdmin != 1){
-            foreach($documents as $d ){
-                foreach($d->permissions as $p){
-                    if($p->user_id == Auth::user()->id){
-                        dump($p);
-                        break;
-                    }
-                }
-            }
-            dd('x');
-        }
-        */
-
-
-        if ($request->ajax()) 
+        foreach($cm as $c)
         {
-           
-           
-            $types     = lockbox_types::all();
-            $documents = lockbox::where('loveones_id',$loveone->id)
-                                ->get();
-            //filtar los q se pueden ver
-                                     
-            
-            //Obligatorios
-            foreach($types as &$t){
-                $t->asFile = false;
-                foreach($documents as $i => $d){
-                    if($t->id == $d->lockbox_types_id && $t->required == 1){
-                        $t->file = $d;
-                        $t->asFile = true;
-                        unset($documents[$i]);
-                       break;
-                    }
-
-                }
+            if($c->user_id == Auth::user()->id){
+                $tmpUser = $c;
+                break;
             }
-            
-            /*last 5*/
-            $last = lockbox::where('loveones_id',$loveone->id)
-                            ->orderBy('created_at', 'desc')
-                            ->take(5)
-                            ->get();
-            foreach($last as &$d){
-                $d->permissions  = \json_decode($d->permissions);
-            }
-
-            return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug,'isAdmin' =>$isAdmin );
-
-
         }
 
-        return view('lockbox.index',compact('loveone','loveone_slug','careteam'));
+        
+        if($tmpUser->role === "admin")
+        {
+            foreach($cm as $u)
+            {
+                $role = "";
+                $user = $u->user;
+                if( $u->role  == "admin" ){ $role ='admin'; }
+                else{ $role ="user"; }
+
+                if(Auth::user()->id == $user->id && $u->role  == "admin" ){ $isAdmin = 1; }
+
+                $careteam[] =array('id'=>$user->id,'name'=> $user->name . ' ' . $user->lastname,'photo' => $user->photo, 'status' => $user->status,'role' => $role, 'permissions' => $p);            
+            }
+
+            if ($request->ajax()) 
+            {           
+                $types     = lockbox_types::all();            
+                $documents = lockbox::where('loveones_id',$loveone->id)
+                                ->get();
+            
+                //Obligatorios
+                foreach($types as &$t)
+                {
+                    $t->asFile = false;
+                    foreach($documents as $i => $d)
+                    {
+                        if($t->id == $d->lockbox_types_id && $t->required == 1)
+                        {
+                            $t->file = $d;
+                            $t->asFile = true;
+                            unset($documents[$i]);
+                            break;
+                        }
+                    }
+                }
+            
+                /*last 5*/
+                $last = lockbox::where('loveones_id',$loveone->id)
+                                ->orderBy('created_at', 'desc')
+                                ->take(5)
+                                ->get();
+            
+                foreach($last as &$d)
+                {
+                    $d->permissions  = \json_decode($d->permissions);
+                }
+
+                return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
+            }
+
+            return view('lockbox.index',compact('loveone','loveone_slug','careteam'));
+        }else{
+            
+            if ($request->ajax()) 
+            {           
+                $types         = lockbox_types::all();            
+                $tmp_documents = lockbox::where('loveones_id',$loveone->id)
+                                        ->get();
+                $documents     = array();
+                $last          = array();
+
+                foreach($tmp_documents as $i => $d)
+                {
+                    foreach($d->permissions as $r)
+                    {
+                        if($r->user_id == Auth::user()->id && $r->r == 1)
+                        {
+                            $documents[] = $d;
+                        }
+                    }
+                }
+            
+                //Obligatorios
+                foreach($types as &$t)
+                {
+                    $t->asFile = false;
+                    foreach($documents as $i => $d)
+                    {
+                        if($t->id == $d->lockbox_types_id && $t->required == 1)
+                        {
+                            $t->file = $d;
+                            $t->asFile = true;
+                            unset($documents[$i]);
+                            break;
+                        }
+                    }
+                }
+                /*last 5*/
+                $tmp_last = lockbox::where('loveones_id',$loveone->id)
+                                ->orderBy('created_at', 'desc')
+                                ->take(5)
+                                ->get();
+        
+                foreach($tmp_last as $i => $d)
+                {
+                    foreach($d->permissions as $r)
+                    {
+                        if($r->user_id == Auth::user()->id && $r->r == 1)
+                        {
+                            $last[] = $d;
+                        }
+                    }
+                }
+                
+                foreach($last as &$d)
+                {
+                    $d->permissions  = \json_decode($d->permissions);
+                }
+
+
+                return array('types' => $types,'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
+            }
+            
+            return view('lockbox.index_user',compact('loveone','loveone_slug'));
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -159,7 +218,9 @@ class LockboxController extends Controller
             'status'           => 'required|boolean',
 
         ]);
+
         $permisisons = \json_decode($request->permissions);
+
         $repo = 'loveones/lockbox/' . $request->loveones_id;
         
         if ($request->hasFile('file')){
@@ -170,24 +231,26 @@ class LockboxController extends Controller
             $request->file('file')->move(public_path($repo), $fileName);
 
             $doct = new Lockbox;
-            $doct->user_id          = $request->user_id; //change to user_id
-            $doct->lockbox_types_id = $request->lockbox_types_id; //change to types
-            $doct->loveones_id      = $request->loveones_id; //change to types
+            $doct->user_id          = $request->user_id; 
+            $doct->lockbox_types_id = $request->lockbox_types_id; 
+            $doct->loveones_id      = $request->loveones_id;
             $doct->name             = $request->name;
             $doct->description      = $request->description;      
             $doct->status           = $request->status;
             $doct->file             =  '/'.$filePath;
             
+            
             if($doct->save()){
                 foreach($permisisons as $p){
                     $perm = new lockbox_permissions;
                     $perm->user_id    = $p->user;
-                    $perm->lockbox_id = $doct->id; //change to types
-                    $perm->r          = $p->r; //change to types
-                    $perm->u          = $p->u;
-                    $perm->d          = $p->d;            
+                    $perm->lockbox_id = $doct->id; 
+                    $perm->r          = $p->r;
+                    $perm->u          = 0;
+                    $perm->d          = 0;            
                     $perm->save();
                 }
+
                 $this->createNotifications($request->loveones_id, $doct->id);
     
                 return response()->json(['success' => true, 'data' => ['msg' => 'Document created!']], 200);
@@ -238,7 +301,10 @@ class LockboxController extends Controller
             'status'           => 'required|boolean',
 
         ]);
+      
+
         $permisisons = \json_decode($request->permissions);
+        
         //$repo = 'uploads/' . $request->user_id;
         $repo = 'loveones/' . $request->loveones_id;
 
@@ -247,6 +313,7 @@ class LockboxController extends Controller
         $doct->description = $request->description;      
         $doct->status      = $request->status;
 
+        
         if ($request->hasFile('file')){
             if(\File::exists(public_path($doct->file))){
                 \File::delete(public_path($doct->file));
@@ -267,7 +334,7 @@ class LockboxController extends Controller
             foreach($permisisons as $p){
                 $perm = lockbox_permissions::updateOrCreate(
                     ['user_id' => $p->user, 'lockbox_id' => $request->id],
-                    ['r' => $p->r, 'u' => $p->u, 'd'=> $p->d]
+                    ['r' => $p->r, 'u' => 0, 'd'=> 0]
                 );
 
             }
@@ -292,6 +359,7 @@ class LockboxController extends Controller
         $doct = Lockbox::find($request->id_doc);
         if(\File::exists(public_path($doct->file))){
             \File::delete(public_path($doct->file));
+            
             $doct->delete();
             }else{
                 dd(public_path($doct->file));
@@ -317,9 +385,13 @@ class LockboxController extends Controller
         $loveone_slug = $request->loveone_slug;
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         $documents = lockbox::where('loveones_id',$loveone->id)->count();
+        $num_documents = lockbox::where('loveones_id',$loveone->id)
+                            ->orderBy('updated_at', 'desc')
+                            ->take(1)
+                            ->get();
         
 
-        return response()->json(['success' => true, 'data' => ['documents' => $documents]], 200);
+        return response()->json(['success' => true, 'data' => ['num_documents' => $num_documents,'documents' => $documents]], 200);
     }
 
     /**
