@@ -8,6 +8,7 @@
                 <div class="carrusel">
                     <div v-for="doc in lastDocuments" v-on:click="showM(doc.id,doc)" >
                         <img :src="doc.file|isImage" class="carrusel-doc">
+                        <h5 class="t2 text-center">@{{ doc.name }}</h5>
                     </div>                    
                 </div>            
         </div>
@@ -29,28 +30,27 @@
             <h4>ALL DOCUMENTS</h4>
         </div>
         <div class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4 align-middle"  v-for="doc in documents" v-on:click="viewDocument(doc)" >
-            <div class="card-body">
-                <h5 class="card-title t1">@{{ doc.name }}</h5>
-                
-                <div class="dropdown" >
+            <div class="card-body" >
+                <h5 class="card-title t1" >@{{ doc.name }}</h5>
+                <span class="card-text t2" >@{{ doc.created_at | formatDate }}</span>
+                <div class="float-right" >
+                    <a href="#" v-on:click="deleteDocument(doc)" ><i class="fas fa-trash"></i></a>                    
+                </div>
+                {{-- <div class="dropdown" >
                     <i class="fa fa-ellipsis-v float-right mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button"></i>                
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#" v-on:click="deleteDocument(doc)" >Delete</a>
-                </div>
-                </div>
-                <span class="card-text t2">@{{ doc.created_at | formatDate }}</span>
+                </div> --}}
             </div>
         </div>  
         
         <div class="col-12 mt-4 text-center">
             <a href="#!" class="btn btn-primary btn-submit"  v-on:click="showM(8,null)">Add New Document</a>
         </div>        
-    </div>
-     @include('lockbox.create_modal')
-     @include('lockbox.edit_modal') 
+    </div>    
     
-</div>
+    @include('lockbox.create_modal')
+    @include('lockbox.edit_modal')
 
+</div>
 @endsection
 
 @push('styles')
@@ -234,16 +234,14 @@ a:hover {
         },
         data: {
             auth_user: {{Auth::Id()}},
-            auth_role: 0,
-            edit_doc: false,
-            save: false,
-            img_url: "{{asset('images/no_photo.jpg')}}",
+            careteam:[],
             lastDocuments: [],
             documents: [],
             types:[],
-            careteam:[],
+            img_url: "{{asset('images/no_photo.jpg')}}",
+            edit_doc : false,
+            save: false,
             permissions: [],
-            docPermissions:{},
             document: {
                 id: 0,
                 user_id: {{Auth::Id()}},
@@ -303,8 +301,7 @@ a:hover {
         },
         methods: {
             borrar(){
-                this.document = { 'id': '' , 'user_id': {{Auth::Id()}} ,'loveones_id': {{ $loveone->id}},'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : '' };
-                this.errors = [];
+                this.document = { 'id': '' , 'user_id': {{Auth::Id()}} ,'loveones_id': {{ $loveone->id}},'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : 1,'permissions' : [] };
                 this.permissions = [];
                 this.docPermissions = {};
                 this.lastDocuments= [];
@@ -316,7 +313,6 @@ a:hover {
                 $('#ffile').html('');
                 $('.carrusel').slick('destroy');
             },
-
             getDoc(event){
                 this.document.file = event.target.files[0];                
                 let exts = ['jpg','jpeg','gif','png','svg'];                
@@ -335,25 +331,19 @@ a:hover {
                 $('#ffile').html(event.target.files[0].name);
                 this.save = true;
             },
-            getDocuments: function() {
+            getDocuments() {
                 var url = '{{ route("lockbox",$loveone_slug) }}';
                 axios.get(url).then(response => {
-
                     this.types = response.data.types;
-                    
-                    //this.getPermissions (response.data.documents);
-
-                    this.documents = response.data.documents;  
-                    this.lastDocuments = response.data.lastDocuments;  
+                    this.documents = response.data.documents;
+                    this.lastDocuments = response.data.lastDocuments;
                     this.careteam = response.data.careteam;
-                    this.auth_role = response.data.isAdmin;
                     //console.table(response.data);
-
                 }).then ( () => {
                     this.creaSlide();
                 });
             },
-            viewDocument: function(doc){                
+            viewDocument(doc){                
                 this.document.id               = doc.id;
                 this.document.user_id          = doc.user_id;
                 this.document.loveones_id      = doc.loveones_id;
@@ -362,13 +352,13 @@ a:hover {
                 this.document.description      = doc.description;
                 this.document.file             = doc.file;
                 this.document.status           = doc.status;
-                this.document.permissions      = doc.permissions;
-                
+                this.document.permissions      = doc.permissions;                
                 this.getPermissions(doc.permissions);
                 
                 $('#editModal').modal('show');
             },
-            createDocument: function() {
+            createDocument() {
+                const url = "{{route('lockbox.store')}}";
                 const formData = new FormData();                
                 formData.append('id', this.document.id);
                 formData.append('user_id', this.document.user_id);
@@ -382,14 +372,11 @@ a:hover {
 
                 $('#createModal .btn-submit').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Saving...').attr('disabled', true);
                 
-                var url = "{{route('lockbox.store')}}";
-                
                 axios.post(url, formData,{ 
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
-                    }).then(response => {
-                        
+                }).then(response => {                        
                     if( response.data.success == true ){
                         msg = 'Your document has been uploaded';
                         icon = 'success';
@@ -400,15 +387,14 @@ a:hover {
                     swal(msg, "", icon);
                     this.borrar();                        
                     this.getDocuments();
-
                     $('#createModal').modal('hide');
 
                 }).catch(error => {                    
                     this.errors = error.response.data;
                     console.log(error);
                 });
-            },
-            editDocument: function() {
+            }, 
+            editDocument() {
                 var formData = new FormData();
                 
                 formData.append('id', this.document.id);
@@ -427,6 +413,7 @@ a:hover {
                         'Content-Type': 'multipart/form-data'
                     }
                     }).then(response => {
+                        console.log(response);
                     if( response.data.success == true ){
                                 msg = 'The Document has updated';
                                 icon = 'success';
@@ -440,13 +427,13 @@ a:hover {
                     this.buildPermission();  
                     swal(msg, "", icon);
                     $('#editModal').modal('hide');
+
                 }).catch(error => {                    
                     this.errors = error.response.data;
                     console.log(error);
                 });
             },
-            			
-            deleteDocument: function(doc){
+            deleteDocument(doc){
                 var url = "{{route('lockbox.delete')}}";
 
                 swal({
@@ -479,48 +466,47 @@ a:hover {
                     }
                 });
             },
-			
-            buildPermission: function (){
+            showM(type,doc) {
+                this.document.lockbox_types_id = type;
+                this.edit_doc = (type < 8 ) ? true:false;
+
+                if(doc == null){
+                    this.buildPermission();
+                    $('#createModal').modal('show');
+                }else if(doc.file){
+                    this.viewDocument(doc);
+                }else {
+                    this.buildPermission();
+                    this.document.name = doc.name;
+                    this.document.description = doc.description;
+                    this.edit_doc = true;
+                    $('#createModal').modal('show');
+                }
+            },
+            buildPermission(){
                 this.permissions = [];
                 for(var i = 0, len = this.careteam.length; i < len; i++) {
-                    if( this.careteam[i].role === "admin" || this.careteam[i].id == this.auth_user){
-                     p ={ 'user' : this.careteam[i].id, 'r' : 1 , 'u': 1, 'd': 1};
+                    
+                    if( this.careteam[i].role === "admin" ){
+                        p ={ 'user' : this.careteam[i].id, 'r' : 1 };
                     }else{
-                        p ={ 'user' : this.careteam[i].id, 'r' : 0 , 'u': 0, 'd': 0};
+                        p ={ 'user' : this.careteam[i].id, 'r' : 0 };
                     }
                     this.careteam[i].permissions = p; 
                     this.permissions.push(p);
-                }
-            },
-            assignPermission: function (t,u){
-                console.log(this.permissions);
-                let i = this.permissions.findIndex( item => item.user === u);
-                let d = this.permissions.find( item => item.user === u);
-                
-                switch(t){
-                    case "r":
-                        d.r = d.r == 1 ? 0 :1;
-                        break;
-                    case "u":
-                        d.u = d.u == 1 ? 0 :1;
-                        break;
-                    case "d":
-                        d.d = d.d == 1 ? 0 :1;
-                        break;
-                }
-                
-                this.permissions[i] = d;
+                }                
                 
             },            
-            getPermissions: function (arr){
+            assignPermission(u){                
+                let i = this.permissions.findIndex( item => item.user === u);                
+                this.permissions[i].r = (this.permissions[i].r == 1) ? 0 :1;
+            },
+            getPermissions(arr){
                 this.buildPermission();                
                 if(arr){
-                    arr.forEach((item, i) => {           
-                           
-                        let p = { 'user' : item.user_id, 'r' : item.r , 'u': item.u, 'd': item.d};
+                    arr.forEach((item, i) => {                           
+                        let p = { 'user' : item.user_id, 'r' : item.r };
                         this.permissions[i].r =  item.r;
-                        this.permissions[i].u =  item.u;
-                        this.permissions[i].d =  item.d;
                         this.careteam[i].permissions = p; 
                         if(item.user_id == this.auth_user){
                             this.docPermissions = p;
@@ -528,32 +514,11 @@ a:hover {
                     });                    
                 }
             },
-            showM: function(type,doc) {
-                this.document.lockbox_types_id = type;
-                this.edit_doc = (type < 8 ) ? true:false;
-                //Si es generico se muestra el modal
-                if(doc == null){
-                    this.buildPermission();
-                    $('#createModal').modal('show');
-                }else if(doc.file){
-                    //editar
-                    this.viewDocument(doc.file);
-                }else {
-                    // Docuemnt obligatory
-                    this.buildPermission();
-                    console.log(this.permissions);
-                    this.document.name = doc.name;
-                    this.document.description = doc.description;
-                    this.edit_doc = true;
-                    $('#createModal').modal('show');
-                }
-            },
             hideModal(modal) {
                 this.borrar();
                 $('#'+modal).modal('hide');
             },
-
-            creaSlide: function (){
+            creaSlide(){
                 //$('.carrusel').slick('init');
                 $('.carrusel').slick({
                     centerMode: true,
@@ -595,8 +560,8 @@ a:hover {
         $('#editModal').on('hidden.bs.modal', function (e) {
             lockbox.getDocuments();
         });
-        $(".tabs").click(function(){
-            
+
+        $(".tabs").click(function(){            
             $(".tabs").removeClass("active");
             $(".tabs h6").removeClass("font-weight-bold");
             $(".tabs h6").addClass("text-muted");

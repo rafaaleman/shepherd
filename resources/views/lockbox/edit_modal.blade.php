@@ -9,7 +9,6 @@
         </div>
         
         <div class="modal-body row">
-            
 
             <div class="col-12 text-center">
                 <a :href="document.file|urlFile" target="_blank">
@@ -22,14 +21,14 @@
                     <h6 class="font-weight-bold">Document</h6>
                 </div>
                 
-                <div class="tabs" :class="(auth_user == document.user_id || auth_role == 1) ? 'show' :'d.none'" id="tab04">
+                <div class="tabs" id="tab04">
                     <h6 class="text-muted">Permission</h6>
                 </div>
             </div>
             <div class="line"></div>
             <form method="post" id="editDocumentform" class="col-md-12" v-on:submit.prevent="editDocument()">  
 
-            <fieldset id="tab031" class="show col-md-12 p-3" :class="(docPermissions.u == 1 || auth_role == 1) ? 'show' :'d-none'">
+            <fieldset id="tab031" class="show col-md-12 p-3" >
                           
                 <input type="hidden" name="id" id="ide" v-model="document.id">
                 <input type="hidden" name="type" id="typee" v-model="document.locbox_types_id">
@@ -37,8 +36,7 @@
 
                 <label for="name" class="text-black-50">Name:</label>
                 <div class="d-flex mb-4">
-                    <input id="namee" type="text" class="form-control mr-2" name="name" autofocus required v-model="document.name" :readonly ="edit_doc">
-                    
+                    <input id="namee" type="text" class="form-control mr-2" name="name" autofocus required v-model="document.name" :readonly ="edit_doc">                    
                 </div>
                 <label for="s_email" class="text-black-50">Description:</label>
                 <div class="d-flex mb-4">
@@ -62,8 +60,6 @@
                         <tr>
                             <th></th>
                             <th>Read</th>
-                            <th>Update</th>
-                            <th>Delete</th>
                     </tr>
                         <tr v-for="c in careteam">
                             <td >
@@ -71,22 +67,10 @@
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled=" c.id == auth_user || c.role == 'admin'" :checked="c.id == auth_user || c.permissions.r == 1 || c.role == 'admin'" :id=`reade-${c.id}` @change="assignPermission('r',c.id)">
+                                    <input type="checkbox" class="custom-control-input" :disabled=" c.id == auth_user || c.role == 'admin'" :checked="c.permissions.r == 1 || c.role == 'admin'" :id=`reade-${c.id}` @change="assignPermission(c.id)">
                                     <label class="custom-control-label" :for=`reade-${c.id}` ></label>
                                 </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.permissions.u == 1 || c.role == 'admin'" :id=`updatee-${c.id}` @change="assignPermission('u',c.id)">
-                                    <label class="custom-control-label" :for=`updatee-${c.id}`></label>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.permissions.d == 1 || c.role == 'admin'" :id=`deletee-${c.id}` @change="assignPermission('d',c.id)">
-                                    <label class="custom-control-label" :for=`deletee-${c.id}`></label>
-                                </div>
-                            </td>
+                            </td>                           
                         </tr>
                     </table>
                 </div>

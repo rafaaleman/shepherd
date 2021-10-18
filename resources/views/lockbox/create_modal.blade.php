@@ -51,29 +51,15 @@
                         <tr>
                             <th></th>
                             <th>Read</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                    </tr>
+                        </tr>
                         <tr v-for="c in careteam">
                             <td >
                                 <span>@{{ c.name }}</span>
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.id == auth_user || c.role == 'admin'" :checked="c.id == auth_user || c.role == 'admin'" :id=`read-${c.id}` @change="assignPermission('r',c.id)">
+                                    <input type="checkbox" class="custom-control-input" :disabled="c.role == 'admin'" :checked="c.role == 'admin'" :id=`read-${c.id}` @change="assignPermission(c.id)">
                                     <label class="custom-control-label" :for=`read-${c.id}` ></label>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.id == auth_user || c.role == 'admin'" :checked="c.id == auth_user || c.role == 'admin'" :id=`update-${c.id}` @change="assignPermission('u',c.id)">
-                                    <label class="custom-control-label" :for=`update-${c.id}`></label>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled="c.id == auth_user || c.role == 'admin'" :checked="c.id == auth_user || c.role == 'admin'" :id=`delete-${c.id}` @change="assignPermission('d',c.id)">
-                                    <label class="custom-control-label" :for=`delete-${c.id}`></label>
                                 </div>
                             </td>
                         </tr>
