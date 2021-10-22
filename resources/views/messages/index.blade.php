@@ -59,7 +59,7 @@
                                     @{{ message.message }}
                                     <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
                                 </div>
-                                <div class="chat-hour">@{{ message.created_at | formatDate }}<br> AM</div>
+                                <div class="chat-hour">@{{ message.created_at | formatDate }}</div>
                             </li>                           
                
                         </ul>
@@ -341,10 +341,11 @@ body{margin-top:20px;}
                 return value.toUpperCase(); 
             },
             formatDate: function(value) {
-                if (value) {                    
+                if (value) {     
                     value = value.split('T');   
                     value = value[1].split('.');   
-                    return value[0];
+
+                    return moment(value[0], "HH:mm:ss").format("hh:mm A");
                    // return moment(String(value[0])).format('hh:mm');
                 }
             },

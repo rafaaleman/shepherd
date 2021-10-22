@@ -8,7 +8,7 @@
                 src="{{asset('/img/LogoShepherd.png')}}"
                 alt="Shepherd logo"
                 class="mr-5"
-                width="114">
+                width="145">
         </a>
         <a class="nav-link text-danger font-weight-bold  align-items-center d-flex d-sm-none" href="tel: 911">
             <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
