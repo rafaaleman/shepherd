@@ -16,7 +16,7 @@
                 </template>
             </div>
 
-            <a :href="careteam_url + '#addMember'" class="btn btn-primary btn-sm mt-2" v-if="is_admin">Add Member</a>
+            <a :href="careteam_url + '#addMember'" class="btn btn-primary btn-sm" v-if="is_admin">Add Member</a>
         </div>
     </div>
 </div>

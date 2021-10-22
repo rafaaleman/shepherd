@@ -8,7 +8,7 @@
                 <div class="carrusel">
                     <div v-for="doc in lastDocuments" v-on:click="showM(doc.id,doc)" >
                         <img :src="doc.file|isImage" class="carrusel-doc">
-                        <h5 class="t2 text-center">@{{ doc.name }}</h5>
+                        <h5 class="t3 text-center">@{{ doc.name }}</h5>
                     </div>                    
                 </div>            
         </div>

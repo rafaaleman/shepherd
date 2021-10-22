@@ -8,7 +8,7 @@
                 <i class="gray">Last updated yesterday</i>
             </div>
         </a>
-        <a class="btn btn-primary btn-sm mt-2" v-if="is_admin">Upload Document</a>
+        <a class="btn btn-primary btn-sm" v-if="is_admin">Upload Document</a>
     </div>
 </div>
 

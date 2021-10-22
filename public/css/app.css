@@ -10066,7 +10066,6 @@ body {
   color: #505869;
   text-decoration: none;
   padding: 20px 25px;
-  font-size: 16px;
   text-align: right;
 }
 .sidebar .item:hover, .sidebar .item.active {
@@ -10133,7 +10132,7 @@ label.error {
 }
 
 .btn {
-  border-radius: 20px;
+  border-radius: 99px !important;
   padding: 7px 25px;
 }
 
@@ -10183,6 +10182,8 @@ footer {
 .dashboard .widget.card .btn {
   border-radius: 6px;
   width: 100%;
+  max-width: 220px;
+  margin-top: 1em;
 }
 .dashboard .widget a {
   text-decoration: none;
@@ -10263,12 +10264,16 @@ footer {
 }
 
 #homeCarousel {
-  background-image: url("/img/home_bg.jpg");
+  background-image: url("/img/home_bg_2.jpg");
   background-position: bottom center;
   background-size: cover;
 }
 #homeCarousel .carousel-indicators button {
   border: 1px solid gray;
+}
+#homeCarousel .carousel-control-prev,
+#homeCarousel .carousel-control-next {
+  background-color: #369ab637;
 }
 #homeCarousel .carousel-shadow {
   width: 100%;
@@ -10336,6 +10341,7 @@ footer {
 @media (max-width: 576px) {
   .dashboard .widget {
     width: 100%;
+    text-align: center;
   }
 }
 #careteam .member {

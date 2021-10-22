@@ -10,7 +10,7 @@
                 <i class="gray">10 new articles</i>
             </div>
         </a>
-        <a class="btn btn-primary btn-sm mt-2" v-if="is_admin">Read News</a>
+        <a class="btn btn-primary btn-sm" v-if="is_admin">Read News</a>
     </div>
 </div>
 
