@@ -11,6 +11,11 @@
 
         &.card {
             border-radius: 0;
+
+            .btn {
+                border-radius: 6px;
+                width: 100%;
+            }
         }
 
         a{
@@ -24,6 +29,10 @@
         .card-title {
             font-weight: bold;
             color:rgb(81, 81, 81);
+
+            i {
+                display: block;
+            };
         }
 
         .card-text span{
@@ -37,9 +46,16 @@
 
         &.team{
 
+            $team-color:  #cf6cf9;
+
             .fas, .card-text span{
-                color: #cf6cf9;
+                color: $team-color;
                 font-weight: bold;
+            }
+
+            .btn-primary{
+                background-color: $team-color;
+                border-color: darken($color: $team-color, $amount: 15);
             }
 
             .member-img{
@@ -52,24 +68,46 @@
             }
         }
 
-        &.messages{
+        &.message{
+
+            $message-color:  #f79151;
+
             .fas, .card-text span{
-                color: #f79151;
+                color: $message-color;
                 font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $message-color;
+                border-color: darken($color: $message-color, $amount: 15);
             }
         }
         
         &.hub{
+            $hub-color: #f78383;
+
             .far, .card-text span{
-                color: #f78383;
+                color: $hub-color;
                 font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $hub-color;
+                border-color: darken($color: $hub-color, $amount: 15);
             }
         }
 
         &.lockbox{
+            $lockbox-color: #58c67e;
+
             .fas, .card-text span{
-                color: #58c67e;
+                color: $lockbox-color;
                 font-weight: bold;
+            }
+
+            .btn-primary{
+                background-color: $lockbox-color;
+                border-color: darken($color: $lockbox-color, $amount: 15);
             }
         }
         
@@ -78,12 +116,25 @@
                 color: $blue;
                 font-weight: bold;
             }
+
+            .btn-primary {
+                background-color: $blue;
+                border-color: darken($color: $blue, $amount: 15);
+            }
         }
 
         &.medlist{
+            $medlist-color: #ffd468;
+
             .fas, .card-text span{
-                color: #ffd468;
+                color: $medlist-color;
                 font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $medlist-color;
+                border-color: darken($color: $medlist-color, $amount: 15);
+                color: darken($color: $medlist-color, $amount: 75)
             }
         }
     }
