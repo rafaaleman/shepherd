@@ -10230,20 +10230,20 @@ footer {
   border-color: #f0630b;
 }
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
-  color: #f78383;
+  color: #e45252;
   font-weight: bold;
 }
 .dashboard .widget.hub .btn-primary {
-  background-color: #f78383;
-  border-color: #f23b3b;
+  background-color: #e45252;
+  border-color: #ca2020;
 }
 .dashboard .widget.lockbox .fas, .dashboard .widget.lockbox .card-text span {
-  color: #58c67e;
+  color: #44be6f;
   font-weight: bold;
 }
 .dashboard .widget.lockbox .btn-primary {
-  background-color: #58c67e;
-  border-color: #359c59;
+  background-color: #44be6f;
+  border-color: #2f874e;
 }
 .dashboard .widget.resources .fas, .dashboard .widget.resources .card-text span {
   color: #3490dc;
@@ -10592,16 +10592,25 @@ footer {
 }
 
 /*--------------------------------------------------------------------------------*/
+#notifications .lockbox > .fas {
+  color: #44be6f;
+}
+#notifications .medlist > .fas {
+  color: #ffd468;
+}
+#notifications .event > .far {
+  color: #e45252;
+}
 #notifications .notification {
   flex-direction: row;
 }
 #notifications .notification.read {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 #notifications .notification .info {
   width: 95%;
 }
 #notifications .notification .title {
-  font-weight: bold;
-  font-size: 20px;
+  font-size: 21px;
+  text-transform: capitalize;
 }
