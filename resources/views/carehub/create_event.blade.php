@@ -283,7 +283,7 @@ input[type="date"]:before {
 
        var picker = new Pikaday({
             field: document.getElementById('carehub_datepicker'),
-            format: 'DD/MM/YYYY',
+            format: 'Y-M-D',
             minDate: moment().toDate(),
             onSelect: function() {
                 create_event.event.date = this.getMoment().format('YYYY/MM/DD')
