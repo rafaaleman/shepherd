@@ -47,9 +47,6 @@
         }
 
         &.team{
-
-            $team-color:  #cf6cf9;
-
             .fas, .card-text span{
                 color: $team-color;
                 font-weight: bold;
@@ -71,9 +68,6 @@
         }
 
         &.message{
-
-            $message-color:  #f79151;
-
             .fas, .card-text span{
                 color: $message-color;
                 font-weight: bold;
@@ -86,8 +80,6 @@
         }
         
         &.hub{
-            $hub-color: #f78383;
-
             .far, .card-text span{
                 color: $hub-color;
                 font-weight: bold;
@@ -100,8 +92,6 @@
         }
 
         &.lockbox{
-            $lockbox-color: #58c67e;
-
             .fas, .card-text span{
                 color: $lockbox-color;
                 font-weight: bold;
@@ -126,8 +116,6 @@
         }
 
         &.medlist{
-            $medlist-color: #ffd468;
-
             .fas, .card-text span{
                 color: $medlist-color;
                 font-weight: bold;

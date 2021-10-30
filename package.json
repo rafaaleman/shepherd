@@ -27,6 +27,7 @@
         "cross-env": "^7.0.3",
         "laravel-echo": "^1.10.0",
         "moment": "^2.29.1",
+        "pikaday": "^1.8.2",
         "pusher-js": "^7.0.3",
         "sweetalert": "^2.1.2"
     }

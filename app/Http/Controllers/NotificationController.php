@@ -49,16 +49,22 @@ class NotificationController extends Controller
                 // dd(date('Y-m-d', strtotime($n->event_date)), date('Y-m-d'));
 
                 if($n->table == 'events'){
+                    $notification->title = 'You have a new event';
                     $notification->description = $notification->location;
                     $notification->icon = 'far fa-calendar-plus';
+                    $notification->type = 'event';
 
                 } else if($n->table == 'lockbox'){
+                    $notification->title = 'A new file is available';
                     $notification->description = '';
+                    $notification->type = 'lockbox';
                     $notification->icon = 'fas fa-file-medical';
                     
                 } else if($n->table == 'medications'){
+                    $notification->title = 'It\'s time for medication';
                     $notification->name = $notification->medicine . ' ' .$notification->dosage;
                     $notification->description = '';
+                    $notification->type = 'medlist';
                     $notification->icon = 'fas fa-prescription-bottle-alt';
                     
                 } else { 
