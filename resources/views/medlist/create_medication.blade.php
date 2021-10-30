@@ -277,7 +277,7 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                            <input  data-title="Welcome to the Medlist" data-intro="If you know the refill date, you can add that here and we will remind you to refill your medication" id="medlist_datepicker" type="text" class="form-control no-border" required name="refill_date"  placeholder="Refill Date (MM/DD/YYYY)" v-model="medication.refill_date">
+                            <input  data-title="Welcome to the Medlist" data-intro="If you know the refill date, you can add that here and we will remind you to refill your medication" id="refill_date" type="text" class="form-control no-border" required name="refill_date"  placeholder="Refill Date (MM/DD/YYYY)" autocomplete="off" v-model="medication.refill_date">
                         </div>
                     </div>
                 </div>
@@ -466,9 +466,13 @@ input[type="date"]:before {
         showBullets: false
     }).start()
 
-    var medlist_picker = new Pikaday({ 
-        field: document.getElementById('medlist_datepicker'),
-        format: 'M-D-Y'
+    var refill_date = new Pikaday({
+            field: document.getElementById('refill_date'),
+            format: 'DD/MM/YYYY',
+            minDate: moment().toDate(),
+            onSelect: function() {
+                create_medication.medication.refill_date = this.getMoment().format('YYYY/MM/DD')
+            }
     });
 
     $('#time').datetimepicker({format: 'LT',stepping: 15, widgetPositioning: {
@@ -492,20 +496,20 @@ input[type="date"]:before {
             count_chatacters: 3,
             medications_search:[],
             //routes: @json($routes),
-            dosages:@json($dosages),
             medication: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: "{{ $medication->id ?? 0 }}",
                 loveone_id: "{{ $loveone->id ?? 0 }}",
                 medicine: "{{ $medication->medicine ?? '' }}",
-                dosage: "{{ $medication->dosage ?? '' }}",
+               // dosage: "{{ $medication->dosage ?? '' }}",
                 frequency : "{{ $medication->frequency ?? '' }}",
                 time: "{{ $medication->time ?? '' }}",
                 days: "{{ $medication->days ?? '' }}",
                 notes: "{{ $medication->notes ?? '' }}",
                 refill_date: "{{ $medication->refill_date ?? '' }}",
                // route:"",
-                drugbank_pcid:""
+                drugbank_pcid:"",
+                prescribing:"{{ $medication->prescribing ?? '' }}",
                // creator_id: "{{ $medication->creator_id ?? '' }}",
             },
         },
@@ -516,12 +520,12 @@ input[type="date"]:before {
         },
         methods: {
             ini : function(){
-                this.dosages.push({
+           /*      this.dosages.push({
                     'strengths': 'Other',
                     'dosage':  'Other'
-                });
-            },
-          /*  seachMedication: function(){
+                });*/
+            },/*
+           seachMedication: function(){
                 if(this.medication.medicine.length < this.characters_medication){
                     $("#message-search").addClass('d-none');
                     $("#message-dropdown").removeClass('d-none');
@@ -605,9 +609,7 @@ input[type="date"]:before {
                 }
                 $("#btncollapsefrequency").click();
             },
-            selectDosage: function(){
-                $("#btncollapseDosage").click();
-            },
+            
             selectDays: function(){
                 
                 $("#btncollapseDays").click();
@@ -616,7 +618,7 @@ input[type="date"]:before {
                 
                 
                 
-                if( this.medication.dosage != ""  && this.medication.frequency != ""  && this.medication.days != "" && ((this.medication.frequency != "as needed"  && this.medication.time != "") || (this.medication.frequency == "as needed"  && this.medication.time == ""))){
+                if( this.medication.frequency != ""  && this.medication.days != "" && ((this.medication.frequency != "as needed"  && this.medication.time != "") || (this.medication.frequency == "as needed"  && this.medication.time == ""))){
                     if(this.medication.time == "Invalid date"){
                         icon = 'error';
                         msg = 'Please enter a valid "Time"';
@@ -679,9 +681,9 @@ input[type="date"]:before {
                     });
                 }else{
                     
-                    if(this.medication.dosage == ""){
-                        msg = 'Please enter "Dosage"';
-                        $("#collapseDosage").addClass("show");
+                    if(this.medication.refill_date == ""){
+                        msg = 'Please enter "Refill Date"';
+                        $("#refill_date").addClass("show");
                     }else if(this.medication.frequency == ""){
                         msg = 'Please enter "Frequency"';
                         $("#collapsefrequency").addClass("show");

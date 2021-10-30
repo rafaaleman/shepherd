@@ -97,7 +97,7 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                            <input id="carehub_datepicker" type="text" class="form-control no-border" name="date" required autocomplete="date" v-model="event.date" placeholder="Select Date" >
+                            <input id="carehub_datepicker" type="text" class="form-control no-border" name="date" required autocomplete="date"  placeholder="Select Date" >
                         </div>
                     </div>
                 </div>
@@ -278,7 +278,18 @@ input[type="date"]:before {
 
 <script>
     $(function () {
-        let carehub_picker = new Pikaday({ field: document.getElementById('carehub_datepicker') });
+        //$('#carehub_datepicker').pikaday();
+       // let carehub_picker = new Pikaday({ field: document.getElementById('carehub_datepicker') });
+
+       var picker = new Pikaday({
+            field: document.getElementById('carehub_datepicker'),
+            format: 'DD/MM/YYYY',
+            minDate: moment().toDate(),
+            onSelect: function() {
+                create_event.event.date = this.getMoment().format('YYYY/MM/DD')
+            }
+        });
+
         $('#time').datetimepicker({format: 'LT',stepping: 15});
         $('#time').on('dp.change',function(e){
            create_event.event.time= moment(e.date,"h:mm:ss a").format('h:mm a');
