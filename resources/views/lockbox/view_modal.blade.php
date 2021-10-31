@@ -8,25 +8,20 @@
             </button>
         </div>        
         <div class="modal-body row">
-            <div class="col-12 text-center">
+            <div class="col-12 text-center mb-2">
                 <a :href="document.file|urlFile" target="_blank">
                     <img :src="document.file|isImage" class="w-50">
                 </a>
             </div>
             <div class="line"></div>
-            <div>
-                <label for="name" class="text-black-50">Name:</label>
-                <div class="d-flex mb-4">
-                    @{{ document.name }}                    
+
+            <div class="card col-12 align-middle d-flex" >
+                <div class="card-body">
+                    <h5 class="card-title t1">@{{ document.name }}</h5>
+                    <span class="card-text t2">@{{ document.description}}</span>
                 </div>
-            </div>
-                <label for="s_email" class="text-black-50">Description:</label>
-                <div class="d-flex mb-4">
-                    @{{ document.description }}
-                </div>
-            <div class="d-flex mb-4  text-center">
-                <button type="button" @click="hideModal('viewModal')" class="btn btn-block ">Close</button>
-            </div>
+                <button type="button" @click="hideModal('viewModal')" class="btn btn-block btn-outline-primary ">Close</button>
+            </div>              
         </div>
         </div>
     </div>

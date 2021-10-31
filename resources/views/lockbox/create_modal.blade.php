@@ -71,7 +71,7 @@
                 <button type="submit" class="btn btn-primary btn-submit btn-block" :class="save ? 'd-inline' : 'd-none' ">Save</button>
             </div>
             <div class="mb-4  text-center">
-                <button type="button"  @click="hideModal('createModal')" class="btn btn-light  btn-block">Cancel</button>
+                <button type="button"  @click="hideModal('createModal')" class="btn btn-light btn-block btn-outline-primary">Cancel</button>
             </div>
         </form>
         </div>

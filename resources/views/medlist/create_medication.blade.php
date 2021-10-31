@@ -17,7 +17,7 @@
                     <div class="card-body row">
                     <div class="input-group">
                         <div class="input-group-append w-100">
-                            <input type="text" autocomplete="off" class="form-control only-border-bottom"  id="medicine" name="medicine" value="" placeholder="Medicine" required v-model="medication.medicine">
+                            <input data-title="Welcome to the Medlist" data-intro="You can start by typing the name of your medication here" type="text" autocomplete="off" class="form-control only-border-bottom"  id="medicine" name="medicine" value="" placeholder="Medicine" required v-model="medication.medicine">
 
                         </div>    
 
@@ -39,10 +39,10 @@
                 </div>
 
                 <div class="card  col-12 col-lg-12 mt-4 mb-2 shadow-sm">
-                    <div class="card-body row">
+                    <div class="card-body row" >
                         <div class="input-group">
                             <div class="input-group-append w-100">
-                                <input type="text" autocomplete="off" class="form-control only-border-bottom"  id="prescribing" name="prescribing" value="" placeholder="Prescribing doctor" required v-model="medication.prescribing">
+                                <input data-title="Welcome to the Medlist" data-intro="Then you can enter the name of your prescribing doctor here" type="text" autocomplete="off" class="form-control only-border-bottom"  id="prescribing" name="prescribing" value="" placeholder="Prescribing doctor" required v-model="medication.prescribing">
 
                             </div>    
                         </div>
@@ -50,94 +50,11 @@
                 </div>
 
             <div class="row">
-                <!--div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 my-2 accordion" id="routeAcordion">
-                    <div class="card my-2 shadow-sm">
-                        <div class="card-body" id="headingRoute">
-                            <h2 class="mb-0 toggle-data">
-                                <button class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseRoute" aria-expanded="true" aria-controls="collapseRoute">
-                                    Route @{{ medication.route }}
-                                </button>
-                            </h2>
-                        </div>
-
-                        
-                        <div id="collapseRoute" class="collapse"  aria-labelledby="headingRoute" data-parent="#routeAcordion">
-                            <div class="card-body">
-                                <div class="form-group row mx-1" id="careteam">
-                                    <div class="col-md-12 members px-0" id="" class="collapse" aria-labelledby="headingRoute" data-parent="#careteam">
-                                        <template v-for="route in routes">
-                                            <div class="member w-100 ml-0 mb-2">
-                                                <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>@{{route.route}}</label></div>
-                                                    <div class="col-1 justify-content-center align-items-center ccheck">
-                                                        <center>
-                                                        <label class="customcheck">
-                                                            {{--<input type="radio" v-bind:value="route.route" @click="selectRoute(route)" v-model="medication.route" >--}}
-                                                            <input type="radio" v-bind:value="route.route" v-model="medication.route" >
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                        
-                                                        </center>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </template>
-                                   
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div-->
-
-
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 my-2 accordion" id="dosageAcordion">
-                    <div class="card my-2 shadow-sm">
-                        <div class="card-body" id="headingDosage">
-                            <h2 class="mb-0 toggle-data">
-                                <button class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseDosage" aria-expanded="true" aria-controls="collapseDosage" id="btncollapseDosage">
-                                    Dosage @{{ medication.dosage }}
-                                </button>
-                            </h2>
-                        </div>
-
-                        <div id="collapseDosage" class="collapse"  aria-labelledby="headingDosage" data-parent="#dosageAcordion">
-                            <div class="card-body">
-                                <div class="form-group row mx-1" id="careteam">
-                                    <div class="col-md-12 members px-0" id="" class="collapse" aria-labelledby="headingDosage" data-parent="#careteam">
-                                        <template v-for="dosage in dosages">
-                                            <div class="member w-100 ml-0 mb-2">
-                                                <div class="row p-0">
-                                                    <div class="data col-11 p-0 pl-4" style="top:5px"><label>@{{dosage.dosage}}</label></div>
-                                                    <div class="col-1 justify-content-center align-items-center ccheck">
-                                                        <center>
-                                                        <label class="customcheck">
-                                                            <input type="radio" v-bind:value="dosage.dosage" @click="selectDosage()" v-model="medication.dosage">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                        
-                                                        </center>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </template>
-                                   
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 my-2 accordion" id="frequencyAcordion">
                     <div class="card my-2 shadow-sm">
                         <div class="card-body" id="headingfrequency">
                             <h2 class="mb-0 toggle-data">
-                                <button class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapsefrequency" aria-expanded="true" aria-controls="collapsefrequency" id="btncollapsefrequency">
+                                <button  data-title="Welcome to the Medlist" data-intro="You can select how often you need to take your medication here" class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapsefrequency" aria-expanded="true" aria-controls="collapsefrequency" id="btncollapsefrequency">
                                     Frequency  @{{ medication.frequency }}
                                 </button>
                             </h2>
@@ -258,7 +175,7 @@
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
 
-                            <input id="time" type="text" class="form-control no-border" name="time" value="" required v-model="medication.time" min="{{ $date_now->format('g:i a') }}" autocomplete="off" placeholder="First Dose">
+                            <input  data-title="Welcome to the Medlist" data-intro="Add the time you are taking your first dose" id="time" type="text" class="form-control no-border" name="time" value="" required v-model="medication.time" min="{{ $date_now->format('g:i a') }}" autocomplete="off" placeholder="First Dose">
 
                         </div>
                     </div>
@@ -269,7 +186,7 @@
                     <div class="card my-2 shadow-sm">
                         <div class="card-body" id="headingDays">
                             <h2 class="mb-0 toggle-data">
-                                <button class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseDays" aria-expanded="true" aria-controls="collapseDays" id="btncollapseDays">
+                                <button  data-title="Welcome to the Medlist" data-intro="Select how many days you will be taking the medication." class="btn btn-link btn-block text-left dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseDays" aria-expanded="true" aria-controls="collapseDays" id="btncollapseDays">
                                     Days of duration @{{ medication.days }}
                                 </button>
                             </h2>
@@ -360,7 +277,7 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                            <input id="refill_date" type="date" class="form-control no-border" required name="refill_date" autocomplete="date"  placeholder="Refill Date" v-model="medication.refill_date" min="{{ $date_now->format('Y-m-d') }}" format="Y-m-d" >
+                            <input  data-title="Welcome to the Medlist" data-intro="If you know the refill date, you can add that here and we will remind you to refill your medication" id="refill_date" type="text" class="form-control no-border" required name="refill_date"  placeholder="Refill Date (MM/DD/YYYY)" autocomplete="off" v-model="medication.refill_date">
                         </div>
                     </div>
                 </div>
@@ -370,7 +287,7 @@
 
             <div class="card shadow-sm my-2 col-12">
                 <div class="card-body row">
-                    <textarea id="notes" rows="7" type="date" class="form-control no-border no-focus" name="notes" autocomplete="notes" v-model="medication.notes" placeholder="Notes" maxlength="500"></textarea>
+                    <textarea data-title="Welcome to the Medlist" data-intro="If there are any special notes you need to remember along with your medication, you can add them here" id="notes" rows="7" type="date" class="form-control no-border no-focus" name="notes" autocomplete="notes" v-model="medication.notes" placeholder="Notes" maxlength="500"></textarea>
                 </div>
             </div>
 
@@ -379,7 +296,7 @@
             <div class="form-group row mb-0">
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
-                        <button class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
+                        <button data-title="And that's it!" data-intro="Click this button to save your medication and we will remind you when it's time" class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
                         </button>
                     </center>
@@ -397,6 +314,8 @@
 @push('styles')
 <link href="{{asset('css/iconos_datepicker.css')}}" rel="stylesheet">
 <link href="{{asset('css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
 input[type=date] {
   text-align: right;
@@ -407,6 +326,9 @@ input[type="date"]:before {
   margin-right: 0.5em;
 }
 
+.introjs-fixParent {
+  position: absolute;
+}
 
 /* The customcheck */
 .ccheck{
@@ -530,12 +452,28 @@ input[type="date"]:before {
 
 @push('scripts')
 <script src="{{asset('js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/intro.min.js" integrity="sha512-Q5ZL29wmQV0WWl3+QGBzOFSOwa4e8lOP/o2mYGg13sJR7u5RvnY4yq83W5+ssZ/VmzSBRVX8uGhDIpVSrLBQog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
 
-$(function () {
+    
+    $(function () {
+        
+    introJs().setOptions({
+        showProgress: true,
+        showButtons: true,
+        showBullets: false
+    }).start()
 
+    var refill_date = new Pikaday({
+            field: document.getElementById('refill_date'),
+            format: 'DD/MM/YYYY',
+            minDate: moment().toDate(),
+            onSelect: function() {
+                create_medication.medication.refill_date = this.getMoment().format('YYYY/MM/DD')
+            }
+    });
 
     $('#time').datetimepicker({format: 'LT',stepping: 15, widgetPositioning: {
             horizontal: 'left',
@@ -558,20 +496,20 @@ $(function () {
             count_chatacters: 3,
             medications_search:[],
             //routes: @json($routes),
-            dosages:@json($dosages),
             medication: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: "{{ $medication->id ?? 0 }}",
                 loveone_id: "{{ $loveone->id ?? 0 }}",
                 medicine: "{{ $medication->medicine ?? '' }}",
-                dosage: "{{ $medication->dosage ?? '' }}",
+               // dosage: "{{ $medication->dosage ?? '' }}",
                 frequency : "{{ $medication->frequency ?? '' }}",
                 time: "{{ $medication->time ?? '' }}",
                 days: "{{ $medication->days ?? '' }}",
                 notes: "{{ $medication->notes ?? '' }}",
                 refill_date: "{{ $medication->refill_date ?? '' }}",
                // route:"",
-                drugbank_pcid:""
+                drugbank_pcid:"",
+                prescribing:"{{ $medication->prescribing ?? '' }}",
                // creator_id: "{{ $medication->creator_id ?? '' }}",
             },
         },
@@ -582,12 +520,12 @@ $(function () {
         },
         methods: {
             ini : function(){
-                this.dosages.push({
+           /*      this.dosages.push({
                     'strengths': 'Other',
                     'dosage':  'Other'
-                });
-            },
-          /*  seachMedication: function(){
+                });*/
+            },/* 
+           seachMedication: function(){
                 if(this.medication.medicine.length < this.characters_medication){
                     $("#message-search").addClass('d-none');
                     $("#message-dropdown").removeClass('d-none');
@@ -671,9 +609,7 @@ $(function () {
                 }
                 $("#btncollapsefrequency").click();
             },
-            selectDosage: function(){
-                $("#btncollapseDosage").click();
-            },
+            
             selectDays: function(){
                 
                 $("#btncollapseDays").click();
@@ -682,7 +618,7 @@ $(function () {
                 
                 
                 
-                if( this.medication.dosage != ""  && this.medication.frequency != ""  && this.medication.days != "" && ((this.medication.frequency != "as needed"  && this.medication.time != "") || (this.medication.frequency == "as needed"  && this.medication.time == ""))){
+                if( this.medication.frequency != ""  && this.medication.days != "" && ((this.medication.frequency != "as needed"  && this.medication.time != "") || (this.medication.frequency == "as needed"  && this.medication.time == ""))){
                     if(this.medication.time == "Invalid date"){
                         icon = 'error';
                         msg = 'Please enter a valid "Time"';
@@ -745,9 +681,9 @@ $(function () {
                     });
                 }else{
                     
-                    if(this.medication.dosage == ""){
-                        msg = 'Please enter "Dosage"';
-                        $("#collapseDosage").addClass("show");
+                    if(this.medication.refill_date == ""){
+                        msg = 'Please enter "Refill Date"';
+                        $("#refill_date").addClass("show");
                     }else if(this.medication.frequency == ""){
                         msg = 'Please enter "Frequency"';
                         $("#collapsefrequency").addClass("show");

@@ -51,6 +51,7 @@
 @endpush
 
 @push('scripts')
+
 <script src="/js/color-thief.umd.js"></script>
 
 <script>

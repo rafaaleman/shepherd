@@ -80,7 +80,7 @@
                 <input type="submit" class="btn btn-block btn-primary btn-submit" value="save">
             </div>
             <div class="d-flex mb-4  text-center">
-                <button type="button" @click="hideModal('editModal')" class="btn btn-block ">Cancel</button>
+                <button type="button" @click="hideModal('editModal')" class="btn btn-block btn-outline-primary">Cancel</button>
             </div>
         </form>
 
