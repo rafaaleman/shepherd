@@ -13,27 +13,26 @@
     
     <div class="members d-flex flex-wrap row">
     
-        <div class="card shadow-sm col-sm-12 col-md-6 p-1" v-for="member in members">
-            <div class="card-body">
+        <div class="card shadow-sm col-6  p-3" v-for="member in members">
+            <div class="card-body_">
                 
                 <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
-                    <div class="member">
-                        <img :src="member.photo" class="float-left mr-3">
-                        <div class="data float-left">
+                    <div class="member d-flex flex-wrap">
+                        <img :src="member.photo" class= mr-2">
+                        <div class="data ml-2">
                             <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
                             <div class="role">@{{ (member.careteam.role == 'admin') ? 'Leader' : member.careteam.role | mayuscula }}</div>
+                            {{-- <i class="fas fa-info-circle fa-2x mt-2 info mr-2 d-none d-sm-block"></i> --}}
                         </div>
-                        
-                        <i class="fas fa-info-circle fa-2x mt-2 info float-right mr-2"></i>
                     </div>
                 </a>
             </div>
         </div>
 
-        <div class="card shadow-sm col-sm-12 col-md-6 p-1" v-for="invitation in invitations">
+        <div class="card shadow-sm col-6 p-1" v-for="invitation in invitations">
             <div class="member">
-                <img src="{{asset('/img/no-avatar.png')}}" class="float-left mr-3">
-                <div class="data float-left">
+                <img src="{{asset('/img/no-avatar.png')}}" class= mr-2">
+                <div class="data ml-2">
                     <div class="name">@{{ invitation.email }}</div>
                     <div class="role">@{{ invitation.role | mayuscula }}</div>
                 </div>

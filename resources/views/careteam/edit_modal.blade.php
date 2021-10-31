@@ -39,7 +39,7 @@
                 <div class="section p-3">
                     <table>
                         <tr>
-                            <td class="carehub">
+                            <td class="carehub" width="70%">
                                 <i class="far fa-calendar-plus"></i> 
                                 <span>CareHub</span>
                             </td>
