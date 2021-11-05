@@ -59,11 +59,11 @@ class MedlistController extends Controller
     public function createForm($loveone_slug){
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         $routes  = route::orderBy('route')->get();
-        $dosages  = dosage::orderBy('dosage')->get();
+       // $dosages  = dosage::orderBy('dosage')->get();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get()->keyBy('user_id');
         $date_now = new DateTime();
         $date_now->sub(new DateInterval('P1D'));
-        return view('medlist.create_medication',compact('loveone','careteam','date_now','routes','dosages'));
+        return view('medlist.create_medication',compact('loveone','careteam','date_now','routes'));
     }
 
     public function createUpdate(Request $request)

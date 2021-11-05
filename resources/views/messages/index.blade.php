@@ -27,7 +27,7 @@
 
                             <div class="chat_people">
                                 <div class="chat_img"> 
-                                    <img :src="chat.user.photo" alt="sunil"> 
+                                    <img class="img-fluid" :src="chat.user.photo" alt="sunil"> 
                                 </div>
                                 <div class="chat_ib">
                                     <h5>                                    
@@ -82,7 +82,7 @@
 body{margin-top:20px;}
 .users-container {
     position: relative;
-    padding: 1rem 0;
+    padding: 1rem;
     border-right: 1px solid #e6ecf3;
     height: 100%;
     display: -ms-flexbox;
@@ -92,17 +92,20 @@ body{margin-top:20px;}
 }
 
 .chat_list {
-  width: 100%;
-  margin: 0;
-  padding: 18px 16px 10px;
-  cursor: pointer;
-  background: #ffffff;
-  border-bottom: 1px solid #f0f4f8;
-  position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 18px 16px 10px;
+    cursor: pointer;
+    background: #ffffff;
+    border-bottom: 1px solid #f0f4f8;
+    position: relative;
+    box-shadow: 0px 2px 4px #e1e4e7;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 .active_chat{
-  background: transparent;
   border-bottom: 1px solid #f0f4f8;
+  border-right: 5px solid #359cb6;
 }
 
 .chat_people{ overflow:hidden; clear:both;}
@@ -113,11 +116,10 @@ body{margin-top:20px;}
 }
 
 .chat_img img {
-    width: 65px;
-    height: 65px;
     -webkit-border-radius: 50px;
     -moz-border-radius: 50px;
     border-radius: 50px;
+    max-width: 60px;
 }
 
 .chat_ib {
@@ -127,7 +129,7 @@ body{margin-top:20px;}
 }
 
 
-.chat_ib h5{ font-size:19px; color:#32a4ea; margin:0 0 8px 0;font-weight: bold;}
+.chat_ib h5{ font-size:19px; color:#359cb6; margin:0 0 8px 0;font-weight: bold;}
 .chat_ib h5 span{ font-size:13px; float:right;}
 .chat_ib p{ font-size:13px; color:#78849e; margin:auto;font-weight: bold;}
 
@@ -190,7 +192,10 @@ body{margin-top:20px;}
 *********************************************************************************************/
 .chat-container {
     position: relative;
+    background: white;
     padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #efefef;
 }
 
 .chat-container li.chat {
@@ -217,7 +222,7 @@ body{margin-top:20px;}
     padding: .4rem 1rem;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    background: #ffffff;
+    background: #f1f1f1;
     border-radius: 4px;
     font-weight: 300;
     line-height: 150%;

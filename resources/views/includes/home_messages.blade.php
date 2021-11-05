@@ -10,7 +10,7 @@
                 <i class="gray">Last message from TeamMemberName</i>
             </div>
         </a>
-        <a class="btn btn-primary btn-sm mt-2" v-if="is_admin">Send Message</a>
+        <a class="btn btn-primary btn-sm" v-if="is_admin">Send Message</a>
     </div>
 </div>
 

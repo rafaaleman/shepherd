@@ -69,7 +69,6 @@ body{
         color: #505869;
         text-decoration: none;
         padding: 20px 25px;
-        font-size: 16px;
         text-align: right;
 
         &:hover, &.active{
@@ -146,7 +145,7 @@ label.error{
 }
 
 .btn{
-    border-radius: 20px;
+    border-radius: 99px !important;
     padding: 7px 25px;
 }
 

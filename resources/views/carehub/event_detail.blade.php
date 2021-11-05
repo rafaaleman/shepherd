@@ -10,8 +10,9 @@
                             <h3 class="card-title font-weight-bold mb-3">{{$event->name}}</h3>
                             <p class="mb-1" style="color:#cdcdd8" >{{$event->location}}</p>
                             <div style="padding-left:10px;">
+                                <label for="name" class="col-form-label text-md-right" style="color: #78849e;font-size:12px;padding-right:10px">Assing to:  </label>
                                 @foreach($event->members as $assigned)
-                                    <img src="{{ (!empty($assigned->user->photo) && $assigned->user->photo != null ) ? asset($assigned->user->photo) : asset('/img/no-avatar.png')}}" class="member-img" title="{{$assigned->user->photo}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                    <img src="{{ (!empty($assigned->user->photo) && $assigned->user->photo != null ) ? $assigned->user->photo : '/img/no-avatar.png'}}" class="member-img" title="{{$assigned->user->photo}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 @endforeach
                             </div>
                             <hr class="mb-1">
@@ -22,7 +23,7 @@
                             
                             @if(!empty($event->notes))
                                 <div class="bg w-100 mt-5 @if($event->creator_id == $id_careteam) creator @else member @endif">
-                                    <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? asset($event->creator->photo) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                    <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? $event->creator->photo : '/img/no-avatar.png'}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                     {{$event->notes}}
                                 </div>
                             @endif
@@ -45,7 +46,7 @@
                     @if($message->creator_id == $id_careteam)
                         <div class="row col-12 justify-content-center align-items-center m-2 creator" >
                             <div class="col-10 col-sm-11 alert alert-dark text-white text-left m-0 msg">
-                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? asset($message->creator_img) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? $message->creator_img : '/img/no-avatar.png'}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 {{$message->message}}
                             </div>
                             <div class="col-2 col-sm-1 text-uppercase time justify-content-center align-items-center">
@@ -60,7 +61,7 @@
                                 {{$message->time_cad_a}}
                             </div>
                             <div class="col-10 col-sm-11 alert alert-dark text-white text-right m-0 msg">
-                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? asset($message->creator_img) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? $message->creator_img : '/img/no-avatar.png'}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 {{$message->message}}
                             </div>
                             
@@ -68,7 +69,7 @@
                     @endif
                 @endforeach
                 @else
-                <div class="loading-events w-100 text-center">
+                <div class="loading-events w-100 text-center no-messages">
                     <span class="spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> There are no messages...
                 </div>
             @endif
@@ -175,6 +176,7 @@
                         if (response.data.success) {
                             $("#messagess").append('<div class="row col-12 justify-content-center align-items-center m-2 creator" ><div class="col-10 col-sm-11 alert alert-dark text-white text-left m-0 msg"><img src="'+response.data.message.photo+'" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">'+ response.data.message.message +'</div><div class="col-2 col-sm-1 text-uppercase time justify-content-center align-items-center">'+ response.data.message.time_cad_gi + '<br/>'+ response.data.message.time_cad_a +'</div></div>');
                             this.message.message = '';
+                            $(".no-messages").remove();
                         } else {
                             msg = 'There was an error. Please try again';
                             icon = 'error';
