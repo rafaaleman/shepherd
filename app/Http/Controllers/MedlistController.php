@@ -158,6 +158,7 @@ class MedlistController extends Controller
     {
         //dd($_POST);
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
+        $next_dosage = '';
         $time_first_event = '';
         $inidate = $request->date;
         $modal = $medlist = array();
@@ -204,7 +205,16 @@ class MedlistController extends Controller
         usort($medlist, function ($a, $b) {
             return strcmp($a["time"], $b["time"]);
         });
-        
+
+        if(count($medlist) >0){
+            $date_now = new DateTime();
+            foreach($medlist as $med){
+                $date_temp = new DateTime($med['date'] . " " . $med['time']);
+                if($date_now->format('H:i:s') <= $date_temp->format('H:i:s') && $next_dosage == '' ){
+                    $next_dosage = $med['medicine']. ' at ' . $med['time_cad_gi']. ' '. $med['time_cad_a'];
+                }
+            }
+        }
         
         
         $date = new DateTime($request->date);
@@ -214,7 +224,8 @@ class MedlistController extends Controller
             'medlist' => $medlist,
             'date_title' => $date->format('l, j F Y'),
             'medlist_modal' => $modal,
-            'count_medications' => count($medlist)
+            'count_medications' => count($medlist),
+            'next_dosage' => $next_dosage
         ]]);
     }
 

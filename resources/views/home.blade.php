@@ -90,6 +90,9 @@ const home = new Vue ({
         count_medications:0,
         lockBox_count:0, 
         is_admin: false,
+        articles: [],
+        resources_date:'',
+        medlist_date:'',
     },
     filters: {
     },
@@ -152,8 +155,8 @@ const home = new Vue ({
         getEvents: function() {
             
            //  console.log(this.current_slug);  
-            $('.hub .events-today').hide(); 
-            $('.loading-carehub').show();        
+          //  $('.hub .events-today').hide(); 
+          //  $('.loading-carehub').show();        
             const hoy = new Date();
 
             var url = '{{ route("carehub.getEvents", ["*SLUG*","*DATE*",1]) }}';
@@ -177,8 +180,8 @@ const home = new Vue ({
                     swal(msg, "", icon);
                 }
                 
-                $('.loading-carehub').hide();
-                $('.hub .events-today').show();
+              //  $('.loading-carehub').hide();
+              //  $('.hub .events-today').show();
                 
             }).catch( error => {
                 
@@ -194,28 +197,31 @@ const home = new Vue ({
 
             this.medlist_add_url = url_add.replace('*SLUG*', this.current_slug);
             //  console.log(this.current_slug);  
-            $('.medlist .medlist-today').hide(); 
-            $('.loading-medlist').show();        
+          //  $('.medlist .medlist-today').hide(); 
+          //  $('.loading-medlist').show();        
             const hoy = new Date();
 
             var url = '{{ route("medlist.getMedications", ["*SLUG*","*DATE*"]) }}';
                 url = url.replace('*SLUG*', this.current_slug);
                 url = url.replace('*DATE*', '{{$date->format("Y-m-d")}}');
             axios.get(url).then(response => {               
-                  // console.log(response.data);
+                   console.log(response.data.data);
                 
                 if(response.data.success){
+                    
                     this.count_medications = response.data.data.count_medications; 
                     var url = '{{ route("medlist", "*SLUG*") }}';
                     this.medlist_url = url.replace('*SLUG*', this.current_slug);
+                    this.medlist_date =  response.data.data.next_dosage;
+
                 } else {
                     msg = 'There was an error. Please try again';
                     icon = 'error';
                     swal(msg, "", icon);
                 }
                 
-                $('.loading-medlist').hide();
-                $('.medlist .medlist-today').show();
+            //    $('.loading-medlist').hide();
+            //    $('.medlist .medlist-today').show();
                 
             }).catch( error => {
                 
@@ -245,9 +251,33 @@ const home = new Vue ({
             });
             
         },
-        getResources(){
+        getResources: function(){
             var url = '{{ route("resources", "*SLUG*") }}';
             this.resources_url  = url.replace('*SLUG*', this.current_slug);
+
+
+            var url = '{{ route("resources.carehub", "*SLUG*") }}';
+            this.r_url  = url.replace('*SLUG*', this.current_slug);
+            this.resources_date = '';
+            var fecha = undefined;
+            axios.get(this.r_url).then(function(response){
+                home.articles = response.data.topics.articles;
+
+                home.articles.forEach(function(val){
+                    if(fecha == undefined){
+                        fecha = moment(val.publishedAt);
+                    }
+                    if(moment(val.publishedAt).isAfter(fecha)){
+                        fecha = moment(val.publishedAt);
+                    }
+                });
+                $('.loading-articles').hide();
+                if(fecha != undefined){
+                    home.resources_date = fecha.fromNow();
+
+                }
+                
+            });
         },
         getMessages(){
             var url = '{{ route("messages", "*SLUG*") }}';

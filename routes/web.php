@@ -40,6 +40,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/new', 'HomeController@newUser')->name('new');
 
 Route::get("/resources/{loveone_slug}","ResourceController@getTopics")->name("resources");
+Route::get("/resources/home/{loveone_slug}","ResourceController@getTopicsCarehub")->name("resources.carehub");
+
+
 Route::post("/resources/search","ResourceController@getTopicsSearch")->name("resources.search");
 Route::post("/resources/search/ini","ResourceController@getTopicsSearchIni")->name("resources.ini");
 
