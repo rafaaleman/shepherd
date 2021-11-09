@@ -11,9 +11,9 @@
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading members...
     </div>
     
-    <div class="members d-flex flex-wrap row">
+    <div class="members d-flex ">
     
-        <div class="card shadow-sm col-6  p-3" v-for="member in members">
+        <div class="card shadow-sm col-6 p-3 border mr-2" v-for="member in members">
             <div class="card-body_">
                 
                 <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
