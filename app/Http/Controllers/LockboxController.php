@@ -87,7 +87,7 @@ class LockboxController extends Controller
 
             if ($request->ajax()) 
             {           
-                $types     = lockbox_types::all();            
+                $types     = lockbox_types::where('status',1)->get();            
                 $documents = lockbox::where('loveones_id',$loveone->id)
                                 ->get();
             
@@ -126,7 +126,7 @@ class LockboxController extends Controller
             
             if ($request->ajax()) 
             {           
-                $types         = lockbox_types::all();            
+                $types     = lockbox_types::where('status',1)->get();                 
                 $tmp_documents = lockbox::where('loveones_id',$loveone->id)
                                         ->get();
                 $documents     = array();
