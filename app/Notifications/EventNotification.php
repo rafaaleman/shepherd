@@ -47,9 +47,9 @@ class EventNotification extends Notification
     /*     ->view(
             'emails.sendNewEventMail', ['event' => $this->event]
         );*/
-       return (new MailMessage)
+        return (new MailMessage)
                     ->line("Your Loved One's Event")
-                    ->line('Event called "'.$this->event->name.'" with location at "'.$this->event->location.'" on "'.$this->event->date.'" at "'.$this->event->time.'"')
+                    ->line('Event called "'.$this->event->name.'" with location at "'.$this->event->location.'" on "'.date('M, d Y', strtotime($this->event->date)).'" at "'.date('h:i a' , strtotime($this->event->time)).'"')
                     ->action('View event', url('/'));
     }
 
