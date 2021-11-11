@@ -376,6 +376,7 @@ a:hover {
                     this.borrar();                        
                     this.getDocuments();
                     $('#createModal').modal('hide');
+                    $('#createModal .btn-submit').html('Save').attr('disabled', false);
 
                 }).catch(error => {                    
                     this.errors = error.response.data;

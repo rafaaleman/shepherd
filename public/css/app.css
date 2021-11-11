@@ -7601,6 +7601,7 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7620,8 +7621,9 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -10291,6 +10293,7 @@ body {
   margin-left: -10px;
   margin-top: -70px;
   z-index: 0;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
@@ -10395,6 +10398,164 @@ footer {
 @media (max-width: 576px) {
   .navbar-collapse {
     margin-top: 30px;
+  }
+}
+.flex {
+  flex: 1 1 auto;
+}
+
+.slick-prev, .slick-next {
+  z-index: 10;
+}
+
+.document-card {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.document-card .card-body {
+  padding: 10px 0px 10px 50px;
+}
+
+.document-card.si {
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-align: left;
+  color: #369bb6;
+}
+
+.document-card.no {
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-align: left;
+  color: #d36582;
+}
+
+.document-card::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 100;
+  content: "";
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 10%;
+  left: 2%;
+}
+
+.document-card.si::after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 100;
+  content: "";
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 1.5REM;
+  position: absolute;
+  top: 10%;
+  right: 2%;
+}
+
+.document-card.no::after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 100;
+  content: "";
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 1.5REM;
+  position: absolute;
+  top: 10%;
+  right: 2%;
+}
+
+.t1 {
+  margin-bottom: 0.01rem;
+  font-weight: bold;
+}
+
+.t2 {
+  /* font-family: Gotham; */
+  font-size: 12px;
+}
+
+.btn-submit {
+  color: #FFFFFF;
+  padding: 12px 21px;
+  border-radius: 24px;
+  background-color: #369bb6;
+}
+
+.carrusel-doc {
+  margin: 5px;
+  padding: 10px;
+  width: 100%;
+  max-height: 175px;
+  cursor: pointer;
+}
+
+fieldset {
+  display: none;
+}
+
+fieldset.show {
+  display: block;
+}
+
+select:focus,
+input:focus {
+  box-shadow: none !important;
+  border: 1px solid #2196F3 !important;
+  outline-width: 0 !important;
+  font-weight: 400;
+}
+
+button:focus {
+  box-shadow: none !important;
+  outline-width: 0;
+}
+
+.tabs {
+  margin: 2px 5px 0px 5px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.tabs:hover,
+.tabs.active {
+  border-bottom: 1px solid #2196F3;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #1565C0;
+}
+
+.box {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.modal-backdrop {
+  background-color: #64B5F6;
+}
+
+.line {
+  background-color: #CFD8DC;
+  height: 1px;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .tabs h6 {
+    font-size: 12px;
   }
 }
 .dashboard {
