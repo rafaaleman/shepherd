@@ -1,19 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 use App\Mail\sendJoinTeamMail;
 use App\Mail\sendInvitationMail;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function (Request $request) {
-    if (request()->secure()){
-        return view('welcome');
-    } else {
+    if (!$request->secure() && App::environment() === 'production'){
         return redirect()->secure($request->getRequestUri());
+    } else {
+        return view('welcome');
     }
 });
 
