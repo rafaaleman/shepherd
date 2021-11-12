@@ -10737,6 +10737,10 @@ a:hover {
     text-align: center;
   }
 }
+#careteam .mm {
+  width: 47%;
+  border-radius: 5px;
+}
 #careteam .member {
   overflow: hidden;
 }

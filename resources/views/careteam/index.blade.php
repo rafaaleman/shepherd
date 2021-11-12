@@ -11,14 +11,14 @@
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading members...
     </div>
     
-    <div class="members d-flex ">
+    <div class="members d-flex flex-wrap">
     
-        <div class="card shadow-sm col-6 p-3 border mr-2" v-for="member in members">
+        <div class="card shadow-sm mm p-3 border mb-2 mr-2" v-for="member in members">
             <div class="card-body_">
                 
                 <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
-                    <div class="member d-flex flex-wrap">
-                        <img :src="member.photo" class= mr-2">
+                    <div class="member">
+                        <img :src="member.photo" class="mb-2">
                         <div class="data ml-2">
                             <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
                             <div class="role">@{{ (member.careteam.role == 'admin') ? 'Leader' : member.careteam.role | mayuscula }}</div>
