@@ -7,9 +7,14 @@ use App\Mail\sendInvitationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function (Request $request) {
+    if (request()->secure()){
+        return view('welcome');
+    } else {
+        return redirect()->secure($request->getRequestUri());
+    }
 });
 
 Route::get('/prueba', function () {
