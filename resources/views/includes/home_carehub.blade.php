@@ -13,7 +13,7 @@
 
             </div>
         </a>
-        <a :href="carehub_add_url" class="btn btn-primary btn-sm" v-if="is_admin">Create CarePoint</a>
+        <a :href="carehub_url" class="btn btn-primary btn-sm" v-if="is_admin">View CarePoints</a>
     </div>
 </div>
 
