@@ -2,17 +2,7 @@
 
 @section('content')
 <div class="container"  id="lockbox">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <h4>RECENT DOCUMENTS</h4>            
-                <div class="carrusel">
-                    <div v-for="doc in lastDocuments" v-on:click="showM(doc.id,doc)" >
-                        <img :src="doc.file|isImage" class="carrusel-doc">
-                        <h5 class="t3 text-center">@{{ doc.name }}</h5>
-                    </div>                    
-                </div>            
-        </div>
-    </div>
+
     <div class="row mt-3">
         <div class="col-12">
             <h4>ESSENTIAL DOCUMENTS</h4>
@@ -304,7 +294,6 @@ a:hover {
                 this.document = { 'id': '' , 'user_id': {{Auth::Id()}} ,'loveones_id': {{ $loveone->id}},'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : 1,'permissions' : [] };
                 this.permissions = [];
                 this.docPermissions = {};
-                this.lastDocuments= [];
                 this.documents= [];
                 this.types=[];
                 this.edit_doc = false;
@@ -335,10 +324,9 @@ a:hover {
                 var url = '{{ route("lockbox",$loveone_slug) }}';
                 axios.get(url).then(response => {
                     this.types = response.data.types;
-                    this.documents = response.data.documents;
-                    this.lastDocuments = response.data.lastDocuments;
+                    this.documents = response.data.documents;                    
                     this.careteam = response.data.careteam;
-                    //console.table(response.data);
+                    
                 }).then ( () => {
                     this.creaSlide();
                 });
@@ -388,6 +376,7 @@ a:hover {
                     this.borrar();                        
                     this.getDocuments();
                     $('#createModal').modal('hide');
+                    $('#createModal .btn-submit').html('Save').attr('disabled', false);
 
                 }).catch(error => {                    
                     this.errors = error.response.data;

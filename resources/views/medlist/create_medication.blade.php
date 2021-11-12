@@ -524,7 +524,7 @@ input[type="date"]:before {
                     'strengths': 'Other',
                     'dosage':  'Other'
                 });*/
-            },/*
+            },/* 
            seachMedication: function(){
                 if(this.medication.medicine.length < this.characters_medication){
                     $("#message-search").addClass('d-none');

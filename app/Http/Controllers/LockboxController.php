@@ -87,7 +87,7 @@ class LockboxController extends Controller
 
             if ($request->ajax()) 
             {           
-                $types     = lockbox_types::all();            
+                $types     = lockbox_types::where('status',1)->get();            
                 $documents = lockbox::where('loveones_id',$loveone->id)
                                 ->get();
             
@@ -126,7 +126,7 @@ class LockboxController extends Controller
             
             if ($request->ajax()) 
             {           
-                $types         = lockbox_types::all();            
+                $types     = lockbox_types::where('status',1)->get();                 
                 $tmp_documents = lockbox::where('loveones_id',$loveone->id)
                                         ->get();
                 $documents     = array();
@@ -389,9 +389,11 @@ class LockboxController extends Controller
                             ->orderBy('updated_at', 'desc')
                             ->take(1)
                             ->get();
-        
-
-        return response()->json(['success' => true, 'data' => ['num_documents' => $num_documents,'documents' => $documents]], 200);
+    $l ="No documents yet";
+    if(count($num_documents) > 0){
+        $l = $num_documents[0]->updated_at->diffForHumans();
+    }
+        return response()->json(['success' => true, 'data' => ['l_document'=>$l,'num_documents' => $num_documents,'documents' => $documents]], 200);
     }
 
     /**

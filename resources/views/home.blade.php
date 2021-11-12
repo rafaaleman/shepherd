@@ -31,6 +31,7 @@
             
         </div>
     </div>
+    @include('includes.create_modal')
 </div>
 @endsection
 
@@ -90,12 +91,75 @@ const home = new Vue ({
         count_medications:0,
         lockBox_count:0, 
         is_admin: false,
+        articles: [],
+        resources_date:'',
+        medlist_date:'',
+        lockbox_lastUpdated:'',
+        save: false,
+        img_url: "{{asset('images/no_photo.jpg')}}",
+        permissions: [],
+        careteam:[],
+            document: {
+                id: 0,
+                user_id: {{Auth::Id()}},
+                lockbox_types_id: '',
+                loveones_id: this.loveone_id,
+                name: '',
+                description:'',
+                file:'',                
+                status: 1,
+                permissions : []
+            },
     },
     filters: {
+        isImage(file){
+                let exts = ['jpg','jpeg','gif','png','svg'];
+                let str = "{{asset('images/no_photo.jpg')}}";
+                let ext = "txt";
+                
+                if(file){
+                    if(file.name){
+                        ext = file.name.split('.').pop();
+                    }else{
+                        ext = file.split('.').pop();
+                    }
+                    if(exts.indexOf(ext) >= 0){
+                            str = "{{ URL::to('/') }}" + file;
+                    }
+                    else if(ext == "pdf"){
+                        str = "{{asset('images/file_pdf.jpg')}}";
+                    }
+                    else if(ext == "doc" || ext == "docx"){
+                        str = "{{asset('images/file_doc.jpg')}}";
+                    }else{
+                        str = "{{asset('images/file_other.jpg')}}";
+                    }
+                }
+                return str;
+            },
+            urlFile(file){                
+                 return str = "{{ URL::to('/') }}" + file;
+            }
     },
     computed:{ 
     },
     methods: {
+        borrarDoc: function(){
+            this.permissions= []
+            this.img_url= "{{asset('images/no_photo.jpg')}}"
+            $('#ffile').html('');
+            this.document = {
+                id: 0,
+                user_id: {{Auth::Id()}},
+                lockbox_types_id: '',
+                loveones_id: this.loveone_id,
+                name: '',
+                description:'',
+                file:'',                
+                status: 1,
+                permissions : []
+            }
+        },
         refreshWidgets: function( loveone_id, current_slug ){
             this.loveone_id = loveone_id;
             this.current_slug = current_slug;
@@ -131,6 +195,7 @@ const home = new Vue ({
                 if(response.data.success){
                     this.current_members = response.data.data.members;
                     this.members = response.data.data.members; 
+                    this.careteam = response.data.data.members; 
                     var url = '{{ route("careteam", "*SLUG*") }}';
                     this.careteam_url = url.replace('*SLUG*', this.current_slug);
                     this.is_admin = response.data.data.is_admin; 
@@ -152,8 +217,8 @@ const home = new Vue ({
         getEvents: function() {
             
            //  console.log(this.current_slug);  
-            $('.hub .events-today').hide(); 
-            $('.loading-carehub').show();        
+          //  $('.hub .events-today').hide(); 
+          //  $('.loading-carehub').show();        
             const hoy = new Date();
 
             var url = '{{ route("carehub.getEvents", ["*SLUG*","*DATE*",1]) }}';
@@ -177,8 +242,8 @@ const home = new Vue ({
                     swal(msg, "", icon);
                 }
                 
-                $('.loading-carehub').hide();
-                $('.hub .events-today').show();
+              //  $('.loading-carehub').hide();
+              //  $('.hub .events-today').show();
                 
             }).catch( error => {
                 
@@ -194,28 +259,31 @@ const home = new Vue ({
 
             this.medlist_add_url = url_add.replace('*SLUG*', this.current_slug);
             //  console.log(this.current_slug);  
-            $('.medlist .medlist-today').hide(); 
-            $('.loading-medlist').show();        
+          //  $('.medlist .medlist-today').hide(); 
+          //  $('.loading-medlist').show();        
             const hoy = new Date();
 
             var url = '{{ route("medlist.getMedications", ["*SLUG*","*DATE*"]) }}';
                 url = url.replace('*SLUG*', this.current_slug);
                 url = url.replace('*DATE*', '{{$date->format("Y-m-d")}}');
             axios.get(url).then(response => {               
-                  // console.log(response.data);
+                   console.log(response.data.data);
                 
                 if(response.data.success){
+                    
                     this.count_medications = response.data.data.count_medications; 
                     var url = '{{ route("medlist", "*SLUG*") }}';
                     this.medlist_url = url.replace('*SLUG*', this.current_slug);
+                    this.medlist_date =  response.data.data.next_dosage;
+
                 } else {
                     msg = 'There was an error. Please try again';
                     icon = 'error';
                     swal(msg, "", icon);
                 }
                 
-                $('.loading-medlist').hide();
-                $('.medlist .medlist-today').show();
+            //    $('.loading-medlist').hide();
+            //    $('.medlist .medlist-today').show();
                 
             }).catch( error => {
                 
@@ -224,14 +292,15 @@ const home = new Vue ({
             });
         },
         
-        getCountLockBox(){
+        getCountLockBox: function(){
             var url = '{{ route("lockbox.countDocuments", "*SLUG*") }}';
                 url = url.replace('*SLUG*', this.current_slug);
             $('.loading-carehub').show();
             axios.get(url).then(response => {               
                 if(response.data.success){
+                    console.log(response.data);
                     this.lockBox_count = response.data.data.documents;  
-                    
+                    this.lockbox_lastUpdated = response.data.data.l_document;
                 } else {
                     this.lockBox_count = 0;
                 }
@@ -245,20 +314,157 @@ const home = new Vue ({
             });
             
         },
-        getResources(){
+        getResources: function(){
             var url = '{{ route("resources", "*SLUG*") }}';
             this.resources_url  = url.replace('*SLUG*', this.current_slug);
+
+
+            var url = '{{ route("resources.carehub", "*SLUG*") }}';
+            this.r_url  = url.replace('*SLUG*', this.current_slug);
+            this.resources_date = '';
+            var fecha = undefined;
+            axios.get(this.r_url).then(function(response){
+                home.articles = response.data.topics.articles;
+
+                home.articles.forEach(function(val){
+                    if(fecha == undefined){
+                        fecha = moment(val.publishedAt);
+                    }
+                    if(moment(val.publishedAt).isAfter(fecha)){
+                        fecha = moment(val.publishedAt);
+                    }
+                });
+                $('.loading-articles').hide();
+                if(fecha != undefined){
+                    home.resources_date = fecha.fromNow();
+
+                }
+                
+            });
         },
         getMessages(){
             var url = '{{ route("messages", "*SLUG*") }}';
             this.messages_url  = url.replace('*SLUG*', this.current_slug);
-        }
+        },
+        //Rene lockbox
+        showModal() {
+            this.borrarDoc();
+            this.document.lockbox_types_id = 8;
+            //this.buildPermission();
+            $('#createModal').modal('show');
+        },
+        getDoc(event){
+                this.document.file = event.target.files[0];                
+                let exts = ['jpg','jpeg','gif','png','svg'];                
+                const ext = event.target.files[0].name.split('.').pop();
+                if(exts.indexOf(ext) >= 0){
+                    this.img_url = URL.createObjectURL(this.document.file);
+                }
+                else if(ext == "pdf"){
+                    this.img_url = "{{asset('images/file_pdf.jpg')}}";
+                }
+                else if(ext == "doc" || ext == "docx"){
+                    this.img_url = "{{asset('images/file_doc.jpg')}}";
+                }else{
+                    this.img_url = "{{asset('images/file_other.jpg')}}";
+                }        
+                $('#ffile').html(event.target.files[0].name);
+                this.save = true;
+        },
+        createDocument() {
+                const url = "{{route('lockbox.store')}}";
+                const formData = new FormData();                
+                formData.append('id', this.document.id);
+                formData.append('user_id', this.document.user_id);
+                formData.append('loveones_id', this.document.loveones_id);
+                formData.append('lockbox_types_id', this.document.lockbox_types_id);
+                formData.append('name', this.document.name);
+                formData.append('description', this.document.description);
+                formData.append('file', this.document.file);
+                formData.append('status', this.document.status);
+                formData.append('permissions', JSON.stringify(this.permissions));
 
+                $('#createModal .btn-submit').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Saving...').attr('disabled', true);
+                
+                axios.post(url, formData,{ 
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(response => {                        
+                    if( response.data.success == true ){
+                        msg = 'Your document has been uploaded';
+                        icon = 'success';
+                    } else {
+                        msg = 'There was an error. Please try again';
+                        icon = 'error';
+                    }                            
+                    swal(msg, "", icon);
+                    this.borrarDoc();   
+                    this.getCountLockBox();
+                    $('#createModal .btn-submit').html('Save').attr('disabled', false);
+                    $('#createModal').modal('hide');
+
+                }).catch(error => {                    
+                    this.errors = error.response.data;
+                    console.log(error);
+                });
+        },
+        hideModal(modal) {
+            this.borrarDoc();
+            $('#'+modal).modal('hide');
+        },
+        buildPermission(){
+                this.permissions = [];
+                for(var i = 0, len = this.careteam.length; i < len; i++) {
+                    
+                    if( this.careteam[i].role === "admin" ){
+                        p ={ 'user' : this.careteam[i].id, 'r' : 1 };
+                    }else{
+                        p ={ 'user' : this.careteam[i].id, 'r' : 0 };
+                    }
+                    this.careteam[i].permissions = p; 
+                    this.permissions.push(p);
+                }                
+                
+            },            
+            assignPermission(u){                
+                let i = this.permissions.findIndex( item => item.user === u);                
+                this.permissions[i].r = (this.permissions[i].r == 1) ? 0 :1;
+            },
     },
 });
 
 
 $(function(){
+    $(".tabs").click(function(){            
+            $(".tabs").removeClass("active");
+            $(".tabs h6").removeClass("font-weight-bold");
+            $(".tabs h6").addClass("text-muted");
+            $(this).children("h6").removeClass("text-muted");
+            $(this).children("h6").addClass("font-weight-bold");
+            $(this).addClass("active");
+
+            current_fs = $(".active");
+
+            next_fs = $(this).attr('id');
+            next_fs = "#" + next_fs + "1";
+
+            $("fieldset").removeClass("show");
+            $(next_fs).addClass("show");
+
+            current_fs.animate({}, {
+                step: function() {
+                    current_fs.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    next_fs.css({
+                        'display': 'block'
+                    });
+                }
+            });
+        });
+
     @if (session('err_permisison'))
     
     swal('Error',"{!! session('err_permisison') !!}", 'error');

@@ -112,7 +112,7 @@
                         // msg = 'There are no pending invitations';
                         // icon = 'success';
                         // swal(msg, "", icon);
-                        window.location.href = '/dashboard';
+                        window.location.href = '{{route("home")}}';
                     }
                     
                 });

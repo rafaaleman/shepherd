@@ -1,5 +1,10 @@
 #careteam {
 
+    .mm{
+        width: 47%;
+        border-radius: 5px;
+    }
+
     .member {
         overflow: hidden;
 
@@ -7,6 +12,13 @@
             height: 50px;
             width: 50px;
             border-radius: 50%;
+        }
+
+        @media (max-width: 450px) {
+            .data{
+                width: 100%;
+                margin-top: 10px;
+            }
         }
 
         .name{
@@ -100,7 +112,7 @@
                         padding: 10px;
 
                         &:nth-of-type(1){
-                            width: 40%;
+                            width: 50%;
                             color: #aaa;
                         }
 
