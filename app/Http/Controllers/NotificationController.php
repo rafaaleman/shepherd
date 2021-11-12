@@ -62,7 +62,7 @@ class NotificationController extends Controller
                     
                 } else if($n->table == 'medications'){
                     $notification->title = 'It\'s time for medication';
-                    $notification->name = $notification->medicine . ' ' .$notification->dosage;
+                    $notification->name = $notification->medicine;
                     $notification->description = '';
                     $notification->type = 'medlist';
                     $notification->icon = 'fas fa-prescription-bottle-alt';
