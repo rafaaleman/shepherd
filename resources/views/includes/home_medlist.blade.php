@@ -12,7 +12,7 @@
                 <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading medications...
             </div> --}}
         </a>
-        <a :href="medlist_add_url" class="btn btn-primary btn-sm text-white" v-if="is_admin">Add Medication</a>
+        <a :href="medlist_add_url" class="btn btn-primary btn-sm text-white" v-if="is_admin">View Medications</a>
     </div>
 </div>
 

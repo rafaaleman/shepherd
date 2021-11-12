@@ -7,18 +7,20 @@
         <div class="col-12">
             <h4>ESSENTIAL DOCUMENTS</h4>
         </div>
-                <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle"  >
-                    <div class="card-body">
-                        <h5 class="card-title t1">@{{ doc.name }}</h5>
-                        <p class="card-text t2">@{{ doc.description}}</p>
-                    </div>
-                </div>
+        <div v-if="loading">Loading Documents...</div>
+        <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle"  >
+            <div class="card-body">
+                <h5 class="card-title t1">@{{ doc.name }}</h5>
+                <p class="card-text t2">@{{ doc.description}}</p>
+            </div>
+        </div>
         
     </div>
     <div class="row mt-5">
         <div class="col-12">
             <h4>ALL DOCUMENTS</h4>
         </div>
+        <div v-if="loading">Loading Documents...</div>
         <div class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4 align-middle"  v-for="doc in documents" v-on:click="viewDocument(doc)" >
             <div class="card-body" >
                 <h5 class="card-title t1" >@{{ doc.name }}</h5>
@@ -45,178 +47,176 @@
 
 @push('styles')
 <style>
-.flex {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto
-}
-
-.slick-prev, .slick-next {
-    z-index: 10;
-}
-
-.document-card{
-    margin-bottom: .5rem;
-    cursor: pointer;
-}
-.document-card .card-body{
-    padding: 10px 0px 10px 50px;
-}
-
-.document-card.si{
-    font-size: 16px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.19;
-    letter-spacing: normal;
-    text-align: left;
-    color: #369bb6;
-}
-
-.document-card.no{
-    font-size: 16px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.19;
-    letter-spacing: normal;
-    text-align: left;
-    color: #d36582;
-}
-
-.document-card::before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 100;
-    content: "\f15c";
-    display: inline-block;
-    padding: .25em .4em;
-    font-size: 1.5rem;
-    position: absolute;
-    top: 10%;
-    left: 2%;
-}
-
-
-.document-card.si::after {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 100;
-    content: "\f058";
-    display: inline-block;
-    padding: .25em .4em;
-    font-size: 1.5REM;
-    position: absolute;
-    top: 10%;
-    right: 2%;
-}
-
-.document-card.no::after {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 100;
-    content: "\f111";
-    display: inline-block;
-    padding: .25em .4em;
-    font-size: 1.5REM;
-    position: absolute;
-    top: 10%;
-    right: 2%;
-}
-.t1{
-    margin-bottom: 0.01rem;
-    font-weight: bold;
-}
-.t2{
-    /* font-family: Gotham; */
-    font-size: 12px;  
-}
-
-.btn-submit{    
-  color: #FFFFFF;
-
-  padding: 12px 21px;
-  border-radius: 24px;
-  background-color: #369bb6;
-}
-.carrusel-doc{
-    margin: 5px;
-    padding: 10px;
-    width: 100%;
-    max-height: 175px;
-    cursor: pointer;
-}
-
-
-
-fieldset {
-    display: none
-}
-
-fieldset.show {
-    display: block
-}
-
-select:focus,
-input:focus {
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    border: 1px solid #2196F3 !important;
-    outline-width: 0 !important;
-    font-weight: 400
-}
-
-button:focus {
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    outline-width: 0
-}
-
-.tabs {
-    margin: 2px 5px 0px 5px;
-    padding-bottom: 10px;
-    cursor: pointer
-}
-
-.tabs:hover,
-.tabs.active {
-    border-bottom: 1px solid #2196F3
-}
-
-a:hover {
-    text-decoration: none;
-    color: #1565C0
-}
-
-.box {
-    margin-bottom: 10px;
-    border-radius: 5px;
-    padding: 10px
-}
-
-.modal-backdrop {
-    background-color: #64B5F6
-}
-
-.line {
-    background-color: #CFD8DC;
-    height: 1px;
-    width: 100%
-}
-
-@media screen and (max-width: 768px) {
-    .tabs h6 {
-        font-size: 12px
+    .flex {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto
     }
-}
+
+    .slick-prev, .slick-next {
+        z-index: 10;
+    }
+
+    .document-card{
+        margin-bottom: .5rem;
+        cursor: pointer;
+    }
+    .document-card .card-body{
+        padding: 10px 0px 10px 50px;
+    }
+
+    .document-card.si{
+        font-size: 16px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.19;
+        letter-spacing: normal;
+        text-align: left;
+        color: #369bb6;
+    }
+
+    .document-card.no{
+        font-size: 16px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.19;
+        letter-spacing: normal;
+        text-align: left;
+        color: #d36582;
+    }
+
+    .document-card::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 100;
+        content: "\f15c";
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 1.5rem;
+        position: absolute;
+        top: 10%;
+        left: 2%;
+    }
+
+
+    .document-card.si::after {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 100;
+        content: "\f058";
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 1.5REM;
+        position: absolute;
+        top: 10%;
+        right: 2%;
+    }
+
+    .document-card.no::after {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 100;
+        content: "\f111";
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 1.5REM;
+        position: absolute;
+        top: 10%;
+        right: 2%;
+    }
+    .t1{
+        margin-bottom: 0.01rem;
+        font-weight: bold;
+    }
+    .t2{
+        /* font-family: Gotham; */
+        font-size: 12px;  
+    }
+
+    .btn-submit{    
+    color: #FFFFFF;
+
+    padding: 12px 21px;
+    border-radius: 24px;
+    background-color: #369bb6;
+    }
+    .carrusel-doc{
+        margin: 5px;
+        padding: 10px;
+        width: 100%;
+        max-height: 175px;
+        cursor: pointer;
+    }
+
+
+
+    fieldset {
+        display: none
+    }
+
+    fieldset.show {
+        display: block
+    }
+
+    select:focus,
+    input:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #2196F3 !important;
+        outline-width: 0 !important;
+        font-weight: 400
+    }
+
+    button:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0
+    }
+
+    .tabs {
+        margin: 2px 5px 0px 5px;
+        padding-bottom: 10px;
+        cursor: pointer
+    }
+
+    .tabs:hover,
+    .tabs.active {
+        border-bottom: 1px solid #2196F3
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #1565C0
+    }
+
+    .box {
+        margin-bottom: 10px;
+        border-radius: 5px;
+        padding: 10px
+    }
+
+    .modal-backdrop {
+        background-color: #64B5F6
+    }
+
+    .line {
+        background-color: #CFD8DC;
+        height: 1px;
+        width: 100%
+    }
+
+    @media screen and (max-width: 768px) {
+        .tabs h6 {
+            font-size: 12px
+        }
+    }
 </style>
 @endpush
 
 
 @push('scripts')
 <script>
-
-
    const lockbox = new Vue ({        
         el: '#lockbox',
         created: function() {
@@ -232,6 +232,7 @@ a:hover {
             edit_doc : false,
             save: false,
             permissions: [],
+            loading: true,
             document: {
                 id: 0,
                 user_id: {{Auth::Id()}},
@@ -329,6 +330,7 @@ a:hover {
                     
                 }).then ( () => {
                     this.creaSlide();
+                    this.loading = false;
                 });
             },
             viewDocument(doc){                

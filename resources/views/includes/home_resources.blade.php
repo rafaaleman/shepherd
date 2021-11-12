@@ -10,6 +10,6 @@
             </div>
         </a>
 
-        <a class="btn btn-primary btn-sm" :href="resources_url" v-if="is_admin">Read News</a>
+        <a class="btn btn-primary btn-sm" :href="resources_url" v-if="is_admin">View Resources</a>
     </div>
 </div>

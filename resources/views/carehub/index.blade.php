@@ -11,7 +11,10 @@
         <div class="col-4 d-none d-sm-none d-lg-block">
             @if ($is_admin)
             <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
-                Add New Event
+                Create Event
+            </a>
+            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
+                Create Discussion
             </a>
             @endif
         </div>

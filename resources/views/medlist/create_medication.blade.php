@@ -162,12 +162,15 @@
                         </div>
                     </div>
                 </div>
-
+                        
+                <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
+                    <div class="card shadow-sm my-2 col-12">
+                        <div class="card-body">
+                            <input  data-title="Welcome to the Medlist" data-intro="If you know the refill date, you can add that here and we will remind you to refill your medication" id="refill_date" type="text" class="form-control no-border" required name="refill_date"  placeholder="Refill Date (MM/DD/YYYY)" autocomplete="off" v-model="medication.refill_date">
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
-
-
 
             <div class="row">
                  
@@ -273,18 +276,6 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
-                    <div class="card shadow-sm my-2 col-12">
-                        <div class="card-body">
-                            <input  data-title="Welcome to the Medlist" data-intro="If you know the refill date, you can add that here and we will remind you to refill your medication" id="refill_date" type="text" class="form-control no-border" required name="refill_date"  placeholder="Refill Date (MM/DD/YYYY)" autocomplete="off" v-model="medication.refill_date">
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
-
-
             <div class="card shadow-sm my-2 col-12">
                 <div class="card-body row">
                     <textarea data-title="Welcome to the Medlist" data-intro="If there are any special notes you need to remember along with your medication, you can add them here" id="notes" rows="7" type="date" class="form-control no-border no-focus" name="notes" autocomplete="notes" v-model="medication.notes" placeholder="Notes" maxlength="500"></textarea>
@@ -296,6 +287,8 @@
             <div class="form-group row mb-0">
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
+                        <input type="checkbox" id="optout">
+                        <label for="optout">Remind me to take this medication</label><br >
                         <button data-title="And that's it!" data-intro="Click this button to save your medication and we will remind you when it's time" class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
                         </button>
