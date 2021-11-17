@@ -56,9 +56,9 @@
     <script src="{{ asset('js/general.js') }}"></script>
     <script src="{{ asset('js/vanillaCalendar.js') }}"></script>
     <script src="{{ asset('plugins/slick/slick.js') }}"></script>
-    <script src="//d.bablic.com/snippet/618eb9642faba00001858ae1.js?version=3.9"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7ST81KZCPG"></script>
+    <script src="//d.bablic.com/snippet/618eb9642faba00001858ae1.js?version=3.9"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
