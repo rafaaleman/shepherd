@@ -7601,7 +7601,6 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
-  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7621,9 +7620,8 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   .sticky-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -10293,7 +10291,6 @@ body {
   margin-left: -10px;
   margin-top: -70px;
   z-index: 0;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
@@ -10738,8 +10735,13 @@ a:hover {
   }
 }
 #careteam .mm {
-  width: 47%;
+  width: 31%;
   border-radius: 5px;
+}
+@media (max-width: 450px) {
+  #careteam .mm {
+    width: 47%;
+  }
 }
 #careteam .member {
   overflow: hidden;

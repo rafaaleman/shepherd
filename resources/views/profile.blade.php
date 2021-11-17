@@ -66,10 +66,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mt-2">
-                        <i class="text-black-50 p-4" style="font-size: 12px">Leave blank if you want to preserve your current password</i>
+                    <div class="form-group row mt-2 mb-0">
+                        <i class="text-black-50 p-4" style="font-size: 12px">Leave blank if you want to preserve your current password</i> 
+                    </div>
+                    <div class="form-group row">
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
                         <div class="col-md-7">
                             <input id="password" type="password" class="form-control" name="password" autocomplete="new-password" v-model="user.password">
                         </div>

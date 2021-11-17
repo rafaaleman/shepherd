@@ -169,7 +169,7 @@
             <div class="form-group row mb-0 mx-auto">
                 <div class="col-md-6 mt-4 mx-auto text-center">
                     <button class="d-none btn btn-primary loadingBtn btn-lg mb-4" type="submit" data-loading-text="Loading..." id="saveBtn">
-                        Create Loved One
+                        Save Loved One
                     </button>
                     <input type="hidden" name="id" v-model="loveone.id" value="">
                 </div>
