@@ -66,8 +66,8 @@
                         <div class="form-group mt-3 mb-0">
                             <textarea class="form-control" rows="3" placeholder="Type your message and press Enter..." v-model="message" v-on:keyup.enter="sendMessage"></textarea>
                         </div>
-                        <input type="checkbox" id="urgent">
-                        <label for="urgent">Mark this message as urgent</label>
+                        <input type="checkbox" id="urgent" checked>
+                        <label for="urgent">Send a copy of this message by email</label>
                         <a class="btn btn-primary btn-sm">Send Message</a>
                     </div>
                 </div>
