@@ -10735,8 +10735,13 @@ a:hover {
   }
 }
 #careteam .mm {
-  width: 47%;
+  width: 31%;
   border-radius: 5px;
+}
+@media (max-width: 450px) {
+  #careteam .mm {
+    width: 47%;
+  }
 }
 #careteam .member {
   overflow: hidden;
