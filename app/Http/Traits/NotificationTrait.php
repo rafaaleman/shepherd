@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Traits;
 use DateTime;
+use App\Models\Tourjs;
 use App\Models\loveone;
 use App\Models\careteam;
 use App\Models\notification;
@@ -59,5 +60,13 @@ trait NotificationTrait {
             }
         }
         return $authorized_members;
+    }
+
+    /**
+     * Return boolean if the user has been pass the tourJS
+     */
+    public function  readTour($section_name)
+    {
+        return (Tourjs::where('user_id', Auth::user()->id)->where('section_name', $section_name)->first()) ? true : false;
     }
 }

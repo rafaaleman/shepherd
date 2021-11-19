@@ -57,3 +57,4 @@ Route::view('/terms', 'terms');
 Route::view('/privacy', 'privacy');
 
 
+Route::post("/readTour","HomeController@readTour")->name("readTour");
