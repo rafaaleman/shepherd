@@ -451,13 +451,21 @@ input[type="date"]:before {
 <script>
 
     
-    $(function () {
+$(function () {
+
+    @if (!$readTour) 
         
-    introJs().setOptions({
-        showProgress: true,
-        showButtons: true,
-        showBullets: false
-    }).start()
+        introJs().setOptions({
+            showProgress: true,
+            showButtons: true,
+            showBullets: false
+        }).onbeforeexit(function () {
+            if( confirm("Skip this tour and don't show it again?")){
+                create_medication.readTour()
+            }
+        }).start();
+    @endif
+
 
     var refill_date = new Pikaday({
             field: document.getElementById('refill_date'),
@@ -700,7 +708,9 @@ input[type="date"]:before {
                 }
                 return form_data;
             },
-
+            readTour: function(){
+                axios.post('{{ route("readTour") }}', {section_name:'medlist_create'});
+            }
         }
     });
     
