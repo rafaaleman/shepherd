@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
 use App\Events\NewMessage;
 use Session;
-
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\sendNewMessageMail;
 use App\Models\loveone;
 use App\Models\careteam;
 use App\Models\chat;
@@ -101,6 +101,7 @@ class MessagesController extends Controller
     }
     /* */
     public function storeMessage(Request $request){
+
         $validatedData = $request->validate([
             'user_id'     => 'required|numeric',
             'chat_id'     => 'required|numeric',
@@ -113,6 +114,21 @@ class MessagesController extends Controller
         $msg->status  = 1;
         $msg->save();
 
+        if($request->urgent == "true"){
+            $user = User::find($request->user_id);
+            $email['message'] = $msg->message;
+            /*
+            dd($user);
+            $email['loveone_name'] = $loveone->firstname;
+            $email['loveone_photo'] = $loveone->photo;
+            */
+            $email['from_name'] = $user->name . ' ' . $user->lastname;
+            $email['from_photo'] = $user->photo;
+            Mail::to('rene.ortizg@gmail.com')->send(new sendNewMessageMail($email));
+            //Mail::to($user->email)->send(new sendNewPermissionsMail($email));
+        }
+
+        dd("mensaje enviado");
         $chat = chat::find($request->chat_id);
         $chat->last_message = $request->message; 
         $chat->status  = 1;

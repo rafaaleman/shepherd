@@ -126,6 +126,7 @@
     .t1{
         margin-bottom: 0.01rem;
         font-weight: bold;
+        font-size: 1rem;
     }
     .t2{
         /* font-family: Gotham; */
