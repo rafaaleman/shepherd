@@ -3,7 +3,7 @@
 @section('content')
 <div class="container"  id="lockbox">
 
-    <div class="row mt-3">
+    <div data-title="Welcome to Lockbox" data-intro="Here you can store the documents and files you need to care for your loved one. We have provided a list of essential files you can use to get started. Just click on a name to upload. " class="row mt-3">
         <div class="col-12">
             <h4>ESSENTIAL DOCUMENTS</h4>
         </div>
@@ -16,7 +16,7 @@
         </div>
         
     </div>
-    <div class="row mt-5">
+    <div data-title="Welcome to CarePoints" data-intro="Here you can upload any other documents you think you might need to care for your loved one. " class="row mt-5">
         <div class="col-12">
             <h4>ALL DOCUMENTS</h4>
         </div>
@@ -35,7 +35,7 @@
         </div>  
         
         <div class="col-12 mt-4 text-center">
-            <a href="#!" class="btn btn-primary btn-submit"  v-on:click="showM(8,null)">Add New Document</a>
+            <a data-title="Welcome to CarePoints" data-intro="Just click here to upload a new document" href="#!" class="btn btn-primary btn-submit"  v-on:click="showM(8,null)">Add New Document</a>
         </div>        
     </div>    
     
@@ -46,7 +46,13 @@
 @endsection
 
 @push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
+    .introjs-fixParent {
+    position: absolute;
+    }
+
     .flex {
         -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
@@ -216,7 +222,10 @@
 
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/intro.min.js" integrity="sha512-Q5ZL29wmQV0WWl3+QGBzOFSOwa4e8lOP/o2mYGg13sJR7u5RvnY4yq83W5+ssZ/VmzSBRVX8uGhDIpVSrLBQog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
+
    const lockbox = new Vue ({        
         el: '#lockbox',
         created: function() {
@@ -331,6 +340,12 @@
                 }).then ( () => {
                     this.creaSlide();
                     this.loading = false;
+
+                    introJs().setOptions({
+                        showProgress: true,
+                        showButtons: true,
+                        showBullets: false
+                    }).start()
                 });
             },
             viewDocument(doc){                
