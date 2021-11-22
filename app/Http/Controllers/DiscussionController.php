@@ -9,11 +9,9 @@ use App\Models\discussion;
 use App\Models\loveone;
 use App\Models\Invitation;
 use App\Models\careteam;
-use App\User;
 use DateTime;
 use DateInterval;
-use App\Notifications\EventNotification;
-use Illuminate\Support\Facades\Notification;
+
 use App\Http\Traits\NotificationTrait;
 
 class DiscussionController extends Controller
@@ -21,7 +19,7 @@ class DiscussionController extends Controller
     use NotificationTrait;
     //use Notification;
 
-    const EVENTS_TABLE = 'events';
+    const DISCUSSIONS_TABLE = 'discussions';
 
     public function createForm($loveone_slug){
         $loveone  = loveone::whereSlug($loveone_slug)->first();
@@ -36,10 +34,7 @@ class DiscussionController extends Controller
     {
         $data = $request->all();
         $data['creator_id'] = Auth::user()->id;
-       // $assigned_ids = $data['assigned'];
-        //$data['assigned_ids'] = json_encode($data['assigned']);
-       // $data['creator_id'] = Auth::user()->id;
-        //dd($data);
+
         unset($data['_token']);
         //dd($data);
         // edit
@@ -50,34 +45,25 @@ class DiscussionController extends Controller
             unset($data['id']);
             //dd($data);
             $discussion = discussion::create($data);
-
+            
             // Create notification rows
-        /*    foreach($assigned_ids as $user_id){
+            $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'carehub');
+            foreach($notified_members as $member_id){
+
                 $notification = [
-                    'user_id'    => $user_id,
+                    'user_id'    => $member_id,
                     'loveone_id' => $request->loveone_id,
-                    'table'      => self::EVENTS_TABLE,
+                    'table'      => self::DISCUSSIONS_TABLE,
                     'table_id'   => $discussion->id,
-                    'event_date' => $data['date'].' '.$data['time']
+                    'event_date' => $discussion->created_at
                 ];
                 $this->createNotification($notification);
+            }
 
-            }*/
         }
 
         $discussion->assigned = json_decode($discussion->assigned_ids);
-       // $users = User::whereIn('id',$discussion->assigned)->get();
-        //dd($users);
-            //$user->notification(new EventNotification($event));
-        //    Notification::send($users, new EventNotification ($discussion));  
-
-       /*     $when = now()->addMinutes(10);
-            foreach($users as $user){
-                $user->notify((new EventNotification($event))->delay($when));
-
-            }*/
-       
-        // if ($request->ajax()) 
+  
         return response()->json(['success' => true, 'data' => ['discussion' => $discussion]]);
     }
 
@@ -86,16 +72,6 @@ class DiscussionController extends Controller
     {
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
-
-      /*  foreach ($careteam as $key => $team){
-           // dd($team);
-            if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('public/img/avatar2.png');
-                if(Auth::user()->id == $team->user_id && $team->role == 'admin')
-                    $is_admin = true;
-            }
-           
-        }*/
         
       //  $invitations = Invitation::where('loveone_id', $loveone->id)->get();
         $discussions = discussion::where('loveone_id', $loveone->id)
@@ -110,11 +86,6 @@ class DiscussionController extends Controller
        // dd($events);
         $date = new DateTime($request->date);
         return response()->json(['success' => true, 'data' => [
-            //    'loveone' => $loveone,
-            //    'careteam' => $careteam,
-            //    'members' => $members,
-            //   'invitations' => $invitations,
-            //    'is_admin' => $is_admin,
             'discussions' => $discussions,
         ]]);
     }
