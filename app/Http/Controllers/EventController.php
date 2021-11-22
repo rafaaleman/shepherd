@@ -118,7 +118,7 @@ class EventController extends Controller
         foreach ($careteam as $key => $team){
            // dd($team);
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('public/img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/avatar2.png');
                 if(Auth::user()->id == $team->user_id && $team->role == 'admin')
                     $is_admin = true;
             }
@@ -461,7 +461,7 @@ class EventController extends Controller
         $id_careteam = 0;
         foreach ($careteam as $key => $team){
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('public/img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/avatar2.png');
             }
         }
 
@@ -474,20 +474,35 @@ class EventController extends Controller
         }
 
         $date_temp = new DateTime($event->date . " " . $event->time);
+        
         $event->time_cad_gi = $date_temp->format('g:i');
         $event->time_cad_a = $date_temp->format('a');
-        $event->date_title = $date_temp->format('l, j F Y');
+        $event->date_title = $date_temp->format('l, m.j.Y');
+        
         //dd($event->messages);
         foreach ($event->messages as $key => $message){
-           
-            $date_temp = new DateTime($message->date . " " . $message->time);
-            $event->messages[$key]->time_cad_gi = $date_temp->format('g:i');
-            $event->messages[$key]->time_cad_a = $date_temp->format('a');
-            $event->messages[$key]->date_title = $date_temp->format('l, j F Y');
-            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('public/img/avatar2.png');
+            $date_temp_m = new DateTime($message->date . " " . $message->time);
+
+            $date_now = new DateTime();
+            $interval = $date_temp_m->diff($date_now);
+           // dump($date_temp, $date_now, $interval,);
+
+            if($interval->format('%H') == 0){
+                $event->messages[$key]->date_title_msj = $interval->i .'m ago';
+            }else if($interval->format('%H') > 0 && $interval->format('%H') < 24){
+                $event->messages[$key]->date_title_msj = $interval->format('%H h %i m') .' ago';
+            }else{
+                $event->messages[$key]->date_title_msj = $date_temp_m->format('j M Y');
+            }
+
+            $event->messages[$key]->time_cad_gi = $date_temp_m->format('g:i');
+            $event->messages[$key]->time_cad_a = $date_temp_m->format('a');
+            $event->messages[$key]->date_title = $date_temp_m->format('j M Y');
+            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/avatar2.png');
             
          }
-         $event->creator->photo = ($event->creator->photo != '') ? $event->creator->photo :  asset('public/img/avatar2.png');
+         $event->creator->photo = ($event->creator->photo != '') ? $event->creator->photo :  asset('img/avatar2.png');
+         //dd();
         // dd($event);
         return view('carehub.event_detail',compact('event','is_careteam','id_careteam'));
 
