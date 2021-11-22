@@ -3,23 +3,21 @@
 @section('content')
 <div class="container" id="carehub">
     <div class="row mb-3 align-items-center justify-content-center">
-    <div class="col-12 d-none mb-3 pr-4 d-sm-none d-lg-block">
-            @if ($is_admin)
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn btn-primary btn-lg  rounded-pill text-white">
-                Assign A Task
-            </a>
-            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="float-right btn ml-3  btn-primary btn-lg  rounded-pill text-white">
-                Create Discussion
-            </a>
-            
-        </div>
-
-        <div class="col-12 row">
+        <div class="col-sm-12 col-md-8 col-lg-8 row">
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
         </div>
-        
+        <div class="col-4 d-none d-sm-none d-lg-block">
+            
+            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white mb-2">
+                Create Event
+            </a>
+            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
+                Create Discussion
+            </a>
+            
+        </div>
     </div>
 
     <div class="row align-items-center justify-content-center px-3 py-3" id="calendar_div">
@@ -216,18 +214,9 @@
 
     <center>
         <div class=" d-block d-sm-block d-lg-none mb-3">
-<<<<<<< HEAD
-            @if ($is_admin)
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
-                Assign A Task
-            </a>
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
-                Create A Discussion
-=======
             
             <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-2">
                 Add New Event
->>>>>>> ec72602c214549d9bea89b4c67c19e933b8e0f09
             </a>
             <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-4">
                 Create Discussion
