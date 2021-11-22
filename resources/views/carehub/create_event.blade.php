@@ -46,8 +46,6 @@
                                     <label class="custom-control-label" for="customControlAutosizing">Select all</label>
                                 </div>
                                 
-                                   
-                                
                                     <div class="col-md-12 members px-0" id="" class="collapse" aria-labelledby="headingOne" data-parent="#careteam">
                                         @php
                                             $select_all = array();
@@ -56,25 +54,23 @@
 
                                         <template>
                                             @if($team->user != null)
-                                            <div class="member w-100 ml-0 mb-2">
-                                                <img src="{{ (!empty($team->user->photo) && $team->user->photo != null ) ? $team->user->photo : '/img/no-avatar.png'}}" class="float-left mr-2 mr-md-3">
-                                                <div class="row p-0">
-                                                    <div class="data float-left text-truncate col-9 p-0">
-                                                        <div class="name text-truncate">{{ $team->user->name }} {{ $team->user->lastname }} </div>
-                                                        <div class="role">{{ ucfirst($team->role) }}</div>
-                                                    </div>
+                                            <div class="member w-100 ml-0 mb-2 row">
+                                                <img src="{{ (!empty($team->user->photo) && $team->user->photo != null ) ? $team->user->photo : '/img/no-avatar.png'}}" class="">
+                                                
+                                                <div class="data text-truncate col-6">
+                                                    <div class="name text-truncate">{{ $team->user->name }} {{ $team->user->lastname }} </div>
+                                                    <div class="role">{{ ucfirst($team->role) }}</div>
+                                                </div>
 
-                                                    <div class="col-3 justify-content-center align-items-center ccheck">
-                                                        <center>
-                                                        <label class="customcheck">
-                                                            <input type="checkbox" value="{{$team->user_id}}"  v-model="event.assigned">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                        
-                                                            <!--input type="checkbox" class="form-check"  value="{{$team->id}}"  v-model="event.assigned"-->
-                                                        </center>
-                                                    </div>
+                                                <div class="ccheck col-3">
+                                                    <center>
+                                                    <label class="customcheck">
+                                                        <input type="checkbox" value="{{$team->user_id}}"  v-model="event.assigned">
+                                                        <span class="checkmark"></span>
+                                                    </label>
                                                     
+                                                        <!--input type="checkbox" class="form-check"  value="{{$team->id}}"  v-model="event.assigned"-->
+                                                    </center>
                                                 </div>
                                             </div>
                                             @php
@@ -246,6 +242,7 @@ input[type="date"]:before {
     font-size: 10px;
     margin-bottom:0;
     padding-left: 11px;
+    font-size: 18px;
 }
 
 .only-border-bottom{
