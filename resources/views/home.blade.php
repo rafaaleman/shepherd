@@ -85,6 +85,7 @@ const home = new Vue ({
         messages_url:'',
         resources_url:'',
         events_to_day:'',
+        active_discussion:'',
         hour_first_event:'',
         medlist_url:'',
         medlist_add_url:'',
@@ -170,6 +171,7 @@ const home = new Vue ({
             this.getCountLockBox();
             this.getResources();
             this.getMessages();
+            this.getDiscussions();
         },
         setLoveone: function(loveone_id) {
 
@@ -251,6 +253,38 @@ const home = new Vue ({
                 swal('Error', msg, 'error');
             });
         },
+        getDiscussions: function() {
+            
+            //  console.log(this.current_slug);  
+           //  $('.hub .events-today').hide(); 
+           //  $('.loading-carehub').show();        
+             const hoy = new Date();
+ 
+             var url = '{{ route("carehub.getDiscussions", ["*SLUG*"]) }}';
+                 url = url.replace('*SLUG*', this.current_slug);
+             axios.get(url).then(response => {               
+                  // console.log(response.data);
+                 
+                 if(response.data.success){
+                     this.active_discussion = response.data.data.discussions; 
+ 
+                     
+                 } else {
+                     msg = 'There was an error. Please try again';
+                     icon = 'error';
+                     swal(msg, "", icon);
+                 }
+                 
+               //  $('.loading-carehub').hide();
+               //  $('.hub .events-today').show();
+                 
+             }).catch( error => {
+                 
+                 msg = 'There was an error getting event. Please reload the page';
+                 swal('Error', msg, 'error');
+             });
+         },
+
         getMedlist: function() {
             var url = '{{ route("medlist", "*SLUG*") }}';
             var url_add = '{{ route("medlist.form.create", "*SLUG*") }}';

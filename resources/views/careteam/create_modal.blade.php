@@ -11,7 +11,7 @@
             
             <form method="post" id="searchMemberForm" class="col-md-12 p-3" v-on:submit.prevent="searchMember()">
                 
-                <label for="s_email" class="text-black-50">Search by email:</label>
+                <label for="s_email" class="text-black-50">Enter invitee’s email:</label>
                 <div class="d-flex mb-1">
                     <input id="s_email" type="email" class="form-control mr-2" name="s_email" autofocus required>
                     <button class="btn btn-primary searchBtn"> <i class="fas fa-search"></i> </button>
@@ -120,10 +120,6 @@
         </div>
     </div>
 </div>
-
-@push('css')
-@endpush
-
 
 
 @push('scripts')
