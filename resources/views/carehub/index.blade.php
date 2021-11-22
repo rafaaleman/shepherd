@@ -4,7 +4,6 @@
 <div class="container" id="carehub">
     <div class="row mb-3 align-items-center justify-content-center">
     <div class="col-12 d-none mb-3 pr-4 d-sm-none d-lg-block">
-            @if ($is_admin)
             <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn btn-primary btn-lg  rounded-pill text-white">
                 Assign A Task
             </a>
@@ -216,21 +215,11 @@
 
     <center>
         <div class=" d-block d-sm-block d-lg-none mb-3">
-<<<<<<< HEAD
-            @if ($is_admin)
             <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
                 Assign A Task
             </a>
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
+            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
                 Create A Discussion
-=======
-            
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-2">
-                Add New Event
->>>>>>> ec72602c214549d9bea89b4c67c19e933b8e0f09
-            </a>
-            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-4">
-                Create Discussion
             </a>
         </div>
     </center>
