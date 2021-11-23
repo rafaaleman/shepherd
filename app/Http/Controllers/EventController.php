@@ -59,7 +59,8 @@ class EventController extends Controller
         $date_now = new DateTime();
         $date_now->sub(new DateInterval('P1D'));
         //dd($careteam);
-        return view('carehub.create_event',compact('loveone','careteam','date_now'));
+        $readTour = $this->alreadyReadTour('carepoints_create');
+        return view('carehub.create_event',compact('loveone','careteam','date_now', 'readTour'));
     }
 
     public function createUpdate(Request $request)

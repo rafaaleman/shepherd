@@ -215,7 +215,7 @@ a:hover {
 
 @push('scripts')
 <script>
-   const lockbox = new Vue ({        
+    const lockbox = new Vue ({        
         el: '#lockbox',
         created: function() {
             this.getDocuments();
@@ -276,7 +276,7 @@ a:hover {
                 return str;
             },
             urlFile(file){                
-                 return str = "{{ URL::to('/') }}" + file;
+                return str = "{{ URL::to('/') }}" + file;
             }
         },
         methods: {
@@ -341,11 +341,26 @@ a:hover {
                         }
                     ]
                 });
+            },
+            readTour: function(){
+                axios.post('{{ route("readTour") }}', {section_name:'lockbox_index'});
             }
-
         }
     });
 
-
+    $(function(){
+        @if (!$readTour) 
+        
+            introJs().setOptions({
+                showProgress: true,
+                showButtons: true,
+                showBullets: false
+            }).onbeforeexit(function () {
+                if( confirm("Skip this tour and don't show it again?")){
+                    lockbox.readTour()
+                }
+            }).start();
+        @endif
+    });
 </script>
 @endpush

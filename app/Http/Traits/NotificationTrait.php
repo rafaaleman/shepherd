@@ -65,7 +65,7 @@ trait NotificationTrait {
     /**
      * Return boolean if the user has been pass the tourJS
      */
-    public function  readTour($section_name)
+    public function  alreadyReadTour($section_name)
     {
         return (Tourjs::where('user_id', Auth::user()->id)->where('section_name', $section_name)->first()) ? true : false;
     }

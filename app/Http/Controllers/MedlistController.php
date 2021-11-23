@@ -67,7 +67,7 @@ class MedlistController extends Controller
         $date_now = new DateTime();
         $date_now->sub(new DateInterval('P1D'));
 
-        $readTour = $this->readTour('medlist_create');
+        $readTour = $this->alreadyReadTour('medlist_create');
         return view('medlist.create_medication',compact('loveone','careteam','date_now','routes', 'readTour'));
     }
 

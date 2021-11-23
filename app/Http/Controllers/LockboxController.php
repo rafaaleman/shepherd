@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 use App\Models\lockbox;
 use App\Models\loveone;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\sendMissingMail;
 use App\Models\careteam;
 use App\User;
 use Illuminate\Http\Request;
 use App\Models\lockbox_types;
 use App\Models\lockbox_permissions;
-
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
 use Session;
@@ -29,6 +29,7 @@ class LockboxController extends Controller
 
     use NotificationTrait;
     const EVENTS_TABLE = 'lockbox';
+    const EVENTS_TABLE_P = 'lockbox_permission';
     /**
      * Display a listing of the resource.
      *
@@ -41,6 +42,7 @@ class LockboxController extends Controller
         $tmpUser = null;
 
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
+        $readTour = $this->alreadyReadTour('lockbox_index');
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
         */
@@ -121,7 +123,7 @@ class LockboxController extends Controller
                 return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
             }
 
-            return view('lockbox.index',compact('loveone','loveone_slug','careteam'));
+            return view('lockbox.index',compact('loveone','loveone_slug','careteam', 'readTour'));
         }else{
             
             if ($request->ajax()) 
@@ -184,7 +186,7 @@ class LockboxController extends Controller
                 return array('types' => $types,'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
             }
             
-            return view('lockbox.index_user',compact('loveone','loveone_slug'));
+            return view('lockbox.index_user',compact('loveone','loveone_slug', 'readTour'));
         }
     }
 
@@ -332,6 +334,17 @@ class LockboxController extends Controller
         
         if($doct->save()){
             foreach($permisisons as $p){
+                $tmp = lockbox_permissions::where(['user_id' => $p->user, 'lockbox_id' => $request->id])->first();
+                if($tmp->r == 0 && $p->r == 1){
+                    $notification = [
+                        'user_id'    => $p->user,
+                        'loveone_id' => $request->loveones_id,
+                        'table'      => self::EVENTS_TABLE,
+                        'table_id'   => $request->id,
+                        'event_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->createNotification($notification);
+                }
                 $perm = lockbox_permissions::updateOrCreate(
                     ['user_id' => $p->user, 'lockbox_id' => $request->id],
                     ['r' => $p->r, 'u' => 0, 'd'=> 0]
@@ -394,6 +407,42 @@ class LockboxController extends Controller
         $l = $num_documents[0]->updated_at->diffForHumans();
     }
         return response()->json(['success' => true, 'data' => ['l_document'=>$l,'num_documents' => $num_documents,'documents' => $documents]], 200);
+    }
+
+    /** */
+    public function checkEssentialDocuments(){
+        $loveones  = loveone::all();
+        $types     = lockbox_types::where('status',1)->get();
+        foreach($loveones as $loveone){
+            $mail = array();
+            $d = array();
+
+            $cm = careteam::where('loveone_id',$loveone->id)->where('role','admin')->first();
+            $user = User::find($cm->user_id);
+            $documents = lockbox::where('loveones_id',$loveone->id)->get();
+            
+            $email['loveone_name'] = $loveone->firstname;
+            $email['loveone_photo'] = $loveone->photo;
+            $email['name'] = $user->name . ' ' . $user->lastname;
+            $email['email'] = $user->email;
+            $email['documents'] = array();
+
+            foreach($types as $t){
+                if($t->required == 1){
+                    $d["name"] = $t->name;
+                    $d["exist"] = false;
+                    foreach($documents as $doc){
+                        if($t->id == $doc->lockbox_types_id){
+                            $d["exist"] = true;
+                        }
+                    }
+                    $email['documents'][] = $d;
+                }
+            }
+
+           Mail::to($user->email)->send(new sendMissingMail($email));
+        }
+            return true;
     }
 
     /**

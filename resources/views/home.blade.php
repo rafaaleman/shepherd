@@ -100,6 +100,8 @@ const home = new Vue ({
         img_url: "{{asset('images/no_photo.jpg')}}",
         permissions: [],
         careteam:[],
+        num_m : 0,
+        lastMU:'',
             document: {
                 id: 0,
                 user_id: {{Auth::Id()}},
@@ -377,8 +379,27 @@ const home = new Vue ({
             });
         },
         getMessages(){
-            var url = '{{ route("messages", "*SLUG*") }}';
-            this.messages_url  = url.replace('*SLUG*', this.current_slug);
+            var url2 = '{{ route("messages", "*SLUG*") }}';
+            this.messages_url = url2.replace('*SLUG*', this.current_slug);
+            var url = '{{ route("messages.last") }}';
+            
+            axios.post(url, {loveone_slug: this.current_slug, user_id :{{Auth::Id()}}  }).then(response => {
+                 console.log(response.data);
+                if(response.data.success){
+                    this.num_m =response.data.data.num_message;
+                    this.lastMU= response.data.data.last_message;
+                } else {
+                    msg = 'There was an error. Please try again';
+                    icon = 'error';
+                    swal(msg, "", icon);
+                }
+                
+            }).catch( error => {
+                
+                msg = 'There was an error getting messages. Please reload the page';
+                swal('Error', msg, 'error');
+            });
+
         },
         //Rene lockbox
         showModal() {
