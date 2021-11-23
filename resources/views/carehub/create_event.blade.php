@@ -277,13 +277,21 @@ input[type="date"]:before {
 
 <script>
     $(function () {
-        introJs().setOptions({
-            showProgress: true,
-            showButtons: true,
-            showBullets: false
-        }).start()
+        
+        @if (!$readTour) 
+        
+            introJs().setOptions({
+                showProgress: true,
+                showButtons: true,
+                showBullets: false
+            }).onbeforeexit(function () {
+                if( confirm("Skip this tour and don't show it again?")){
+                    create_event.readTour()
+                }
+            }).start();
+        @endif
 
-       var picker = new Pikaday({
+        var picker = new Pikaday({
             field: document.getElementById('carehub_datepicker'),
             format: 'Y-M-D',
             minDate: moment().toDate(),
@@ -294,9 +302,10 @@ input[type="date"]:before {
 
         $('#time').datetimepicker({format: 'LT',stepping: 15});
         $('#time').on('dp.change',function(e){
-           create_event.event.time= moment(e.date,"h:mm:ss a").format('h:mm a');
+            create_event.event.time= moment(e.date,"h:mm:ss a").format('h:mm a');
         });
     });
+    
     const create_event = new Vue({
         el: '#create_event',
         created: function() {
@@ -368,8 +377,6 @@ input[type="date"]:before {
                                 }
                             });
 
-
-
                             return false;
                             
                         } else {
@@ -404,6 +411,9 @@ input[type="date"]:before {
                 }else{
                     this.event.assigned = []
                 }
+            },
+            readTour: function(){
+                axios.post('{{ route("readTour") }}', {section_name:'carepoints_create'});
             }
         }
     });

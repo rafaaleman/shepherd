@@ -42,6 +42,7 @@ class LockboxController extends Controller
         $tmpUser = null;
 
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
+        $readTour = $this->alreadyReadTour('lockbox_index');
         /** 
          * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
         */
@@ -122,7 +123,7 @@ class LockboxController extends Controller
                 return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
             }
 
-            return view('lockbox.index',compact('loveone','loveone_slug','careteam'));
+            return view('lockbox.index',compact('loveone','loveone_slug','careteam', 'readTour'));
         }else{
             
             if ($request->ajax()) 
@@ -185,7 +186,7 @@ class LockboxController extends Controller
                 return array('types' => $types,'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
             }
             
-            return view('lockbox.index_user',compact('loveone','loveone_slug'));
+            return view('lockbox.index_user',compact('loveone','loveone_slug', 'readTour'));
         }
     }
 
