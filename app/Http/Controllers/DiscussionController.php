@@ -34,7 +34,9 @@ class DiscussionController extends Controller
     {
         $data = $request->all();
         $data['creator_id'] = Auth::user()->id;
-
+        $assigned_ids = $data['assigned'];
+        $data['assigned_ids'] = json_encode($data['assigned']);
+        
         unset($data['_token']);
         //dd($data);
         // edit
@@ -46,19 +48,19 @@ class DiscussionController extends Controller
             //dd($data);
             $discussion = discussion::create($data);
             
-            // Create notification rows
-            $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'carehub');
-            foreach($notified_members as $member_id){
-
+            foreach($assigned_ids as $user_id){
                 $notification = [
-                    'user_id'    => $member_id,
+                    'user_id'    => $user_id,
                     'loveone_id' => $request->loveone_id,
                     'table'      => self::DISCUSSIONS_TABLE,
                     'table_id'   => $discussion->id,
                     'event_date' => $discussion->created_at
                 ];
                 $this->createNotification($notification);
+
             }
+
+
 
         }
 
@@ -72,7 +74,15 @@ class DiscussionController extends Controller
     {
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
-        
+        foreach ($careteam as $key => $team){
+            // dd($team);
+             if(isset($team->user)){
+                 $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/avatar2.png');
+                 if(Auth::user()->id == $team->user_id && $team->role == 'admin')
+                     $is_admin = true;
+             }
+            
+         }
       //  $invitations = Invitation::where('loveone_id', $loveone->id)->get();
         $discussions = discussion::where('loveone_id', $loveone->id)
         ->where('status',1)
@@ -80,7 +90,10 @@ class DiscussionController extends Controller
         ->with(['messages'])
         ->get();
    
-       
+        foreach($discussions as $discussion){
+            $discussion->members = $careteam->whereIn('user_id',json_decode($discussion->assigned_ids));
+            
+        }
         
         
        // dd($events);
@@ -112,7 +125,13 @@ class DiscussionController extends Controller
             }
         }
 
-        $discussion->members = $careteam->where('status',1);
+        foreach ($careteam as $key => $team){
+            if(isset($team->user)){
+                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/avatar2.png');
+            }
+        }
+
+        $discussion->members = $careteam->whereIn('user_id',json_decode($discussion->assigned_ids));
         foreach($discussion->members as $member){
             if(Auth::user()->id == $member->user_id ){
                 $is_careteam = true;
