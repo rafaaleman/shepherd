@@ -60,7 +60,14 @@ class NotificationController extends Controller
                     $notification->type = 'lockbox';
                     $notification->icon = 'fas fa-file-medical';
                     
-                } else if($n->table == 'medications'){
+                } else if($n->table == 'lockbox_permission'){
+                    $notification->title = 'You have a permission on a file';
+                    $notification->description = '';
+                    $notification->type = 'lockbox';
+                    $notification->icon = 'fas fa-file-medical';
+                    
+                } 
+                else if($n->table == 'medications'){
                     $notification->title = 'It\'s time for medication';
                     $notification->name = $notification->medicine;
                     $notification->description = '';

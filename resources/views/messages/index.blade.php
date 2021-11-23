@@ -66,9 +66,10 @@
                         <div class="form-group mt-3 mb-0">
                             <textarea class="form-control" rows="3" placeholder="Type your message and press Enter..." v-model="message" v-on:keyup.enter="sendMessage"></textarea>
                         </div>
-                        <input type="checkbox" id="urgent" checked>
-                        <label for="urgent">Send a copy of this message by email</label>
-                        <a class="btn btn-primary btn-sm">Send Message</a>
+                        <br>
+                        <input type="checkbox" id="urgent" name="urgent" v-model="urgent">
+                        <label for="urgent">Mark this message as urgent</label>
+                        <a class="btn btn-primary btn-sm float-right" @click="sendMessage">Send Message</a>
                     </div>
                 </div>
             </div>
@@ -339,6 +340,7 @@ body{margin-top:20px;}
             messages:[],
             message:null,
             status: false,
+            urgent:false,
             m1: false,
             m2: false
          },
@@ -388,7 +390,8 @@ body{margin-top:20px;}
                 this.messages = [];
                 this.chats = [];
                 this.status = false;
-                this.message = null;       
+                this.message = null;
+                this.urgent = false;
             },
             getCareteam: function(){
                 var url = '{{ route("messages.careteam",$loveone_slug) }}';  
@@ -432,7 +435,7 @@ body{margin-top:20px;}
                 }else{
                     var url = '{{ route("messages.chat.new",$loveone_slug) }}';
                     let msg = {
-                        user_id: contact.id,
+                        user_id: contact.id
                     };
                     axios.post(url, msg).then(response => {
                         let chat = response.data.data.chat;
@@ -447,6 +450,7 @@ body{margin-top:20px;}
                 this.selected_chat = chat.id;
                 this.selected_chat2 = chat;
                 this.message = null;
+                this.urgent = false;
                 this.changeUser(chat);
                 
                 this.getChat();
@@ -472,7 +476,8 @@ body{margin-top:20px;}
                 let msg = {
                         user_id: this.user_send,
                         chat_id: this.selected_chat,
-                        message: this.message
+                        message: this.message,
+                        urgent:  this.urgent
                     };
                 axios.post(url, msg).then(response => {
                     this.message = null;

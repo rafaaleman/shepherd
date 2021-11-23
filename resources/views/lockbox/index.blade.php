@@ -132,6 +132,7 @@
     .t1{
         margin-bottom: 0.01rem;
         font-weight: bold;
+        font-size: 1rem;
     }
     .t2{
         /* font-family: Gotham; */
@@ -226,7 +227,7 @@
 
 <script>
 
-   const lockbox = new Vue ({        
+    const lockbox = new Vue ({        
         el: '#lockbox',
         created: function() {
             this.getDocuments();
@@ -293,11 +294,11 @@
                 return str;
             },
             urlFile(file){                
-                 return str = "{{ URL::to('/') }}" + file;
+                return str = "{{ URL::to('/') }}" + file;
             }
         },
         computed:{ 
-           
+            
         },
         methods: {
             borrar(){
@@ -341,11 +342,18 @@
                     this.creaSlide();
                     this.loading = false;
 
-                    introJs().setOptions({
-                        showProgress: true,
-                        showButtons: true,
-                        showBullets: false
-                    }).start()
+                    @if (!$readTour) 
+        
+                        introJs().setOptions({
+                            showProgress: true,
+                            showButtons: true,
+                            showBullets: false
+                        }).onbeforeexit(function () {
+                            if( confirm("Skip this tour and don't show it again?")){
+                                lockbox.readTour()
+                            }
+                        }).start();
+                    @endif
                 });
             },
             viewDocument(doc){                
@@ -554,8 +562,10 @@
                         }
                     ]
                 });
+            },
+            readTour: function(){
+                axios.post('{{ route("readTour") }}', {section_name:'lockbox_index'});
             }
-
         }
     });
 

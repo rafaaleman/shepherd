@@ -8,7 +8,7 @@
                 <i class="gray">Last updated @{{lockbox_lastUpdated}}</i>
             </div>
         </a>
-        <a class="btn btn-primary btn-sm mt-2" v-if="is_admin">View Documents</a>
+        <a class="btn btn-primary btn-sm mt-2" v-if="is_admin" :href="lockbox_url">View Documents</a>
         
     </div>
 </div>
