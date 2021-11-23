@@ -124,11 +124,11 @@ class MessagesController extends Controller
             */
             $email['from_name'] = $user->name . ' ' . $user->lastname;
             $email['from_photo'] = $user->photo;
-            Mail::to('rene.ortizg@gmail.com')->send(new sendNewMessageMail($email));
-            //Mail::to($user->email)->send(new sendNewPermissionsMail($email));
+            Mail::to($user->email)->send(new sendNewMessageMail($email));
+            
         }
 
-        dd("mensaje enviado");
+        
         $chat = chat::find($request->chat_id);
         $chat->last_message = $request->message; 
         $chat->status  = 1;
@@ -167,5 +167,31 @@ class MessagesController extends Controller
         $data->delete();
         
         return response()->json(['success' => true, 'data' => ['message' => 'deleted']], 200);
+    }
+
+    public function lastMessages(Request $request){
+        $resp=array();
+        $x =0;
+        $loveone_slug = $request->loveone_slug;
+        $user_id = $request->user_id;
+        
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $chats = chat::where('loveone_id',$loveone->id)
+                    ->where('sender_id',$user_id)
+                    ->orWhere('receiver_id',$user_id)
+                    ->get();
+        
+        foreach($chats as $c){
+            $resp['last_message'] = " ";
+            if($c->sender_id != $user_id){
+                $usr = User::find($c->sender_id);
+                $resp['last_message'] = $usr->name . ' ' . $usr->lastname;
+            }
+            $x++;
+            $resp['num_message'] = $x;
+            
+        }
+        return response()->json(['success' => true, 'data' => $resp], 200);
+        //$x = chat_message::where('id_chat',$id)->get();
     }
 }
