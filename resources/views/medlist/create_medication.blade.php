@@ -287,7 +287,7 @@
             <div class="form-group row mb-0">
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
-                        <input type="checkbox" id="optout">
+                        <input type="checkbox" id="optout" v-model="medication.remind">
                         <label for="optout">Remind me to take this medication</label><br >
                         <button data-title="And that's it!" data-intro="Click this button to save your medication and we will remind you when it's time" class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
@@ -512,6 +512,7 @@ $(function () {
                 drugbank_pcid:"",
                 prescribing:"{{ $medication->prescribing ?? '' }}",
                // creator_id: "{{ $medication->creator_id ?? '' }}",
+               remind:false,
             },
         },
         filters: {},

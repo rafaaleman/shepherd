@@ -78,8 +78,10 @@ class MedlistController extends Controller
         if($data['frequency'] == 'as needed'){
             $data['time'] = '00:00';
         }
+        $remind = $data['remind'];
         unset($data['_token']);
         unset($data['assigned']);
+        unset($data['remind']);
         $date_i = $date = new DateTime(date('Y-m-d').' '.$data['time']);
         $data['ini_date'] = $date->format('Y-m-d');
         $di = $date_i->format('Y-m-d H:i:s');
@@ -97,21 +99,24 @@ class MedlistController extends Controller
             medlist::insert($medlist);
 
             // Create notification rows
+
             $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'medlist');
             foreach($notified_members as $member_id){
 
-                foreach ($medlist as $med) {
-                    
-                    $notification = [
-                        'user_id'    => $member_id,
-                        'loveone_id' => $request->loveone_id,
-                        'table'      => self::MEDICATIONS_TABLE,
-                        'table_id'   => $medication->id,
-                        'event_date' => $med['date'].' '.$med['time']
-                    ];
-                    $this->createNotification($notification);
-
+                if($remind){
+                    foreach ($medlist as $med) {
+                        
+                        $notification = [
+                            'user_id'    => $member_id,
+                            'loveone_id' => $request->loveone_id,
+                            'table'      => self::MEDICATIONS_TABLE,
+                            'table_id'   => $medication->id,
+                            'event_date' => $med['date'].' '.$med['time']
+                        ];
+                        $this->createNotification($notification);
+                    }
                 }
+
 
                 $notification = [
                     'user_id'    => $member_id,
@@ -224,7 +229,6 @@ class MedlistController extends Controller
         
         $date = new DateTime($request->date);
         return response()->json(['success' => true, 'data' => [
-            
             'time_first_event' => $time_first_event,
             'medlist' => $medlist,
             'date_title' => $date->format('l, j F Y'),

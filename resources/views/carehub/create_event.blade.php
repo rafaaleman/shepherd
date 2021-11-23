@@ -38,7 +38,7 @@
                         </div>
 
                         <div id="collapseMemers" class="collapse" aria-labelledby="headingOne" data-parent="#accordionMembers">
-                            <div class="card-body">
+                            <div class="card-body  py-0">
                                 <div class="form-group row mx-1" id="careteam">
                                     
                                 <div class="custom-control custom-checkbox mr-sm-2 float-right pb-2">
