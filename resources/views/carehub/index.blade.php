@@ -3,22 +3,22 @@
 @section('content')
 <div class="container" id="carehub">
     <div class="row mb-3 align-items-center justify-content-center">
-    <div class="col-12 d-none mb-3 pr-4 d-sm-none d-lg-block">
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn btn-primary btn-lg  rounded-pill text-white">
+        
+        <div class="col-12 d-none d-sm-none d-lg-block mb-3">
+            
+            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white ml-2">
                 Assign A Task
             </a>
-            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="float-right btn ml-3  btn-primary btn-lg  rounded-pill text-white">
+            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
                 Create Discussion
             </a>
             
         </div>
-
-        <div class="col-12 row">
+        <div class="col-sm-12 col-md-12 col-lg-12 row">
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
         </div>
-        
     </div>
 
     <div class="row align-items-center justify-content-center px-3 py-3" id="calendar_div">
@@ -136,7 +136,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <template v-if="discussion.length != (index + 1) && discussion.status == 1"  >
+                                <template v-if="discussions.length != (index + 1) && discussion.status == 1"  >
                                     <hr>
                                 </template>
                             </template>
@@ -154,7 +154,7 @@
     <div class="loading-events w-100 text-center">
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading events...
     </div>
-    <div v-if="events.length > 0">
+    <div v-if="count_event > 0">
     <template v-for="event in events" >
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
@@ -211,15 +211,16 @@
         </div>
     </template>
     </div>
-    <div v-else class=" w-100 text-center">No events found...</div>
+    <div v-else class=" w-100 text-center">No tasks found...</div>
 
     <center>
         <div class=" d-block d-sm-block d-lg-none mb-3">
+            
             <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
                 Assign A Task
             </a>
-            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
-                Create A Discussion
+            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-4">
+                Create Discussion
             </a>
         </div>
     </center>
@@ -411,6 +412,7 @@
                 slug: "{{$loveone->slug}}"
             },
             count_discussion:'',
+            count_event:'',
         },
         filters: {},
         computed: {},
@@ -427,6 +429,7 @@
                 this.week_div = '';
                 this.day_div = '';
                 this.count_discussion = 0;
+                this.count_event = 0;
                 this.getEvents();
                 this.getCalendar();
                 this.getDiscussions();
@@ -470,6 +473,7 @@
                     if (response.data.success) {
                         this.events = response.data.data.events;
                         this.date_title = response.data.data.date_title;
+                        this.count_event = this.events.length;
                         this.eventInCalendar();
                     } else {
 
@@ -580,6 +584,7 @@
                                 //joinTeam.getInvitations();
                                 msg = 'The event was deleted';
                                 icon = 'success';
+                                carehub.count_event--;
                                 event.status = 0;
                             } else {
                                 msg = 'There was an error. Please try again';
