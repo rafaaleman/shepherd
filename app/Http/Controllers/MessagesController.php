@@ -191,6 +191,17 @@ class MessagesController extends Controller
             $resp['num_message'] = $x;
             
         }
+        if($resp['last_message'] == " " && $x > 0){
+            
+            $id = $chats[$x-1]->id;
+
+            $chats = chat_message::where('id_chat',$id)->get();
+            foreach($chats as $c){
+                $usr = User::find($c->id_user);
+                $resp['last_message'] = $usr->name . ' ' . $usr->lastname;
+            }
+            
+        }
         return response()->json(['success' => true, 'data' => $resp], 200);
         //$x = chat_message::where('id_chat',$id)->get();
     }
