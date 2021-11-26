@@ -5,7 +5,7 @@
     <i class="fas fa-users fa-2x"></i> <span>CareTeam</span>
 </a>
 <a class="menu-link item d-block {{(Request::is('carehub/*') ) ? 'active' : ''}} " href="{{ route('carehub', '**SLUG**')}}">
-    <i class="far fa-calendar-plus  fa-2x"></i> <span>Carepoints</span>
+    <i class="far fa-calendar-plus  fa-2x"></i> <span>CarePoints</span>
 </a>
 <a class="menu-link item d-block {{(Request::is('lockbox/*') ) ? 'active' : ''}}" href="{{ route('lockbox', '**SLUG**')}}">
     <i class="fas fa-file-medical fa-2x"></i> <span>LockBox</span>

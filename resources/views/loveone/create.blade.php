@@ -155,7 +155,7 @@
 
             <div data-slide="4" class="card p-4 shadow-sm" style="display:none;">
                 <h4 class="mb-3">Final Step: Loved One Photo</h4>
-                <p>Upload a photo of your loved one, it will be used as their user photo.</p>
+                <p>Upload a photo of your loved one</p>
 
                 <div class="col-md-6 photo-container bg-primary d-flex align-items-center mx-auto pt-2" style="background-image: url('{{(isset($loveone)) ? $loveone->photo : ''}}')">
                     <div class="bigBtn">

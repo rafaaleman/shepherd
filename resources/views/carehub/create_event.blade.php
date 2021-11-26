@@ -399,7 +399,7 @@ input[type="date"]:before {
                         swal('There was an Error', txt, 'error');
                     });
                 }else{
-                    msg = 'has not assigned the sale to anyone. Please try again';
+                    msg = 'Please assign the task to yourself or another CareTeam member.';
                     icon = 'error';
                     $("#collapseMemers").addClass("show");
                     $('.loadingBtn').html('Save').attr('disabled', false);
