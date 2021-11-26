@@ -6,11 +6,13 @@
         <a :href="messages_url" class="hub">
             <h5 class="card-title"><i class="fas fa-comments fa-2x"></i> Messages</h5>
             <div class="card-text">
-                <span>4</span> Unread Message(s) <br>
-                <i class="gray">Last message from TeamMemberName</i>
+                <div class="card__count">
+                    <span >@{{ num_m }}</span> Unread Message(s) <br>
+                    <i class="gray" >Last message from @{{ lastMU }}</i>
+                </div>
+                <a class="btn btn-primary btn-sm" v-if="is_admin" :href="messages_url">View Messages</a>
             </div>
         </a>
-        <a class="btn btn-primary btn-sm" v-if="is_admin">View Messages</a>
     </div>
 </div>
 

@@ -10237,6 +10237,11 @@ h3 {
 body {
   color: #595858;
   font-family: "Arial", sans-serif;
+  font-size: 1rem;
+}
+
+.help-text {
+  font-size: 1.15rem;
 }
 
 .dropdown-menu {
@@ -10408,6 +10413,14 @@ footer {
 .document-card {
   margin-bottom: 0.5rem;
   cursor: pointer;
+}
+
+.card-body {
+  display: grid;
+}
+.card-body .card-text {
+  display: grid;
+  align-content: space-between;
 }
 
 .document-card .card-body {

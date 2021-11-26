@@ -8,34 +8,34 @@
                 <div class="row">
                     <div class="col-md-12 events">
                         <div class="w-100">
-                            <div class="float-left font-weight-bold vertical-align-top">{{$event->date_title}}</div>
-                            <div class="float-right text-danger font-weight-bold text-uppercase">{{$event->time_cad_gi}} {{$event->time_cad_a}}</div>
+                            <div class="float-left font-weight-bold vertical-align-top">{{$discussion->date_title}}</div>
+                            <div class="float-right text-danger font-weight-bold text-uppercase">{{$discussion->time_cad_gi}} {{$discussion->time_cad_a}}</div>
                         </div>
-                            <h3 class="card-title font-weight-bold mb-3 mt-5">{{$event->name}}</h3>
-                            <p class="mb-1" style="color:#cdcdd8" >{{$event->location}}</p>
+                            <h3 class="card-title font-weight-bold mb-3 mt-5">{{$discussion->name}}</h3>
+                            <p class="mb-1" style="color:#cdcdd8" >{{$discussion->location}}</p>
                             <div style="padding-left:10px;" class="text-right">
-                                <label for="name" class="col-form-label text-md-right" style="color: #78849e;font-size:12px;padding-right:10px">Assign to:  </label>
-                                @foreach($event->members as $assigned)
+                                <label for="name" class="col-form-label text-md-right" style="color: #78849e;font-size:12px;padding-right:10px">Assing to:  </label>
+                                @foreach($discussion->members as $assigned)
                                     <img src="{{ (!empty($assigned->user->photo) && $assigned->user->photo != null ) ? $assigned->user->photo : '/img/no-avatar.png'}}" class="member-img" title="{{$assigned->user->photo}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 @endforeach
                             </div>
                             
-                            @if(!empty($event->notes))
+                            @if(!empty($discussion->notes))
                                 <div class="row">
                                     <div class="col-1 text-right">
-                                        <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? $event->creator->photo : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                        <img src="{{ (!empty($discussion->creator->photo) && $discussion->creator->photo != null ) ? $discussion->creator->photo : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                     </div>
                                     <div class="col-11">
                                         <span class="font-weight-bold d-block spn-name">
-                                            {{$event->creator->name}} {{$event->creator->lastname}}
+                                            {{$discussion->creator->name}} {{$discussion->creator->lastname}}
                                         </span>
                                         <span class="d-block spn-time">
-                                        {{$event->date_title_msj}} at {{$event->time_cad_gi}} {{$event->time_cad_a}}
+                                        {{$discussion->date_title_msj}} at {{$discussion->time_cad_gi}} {{$discussion->time_cad_a}}
                                         </span>
                                     </div>
                                 </div>
-                                <div class="bg w-100 @if($event->creator_id == $id_careteam) creator @else member @endif">
-                                    {{$event->notes}}
+                                <div class="bg w-100 @if($discussion->creator_id == $id_careteam) creator @else member @endif">
+                                    {{$discussion->notes}}
                                 </div>
                             @endif
                             
@@ -51,13 +51,13 @@
         </div>
 
         <div id="messagess" class="w-100 row mx-0 pt-3">
-            @if(isset($event->messages) && $event->messages->count())
+            @if(isset($discussion->messages) && $discussion->messages->count())
                 
-                @foreach($event->messages as $message)
+                @foreach($discussion->messages as $message)
                         <div class="col-6 pl-0 mb-2">
-                            <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? $event->creator->photo : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                            <img src="{{ (!empty($discussion->creator->photo) && $discussion->creator->photo != null ) ? $discussion->creator->photo : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                             <span class="font-weight-bold spn-name">
-                                {{$event->creator->name}} {{$event->creator->lastname}}
+                                {{$discussion->creator->name}} {{$discussion->creator->lastname}}
                             </span>
                         </div>
                         
@@ -196,7 +196,7 @@
         data: {
             message: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
-                event_id: "{{ $event->id ?? 0 }}",
+                discussion_id: "{{ $discussion->id ?? 0 }}",
                 message: "",
                 creator_id: "{{ $id_careteam ?? 0 }}"
                 
@@ -215,7 +215,7 @@
                 
                
                    // console.log(url_succes);
-                    var url = '{{ route("carehub.event.message.create") }}';
+                    var url = '{{ route("carehub.discussion.message.create") }}';
                     axios.post(url, this.message).then(response => {
                         console.log(response);
 

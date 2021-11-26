@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use DateTime;
+use App\Models\Tourjs;
 use App\Models\loveone;
 use App\Models\careteam;
 use App\Models\relationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DateTime;
+
 class HomeController extends Controller
 {
     /**
@@ -108,5 +110,16 @@ class HomeController extends Controller
     {
         $loveones = $this->getLoveones('all');
         return view('profile', compact('loveones'));
+    }
+
+    /**
+     * 
+     */
+    public function  readTour(Request $request)
+    {
+        Tourjs::create([
+            'user_id'=> Auth::user()->id,
+            'section_name' => $request->section_name
+        ]);
     }
 }

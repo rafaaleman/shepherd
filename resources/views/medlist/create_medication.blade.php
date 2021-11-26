@@ -287,7 +287,7 @@
             <div class="form-group row mb-0">
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
-                        <input type="checkbox" id="optout">
+                        <input type="checkbox" id="optout" v-model="medication.remind">
                         <label for="optout">Remind me to take this medication</label><br >
                         <button data-title="And that's it!" data-intro="Click this button to save your medication and we will remind you when it's time" class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
@@ -451,13 +451,21 @@ input[type="date"]:before {
 <script>
 
     
-    $(function () {
+$(function () {
+
+    @if (!$readTour) 
         
-    introJs().setOptions({
-        showProgress: true,
-        showButtons: true,
-        showBullets: false
-    }).start()
+        introJs().setOptions({
+            showProgress: true,
+            showButtons: true,
+            showBullets: false
+        }).onbeforeexit(function () {
+            if( confirm("Skip this tour and don't show it again?")){
+                create_medication.readTour()
+            }
+        }).start();
+    @endif
+
 
     var refill_date = new Pikaday({
             field: document.getElementById('refill_date'),
@@ -504,6 +512,7 @@ input[type="date"]:before {
                 drugbank_pcid:"",
                 prescribing:"{{ $medication->prescribing ?? '' }}",
                // creator_id: "{{ $medication->creator_id ?? '' }}",
+               remind:false,
             },
         },
         filters: {},
@@ -700,7 +709,9 @@ input[type="date"]:before {
                 }
                 return form_data;
             },
-
+            readTour: function(){
+                axios.post('{{ route("readTour") }}', {section_name:'medlist_create'});
+            }
         }
     });
     

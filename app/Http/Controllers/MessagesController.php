@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
 use App\Events\NewMessage;
 use Session;
-
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\sendNewMessageMail;
 use App\Models\loveone;
 use App\Models\careteam;
 use App\Models\chat;
@@ -101,6 +101,7 @@ class MessagesController extends Controller
     }
     /* */
     public function storeMessage(Request $request){
+
         $validatedData = $request->validate([
             'user_id'     => 'required|numeric',
             'chat_id'     => 'required|numeric',
@@ -113,6 +114,21 @@ class MessagesController extends Controller
         $msg->status  = 1;
         $msg->save();
 
+        if($request->urgent == "true"){
+            $user = User::find($request->user_id);
+            $email['message'] = $msg->message;
+            /*
+            dd($user);
+            $email['loveone_name'] = $loveone->firstname;
+            $email['loveone_photo'] = $loveone->photo;
+            */
+            $email['from_name'] = $user->name . ' ' . $user->lastname;
+            $email['from_photo'] = $user->photo;
+            Mail::to($user->email)->send(new sendNewMessageMail($email));
+            
+        }
+
+        
         $chat = chat::find($request->chat_id);
         $chat->last_message = $request->message; 
         $chat->status  = 1;
@@ -151,5 +167,50 @@ class MessagesController extends Controller
         $data->delete();
         
         return response()->json(['success' => true, 'data' => ['message' => 'deleted']], 200);
+    }
+
+    public function lastMessages(Request $request){
+        $resp=array();
+        $x =0;
+        $loveone_slug = $request->loveone_slug;
+        $user_id = $request->user_id;
+        
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+
+
+        $chats = chat::where('loveone_id',$loveone->id)
+                    ->where('sender_id',$user_id)
+                    ->orWhere('receiver_id',$user_id)
+                    ->get();
+
+                    
+        if($chats->count()==0){
+            $resp['num_message']  = 0;
+            $resp['last_message'] = "";
+            return response()->json(['success' => true, 'data' => $resp], 200);
+        }
+        foreach($chats as $c){
+            $resp['last_message'] = " ";
+            if($c->sender_id != $user_id){
+                $usr = User::find($c->sender_id);
+                $resp['last_message'] = $usr->name . ' ' . $usr->lastname;
+            }
+            $x++;
+            $resp['num_message'] = $x;
+            
+        }
+        if($resp['last_message'] == " " && $x > 0){
+            
+            $id = $chats[$x-1]->id;
+
+            $chats = chat_message::where('id_chat',$id)->get();
+            foreach($chats as $c){
+                $usr = User::find($c->id_user);
+                $resp['last_message'] = $usr->name . ' ' . $usr->lastname;
+            }
+            
+        }
+        return response()->json(['success' => true, 'data' => $resp], 200);
+        //$x = chat_message::where('id_chat',$id)->get();
     }
 }

@@ -13,5 +13,6 @@ Route::get('/chat/delete/{id}', 'MessagesController@deleteChat')->name('messages
 Route::get('/chat/delete/message/{id}', 'MessagesController@deleteMessage')->name('messages.delete');
 Route::post('/chat', 'MessagesController@storeMessage')->name('messages.store');
 Route::post('/chat/new/{loveone_slug}', 'MessagesController@newChat')->name('messages.chat.new');
+Route::post('/chat/lastmessages', 'MessagesController@lastMessages')->name('messages.last');
 
 Route::get('/messages/{selected_user}/{loveone_id}', 'MessagesController@index')->name('messages.chat2');

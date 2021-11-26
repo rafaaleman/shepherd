@@ -3,20 +3,21 @@
 @section('content')
 <div class="container" id="carehub">
     <div class="row mb-3 align-items-center justify-content-center">
-        <div class="col-sm-12 col-md-8 col-lg-8 row">
+        
+        <div class="col-12 d-none d-sm-none d-lg-block mb-3">
+            
+            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white ml-2">
+                Assign A Task
+            </a>
+            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
+                Create Discussion
+            </a>
+            
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 row">
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
             <div class="col-4 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
-        </div>
-        <div class="col-4 d-none d-sm-none d-lg-block">
-            @if ($is_admin)
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
-                Create Event
-            </a>
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
-                Create Discussion
-            </a>
-            @endif
         </div>
     </div>
 
@@ -91,10 +92,69 @@
     </div>
 
 
+    <div class="loading-discussions w-100 text-center">
+        <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading discussions...
+    </div>
+
+    
+    <div v-if="count_discussion > 0" >
+   
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 discussions">
+                        <div class="pl-3 avatar-imgs">
+                            <h6 class="card-title font-weight-bold mb-5">
+                                Discussion(s) 
+                                
+                            </h6>
+                            <template v-for="(discussion,index) in discussions" >
+                                <div class="row border-bottom-1 mb-3" v-if="discussion.status">
+                                    
+                                    <div class="col-12 row eventinf" style="line-height:.7">
+
+                                        <div class="col-12 col-lg-6">
+                                            <h5 class="font-weight-bold text-truncate">@{{discussion.name}}</h5>
+                                            <p class="text-muted text-truncate">@{{discussion.notes}}</p>
+                                        </div>
+                                        <div class="widget team col-12 col-lg-6 p-0">
+                                            <div class="d-flex">
+                                                <div class="pl-0 pl-md-3 pl-lg-3 avatar-imgs ml-0 ml-lg-0 ml-lg-auto">
+                                                    <p>
+                                                        <span class="btn btn-link" v-on:click="discussionDetails(discussion.id)" style="text-decoration: none;">
+                                                            <template v-for="member in discussion.members">
+                                                                <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                                            </template>
+                                                            @{{discussion.messages.length}} <i class="fa fa-comments" style="font-size:15px;"></i>
+                                                        </span>
+                                                        <a href="" class="text-danger " v-on:click.prevent="deleteDiscussion(discussion)">
+                                                            <i class="fa fa-archive"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <template v-if="discussions.length != (index + 1) && discussion.status == 1"  >
+                                    <hr>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    <div v-else class=" w-100 text-center">No discussions found...</div>
+
+
+
     <div class="loading-events w-100 text-center">
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading events...
     </div>
-    <div v-if="events.length > 0">
+    <div v-if="count_event > 0">
     <template v-for="event in events" >
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
@@ -151,15 +211,17 @@
         </div>
     </template>
     </div>
-    <div v-else class=" w-100 text-center">No events found...</div>
+    <div v-else class=" w-100 text-center">No tasks found...</div>
 
     <center>
         <div class=" d-block d-sm-block d-lg-none mb-3">
-            @if ($is_admin)
+            
             <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
-                Add New Event
+                Assign A Task
             </a>
-            @endif
+            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-4">
+                Create Discussion
+            </a>
         </div>
     </center>
 
@@ -169,7 +231,16 @@
         <input type="hidden" name="id" id="id" :value="event_url.id">
         <input type="hidden" name="slug" :value="event_url.slug">
     </form>
+
+    <form action="{{route('carehub.getDiscussion')}}" method="post" id="formDetailDiscussion">
+        @csrf
+        <input type="hidden" name="id" id="id" :value="discussion_url.id">
+        <input type="hidden" name="slug" :value="discussion_url.slug">
+    </form>
 </div>
+
+
+
 
 @endsection
 @push('styles')
@@ -316,6 +387,7 @@
             type: 1,
             date: '',
             events: '',
+            discussions: '',
             loveone_id: '',
             current_slug: '',
             current_members: '',
@@ -332,7 +404,15 @@
                 id: "",
                 loveone_id: "{{ $loveone->id ?? 0 }}",
                 slug: "{{$loveone->slug}}"
-            }
+            },
+            discussion_url: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: "",
+                loveone_id: "{{ $loveone->id ?? 0 }}",
+                slug: "{{$loveone->slug}}"
+            },
+            count_discussion:'',
+            count_event:'',
         },
         filters: {},
         computed: {},
@@ -344,11 +424,15 @@
                 this.month = month;
                 this.now = now;
                 this.events = '';
+                this.discussions = '';
                 this.calendar = '';
                 this.week_div = '';
                 this.day_div = '';
+                this.count_discussion = 0;
+                this.count_event = 0;
                 this.getEvents();
                 this.getCalendar();
+                this.getDiscussions();
             },
             calendarType: function(type) {
                 //alert(type);
@@ -389,6 +473,7 @@
                     if (response.data.success) {
                         this.events = response.data.data.events;
                         this.date_title = response.data.data.date_title;
+                        this.count_event = this.events.length;
                         this.eventInCalendar();
                     } else {
 
@@ -400,6 +485,34 @@
                 }).catch(error => {
 
                     msg = 'There was an error getting events. Please reload the page';
+                    swal('Error', msg, 'error');
+                });
+
+            },
+            getDiscussions: function() {
+
+                //console.log("current_slug " + this.current_slug  +  ", loveone_id" + this.loveone_id +  ", date" + this.date_events, ", events" + this.events);
+
+                $('.loading-discussions').show();
+
+                var url = '{{ route("carehub.getDiscussions", ["*SLUG*"]) }}';
+                url = url.replace('*SLUG*', this.current_slug);
+               
+                axios.get(url).then(response => {
+
+                    if (response.data.success) {
+                        this.discussions = response.data.data.discussions;
+                        this.count_discussion = this.discussions.length;
+                       // console.log(this.discussions);
+                    } else {
+
+                    }
+
+                    $('.loading-discussions').hide();
+
+                }).catch(error => {
+
+                    msg = 'There was an error getting discussions. Please reload the page';
                     swal('Error', msg, 'error');
                 });
 
@@ -431,6 +544,12 @@
                 $("#formDetail #id").val(event);
                 //this.event_url.id = event;
                 $("#formDetail").submit();
+                return false;
+            },
+            discussionDetails: function(discussion) {
+                $("#formDetailDiscussion #id").val(discussion);
+                //this.event_url.id = event;
+                $("#formDetailDiscussion").submit();
                 return false;
             },
             eventInCalendar(){
@@ -465,7 +584,46 @@
                                 //joinTeam.getInvitations();
                                 msg = 'The event was deleted';
                                 icon = 'success';
+                                carehub.count_event--;
                                 event.status = 0;
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            
+                            swal(msg, "", icon);
+                        });
+                    }
+                });
+            },
+            deleteDiscussion: function(discussion){
+                //console.log(discussion);
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to archive the '"+discussion.name+"' discussion?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    if(isConfirm){
+                        var url = '{{ route("carehub.discussion.delete") }}';
+                        data = {
+                            id: discussion.id,
+                        };
+
+                        axios.post(url, data).then(response => {
+                            console.log(response.data);
+                            
+                            if( response.data.success == true ){
+                                //joinTeam.getInvitations();
+                                msg = 'The discussion was archived';
+                                icon = 'success';
+                                discussion.status = 0;
+                                carehub.count_discussion--;
                             } else {
                                 msg = 'There was an error. Please try again';
                                 icon = 'error';
