@@ -5,7 +5,7 @@
         <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
         </a>
         <div class="card-text">
-            <span>@{{current_members.length}}</span> Member(s) <br>    
+            <div class="card__member-count"><span>@{{current_members.length}}</span> Member(s)</div>
 
             <div class="pl-3 avatar-imgs">
                 <div class="loading">
@@ -15,8 +15,9 @@
                     <img :src="member.photo" class="member-img" :title="member.name + ' ' + member.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
                 </template>
             </div>
-
+            
             <a :href="careteam_url" class="btn btn-primary btn-sm" v-if="is_admin">View Members</a>
+
         </div>
     </div>
 </div>
