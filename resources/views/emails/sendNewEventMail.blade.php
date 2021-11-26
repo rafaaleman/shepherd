@@ -7,12 +7,9 @@
 <br><br>
 @component('mail::table')
 
-
 Event called "{{$event->name}}" with location at "{{$event->location}}" on "{{$event->date}}" at "{{$event->time}}"
 
-
 @endcomponent
-
 <br><br>
 @component('mail::button', ['url' => $url, 'color' => 'primary'])
 View Event
