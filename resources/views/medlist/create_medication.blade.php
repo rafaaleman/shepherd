@@ -166,7 +166,7 @@
                 <div class="col-12 col-sm-12 col-lg-6 col-xl-6 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
-                            <input  data-title="Welcome to the Medlist" data-intro="If you know the refill date, you can add that here and we will remind you to refill your medication" id="refill_date" type="text" class="form-control no-border" required name="refill_date"  placeholder="Refill Date (MM/DD/YYYY)" autocomplete="off" v-model="medication.refill_date">
+                            <input  data-title="Welcome to the Medlist" data-intro="If you know the refill date, you can add that here and we will remind you to refill your medication" id="refill_date" type="text" class="form-control no-border" name="refill_date"  placeholder="Refill Date (MM/DD/YYYY)" autocomplete="off" v-model="medication.refill_date">
                         </div>
                     </div>
                 </div>
@@ -683,10 +683,7 @@ $(function () {
                     });
                 }else{
                     
-                    if(this.medication.refill_date == ""){
-                        msg = 'Please enter "Refill Date"';
-                        $("#refill_date").addClass("show");
-                    }else if(this.medication.frequency == ""){
+                    if(this.medication.frequency == ""){
                         msg = 'Please enter "Frequency"';
                         $("#collapsefrequency").addClass("show");
                     }else if(this.medication.time == "" && this.medication.frequency != "as needed"){

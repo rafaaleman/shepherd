@@ -55,7 +55,7 @@
                 @else
                     <li class="nav-item">
                         <a class="nav-link text-danger font-weight-bold mr-3 d-none d-md-flex align-items-center" href="tel: 911">
-                            <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">Emergency call</span>
+                            <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">

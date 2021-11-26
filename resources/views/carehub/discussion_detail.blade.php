@@ -14,7 +14,7 @@
                             <h3 class="card-title font-weight-bold mb-3 mt-5">{{$discussion->name}}</h3>
                             <p class="mb-1" style="color:#cdcdd8" >{{$discussion->location}}</p>
                             <div style="padding-left:10px;" class="text-right">
-                                <label for="name" class="col-form-label text-md-right" style="color: #78849e;font-size:12px;padding-right:10px">Assing to:  </label>
+                                <label for="name" class="col-form-label text-md-right" style="color: #78849e;font-size:12px;padding-right:10px">Assign to:  </label>
                                 @foreach($discussion->members as $assigned)
                                     <img src="{{ (!empty($assigned->user->photo) && $assigned->user->photo != null ) ? $assigned->user->photo : '/img/no-avatar.png'}}" class="member-img" title="{{$assigned->user->photo}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 @endforeach

@@ -19,7 +19,7 @@
                 <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
                     <div class="member">
                         <img :src="member.photo" class="mb-2">
-                        <div class="data ml-2">
+                        <div class="data">
                             <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
                             <div class="role">@{{ (member.careteam.role == 'admin') ? 'Leader' : member.careteam.role | mayuscula }}</div>
                             {{-- <i class="fas fa-info-circle fa-2x mt-2 info mr-2 d-none d-sm-block"></i> --}}
