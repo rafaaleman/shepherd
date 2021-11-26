@@ -7,8 +7,8 @@
                         {{asset('/img/LogoShepherd@3x.png')}} 3x"
                 src="{{asset('/img/LogoShepherd.png')}}"
                 alt="Shepherd logo"
-                class="mr-5"
-                width="145">
+                class=""
+                width="120">
         </a>
         <a class="nav-link text-danger font-weight-bold  align-items-center d-flex d-sm-none" href="tel: 911">
             <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
@@ -23,7 +23,7 @@
                 <!-- Left Side Of Navbar -->
             @else
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item mr-4 d-none d-sm-block">
+                    <li class="nav-item mr-1 d-none d-sm-block">
                         <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home"></i> CareHub</a>
                     </li>
 
@@ -35,10 +35,10 @@
                         </div>
                     </li>
 
-                    <li class="nav-item mr-4">
+                    <li class="nav-item mr-1">
                         <a href="{{route('loveone')}}" class="nav-link"><i class="far fa-heart"></i> Add Loved One</a>
                     </li>
-                    <li class="nav-item mr-4 notificationsLnk">
+                    <li class="nav-item mr-1 notificationsLnk">
                         <a href="{{ route('notifications', '**SLUG**')}}" class="menu-link nav-link {{ (Session::get('notifications') > 0) ? 'text-danger font-weight-bold' : ''}}">
                             <i class="{{ (Session::get('notifications') > 0) ? 'fas' : 'far'}} fa-bell"></i> Notifications
                         </a>
@@ -61,7 +61,7 @@
                 @else
                     <li class="nav-item">
                         <a class="nav-link text-danger font-weight-bold mr-3 d-none d-md-flex align-items-center" href="tel: 911">
-                            <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">Emergency call</span>
+                            <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">

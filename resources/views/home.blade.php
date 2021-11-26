@@ -16,7 +16,7 @@
     
     <div class="container-fluid dashboard widgets-container">
         <div class="row justify-content-center">
-            <div class="col-md-8 ">
+            <div class="col-md-12 col-lg-8 ">
                 
                 <div class="row p-5 d-flex justify-content-between flex-wrap">
 
