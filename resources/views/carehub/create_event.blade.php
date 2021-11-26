@@ -317,6 +317,7 @@ input[type="date"]:before {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: "{{ $event->id ?? 0 }}",
                 loveone_id: "{{ $loveone->id ?? 0 }}",
+                loveone_name: "{{ $loveone->firstname. ' ' . $loveone->lastname ?? '' }}",
                 name: "{{ $event->name ?? '' }}",
                 location: "{{ $event->location ?? '' }}",
                 date: "{{ $event->date ?? '' }}",

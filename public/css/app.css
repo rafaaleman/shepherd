@@ -10415,6 +10415,14 @@ footer {
   cursor: pointer;
 }
 
+.card-body {
+  display: grid;
+}
+.card-body .card-text {
+  display: grid;
+  align-content: space-between;
+}
+
 .document-card .card-body {
   padding: 10px 0px 10px 50px;
 }

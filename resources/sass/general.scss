@@ -200,6 +200,16 @@ footer {
     margin-bottom: .5rem;
     cursor: pointer;
 }
+
+.card-body{
+    display: grid;
+
+    .card-text{
+        display: grid;
+        align-content: space-between;
+    }
+}
+
 .document-card .card-body{
     padding: 10px 0px 10px 50px;
 }
