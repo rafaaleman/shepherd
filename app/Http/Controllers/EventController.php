@@ -69,9 +69,11 @@ class EventController extends Controller
         $assigned_ids = $data['assigned'];
         $data['assigned_ids'] = json_encode($data['assigned']);
         $data['creator_id'] = Auth::user()->id;
-        //dd($data);
+        $loveone_name = $data['loveone_name'];
+        
         unset($data['_token']);
         unset($data['assigned']);
+        unset($data['loveone_name']);
         //dd($data);
         // edit
         if($request->id > 0)
@@ -95,6 +97,7 @@ class EventController extends Controller
         }
 
         $event->assigned = json_decode($event->assigned_ids);
+        $event->loveone_name = $loveone_name;
         $users = User::whereIn('id',$event->assigned)->get();
         //dd($users);
             //$user->notification(new EventNotification($event));
