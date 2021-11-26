@@ -317,6 +317,7 @@ input[type="date"]:before {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: "{{ $event->id ?? 0 }}",
                 loveone_id: "{{ $loveone->id ?? 0 }}",
+                loveone_name: "{{ $loveone->firstname. ' ' . $loveone->lastname ?? '' }}",
                 name: "{{ $event->name ?? '' }}",
                 location: "{{ $event->location ?? '' }}",
                 date: "{{ $event->date ?? '' }}",
@@ -398,7 +399,7 @@ input[type="date"]:before {
                         swal('There was an Error', txt, 'error');
                     });
                 }else{
-                    msg = 'has not assigned the sale to anyone. Please try again';
+                    msg = 'Please assign the task to yourself or another CareTeam member.';
                     icon = 'error';
                     $("#collapseMemers").addClass("show");
                     $('.loadingBtn').html('Save').attr('disabled', false);

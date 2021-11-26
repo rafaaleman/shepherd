@@ -176,11 +176,19 @@ class MessagesController extends Controller
         $user_id = $request->user_id;
         
         $loveone  = loveone::whereSlug($loveone_slug)->first();
+
+
         $chats = chat::where('loveone_id',$loveone->id)
                     ->where('sender_id',$user_id)
                     ->orWhere('receiver_id',$user_id)
                     ->get();
-        
+
+                    
+        if($chats->count()==0){
+            $resp['num_message']  = 0;
+            $resp['last_message'] = "";
+            return response()->json(['success' => true, 'data' => $resp], 200);
+        }
         foreach($chats as $c){
             $resp['last_message'] = " ";
             if($c->sender_id != $user_id){
@@ -189,6 +197,17 @@ class MessagesController extends Controller
             }
             $x++;
             $resp['num_message'] = $x;
+            
+        }
+        if($resp['last_message'] == " " && $x > 0){
+            
+            $id = $chats[$x-1]->id;
+
+            $chats = chat_message::where('id_chat',$id)->get();
+            foreach($chats as $c){
+                $usr = User::find($c->id_user);
+                $resp['last_message'] = $usr->name . ' ' . $usr->lastname;
+            }
             
         }
         return response()->json(['success' => true, 'data' => $resp], 200);
