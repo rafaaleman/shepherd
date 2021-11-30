@@ -6,11 +6,11 @@
         
         <div class="col-12 d-none d-sm-none d-lg-block mb-3">
             
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white ml-2">
-                Assign A Task
-            </a>
-            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white">
+            <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white mr-2">
                 Create Discussion
+            </a>
+            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn  btn-primary btn-lg  rounded-pill text-white mr-2">
+                Assign A Task
             </a>
             
         </div>
@@ -216,7 +216,7 @@
     <center>
         <div class=" d-block d-sm-block d-lg-none mb-3">
             
-            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white">
+            <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-4">
                 Assign A Task
             </a>
             <a href="{{route('carehub.discussion.form.create',[$loveone->slug])}}" class="btn btn-primary btn-lg  rounded-pill text-white mt-4">
