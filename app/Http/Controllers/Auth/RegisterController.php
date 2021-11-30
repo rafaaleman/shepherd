@@ -7,6 +7,7 @@ use App\Models\careteam;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
@@ -42,7 +43,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['updateUser']]);
+        $this->middleware('guest', ['except' => ['updateUser', 'showRegistrationForm2']]);
     }
 
     /**
@@ -104,6 +105,10 @@ class RegisterController extends Controller
     {
         $token = $request->token;
         $invitation = Invitation::whereToken($token)->first();
+
+        Session::flush();
+        Auth::logout();
+
         if($invitation){
             $email = $invitation->email;
             return view('auth.register', compact('email', 'token'));
