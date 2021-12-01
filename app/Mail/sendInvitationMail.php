@@ -31,6 +31,6 @@ class sendInvitationMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.sendInvitationMail')->subject('You have been invited to Shepherd')->with('details', $this->details);
+        return $this->markdown('emails.sendInvitationMail')->subject('You have been invited to create an account on ShepherdCares')->with('details', $this->details);
     }
 }
