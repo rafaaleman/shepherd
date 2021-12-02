@@ -106,7 +106,7 @@ class RegisterController extends Controller
         $token = $request->token;
         $invitation = Invitation::whereToken($token)->first();
 
-        Session::flush();
+        // Session::flush();
         Auth::logout();
 
         if($invitation){

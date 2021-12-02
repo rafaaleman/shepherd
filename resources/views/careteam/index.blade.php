@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <div class="card shadow-sm col-6 p-1" v-for="invitation in invitations">
+        <div class="card shadow-sm mm p-3 border mb-2 mr-2" v-for="invitation in invitations">
             <div class="member">
                 <img src="{{asset('/img/no-avatar.png')}}" class= mr-2">
                 <div class="data ml-2">
