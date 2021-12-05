@@ -122,7 +122,7 @@ class EventController extends Controller
         foreach ($careteam as $key => $team){
            // dd($team);
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/no-avatar.png');
                 if(Auth::user()->id == $team->user_id && $team->role == 'admin')
                     $is_admin = true;
             }
@@ -465,7 +465,7 @@ class EventController extends Controller
         $id_careteam = 0;
         foreach ($careteam as $key => $team){
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/no-avatar.png');
             }
         }
 
@@ -502,10 +502,10 @@ class EventController extends Controller
             $event->messages[$key]->time_cad_gi = $date_temp_m->format('g:i');
             $event->messages[$key]->time_cad_a = $date_temp_m->format('a');
             $event->messages[$key]->date_title = $date_temp_m->format('j M Y');
-            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/avatar2.png');
+            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/no-avatar.png');
             
          }
-         $event->creator->photo = ($event->creator->photo != '') ? $event->creator->photo :  asset('img/avatar2.png');
+         $event->creator->photo = ($event->creator->photo != '') ? $event->creator->photo :  asset('img/no-avatar.png');
          //dd();
         // dd($event);
         return view('carehub.event_detail',compact('event','is_careteam','id_careteam'));

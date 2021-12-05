@@ -44,7 +44,7 @@ class LockboxController extends Controller
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         $readTour = $this->alreadyReadTour('lockbox_index');
         /** 
-         * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/avatar2.png');
+         * $member->photo = ($member->photo != '') ? env('APP_URL').'/public'.$member->photo :  asset('public/img/no-avatar.png');
         */
 
         $loveone_slug = $request->loveone_slug;
