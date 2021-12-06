@@ -5,7 +5,7 @@
 
     <form id="create_lovedone_form" method="POST" action="#" style="width: 100%;" class="row" v-on:submit.prevent="createLoveone()" enctype="multipart/form-data">
         @csrf
-        <div class="cards col-md-5 mt-5 mx-auto">
+        <div class="cards col-sm-10 col-md-8 col-lg-5 mt-5 mx-auto">
             <div data-slide="1" class="card p-4 shadow-sm">
                 <h4 class="mb-3">Step 1 of 4: Tell us about your loved one</h4>
                 <div class="form-group row">

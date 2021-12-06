@@ -26,7 +26,7 @@ class MessageController extends Controller
         $message = message::create($data);
         $message->time_cad_gi = $date->format('g:i');
         $message->time_cad_a = $date->format('a');
-        $message->photo = (Auth::user()->photo != '') ? asset(Auth::user()->photo) :  asset('img/avatar2.png');
+        $message->photo = (Auth::user()->photo != '') ? asset(Auth::user()->photo) :  asset('img/no-avatar.png');
         $message->name = Auth::user()->name. ' ' . Auth::user()->lastname;
         // if ($request->ajax()) 
         return response()->json(['success' => true, 'message' => $message]);
@@ -46,7 +46,7 @@ class MessageController extends Controller
         $message = message_discussion::create($data);
         $message->time_cad_gi = $date->format('g:i');
         $message->time_cad_a = $date->format('a');
-        $message->photo = (Auth::user()->photo != '') ? asset(Auth::user()->photo) :  asset('img/avatar2.png');
+        $message->photo = (Auth::user()->photo != '') ? asset(Auth::user()->photo) :  asset('img/no-avatar.png');
         $message->name = Auth::user()->name. ' ' . Auth::user()->lastname;
         // if ($request->ajax()) 
         return response()->json(['success' => true, 'message' => $message]);

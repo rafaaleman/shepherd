@@ -25,9 +25,6 @@
                     Ooops! We found a problem... ;(
                 </div>
 
-                <a class="btn btn-primary btn-lg mt-5 mb-5" href="{{ route('register') }}">Create Account</a>
-                <br>
-
                 <div class="text-black-50 ">Already have an account?  <a href="{{ route('login') }}" class="">Login</a></div>
             </form>
         </div>

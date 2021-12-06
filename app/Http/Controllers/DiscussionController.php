@@ -77,7 +77,7 @@ class DiscussionController extends Controller
         foreach ($careteam as $key => $team){
             // dd($team);
              if(isset($team->user)){
-                 $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/avatar2.png');
+                 $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/no-avatar.png');
                  if(Auth::user()->id == $team->user_id && $team->role == 'admin')
                      $is_admin = true;
              }
@@ -121,13 +121,13 @@ class DiscussionController extends Controller
         $id_careteam = 0;
         foreach ($careteam as $key => $team){
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/no-avatar.png');
             }
         }
 
         foreach ($careteam as $key => $team){
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/no-avatar.png');
             }
         }
 
@@ -164,10 +164,10 @@ class DiscussionController extends Controller
             $discussion->messages[$key]->time_cad_gi = $date_temp_m->format('g:i');
             $discussion->messages[$key]->time_cad_a = $date_temp_m->format('a');
             $discussion->messages[$key]->date_title = $date_temp_m->format('j M Y');
-            $discussion->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/avatar2.png');
+            $discussion->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/no-avatar.png');
             
          }
-         $discussion->creator->photo = ($discussion->creator->photo != '') ? $discussion->creator->photo :  asset('img/avatar2.png');
+         $discussion->creator->photo = ($discussion->creator->photo != '') ? $discussion->creator->photo :  asset('img/no-avatar.png');
          //dd();
         // dd($event);
         return view('carehub.discussion_detail',compact('discussion','is_careteam','id_careteam'));

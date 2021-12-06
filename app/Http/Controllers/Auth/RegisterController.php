@@ -78,7 +78,7 @@ class RegisterController extends Controller
             'phone'    => $data['phone'],
             'dob'      => $data['dob-year'].'-'.$data['dob-month'].'-'.$data['dob-day'],
             'email'    => $data['email'],
-            'photo'    => (isset($data['photo'])) ? $data['photo'] : '/images/avatar2.png',
+            'photo'    => (isset($data['photo'])) ? $data['photo'] : '/images/no-avatar.png',
             'status'   => 1,
             'company'  => ($data['company']) ?: '',
             'password' => Hash::make($data['password']),
