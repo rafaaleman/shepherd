@@ -37,13 +37,19 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single','shepherd'],
             'ignore_exceptions' => false,
         ],
 
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
+            'level' => 'debug',
+        ],
+        
+        'shepherd' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/shepherd.log'),
             'level' => 'debug',
         ],
 

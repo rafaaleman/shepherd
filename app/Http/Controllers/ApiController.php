@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 
 use App\User;
 use App\Mail\sendJoinMail;
@@ -37,7 +39,10 @@ class ApiController extends Controller
      */
     public function create(Request $request)
     {
-       $response = array('message' => '', 'success'=>false);
+        
+        
+        Log::channel('shepherd')->info($request); 
+        $response = array('message' => '', 'success'=>false);
 
         $validation = Validator::make($request->all(),[ 
             'name' => 'required',
@@ -60,10 +65,9 @@ class ApiController extends Controller
             $response['message'] = "Error" ;
             $response['errors'] = $validation->messages();
         }else{
-
             $usr = User::where('email',$request->email)->first();
             if($usr){
-                dd($usr);
+               
                 $response['message'] = "Error" ;
                 $response['errors'] = "email registered";
             }else{
@@ -85,13 +89,17 @@ class ApiController extends Controller
                 $response['x'] = $usr;
                 $response['pwd'] = $password;
                 $response['errors'] = $validation->messages();
+                
+                
+                $details['url'] = route('home');
+                $details['email'] = $email;
+                $details['pwd'] = $password;
+                Mail::to($email)->send(new sendJoinMail($details));
             }
         }
-    
-        $details['url'] = route('home');
-        $details['email'] = $email;
-        $details['pwd'] = $password;
-        Mail::to($email)->send(new sendJoinMail($details));
+        
+        
+        Log::channel('shepherd')->info($response); 
         return response()->json($response, 201);
     }
 
