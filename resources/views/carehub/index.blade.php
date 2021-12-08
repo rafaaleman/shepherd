@@ -114,7 +114,7 @@
                                     <div class="col-12 row eventinf" style="line-height:.7">
 
                                         <div class="col-12 col-lg-6">
-                                            <h5 class="font-weight-bold text-truncate">@{{discussion.name}}</h5>
+                                            <h5 class="font-weight-bold">@{{discussion.name}}</h5>
                                             <p class="text-muted text-truncate">@{{discussion.notes}}</p>
                                         </div>
                                         <div class="widget team col-12 col-lg-6 p-0">
@@ -178,7 +178,7 @@
                                     <div class="col-8 col-sm-9 col-lg-10 row eventinf" style="line-height:.7">
 
                                         <div class="col-12 col-lg-6">
-                                            <h5 class="font-weight-bold text-truncate">@{{day.name}}</h5>
+                                            <h5 class="font-weight-bold">@{{day.name}}</h5>
                                             <p class="text-muted text-truncate">@{{day.location}}</p>
                                         </div>
                                         <div class="widget team col-12 col-lg-6 p-0">
