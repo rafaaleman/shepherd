@@ -20,14 +20,14 @@
             </div>
             <!-- Row start -->
             <div class="row no-gutters">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                     <div class="users-container">
                         <div class="chat_list" v-for="(chat, i) in chats" :id=" 'chat_' + chat.id " @click="selectChat(chat)" :class="(selected_chat == chat.id
                         ) ? 'active_chat' : '' ">
 
                             <div class="chat_people">
                                 <div class="chat_img"> 
-                                    <img class="img-fluid" :src="chat.user.photo" alt="sunil"> 
+                                    <img class="img-fluid" :src="chat.user.photo" alt="User Photo"> 
                                 </div>
                                 <div class="chat_ib">
                                     <h5>                                    
@@ -43,7 +43,7 @@
 
                     </div>
                 </div>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
+                <div class="col-xl-4 col-lg-6 col-md-8 col-sm-12">
                     <div class="chat-container" v-if="selected_chat">
                         <ul class="chat-box chatContainerScroll" ref="message_list">
 
@@ -69,7 +69,7 @@
                         <br>
                         <input type="checkbox" id="urgent" name="urgent" v-model="urgent">
                         <label for="urgent">Mark this message as urgent</label>
-                        <a class="btn btn-primary btn-sm float-right" @click="sendMessage">Send Message</a>
+                        <a class="btn btn-primary btn-sm" @click="sendMessage">Send Message</a>
                     </div>
                 </div>
             </div>
