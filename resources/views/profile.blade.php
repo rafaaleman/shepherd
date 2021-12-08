@@ -124,7 +124,7 @@
                 <table width="100%" class="invitations" v-if="invitations">
                     <tr v-for="invitation in invitations">
                         <td>
-                            <img :src="invitation.loveone.photo" class="photo">
+                            <img :src="invitation.loveone.photo" class="photo" width="100">
                         </td>
                         <td>
                             <strong>@{{ invitation.loveone.firstname }} @{{ invitation.loveone.lastname }}</strong>
