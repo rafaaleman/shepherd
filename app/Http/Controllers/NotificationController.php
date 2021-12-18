@@ -74,6 +74,12 @@ class NotificationController extends Controller
                     $notification->type = 'medlist';
                     $notification->icon = 'fas fa-prescription-bottle-alt';
                     
+                } else if($n->table == 'discussions'){
+                    $notification->title = 'You have a pending Discussion';
+                    $notification->description = '';
+                    $notification->type = 'discussion';
+                    $notification->icon = 'far fa-comments';
+                    
                 } else { 
                     $notification->description = '';
                     $notification->icon = 'far fa-calendar-alt';
