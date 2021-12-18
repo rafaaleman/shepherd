@@ -14,16 +14,21 @@ use App\Http\Requests\CreateLoveoneRequest;
 
 class LoveoneController extends Controller
 {
-   
 
     /**
      * Shows the create loveone form
      */
     public function index()
     {
-        $relationships = relationship::where('status', 1)->get();
-        $conditions    = condition::where('status', 1)->get();
-        return view('loveone.create', compact('relationships', 'conditions'));
+        $careteams = careteam::where('user_id', Auth::user()->id)->where('status', 1)->get()->keyBy('loveone_id');
+
+        if($careteams->count() < 3){
+            $relationships = relationship::where('status', 1)->get();
+            $conditions    = condition::where('status', 1)->get();
+            return view('loveone.create', compact('relationships', 'conditions'));
+        } else {
+            return view('loveone.max_lovedones');
+        }
     }
 
     /**

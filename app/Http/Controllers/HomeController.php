@@ -10,6 +10,7 @@ use App\Models\careteam;
 use App\Models\relationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -31,6 +32,7 @@ class HomeController extends Controller
     public function index()
     {
         $loveones = $this->getLoveones();
+        Session::put('total_loveones', $loveones->count());
         $careteam_users = null;
         // dd($loveones->count());
         if($loveones->count() > 0){
