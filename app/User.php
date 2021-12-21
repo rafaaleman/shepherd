@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password', 'phone', 'dob', 'photo', 'status','company','guard'
+        'name', 'lastname', 'email', 'password', 'phone', 'dob', 'photo', 'status','company','guard','two_factor_code','two_factor_expires_at'
     ];
 
     /**
@@ -37,6 +37,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $dates = [
+        'two_factor_expires_at'
+    ];
+    
     public function permission($permission,$loveones){
         $care = $this->belongsTo('App\Models\careteam','id', 'user_id')->where('loveone_id',$loveones)->first();
         $permissions =  \unserialize($care->permissions);
@@ -48,6 +52,22 @@ class User extends Authenticatable
         }
 
 
+    }
+
+    public function generateTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_expires_at = now()->addMinutes(10);
+        $this->save();
+    }
+
+    public function resetTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
     }
 
 }
