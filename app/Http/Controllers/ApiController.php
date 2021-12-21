@@ -50,6 +50,7 @@ class ApiController extends Controller
             'phone' => 'required',
             'dob' => 'required',
             'email' => 'required',
+            'password' => 'required',
         ]);
 
         $name     = $request->input('name');
@@ -59,7 +60,7 @@ class ApiController extends Controller
         $email    = $request->input('email');
         $company  = $request->input('company','454');
         $photo    = '/images/avatar2.png';
-        $password = Str::random(8);
+        $password = $request->input('password');
 
         if($validation->fails()){
             $response['message'] = "Error" ;
