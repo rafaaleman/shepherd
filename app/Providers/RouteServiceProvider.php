@@ -65,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapLoveoneRoutes()
     {
         Route::prefix('loveone')
-            ->middleware('web', 'auth','two_factor')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/loveone.php'));
     }
@@ -95,7 +95,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapCareteamRoutes()
     {
         Route::prefix('careteam')
-            ->middleware('web', 'auth','two_factor')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/careteam.php'));
     }
@@ -111,7 +111,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapNotificationsRoutes()
     {
         Route::prefix('notifications')
-            ->middleware('web', 'auth','two_factor')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/notifications.php'));
     }
@@ -142,7 +142,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapCarehubRoutes()
     {
         Route::prefix('carehub')
-            ->middleware('web', 'auth','two_factor')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/carehub.php'));
     }
@@ -156,7 +156,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapLockboxRoutes()
     {
         Route::prefix('lockbox')
-            ->middleware('web', 'auth','two_factor')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/lockbox.php'));
     }
@@ -170,7 +170,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapMedlistRoutes()
     {
         Route::prefix('medlist')
-            ->middleware('web', 'auth','two_factor')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/medlist.php'));
     }
@@ -184,7 +184,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapMessagesRoutes()
     {
         Route::prefix('messages')
-            ->middleware('web', 'auth','two_factor')
+            ->middleware('web', 'auth')
             ->namespace($this->namespace)
             ->group(base_path('routes/messages.php'));
     }
