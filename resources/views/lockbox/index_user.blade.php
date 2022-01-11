@@ -267,7 +267,7 @@ a:hover {
             },
             urlFile(file){                
                 
-                return str = "{{ URL::to('lockbox/document/') }}/" + file;
+                return str = "{{ URL::to('lockbox/document/') }}/" + file.id;
             }
         },
         methods: {
