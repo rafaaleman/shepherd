@@ -202,7 +202,7 @@ class EventController extends Controller
     }
 
     public function getCalendar(Request $request){
-
+        
         if(isset($request->month)){
             $to_date = new DateTime();
             $calendar = $this->calendar_month($to_date->format('Y-m'));
@@ -249,8 +249,9 @@ class EventController extends Controller
         //dump($semana1, $semana2,date("m", strtotime($mes)),$fecha, $dateini);
         if (date("m", strtotime($mes))==12) {
             $semana = 5;
-        }
-        else {
+        }else if($semana1 > $semana2){
+            $semana = $semana2+1;
+        }else {
           $semana = ($semana2-$semana1)+1;
         }
         // semana todal del mes
@@ -278,6 +279,7 @@ class EventController extends Controller
             $dataweek['semana'] = $iweek;
             $dataweek['datos'] = $weekdata;
             //$datafecha['horario'] = $datahorario;
+           // dump($dataweek);
             array_push($calendario,$dataweek);
         endwhile;
         $nextmonth = date("Y-M",strtotime($mes."+ 1 month"));
@@ -298,6 +300,7 @@ class EventController extends Controller
       }
 
       public static function calendar_week_month($month){
+      //    dump($month);
         //$mes = date("Y-m");
         $mes = $month;
       //  dump($mes);
@@ -309,12 +312,13 @@ class EventController extends Controller
         $montmonth  =  date("m", strtotime($fecha));
         $yearmonth  =  date("Y", strtotime($fecha));
         //$montmonth =  $montmonth -1; 
-      //  dump($montmonth);
+      //  dump($daylast, $fecha,$daysmonth, $montmonth, $yearmonth);
         // sacar el lunes de la primera semana
         $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
 
-       // dd($nuevaFecha);
         $diaDeLaSemana = date("w", $nuevaFecha);
+       // dump($nuevaFecha, $diaDeLaSemana);
+
         $nuevaFecha = $nuevaFecha - ($diaDeLaSemana*24*3600); //Restar los segundos totales de los dias transcurridos de la semana
         $dateini = date ("Y-m-d",$nuevaFecha);
         //$dateini = date("Y-m-d",strtotime($dateini."+ 1 day"));
@@ -326,10 +330,12 @@ class EventController extends Controller
         // en caso si es diciembre
         if (date("m", strtotime($mes))==12) {
             $semana = 5;
-        }
-        else {
+        }else if($semana1 > $semana2){
+            $semana = $semana2+1;
+        }else {
           $semana = ($semana2-$semana1)+1;
         }
+        //dd($semana1,$semana2,$semana);
         // semana todal del mes
         $datafecha = $dateini;
         $calendario = array();
@@ -373,6 +379,7 @@ class EventController extends Controller
 
       public function getWeek($calendar,$date_day){
           $week = '';
+         // dump($calendar,$date_day);
           //obtener la semana que abarca el día señalado
           foreach($calendar['calendar'] as $i => $w){
                 foreach($w['datos'] as $day){
@@ -381,6 +388,8 @@ class EventController extends Controller
                     }
                 }
           }
+        //  dd($week);
+
           //obtener los das que muestra en web
           $dateini = date("Y-m-d",strtotime($week[0]['fecha']));
           $datafecha = $dateini;
