@@ -153,6 +153,7 @@ class RegisterController extends Controller
             'lastname' => $user->lastname,
             'phone'    => $user->phone,
             'email'    => $user->email,
+            'address'  => $user->address,
         ];
         
 
