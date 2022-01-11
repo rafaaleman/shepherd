@@ -9,11 +9,7 @@ $bg = rand(1,3);
         <div class="col-md-6 image" style="background-image: url('{{asset('/img/bg'.$bg.'.png')}}')"></div>
 
         <div class="col d-flex justify-content-center align-items-center text-center mt-4">
-            @if(session()->has('message'))
-            <p class="alert alert-info">
-                {{ session()->get('message') }}
-            </p>
-            @endif
+            
             <form method="POST" action="{{ route('verify.store') }}" id="two_factor_code_form">
                 @csrf
 
@@ -27,8 +23,14 @@ $bg = rand(1,3);
                 <h1>Type your verification code</h1>
                 <p class="text-muted">
                     You have received an email which contains a six digit verification code.
-                    If you haven't received it, click <a href="{{ route('verify.resend') }}"><b>here</b> to resend</a>.
+                    If you haven't received it, click <a href="{{ route('verify.resend') }}" id="resend"><b>here</b> to resend</a>.
                 </p>
+
+                @if(session()->has('message'))
+                <p class="alert alert-info">
+                    {{ session()->get('message') }}
+                </p>
+                @endif
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -145,6 +147,10 @@ $bg = rand(1,3);
     $(function() {
 
         $('#two_factor_code_form').submit(function() {
+            $('#verifyBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
+        });
+
+        $('#resend').click(function() {
             $('#verifyBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
         })
     });
