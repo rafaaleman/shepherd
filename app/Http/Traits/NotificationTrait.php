@@ -38,6 +38,7 @@ trait NotificationTrait {
 
             $notifications = notification::where('user_id', $user_id)
                                             ->where('loveone_id', $loveone->id)
+                                            ->where('read', 0)
                                             ->whereBetween('event_date', [$from, $to])
                                             ->get()->count();
                                             // dd($user_id, $loveone->id);
