@@ -294,7 +294,8 @@
                 return str;
             },
             urlFile(file){                
-                return str = "{{ URL::to('/') }}" + file;
+                //return str = "{{ URL::to('/') }}" + file;
+                return str = "{{ URL::to('lockbox/document/') }}/" + file;
             }
         },
         computed:{ 
@@ -356,7 +357,9 @@
                     @endif
                 });
             },
-            viewDocument(doc){                
+            viewDocument(doc){ 
+                console.log(doc);   
+
                 this.document.id               = doc.id;
                 this.document.user_id          = doc.user_id;
                 this.document.loveones_id      = doc.loveones_id;
@@ -481,15 +484,19 @@
                 });
             },
             showM(type,doc) {
+
                 this.document.lockbox_types_id = type;
+
                 this.edit_doc = (type < 8 ) ? true:false;
 
                 if(doc == null){
                     this.buildPermission();
                     $('#createModal').modal('show');
                 }else if(doc.file){
-                    this.viewDocument(doc);
+                    this.viewDocument(doc.file);
+                    console.log('entra a type');
                 }else {
+                    console.log('entra a normal');
                     this.buildPermission();
                     this.document.name = doc.name;
                     this.document.description = doc.description;
