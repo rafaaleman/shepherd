@@ -2,17 +2,7 @@
 
 @section('content')
 <div class="container"  id="lockbox">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <h4>RECENT DOCUMENTS</h4>            
-                <div class="carrusel">
-                    <div v-for="doc in lastDocuments" v-on:click="viewDocument(doc)" >
-                        <img :src="doc.file|isImage" class="carrusel-doc">
-                        <h5 class="t2 text-center">@{{ doc.name }}</h5>
-                    </div>                    
-                </div>            
-        </div>
-    </div>
+
     <div class="row mt-3">
         <div class="col-12">
             <h4>ESSENTIAL DOCUMENTS</h4>
@@ -276,12 +266,12 @@ a:hover {
                 return str;
             },
             urlFile(file){                
-                return str = "{{ URL::to('/') }}" + file;
+                
+                return str = "{{ URL::to('lockbox/document/') }}/" + file;
             }
         },
         methods: {
-            viewDocument(doc){  
-                console.log(doc);              
+            viewDocument(doc){              
                 this.document.id               = doc.id;
                 this.document.user_id          = doc.user_id;
                 this.document.loveones_id      = doc.loveones_id;

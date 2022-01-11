@@ -357,8 +357,7 @@
                     @endif
                 });
             },
-            viewDocument(doc){ 
-                console.log(doc);   
+            viewDocument(doc){   
 
                 this.document.id               = doc.id;
                 this.document.user_id          = doc.user_id;
@@ -430,7 +429,7 @@
                         'Content-Type': 'multipart/form-data'
                     }
                     }).then(response => {
-                        console.log(response);
+                        
                     if( response.data.success == true ){
                                 msg = 'The Document has updated';
                                 icon = 'success';
@@ -468,7 +467,7 @@
                             id_doc: doc.id,
                         };
                         axios.post(url, data).then(response => {
-                            console.log(response.data);
+                            
                             if( response.data.success == true ){
                                 msg = 'Document deleted';
                                 icon = 'success';
@@ -494,9 +493,9 @@
                     $('#createModal').modal('show');
                 }else if(doc.file){
                     this.viewDocument(doc.file);
-                    console.log('entra a type');
+                    
                 }else {
-                    console.log('entra a normal');
+                    
                     this.buildPermission();
                     this.document.name = doc.name;
                     this.document.description = doc.description;

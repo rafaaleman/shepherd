@@ -17,7 +17,7 @@
                             Click To Change Photo
                         @endif
                     </div>
-                    <input id="photo" type="file" class="d-none form-control" name="photo" accept=".jpg, .png" v-on:change="onFileChange">
+                    <input id="photo" type="file" class="d-none form-control" name="photo" accept=".jpg, .png, .jpeg" v-on:change="onFileChange">
                 </div>
             </div>
         </div>
