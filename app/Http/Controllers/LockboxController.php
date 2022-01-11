@@ -12,6 +12,8 @@ use App\Models\lockbox_types;
 use App\Models\lockbox_permissions;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
+use Illuminate\Support\Facades\Storage;
+use SoareCostin\FileVault\Facades\FileVault;
 use Session;
 
 /**
@@ -223,14 +225,24 @@ class LockboxController extends Controller
 
         $permisisons = \json_decode($request->permissions);
 
-        $repo = 'loveones/lockbox/' . $request->loveones_id;
+        $repo = 'lockbox/' . $request->loveones_id;
         
-        if ($request->hasFile('file')){
+
+        if ($request->hasFile('file') && $request->file('file')->isValid() ){
             $fileName = time().'_'.$request->file->getClientOriginalName();
-            $filePath = $repo .'/'. $fileName;
-            //$filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
+            //$filePath = $repo .'/'. $fileName;
+            //$filePath = $request->file('file')->storeAs($repo, $fileName, 'public');            
+            //$request->file('file')->move(public_path($repo), $fileName);
             
-            $request->file('file')->move(public_path($repo), $fileName);
+            
+            //$filename_up = Storage::putFile($repo, $request->file('file'),$fileName);
+            $filename_up = Storage::putFileAs(
+                $repo, $request->file('file'), $fileName
+            );
+             // Check to see if we have a valid file uploaded
+             if ($filename_up) {
+                FileVault::encrypt($filename_up);
+            }
 
             $doct = new Lockbox;
             $doct->user_id          = $request->user_id; 
@@ -239,7 +251,7 @@ class LockboxController extends Controller
             $doct->name             = $request->name;
             $doct->description      = $request->description;      
             $doct->status           = $request->status;
-            $doct->file             =  '/'.$filePath;
+            $doct->file             = $filename_up;
             
             
             if($doct->save()){
@@ -307,28 +319,34 @@ class LockboxController extends Controller
 
         $permisisons = \json_decode($request->permissions);
         
-        //$repo = 'uploads/' . $request->user_id;
-        $repo = 'loveones/' . $request->loveones_id;
+        
+        $repo = 'lockbox/' . $request->loveones_id;
 
         $doct              = Lockbox::find($request->id);
         $doct->name        = $request->name;
         $doct->description = $request->description;      
         $doct->status      = $request->status;
-
         
-        if ($request->hasFile('file')){
-            if(\File::exists(public_path($doct->file))){
-                \File::delete(public_path($doct->file));
+        $tmpDoc = $doct->file . '.enc';
+
+        if ($request->hasFile('file') && $request->file('file')->isValid() ){
+
+            if(Storage::exists($tmpDoc)){
+                Storage::delete($tmpDoc);
                 $doct->delete();
             }
-            $fileName   = time().'_'.$request->file->getClientOriginalName();
-            //$filePath   = $request->file('file')->storeAs($repo, $fileName, 'public');
-            //$doct->file = '/storage/' . $filePath;
-            $filePath = $repo .'/'. $fileName;
-            //$filePath = $request->file('file')->storeAs($repo, $fileName, 'public');
             
-            $request->file('file')->move(public_path($repo), $fileName);
-            $doct->file = "/" . $filePath;
+            $fileName = time().'_'.$request->file->getClientOriginalName();            
+            
+            //$filename_up = Storage::putFile($repo, $request->file('file'),$fileName);
+            $filename_up = Storage::putFileAs(
+                $repo, $request->file('file'), $fileName
+            );
+            // Check to see if we have a valid file uploaded
+            if ($filename_up) {
+                FileVault::encrypt($filename_up);
+            }
+            $doct->file = $filename_up;
         }
 
         
@@ -463,5 +481,33 @@ class LockboxController extends Controller
             ];
             $this->createNotification($notification);
         }
+    }
+
+        /**
+     * Download a file
+     *
+     * @param  string  $filename
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadFile($id_file)
+    {
+        $doc  = Lockbox::find($id_file);
+        if($doc){
+            $tmpDoc = $doc->file . '.enc';
+            $ruta = explode('/',$doc->file);
+            $tmpFile = end($ruta);
+            
+            if(!Storage::exists($tmpDoc)){
+                abort(404);
+            }
+
+            return response()->streamDownload(function () use ($tmpDoc) {
+                FileVault::streamDecrypt($tmpDoc);
+            }, $tmpFile); 
+            
+        }else{
+            abort(404);
+        }
+        
     }
 }

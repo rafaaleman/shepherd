@@ -20,7 +20,7 @@
             </div>
             <!-- Row start -->
             <div class="row no-gutters">
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                     <div class="users-container">
                         <div class="chat_list" v-for="(chat, i) in chats" :id=" 'chat_' + chat.id " @click="selectChat(chat)" :class="(selected_chat == chat.id
                         ) ? 'active_chat' : '' ">
@@ -43,7 +43,7 @@
 
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-6 col-md-8 col-sm-12">
+                <div class="col-xl-8 col-lg-6 col-md-8 col-sm-12">
                     <div class="chat-container" v-if="selected_chat">
                         <ul class="chat-box chatContainerScroll" ref="message_list">
 
@@ -51,8 +51,9 @@
                                 <div class="chat-avatar">
 
                                     <img :src="selected_chat2.user.photo" v-if="message.id_user == user">
+                                    <img :src="user_photo"  v-if="message.id_user != user">
                                     
-                                    <img src="https://2mingenieria.com.ve/wp-content/uploads/2018/10/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" v-if="message.id_user != user">
+                                    
                                     
                                 </div>
                                 <div class="chat-text">
@@ -332,6 +333,7 @@ body{margin-top:20px;}
          data: 
          {
             user : {{ Auth::id() }},
+            user_photo : '{{ Auth::user()->photo }}',
             user_send: null,
             selected_chat: null,
             selected_chat2: null,
