@@ -42,7 +42,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        $user->generateTwoFactorCode();
-        $user->notify(new TwoFactorCode());
+       // $user->generateTwoFactorCode();
+       // $user->notify(new TwoFactorCode());
     }
 }
