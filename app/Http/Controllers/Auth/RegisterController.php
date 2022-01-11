@@ -163,8 +163,8 @@ class RegisterController extends Controller
         $photo = '';
         if($user->photo){
 
-            $prefix = str_replace('@', '_at_', $user->email);
-            $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+            $prefix = explode('@', $user->email);
+            $photoName = $prefix[0].'_'.time().'.'.$request->file->getClientOriginalExtension();
             $request->file->move(public_path('members/'), $photoName);
             $photo = '/members/'.$photoName;
 
