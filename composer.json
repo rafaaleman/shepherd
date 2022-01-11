@@ -15,7 +15,8 @@
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.4",
-        "pusher/pusher-php-server": "~4.0"
+        "pusher/pusher-php-server": "~4.0",
+        "soarecostin/file-vault": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

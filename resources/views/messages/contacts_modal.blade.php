@@ -15,7 +15,7 @@
                         <div class="chat_list" v-for="cc in contacts" @click="newChat(cc)">
                             <div class="chat_people">
                                 <div class="chat_img"> 
-                                    <img src="url('{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('/img/no-avatar.png')}}')"" alt="User Photo"> 
+                                    <img :src="cc.photo" alt="User Photo" width="60" >
                                 </div>
                                 <div class="chat_ib">
                                     <h5>@{{ cc.name }} </h5>
