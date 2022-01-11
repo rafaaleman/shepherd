@@ -27,7 +27,10 @@
 
                             <div class="chat_people">
                                 <div class="chat_img"> 
-                                    <img class="img-fluid" :src="chat.user.photo" alt="User Photo"> 
+
+                                    <img class="img-fluid" :src="chat.user.photo" alt="User Photo" v-if="chat.user.photo"> 
+                                    <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
+                                    
                                 </div>
                                 <div class="chat_ib">
                                     <h5>                                    
@@ -48,10 +51,17 @@
                         <ul class="chat-box chatContainerScroll" ref="message_list">
 
                             <li class="chat" v-for="(message,i) in messages">
-                                <div class="chat-avatar">
-
-                                    <img :src="selected_chat2.user.photo" v-if="message.id_user == user">
-                                    <img :src="user_photo"  v-if="message.id_user != user">
+                                <div class="chat-avatar" >
+                                    <template v-if="message.id_user != user" >
+                                        <img class="img-fluid" :src="user_photo"  v-if="user_photo !='' ">
+                                        <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
+                                    </template>
+                                    <template v-if="message.id_user == user">
+                                        <img class="img-fluid" :src="selected_chat2.user.photo" v-if="selected_chat2.user.photo != ''" >
+                                        <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
+                                    </template>
+                                    
+                                    
                                     
                                     
                                     
