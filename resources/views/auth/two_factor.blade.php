@@ -20,10 +20,12 @@ $bg = rand(1,3);
                 alt="Main Shepherd logo"
                 class="mb-5" >
 
-                <h1>Type your verification code</h1>
+                <h4 class="mb-3">Type your verification code</h4>
                 <p class="text-muted">
-                    You have received an email which contains a six digit verification code.
-                    If you haven't received it, click <a href="{{ route('verify.resend') }}" id="resend"><b>here</b> to resend</a>.
+                    To protect personal health information, we require two-step verification when you log-in to your account. 
+                </p>
+                <p class="text-muted">
+                    You have been emailed a verification code to confirm your identity. Please enter this code to proceed. If you have not received an email containing your code, please check your spam or junk folder or click <a href="{{ route('verify.resend') }}" id="resend"><b>here</b> to resend</a>. 
                 </p>
 
                 @if(session()->has('message'))
@@ -47,7 +49,7 @@ $bg = rand(1,3);
                 </div>
 
                 <div class="row">
-                    <div class="col-12 text-right">
+                    <div class="col-12 text-center">
                         <a class="btn btn-danger loadingBtn btn-lg mb-4" href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                             {{ trans('Sign Out') }}
                         </a>
