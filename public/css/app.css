@@ -10415,10 +10415,10 @@ footer {
   cursor: pointer;
 }
 
-.card-body {
+#home .card-body {
   display: grid;
 }
-.card-body .card-text {
+#home .card-body .card-text {
   display: grid;
   align-content: space-between;
 }
