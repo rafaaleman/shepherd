@@ -111,11 +111,11 @@
                             <template v-for="(discussion,index) in discussions" >
                                 <div class="row border-bottom-1 mb-3" v-if="discussion.status">
                                     
-                                    <div class="col-12 row eventinf" style="line-height:.7">
+                                    <div class="col-12 row eventinf">
 
                                         <div class="col-12 col-lg-6">
                                             <h5 class="font-weight-bold">@{{discussion.name}}</h5>
-                                            <p class="text-muted text-truncate">@{{discussion.notes}}</p>
+                                            <p class="text-muted">@{{discussion.notes}}</p>
                                         </div>
                                         <div class="widget team col-12 col-lg-6 p-0">
                                             <div class="d-flex">
@@ -169,17 +169,17 @@
                                 <div class="row border-bottom-1 mb-3" v-if="day.status">
                                     <div class="col-4 col-sm-3 col-lg-2">
                                         <div class="bottom-50 end-50">
-                                            <h3 class="text-danger font-weight-bold text-uppercase time" style="line-height:.7">
+                                            <h3 class="text-danger font-weight-bold text-uppercase time">
                                                 @{{day.time_cad_gi}} <br /><small style="font-size:.6em">@{{day.time_cad_a}}</small>
                                                
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="col-8 col-sm-9 col-lg-10 row eventinf" style="line-height:.7">
+                                    <div class="col-8 col-sm-9 col-lg-10 row eventinf">
 
                                         <div class="col-12 col-lg-6">
                                             <h5 class="font-weight-bold">@{{day.name}}</h5>
-                                            <p class="text-muted text-truncate">@{{day.location}}</p>
+                                            <p class="text-muted">@{{day.location}}</p>
                                         </div>
                                         <div class="widget team col-12 col-lg-6 p-0">
                                             <div class="d-flex">

@@ -30,8 +30,15 @@ $(function(){
             $(this).attr('href', newurl)
         });
     } else {
-        $('.notificationsLnk').hide();
+        //$('.notificationsLnk').hide();
     }
 });
+
+setTimeout(() => {
+    current_loveone = localStorage.getItem('loveone');
+    if(current_loveone == null){
+        $('.notificationsLnk').hide();
+    }
+}, 2000);
 </script>
 @endpush

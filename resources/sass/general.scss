@@ -201,12 +201,14 @@ footer {
     cursor: pointer;
 }
 
-.card-body{
-    display: grid;
-
-    .card-text{
+#home{
+    .card-body{
         display: grid;
-        align-content: space-between;
+    
+        .card-text{
+            display: grid;
+            align-content: space-between;
+        }
     }
 }
 

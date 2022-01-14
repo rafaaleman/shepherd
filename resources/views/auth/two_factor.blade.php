@@ -9,11 +9,7 @@ $bg = rand(1,3);
         <div class="col-md-6 image" style="background-image: url('{{asset('/img/bg'.$bg.'.png')}}')"></div>
 
         <div class="col d-flex justify-content-center align-items-center text-center mt-4">
-            @if(session()->has('message'))
-            <p class="alert alert-info">
-                {{ session()->get('message') }}
-            </p>
-            @endif
+            
             <form method="POST" action="{{ route('verify.store') }}" id="two_factor_code_form">
                 @csrf
 
@@ -24,11 +20,19 @@ $bg = rand(1,3);
                 alt="Main Shepherd logo"
                 class="mb-5" >
 
-                <h1>Type your verification code</h1>
+                <h4 class="mb-3">Type your verification code</h4>
                 <p class="text-muted">
-                    You have received an email which contains a six digit verification code.
-                    If you haven't received it, click <a href="{{ route('verify.resend') }}"><b>here</b> to resend</a>.
+                    To protect personal health information, we require two-step verification when you log-in to your account. 
                 </p>
+                <p class="text-muted">
+                    You have been emailed a verification code to confirm your identity. Please enter this code to proceed. If you have not received an email containing your code, please check your spam or junk folder or click <a href="{{ route('verify.resend') }}" id="resend"><b>here</b> to resend</a>. 
+                </p>
+
+                @if(session()->has('message'))
+                <p class="alert alert-info">
+                    {{ session()->get('message') }}
+                </p>
+                @endif
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -45,7 +49,7 @@ $bg = rand(1,3);
                 </div>
 
                 <div class="row">
-                    <div class="col-12 text-right">
+                    <div class="col-12 text-center">
                         <a class="btn btn-danger loadingBtn btn-lg mb-4" href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                             {{ trans('Sign Out') }}
                         </a>
@@ -145,6 +149,10 @@ $bg = rand(1,3);
     $(function() {
 
         $('#two_factor_code_form').submit(function() {
+            $('#verifyBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
+        });
+
+        $('#resend').click(function() {
             $('#verifyBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
         })
     });

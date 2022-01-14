@@ -492,37 +492,37 @@ const home = new Vue ({
 
 $(function(){
     $(".tabs").click(function(){            
-            $(".tabs").removeClass("active");
-            $(".tabs h6").removeClass("font-weight-bold");
-            $(".tabs h6").addClass("text-muted");
-            $(this).children("h6").removeClass("text-muted");
-            $(this).children("h6").addClass("font-weight-bold");
-            $(this).addClass("active");
+        $(".tabs").removeClass("active");
+        $(".tabs h6").removeClass("font-weight-bold");
+        $(".tabs h6").addClass("text-muted");
+        $(this).children("h6").removeClass("text-muted");
+        $(this).children("h6").addClass("font-weight-bold");
+        $(this).addClass("active");
 
-            current_fs = $(".active");
+        current_fs = $(".active");
 
-            next_fs = $(this).attr('id');
-            next_fs = "#" + next_fs + "1";
+        next_fs = $(this).attr('id');
+        next_fs = "#" + next_fs + "1";
 
-            $("fieldset").removeClass("show");
-            $(next_fs).addClass("show");
+        $("fieldset").removeClass("show");
+        $(next_fs).addClass("show");
 
-            current_fs.animate({}, {
-                step: function() {
-                    current_fs.css({
-                        'display': 'none',
-                        'position': 'relative'
-                    });
-                    next_fs.css({
-                        'display': 'block'
-                    });
-                }
-            });
+        current_fs.animate({}, {
+            step: function() {
+                current_fs.css({
+                    'display': 'none',
+                    'position': 'relative'
+                });
+                next_fs.css({
+                    'display': 'block'
+                });
+            }
         });
+    });
 
     @if (session('err_permisison'))
     
-    swal('Error',"{!! session('err_permisison') !!}", 'error');
+        swal('Error',"{!! session('err_permisison') !!}", 'error');
     @endif
 
     $('.carousel').carousel({

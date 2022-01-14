@@ -5,7 +5,7 @@
 
     <div class="row mt-3">
         <div class="col-12">
-            <h4>ESSENTIAL DOCUMENTS</h4>
+            <h5>Recommended Documents</h5>
         </div>
                 <div v-for="doc in types" v-if="doc.asFile" v-on:click="viewDocument(doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle"  >
                     <div class="card-body">
@@ -17,7 +17,7 @@
     </div>
     <div class="row mt-5">
         <div class="col-12">
-            <h4>ALL DOCUMENTS</h4>
+            <h5>Other Documents</h5>
         </div>
         <div class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4 align-middle"  v-for="doc in documents" v-on:click="viewDocument(doc)" >
             <div class="card-body">

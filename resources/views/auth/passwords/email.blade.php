@@ -43,7 +43,8 @@
                             {{ __('Send Password Reset Link') }}
                         </button>
 
-                        <div class="text-black-50 mt-5"> Already have an account? <a href="{{ route('login') }}">Login</a></div>
+                        <div class="text-black-50 mt-5"> 
+                            <a class="d-block btn btn-primary btn-lg mt-5 mb-5" href="{{ route('login') }}">Login</a></div>
                     </div>
                 </div>
             </form>

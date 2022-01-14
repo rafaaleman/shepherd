@@ -25,7 +25,8 @@
                 Create your account and get immediate access to the tools and resources you need to better care for your loved one while regaining balance in your life.
                 </div>
 
-                <div class="text-black-50 ">Already have an account?  <a href="{{ route('login') }}" class="">Login</a></div>
+                <div class="text-black-50 ">Already have an account? 
+                    <a class="d-block btn btn-primary btn-lg mt-5 mb-5" href="{{ route('login') }}" class="">Login</a></div>
             </form>
         </div>
     </div>

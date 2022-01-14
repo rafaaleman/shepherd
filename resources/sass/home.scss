@@ -17,6 +17,7 @@
                 width: 100%;
                 max-width: 220px;
                 margin-top: 1em;
+
             }
         }
 
@@ -228,5 +229,12 @@
     .dashboard .widget {
         width: 100%;
         text-align: center;
+
+        &.card {
+            .btn {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
     }
 }
