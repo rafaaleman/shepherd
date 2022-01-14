@@ -5,7 +5,7 @@
 
     <div data-title="Welcome to Lockbox" data-intro="Here you can store the documents and files you need to care for your loved one. We have provided a list of essential files you can use to get started. Just click on a name to upload. " class="row mt-3">
         <div class="col-12">
-            <h4>ESSENTIAL DOCUMENTS</h4>
+            <h5>Recommended Documents</h5>
         </div>
         <div v-if="loading">Loading Documents...</div>
         <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle"  >
@@ -18,7 +18,7 @@
     </div>
     <div data-title="Welcome to CarePoints" data-intro="Here you can upload any other documents you think you might need to care for your loved one. " class="row mt-5">
         <div class="col-12">
-            <h4>ALL DOCUMENTS</h4>
+            <h5>Other Documents</h5>
         </div>
         <div v-if="loading">Loading Documents...</div>
         <div class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4 align-middle"  v-for="doc in documents" v-on:click="viewDocument(doc)" >
