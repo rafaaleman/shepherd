@@ -134,13 +134,11 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary btn-lg create mb-5">
-                            Create Account
-                        </button>
                         <input type="hidden" name="token" value="{{isset($token) ? $token : ''}}">
                         <input type="hidden" name="company" value="{{isset($company) ? $company : ''}}">
                         <br>
-                        <div class="text-black-50 mb-5 pb-5"> Already have an account? <a href="{{ route('login') }}">Login</a></div>
+                        <div class="text-black-50 mb-5 pb-5"> Already have an account? 
+                            <a class="d-block btn btn-primary btn-lg mt-5 mb-5" href="{{ route('login') }}">Login</a></div>
                     </div>
                 </div>
             </form>
