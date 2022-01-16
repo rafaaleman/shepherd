@@ -12,7 +12,7 @@
 
             <div class="col-12 text-center">
                 <a :href="document.id|urlFile" target="_blank">
-                    <img :src="document.file|isImage" class="w-50">
+                    <img :src="document|isImage" class="w-50">
                 </a>
             </div>
 
