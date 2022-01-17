@@ -501,9 +501,12 @@ class LockboxController extends Controller
                 abort(404);
             }
 
+            $headers = [
+                'Content-Type' => 'application/octet-stream',
+            ];
             return response()->streamDownload(function () use ($tmpDoc) {
                 FileVault::streamDecrypt($tmpDoc);
-            }, $tmpFile); 
+            }, $tmpFile, $headers); 
             
         }else{
             abort(404);
