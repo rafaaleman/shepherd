@@ -10,7 +10,7 @@
         <div class="modal-body row">
             <div class="col-12 text-center mb-2">
                 <a :href="document.file|urlFile" target="_blank">
-                    <img :src="file|isImage" class="w-50">
+                    <img :src="document|isImage" class="w-50">
                 </a>
             </div>
             <div class="line"></div>
