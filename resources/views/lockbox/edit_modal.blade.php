@@ -11,7 +11,7 @@
         <div class="modal-body row">
 
             <div class="col-12 text-center">
-                <a :href="document.id|urlFile" target="_blank">
+                <a :href="document.id|urlFile" target="_self">
                     <img :src="document|isImage" class="w-50">
                 </a>
             </div>
