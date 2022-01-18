@@ -15,9 +15,18 @@
             
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 row">
-            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
-            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
-            <div class="col-4 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
+            <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
+            <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
+            <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
+            <div class="col-12 col-md-3 px-2">
+                <!-- <input  id="carehub_datepicker" type="text" class="form-control no-border mt-3 mt-md-1" name="date" required autocomplete="off"  placeholder="Select Date" > -->
+                <div class="input-group mb-3 mt-3 mt-md-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text fa fa-calendar" id="basic-addon1"></span>
+                    </div>
+                    <input  id="carehub_datepicker" type="text" class="form-control no-border " name="date" required autocomplete="off"  placeholder="Select Date" >
+                </div>
+            </div>
         </div>
     </div>
 
@@ -30,7 +39,11 @@
 
                 <div class="col col-md-1 text-center col-day" :class="day.class">
                     <div class="pb-3">
-                        <div v-if="now == day.dia" class="rounded-circle align-self-center box-now" :class="day.fecha">
+                        <div v-if="now == day.fecha" class="rounded-circle align-self-center box-now" :class="day.fecha">
+                            @{{ day.dia  }} <br>
+                            <small>@{{ day.mes  }}</small>
+                        </div>
+                        <div v-else-if="date_events == day.fecha" class="rounded-circle align-self-center box-now box-search" :class="day.fecha">
                             @{{ day.dia  }} <br>
                             <small>@{{ day.mes  }}</small>
                         </div>
@@ -75,7 +88,11 @@
                     <template v-for="day in week.datos">
                         <div class="col text-center col-day px-0" >
                             <div v-if="month_name == day.mes" class="pb-3">
-                                <div v-if="now == day.dia" :class="day.fecha" class="rounded-circle align-self-center box-now">
+                                <div v-if="now == day.fecha" :class="day.fecha" class="rounded-circle align-self-center box-now">
+                                    @{{ day.dia  }} <br>
+                                    <small>@{{ day.mes  }}</small>
+                                </div>
+                                <div v-else-if="date_events == day.fecha" class="rounded-circle align-self-center box-now box-search" :class="day.fecha">
                                     @{{ day.dia  }} <br>
                                     <small>@{{ day.mes  }}</small>
                                 </div>
@@ -244,6 +261,8 @@
 
 @endsection
 @push('styles')
+<link href="{{asset('css/iconos_datepicker.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
 <style>
     .member-img {
         background-color: #fff;
@@ -287,6 +306,12 @@
         letter-spacing: normal;
     }
 
+    .box-search {
+        
+        background-color: #D46A54 !important;
+        
+    }
+
     .box-event {
         width: 50px;
         height: 50px;
@@ -304,6 +329,8 @@
         line-height: 1;
         letter-spacing: normal;
     }
+
+    
 
     .box-day small,
     .box-now small,
@@ -376,16 +403,23 @@
 
 @endpush
 @push('scripts')
+<script src="{{asset('js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
 <script>
     $("main").removeClass("py-4").addClass("py-0");
+    $(function () {
+        input_date();
+    });
     const carehub = new Vue({
         el: '#carehub',
         created: function() {
-            this.refreshWidgets({{$loveone->id}}, '{{$loveone->slug}}', '{{$to_day->format("Y-m-d")}}', '{{$to_day->format("Y-m")}}', '{{$to_day->format("d")}}');
+            this.refreshWidgets({{$loveone->id}}, '{{$loveone->slug}}', '{{$to_day->format("Y-m-d")}}', '{{$to_day->format("Y-m")}}', '{{$to_day->format("Y-m-d")}}');
         },
         data: {
             type: 1,
             date: '',
+            date_events:'',
             events: '',
             discussions: '',
             loveone_id: '',
@@ -463,7 +497,6 @@
 
                 $('.events .card-events-date').hide();
                 $('.loading-events').show();
-
                 var url = '{{ route("carehub.getEvents", ["*SLUG*","*DATE*","*TYPE*"]) }}';
                 url = url.replace('*SLUG*', this.current_slug);
                 url = url.replace('*DATE*', this.date_events);
@@ -637,5 +670,19 @@
 
         },
     });
+
+    function input_date(){
+        var picker = new Pikaday({
+            field: document.getElementById('carehub_datepicker'),
+            showWeekNumber: true,
+            format: 'Y-MM-DD',
+            maxDate: moment().toDate(),
+            onSelect: function() {
+                carehub.date_events = this.getMoment().format('YYYY-MM-DD');
+                carehub.getCalendar();
+                carehub.getEvents();
+            }
+        });
+    }
 </script>
 @endpush
