@@ -18,13 +18,13 @@
             <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
             <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
             <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
-            <div class="col-12 col-md-3 px-2">
+            <div class="col-12 col-md-3 px-2 d-none" id="month-date">
                 <!-- <input  id="carehub_datepicker" type="text" class="form-control no-border mt-3 mt-md-1" name="date" required autocomplete="off"  placeholder="Select Date" > -->
                 <div class="input-group mb-3 mt-3 mt-md-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text fa fa-calendar" id="basic-addon1"></span>
                     </div>
-                    <input  id="carehub_datepicker" type="text" class="form-control no-border " name="date" required autocomplete="off"  placeholder="Select Date" >
+                    <input  id="carehub_datepicker" data-date-end-date="0d" type="text" class="form-control no-border " name="date" required autocomplete="off"  placeholder="Select Date" >
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
             </template>
         </div>
         <div class="col-md-12 d-none" id="month_div">
-            <template v-for="week in calendar">
+            <template v-for="week in calendar_month">
                 <div class="row border-bottom-1 mb-3">
                     <template v-for="day in week.datos">
                         <div class="col text-center col-day px-0" >
@@ -262,7 +262,7 @@
 @endsection
 @push('styles')
 <link href="{{asset('css/iconos_datepicker.css')}}" rel="stylesheet">
-<link href="{{asset('css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
 <style>
     .member-img {
         background-color: #fff;
@@ -403,7 +403,7 @@
 
 @endpush
 @push('scripts')
-<script src="{{asset('js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 
 <script>
@@ -420,6 +420,7 @@
             type: 1,
             date: '',
             date_events:'',
+            date_events_month:'',
             events: '',
             discussions: '',
             loveone_id: '',
@@ -428,6 +429,7 @@
             careteam_url: '',
             date_title: '',
             calendar: '',
+            calendar_month:'',
             week_div: '',
             day_div: '',
             month: '',
@@ -460,6 +462,7 @@
                 this.events = '';
                 this.discussions = '';
                 this.calendar = '';
+                this.calendar_month = '';
                 this.week_div = '';
                 this.day_div = '';
                 this.count_discussion = 0;
@@ -473,23 +476,31 @@
                 this.type = type;
                 if (type == 1) {
                     $("#day_div").removeClass("d-none");
-                    $("#week_div, #month_div").addClass("d-none");
+                    $("#week_div, #month_div, #month-date").addClass("d-none");
                     $("#Today").addClass("btn-outline-pink-active").removeClass("disabled");
                     $("#Week, #Month").removeClass("btn-outline-pink-active");
+                    this.getEvents();
                 } else if (type == 2) {
                     $("#week_div").removeClass("d-none");
-                    $("#day_div, #month_div").addClass("d-none");
+                    $("#day_div, #month_div, #month-date").addClass("d-none");
                     $("#Week").addClass("btn-outline-pink-active").removeClass("disabled");
                     $("#Today, #Month").removeClass("btn-outline-pink-active");
+                    this.getEvents();
                 } else if (type == 3) {
-                    $("#month_div").removeClass("d-none");
+                    $("#month_div, #month-date").removeClass("d-none");
                     $("#day_div, #week_div").addClass("d-none");
                     $("#Month").addClass("btn-outline-pink-active").removeClass("disabled");
                     $("#Today, #Week").removeClass("btn-outline-pink-active");
+                    if(this.date_events_month == ''){
+                        this.getEvents();
+                    }else{
+                        this.searchEvents();
+                    }
                 } else {
                     alert();
                 }
-                this.getEvents();
+                
+                
             },
             getEvents: function() {
 
@@ -560,6 +571,7 @@
                 url = url.replace('*DATE*', this.date_events);
                 axios.get(url).then(response => {
                     this.calendar = response.data.calendar;
+                    this.calendar_month = response.data.calendar;
                     this.month_name = response.data.month;
                     this.week_div = response.data.week;
                     this.day_div = response.data.day;
@@ -569,6 +581,58 @@
                 }).catch(error => {
 
                     msg = 'There was an error getting calendar. Please reload the page';
+                    swal('Error', msg, 'error');
+                });
+
+            },
+            searchCalendar: function() {
+                $('#calendar').hide();
+                $('#calendar_div .loading').show();
+
+                var url = '{{ route("carehub.getCalendar", ["*DATE*"]) }}';
+                url = url.replace('*DATE*', this.date_events_month);
+                axios.get(url).then(response => {
+                    this.calendar_month = response.data.calendar;
+                    this.month_name = response.data.month;
+                   // this.week_div = response.data.week;
+                   // this.day_div = response.data.day;
+                    $('#calendar_div .loading').hide();
+                    $('#calendar').show();
+
+                }).catch(error => {
+
+                    msg = 'There was an error getting calendar. Please reload the page';
+                    swal('Error', msg, 'error');
+                });
+
+            },
+            searchEvents: function() {
+
+                //console.log("current_slug " + this.current_slug  +  ", loveone_id" + this.loveone_id +  ", date" + this.date_events, ", events" + this.events);
+
+                $('.events .card-events-date').hide();
+                $('.loading-events').show();
+                var url = '{{ route("carehub.getEvents", ["*SLUG*","*DATE*","*TYPE*"]) }}';
+                url = url.replace('*SLUG*', this.current_slug);
+                url = url.replace('*DATE*', this.date_events_month);
+                url = url.replace('*TYPE*', this.type);
+                axios.get(url).then(response => {
+
+                    if (response.data.success) {
+                        this.events = response.data.data.events;
+                        this.date_title = response.data.data.date_title;
+                        this.count_event = this.events.length;
+                        this.eventInCalendar();
+                    } else {
+
+                    }
+
+                    $('.loading-events').hide();
+                    $('.events .card-events-date').show();
+
+                }).catch(error => {
+
+                    msg = 'There was an error getting events. Please reload the page';
                     swal('Error', msg, 'error');
                 });
 
@@ -587,7 +651,7 @@
             },
             eventInCalendar(){
                 $.each(this.events,function(index, day){
-                    console.log(day.date);
+                    //console.log(day.date);
                     $("."+day.date).addClass("box-event rounded-circle").removeClass("week-box");
                 });
             },
@@ -611,7 +675,7 @@
                         };
 
                         axios.post(url, data).then(response => {
-                            console.log(response.data);
+                           // console.log(response.data);
                             
                             if( response.data.success == true ){
                                 //joinTeam.getInvitations();
@@ -672,17 +736,28 @@
     });
 
     function input_date(){
-        var picker = new Pikaday({
-            field: document.getElementById('carehub_datepicker'),
-            showWeekNumber: true,
-            format: 'Y-MM-DD',
-            maxDate: moment().toDate(),
-            onSelect: function() {
-                carehub.date_events = this.getMoment().format('YYYY-MM-DD');
-                carehub.getCalendar();
-                carehub.getEvents();
-            }
-        });
+        $('#carehub_datepicker').datepicker({
+                format: 'mm/yyyy',
+                minViewMode: 'months',
+        }).on('changeDate', function(e) {
+        // `e` here contains the extra attributes
+       // console.log(e.format('yyyy-mm-dd'));
+        carehub.date_events_month = e.format('yyyy-mm-dd');
+        carehub.searchCalendar();
+        carehub.searchEvents();
+    });
+
+        // var picker = new Pikaday({
+        //     field: document.getElementById('carehub_datepicker'),
+        //     showWeekNumber: true,
+        //     format: 'Y-MM-DD',
+        //     maxDate: moment().toDate(),
+        //     onSelect: function() {
+        //         carehub.date_events = this.getMoment().format('YYYY-MM-DD');
+        //         carehub.getCalendar();
+        //         carehub.getEvents();
+        //     }
+        // });
     }
 </script>
 @endpush
