@@ -18,7 +18,7 @@
             <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate" id="Today">Today</button></div>
             <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Week">Week</button></div>
             <div class="col-4 col-md-3 px-2"><button type="button" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate" id="Month">Month</button></div>
-            <div class="col-12 col-md-3 px-2 d-none" id="month-date">
+            <div class="col-12 col-md-3 px-2" id="month-date">
                 <!-- <input  id="carehub_datepicker" type="text" class="form-control no-border mt-3 mt-md-1" name="date" required autocomplete="off"  placeholder="Select Date" > -->
                 <div class="input-group mb-3 mt-3 mt-md-1">
                     <div class="input-group-prepend" onClick="$('#carehub_datepicker').datepicker('show');">
@@ -479,18 +479,18 @@
                 this.type = type;
                 if (type == 1) {
                     $("#day_div").removeClass("d-none");
-                    $("#week_div, #month_div, #month-date").addClass("d-none");
+                    $("#week_div, #month_div").addClass("d-none");
                     $("#Today").addClass("btn-outline-pink-active").removeClass("disabled");
                     $("#Week, #Month").removeClass("btn-outline-pink-active");
                     this.getEvents();
                 } else if (type == 2) {
                     $("#week_div").removeClass("d-none");
-                    $("#day_div, #month_div, #month-date").addClass("d-none");
+                    $("#day_div, #month_div").addClass("d-none");
                     $("#Week").addClass("btn-outline-pink-active").removeClass("disabled");
                     $("#Today, #Month").removeClass("btn-outline-pink-active");
                     this.getEvents();
                 } else if (type == 3) {
-                    $("#month_div, #month-date").removeClass("d-none");
+                    $("#month_div").removeClass("d-none");
                     $("#day_div, #week_div").addClass("d-none");
                     $("#Month").addClass("btn-outline-pink-active").removeClass("disabled");
                     $("#Today, #Week").removeClass("btn-outline-pink-active");
