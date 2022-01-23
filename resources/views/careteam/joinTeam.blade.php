@@ -13,12 +13,12 @@
 
         <div class="col-sm-12 col-md-6 mb-5">
 
-            <div class="p-5">You have been invited to:</div>
+            <div class="p-5">Pending invitations:</div>
             <div class="row justify-content-center d-flex">
                 <div class="col-md-8">
                     <div class="card shadow-sm">
 
-                        <div class="card-body">
+                        <div class="card-body mb-3">
 
                             <form method="post" id="" class="col-md-12">
 
@@ -43,11 +43,15 @@
                                     <h4 v-else>
                                         No pending invitations
                                     </h4>
+
                                 </div>
                                 {{-- <input type="hidden" name="id" id="id" required >
                                 <button class="btn btn-primary loadingBtn btn-lg my-4" type="submit" data-loading-text="Wait..." id="includeMember">Accept invitations</button> --}}
                             </form>
                         </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="{{ route('home') }}" class="mt-3 btn btn-secondary">Go to Carehub</a>
                     </div>
                 </div>    
             </div>
