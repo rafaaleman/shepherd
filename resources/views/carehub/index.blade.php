@@ -21,7 +21,7 @@
             <div class="col-12 col-md-3 px-2 d-none" id="month-date">
                 <!-- <input  id="carehub_datepicker" type="text" class="form-control no-border mt-3 mt-md-1" name="date" required autocomplete="off"  placeholder="Select Date" > -->
                 <div class="input-group mb-3 mt-3 mt-md-1">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend" onClick="$('#carehub_datepicker').datepicker('show');">
                         <span class="input-group-text fa fa-calendar" id="basic-addon1"></span>
                     </div>
                     <input  id="carehub_datepicker" data-date-end-date="0d" type="text" class="form-control no-border " name="date" required autocomplete="off"  placeholder="Select Date" >
@@ -263,6 +263,9 @@
 @push('styles')
 <link href="{{asset('css/iconos_datepicker.css')}}" rel="stylesheet">
 <link href="{{asset('css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-datepicker.standalone.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-datepicker3.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-datepicker3.standalone.min.css')}}" rel="stylesheet">
 <style>
     .member-img {
         background-color: #fff;
@@ -739,6 +742,7 @@
         $('#carehub_datepicker').datepicker({
                 format: 'mm/yyyy',
                 minViewMode: 'months',
+                orientation: 'bottom'
         }).on('changeDate', function(e) {
         // `e` here contains the extra attributes
        // console.log(e.format('yyyy-mm-dd'));
