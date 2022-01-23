@@ -26,6 +26,10 @@
             </div>
         </div>  
         
+            
+        <div class="col-12 mt-4 text-center">
+            <a data-title="Welcome to CarePoints" data-intro="Just click here to upload a new document" href="#!" class="btn btn-primary btn-submit"  v-on:click="showM(8,null)">Add New Document</a>
+        </div>   
     </div>    
 
     @include('lockbox.view_modal')
@@ -34,7 +38,12 @@
 @endsection
 
 @push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
+    .introjs-fixParent {
+    position: absolute;
+    }
 .flex {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
@@ -244,15 +253,18 @@ a:hover {
                 let exts = ['jpg','jpeg','gif','png','svg'];
                 let str = "{{asset('images/no_photo.jpg')}}";
                 let ext = "txt";
-                
-                if(file){
-                    if(file.name){
-                        ext = file.name.split('.').pop();
+
+                console.log(file);
+
+                if(file.file){
+                    if(file.file.name){
+                        ext = file.file.name.split('.').pop();
                     }else{
-                        ext = file.split('.').pop();
+                        ext = file.file.split('.').pop();
                     }
                     if(exts.indexOf(ext) >= 0){
-                            str = "{{ URL::to('/') }}" + file;
+                            //str = "{{ URL::to('/') }}" + file;
+                            return str = "{{ URL::to('lockbox/document/') }}/" + file.id;
                     }
                     else if(ext == "pdf"){
                         str = "{{asset('images/file_pdf.jpg')}}";
@@ -295,6 +307,21 @@ a:hover {
                     //console.table(response.data);
                 }).then ( () => {
                     this.creaSlide();
+
+                    this.loading = false;
+
+                    @if (!$readTour) 
+        
+                        introJs().setOptions({
+                            showProgress: true,
+                            showButtons: true,
+                            showBullets: false
+                        }).onbeforeexit(function () {
+                            if( confirm("Skip this tour and don't show it again?")){
+                                lockbox.readTour()
+                            }
+                        }).start();
+                    @endif
                 });
             },
             
@@ -338,19 +365,6 @@ a:hover {
         }
     });
 
-    $(function(){
-        @if (!$readTour) 
-        
-            introJs().setOptions({
-                showProgress: true,
-                showButtons: true,
-                showBullets: false
-            }).onbeforeexit(function () {
-                if( confirm("Skip this tour and don't show it again?")){
-                    lockbox.readTour()
-                }
-            }).start();
-        @endif
-    });
+
 </script>
 @endpush
