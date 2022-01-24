@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Invitation;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\TwoFactorCode;
+use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use App\Notifications\TwoFactorCode;
 
 class LoginController extends Controller
 {
@@ -42,7 +44,13 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        $user->generateTwoFactorCode();
-        $user->notify(new TwoFactorCode());
+        // $user->generateTwoFactorCode();
+        // $user->notify(new TwoFactorCode());
+
+        //  check pending invitations
+        $invitations = Invitation::where('email', Auth::user()->email)->get();
+        if($invitations->count() > 0){
+            return redirect()->route('careteam.joinTeam');
+        }
     }
 }

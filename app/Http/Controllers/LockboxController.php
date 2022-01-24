@@ -503,6 +503,7 @@ class LockboxController extends Controller
 
             $headers = [
                 'Content-Type' => 'application/octet-stream',
+                'Content-Disposition: inline; filename="'.$tmpFile. '"'
             ];
             return response()->streamDownload(function () use ($tmpDoc) {
                 FileVault::streamDecrypt($tmpDoc);
