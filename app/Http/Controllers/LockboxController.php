@@ -390,16 +390,13 @@ class LockboxController extends Controller
         $doct = Lockbox::find($request->id_doc);
 
         $tmpDoc = $doct->file . '.enc';
-
-        if ($request->hasFile('file') && $request->file('file')->isValid() ){
-
-            if(Storage::exists($tmpDoc)){
+        if(Storage::exists($tmpDoc)){
                 Storage::delete($tmpDoc);
                 $doct->delete();
-            }
-
         }
+
         
+
         /*
         if(\File::exists(public_path($doct->file))){
             \File::delete(public_path($doct->file));
