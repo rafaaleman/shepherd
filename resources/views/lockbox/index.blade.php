@@ -272,15 +272,18 @@
                 let exts = ['jpg','jpeg','gif','png','svg'];
                 let str = "{{asset('images/no_photo.jpg')}}";
                 let ext = "txt";
-                
-                if(file){
-                    if(file.name){
-                        ext = file.name.split('.').pop();
+
+                console.log(file);
+
+                if(file.file){
+                    if(file.file.name){
+                        ext = file.file.name.split('.').pop();
                     }else{
-                        ext = file.split('.').pop();
+                        ext = file.file.split('.').pop();
                     }
                     if(exts.indexOf(ext) >= 0){
-                            str = "{{ URL::to('/') }}" + file;
+                            //str = "{{ URL::to('/') }}" + file;
+                            return str = "{{ URL::to('lockbox/document/') }}/" + file.id;
                     }
                     else if(ext == "pdf"){
                         str = "{{asset('images/file_pdf.jpg')}}";

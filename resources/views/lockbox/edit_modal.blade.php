@@ -11,8 +11,8 @@
         <div class="modal-body row">
 
             <div class="col-12 text-center">
-                <a :href="document.id|urlFile" target="_blank">
-                    <img :src="document.file|isImage" class="w-50">
+                <a :href="document.id|urlFile" target="_self">
+                    <img :src="document|isImage" class="w-50">
                 </a>
             </div>
 
@@ -67,7 +67,10 @@
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" :disabled=" c.id == auth_user || c.role == 'admin'" :checked="c.permissions.r == 1 || c.role == 'admin'" :id=`reade-${c.id}` @change="assignPermission(c.id)">
+                                    <input type="checkbox" class="custom-control-input" 
+                                    :disabled=" c.id == auth_user || c.role == 'admin'" 
+                                    :checked="c.permissions.r == 1 || c.role == 'admin'" 
+                                    :id=`reade-${c.id}` @change="assignPermission(c.id)">
                                     <label class="custom-control-label" :for=`reade-${c.id}` ></label>
                                 </div>
                             </td>                           

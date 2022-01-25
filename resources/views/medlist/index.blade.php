@@ -73,7 +73,7 @@
                         <div class="col-xsm col-6 col-sm-8 col-md-8 col-lg-10">
                             <a href="#!" data-toggle="modal" data-target="#api-medlist-modal" class=""  @click.prevent="wikiMedication(medicine)">
                                 
-                                <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
+                                <h5 class="font-weight-bold Lipitor mb-3" >@{{medicine.medicine}}</h5>
                             </a>
                             <a href="" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine,key)" v-if="medicine.frequency != 'as needed'">
                                 <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment Schedule
