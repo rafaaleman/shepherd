@@ -268,7 +268,12 @@ class EventController extends Controller
               // code...
               //dd(date("Y-m-d",strtotime($datafecha."+ 1 day")));
               //$datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
-              $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              //$datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              if($iday == 0 && $iweek == 1){
+                $datafecha = date("Y-m-d",strtotime($datafecha));
+              }else{
+                  $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              }
               $datanew['mes'] = date("M", strtotime($datafecha));
               $datanew['dia'] = date("d", strtotime($datafecha));
               $datanew['fecha'] = $datafecha;
@@ -280,7 +285,7 @@ class EventController extends Controller
             $dataweek['semana'] = $iweek;
             $dataweek['datos'] = $weekdata;
             //$datafecha['horario'] = $datahorario;
-           // dump($dataweek);
+            //dump($dataweek);
             array_push($calendario,$dataweek);
         endwhile;
         $nextmonth = date("Y-M",strtotime($mes."+ 1 month"));
@@ -336,7 +341,7 @@ class EventController extends Controller
         }else {
           $semana = ($semana2-$semana1)+1;
         }
-        //dd($semana1,$semana2,$semana);
+        //dump($semana1,$semana2,$semana,$dateini); 
         // semana todal del mes
         $datafecha = $dateini;
         $calendario = array();
@@ -348,12 +353,19 @@ class EventController extends Controller
             $weekdata = [];
             for ($iday=0; $iday < 7 ; $iday++){
               // code...
-              $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              if($iday == 0 && $iweek == 1){
+                $datafecha = date("Y-m-d",strtotime($datafecha));
+              }else{
+                  $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              }
+                    //$datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+                
               $datanew['mes'] = date("M", strtotime($datafecha));
               $datanew['dia'] = date("d", strtotime($datafecha));
               $datanew['fecha'] = $datafecha;
               $datanew['class'] = '';
               //AGREGAR CONSULTAS EVENTO
+             // dump($datanew);
               //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
               array_push($weekdata,$datanew);
             }
@@ -389,7 +401,7 @@ class EventController extends Controller
                     }
                 }
           }
-          //dd($week);
+         // dd($week);
 
           //obtener los das que muestra en web
           $dateini = date("Y-m-d",strtotime($week[0]['fecha']));
