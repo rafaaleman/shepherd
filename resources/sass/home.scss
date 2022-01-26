@@ -106,13 +106,13 @@
         
         &.resources{
             .fas, .card-text span{
-                color: $resources;
+                color: $blue;
                 font-weight: bold;
             }
 
             .btn-primary {
-                background-color: $resources;
-                border-color: darken($color: $resources, $amount: 15);
+                background-color: $blue;
+                border-color: darken($color: $blue, $amount: 15);
             }
         }
 

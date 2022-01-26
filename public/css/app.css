@@ -10618,12 +10618,12 @@ a:hover {
   color: #aaa;
 }
 .dashboard .widget.team .fas, .dashboard .widget.team .card-text span {
-  color: #2d4754;
+  color: #cf6cf9;
   font-weight: bold;
 }
 .dashboard .widget.team .btn-primary {
-  background-color: #2d4754;
-  border-color: #121d22;
+  background-color: #cf6cf9;
+  border-color: #b723f6;
 }
 .dashboard .widget.team .member-img {
   background-color: #fff;
@@ -10634,44 +10634,44 @@ a:hover {
   border: 1px solid #cacaca;
 }
 .dashboard .widget.message .fas, .dashboard .widget.message .card-text span {
-  color: #d5968c;
+  color: #f79151;
   font-weight: bold;
 }
 .dashboard .widget.message .btn-primary {
-  background-color: #d5968c;
-  border-color: #c16354;
+  background-color: #f79151;
+  border-color: #f0630b;
 }
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
-  color: #636780;
+  color: #e45252;
   font-weight: bold;
 }
 .dashboard .widget.hub .btn-primary {
-  background-color: #636780;
-  border-color: #424455;
+  background-color: #e45252;
+  border-color: #ca2020;
 }
 .dashboard .widget.lockbox .fas, .dashboard .widget.lockbox .card-text span {
-  color: #8c6e8d;
+  color: #44be6f;
   font-weight: bold;
 }
 .dashboard .widget.lockbox .btn-primary {
-  background-color: #8c6e8d;
-  border-color: #614c62;
+  background-color: #44be6f;
+  border-color: #2f874e;
 }
 .dashboard .widget.resources .fas, .dashboard .widget.resources .card-text span {
-  color: #c9a36a;
+  color: #3490dc;
   font-weight: bold;
 }
 .dashboard .widget.resources .btn-primary {
-  background-color: #c9a36a;
-  border-color: #a97e3d;
+  background-color: #3490dc;
+  border-color: #1d68a7;
 }
 .dashboard .widget.medlist .fas, .dashboard .widget.medlist .card-text span {
-  color: #bd8196;
+  color: #ffd468;
   font-weight: bold;
 }
 .dashboard .widget.medlist .btn-primary {
-  background-color: #bd8196;
-  border-color: #9e536d;
+  background-color: #ffd468;
+  border-color: #ffbe1c;
   color: black;
 }
 
@@ -11039,13 +11039,13 @@ a:hover {
 
 /*--------------------------------------------------------------------------------*/
 #notifications .lockbox > .fas {
-  color: #8c6e8d;
+  color: #44be6f;
 }
 #notifications .medlist > .fas {
-  color: #bd8196;
+  color: #ffd468;
 }
 #notifications .event > .far {
-  color: #636780;
+  color: #e45252;
 }
 #notifications .notification {
   flex-direction: row;
