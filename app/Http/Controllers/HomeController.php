@@ -36,7 +36,6 @@ class HomeController extends Controller
         $careteam_users = null;
         // dd($loveones->count());
         if($loveones->count() > 0){
-            $careteam_users = $this->getCareteamData($loveones[0]->id);
             $date = new DateTime();
             return view('home', compact('loveones', 'careteam_users','date'));
         } else {
@@ -68,11 +67,27 @@ class HomeController extends Controller
         $loveones = loveone::whereIn('id', $loveoneIds)->get();
         
         foreach ($loveones as  $loveone) {
-            $relationshipName = $this->getRelatioinshipName(Auth::user()->id, $loveone->id);
-            $loveone->relationshipName = $relationshipName;
+            
+            $loveone->relationshipName = $this->getRelatioinshipName(Auth::user()->id, $loveone->id);
             $loveone->careteam = $careteams[$loveone->id];
+            $loveone->members = $this->getCareteamData($loveone->id);
+
+            $request1 = new \Illuminate\Http\Request();
+            $request1->replace([
+                'loveone_slug' => $loveone->slug,
+                'date' => date('Y-m-d'),
+                'type' => 1,
+                'id'   => Auth::user()->id,
+            ]);
+
+            $loveone->carepoints  = app('App\Http\Controllers\EventController')->getEvents($request1)->getData();
+            $loveone->discussions = app('App\Http\Controllers\DiscussionController')->getDiscussions($request1)->getData();
+            $loveone->lockbox     = app('App\Http\Controllers\LockboxController')->countDocuments($request1)->getData();
+            $loveone->medlist     = app('App\Http\Controllers\MedlistController')->getMedications($request1)->getData();
+            $loveone->messages    = app('App\Http\Controllers\MessagesController')->lastMessages($request1)->getData();
+            $loveone->resources   = app('App\Http\Controllers\ResourceController')->getTopicsCarehub($request1);
         }
-        // dd($loveones);
+        // dd($loveones[0]->resources);
         return $loveones;
     }
 

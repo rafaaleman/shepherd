@@ -7601,6 +7601,7 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7620,8 +7621,9 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -10296,6 +10298,7 @@ body {
   margin-left: -10px;
   margin-top: -70px;
   z-index: 0;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
@@ -10575,12 +10578,12 @@ a:hover {
   }
 }
 .dashboard {
-  background: #dedede;
-  background: linear-gradient(180deg, #95bbc7 10%, #f8fafc 70%);
+  background: #369bb7;
+  background: linear-gradient(180deg, #369bb7 150px, #f8fafc 150px);
   padding: 0;
 }
 .dashboard .widget {
-  width: 33%;
+  width: 30%;
   min-height: 180px;
   margin-bottom: 5px;
   transition: width 0.3s;
@@ -10615,12 +10618,12 @@ a:hover {
   color: #aaa;
 }
 .dashboard .widget.team .fas, .dashboard .widget.team .card-text span {
-  color: #cf6cf9;
+  color: #2d4754;
   font-weight: bold;
 }
 .dashboard .widget.team .btn-primary {
-  background-color: #cf6cf9;
-  border-color: #b723f6;
+  background-color: #2d4754;
+  border-color: #121d22;
 }
 .dashboard .widget.team .member-img {
   background-color: #fff;
@@ -10631,58 +10634,72 @@ a:hover {
   border: 1px solid #cacaca;
 }
 .dashboard .widget.message .fas, .dashboard .widget.message .card-text span {
-  color: #f79151;
+  color: #d5968c;
   font-weight: bold;
 }
 .dashboard .widget.message .btn-primary {
-  background-color: #f79151;
-  border-color: #f0630b;
+  background-color: #d5968c;
+  border-color: #c16354;
 }
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
-  color: #e45252;
+  color: #636780;
   font-weight: bold;
 }
 .dashboard .widget.hub .btn-primary {
-  background-color: #e45252;
-  border-color: #ca2020;
+  background-color: #636780;
+  border-color: #424455;
 }
 .dashboard .widget.lockbox .fas, .dashboard .widget.lockbox .card-text span {
-  color: #44be6f;
+  color: #8c6e8d;
   font-weight: bold;
 }
 .dashboard .widget.lockbox .btn-primary {
-  background-color: #44be6f;
-  border-color: #2f874e;
+  background-color: #8c6e8d;
+  border-color: #614c62;
 }
 .dashboard .widget.resources .fas, .dashboard .widget.resources .card-text span {
-  color: #3490dc;
+  color: #c9a36a;
   font-weight: bold;
 }
 .dashboard .widget.resources .btn-primary {
-  background-color: #3490dc;
-  border-color: #1d68a7;
+  background-color: #c9a36a;
+  border-color: #a97e3d;
 }
 .dashboard .widget.medlist .fas, .dashboard .widget.medlist .card-text span {
-  color: #ffd468;
+  color: #bd8196;
   font-weight: bold;
 }
 .dashboard .widget.medlist .btn-primary {
-  background-color: #ffd468;
-  border-color: #ffbe1c;
+  background-color: #bd8196;
+  border-color: #9e536d;
   color: black;
 }
 
 #homeCarousel {
-  background-image: url("/img/home_bg_2.jpg");
   background-position: bottom center;
   background-size: cover;
 }
-#homeCarousel .carousel-indicators button {
-  border: 1px solid gray;
+#homeCarousel .carousel-indicators {
+  top: 325px;
+  bottom: inherit;
+}
+#homeCarousel .carousel-indicators li {
+  background-color: #369bb6;
+  opacity: 0.5;
+}
+#homeCarousel .carousel-indicators li.active {
+  opacity: 1;
 }
 #homeCarousel .carousel-control-prev,
 #homeCarousel .carousel-control-next {
-  background-color: #369ab637;
+  align-items: start;
+  margin-top: 65px;
+  bottom: inherit;
+}
+#homeCarousel .carousel-control-prev span,
+#homeCarousel .carousel-control-next span {
+  width: 25px;
+  height: 25px;
 }
 #homeCarousel .carousel-shadow {
   width: 100%;
@@ -10690,11 +10707,7 @@ a:hover {
   bottom: 0;
   position: absolute;
 }
-#homeCarousel .carousel-item {
-  cursor: pointer;
-}
 #homeCarousel .carousel-item__container {
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
@@ -10727,10 +10740,9 @@ a:hover {
 @media (min-width: 576px) {
   #homeCarousel .carousel-item {
     min-height: 200px;
-    max-height: 300px;
   }
   #homeCarousel .carousel-item .loveone-photo {
-    margin: 50px 2em;
+    margin: 30px;
   }
 }
 @media (max-width: 576px) {
@@ -10748,6 +10760,12 @@ a:hover {
 
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {
+  .dashboard {
+    background: linear-gradient(180deg, #369bb7 100px, #f8fafc 160px);
+  }
+  .dashboard #homeCarousel .carousel-indicators {
+    top: 200px;
+  }
   .dashboard .widget {
     width: 100%;
     text-align: center;
@@ -11021,13 +11039,13 @@ a:hover {
 
 /*--------------------------------------------------------------------------------*/
 #notifications .lockbox > .fas {
-  color: #44be6f;
+  color: #8c6e8d;
 }
 #notifications .medlist > .fas {
-  color: #ffd468;
+  color: #bd8196;
 }
 #notifications .event > .far {
-  color: #e45252;
+  color: #636780;
 }
 #notifications .notification {
   flex-direction: row;

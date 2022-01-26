@@ -1,10 +1,10 @@
 .dashboard {
-    background: rgb(222,222,222);
-    background: linear-gradient(180deg, #95bbc7 10%, #f8fafc 70%);
+    background: #369bb7;
+    background: linear-gradient(180deg, #369bb7 150px, #f8fafc 150px);
     padding: 0;
 
     .widget{
-        width: 33%;
+        width: 30%;
         min-height: 180px;
         margin-bottom:5px;
         transition: width 0.3s;
@@ -106,13 +106,13 @@
         
         &.resources{
             .fas, .card-text span{
-                color: $blue;
+                color: $resources;
                 font-weight: bold;
             }
 
             .btn-primary {
-                background-color: $blue;
-                border-color: darken($color: $blue, $amount: 15);
+                background-color: $resources;
+                border-color: darken($color: $resources, $amount: 15);
             }
         }
 
@@ -132,17 +132,35 @@
 }
 
 #homeCarousel {
-    background-image: url('/img/home_bg_2.jpg');
-        background-position: bottom center;
-        background-size: cover;
+    // background-image: url('/img/home_bg_2.jpg');
+    background-position: bottom center;
+    background-size: cover;
 
-    .carousel-indicators button {
-        border: 1px solid gray;
+    .carousel-indicators {
+        top: 325px;
+        bottom: inherit;
+
+        li{
+            background-color: $primary-color;
+            opacity: 0.5;
+
+            &.active{
+                opacity: 1;
+            }
+        }
     }
 
     .carousel-control-prev,
     .carousel-control-next {
-        background-color: #369ab637;
+        // background-color: #369ab637;
+        align-items: start;
+        margin-top: 65px;
+        bottom: inherit;
+
+        span{
+            width: 25px;
+            height: 25px;
+        }
     }
 
     .carousel-shadow{
@@ -154,10 +172,10 @@
     }
 
     .carousel-item{
-        cursor: pointer;
+        // cursor: pointer;
 
         &__container {
-            display: flex;
+            // display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: nowrap;
@@ -199,10 +217,10 @@
     @media (min-width: 576px) {
         .carousel-item{
             min-height: 200px;
-            max-height: 300px;
+            // max-height: 300px;
     
             .loveone-photo{
-                margin: 50px 2em ;
+                margin: 30px ;
             }
         }
     }
@@ -226,14 +244,23 @@
 
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {
-    .dashboard .widget {
-        width: 100%;
-        text-align: center;
+    .dashboard {
 
-        &.card {
-            .btn {
-                margin-left: auto;
-                margin-right: auto;
+        background: linear-gradient(180deg, #369bb7 100px, #f8fafc 160px);
+
+        #homeCarousel .carousel-indicators{
+            top: 200px;
+        }
+
+        .widget {
+            width: 100%;
+            text-align: center;
+
+            &.card {
+                .btn {
+                    margin-left: auto;
+                    margin-right: auto;
+                }
             }
         }
     }
