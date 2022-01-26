@@ -388,6 +388,16 @@ class LockboxController extends Controller
     public function destroy(Request $request)
     {
         $doct = Lockbox::find($request->id_doc);
+
+        $tmpDoc = $doct->file . '.enc';
+        if(Storage::exists($tmpDoc)){
+                Storage::delete($tmpDoc);
+                $doct->delete();
+        }
+
+        
+
+        /*
         if(\File::exists(public_path($doct->file))){
             \File::delete(public_path($doct->file));
             
@@ -395,6 +405,7 @@ class LockboxController extends Controller
             }else{
                 dd(public_path($doct->file));
             }
+            */
         return response()->json(['success' => true, 'data' => ['msg' => 'Document deleted!'],'docto' => $doct ], 200);
     }
 

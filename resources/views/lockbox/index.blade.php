@@ -21,10 +21,10 @@
             <h5>Other Documents</h5>
         </div>
         <div v-if="loading">Loading Documents...</div>
-        <div class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4 align-middle"  v-for="doc in documents" v-on:click="viewDocument(doc)" >
+        <div class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4 align-middle"  v-for="doc in documents"  >
             <div class="card-body" >
-                <h5 class="card-title t1" >@{{ doc.name }}</h5>
-                <span class="card-text t2" >@{{ doc.created_at | formatDate }}</span>
+                <h5 class="card-title t1" v-on:click="viewDocument(doc)" >@{{ doc.name }}</h5>
+                <span class="card-text t2"  v-on:click="viewDocument(doc)">@{{ doc.created_at | formatDate }}</span>
                 <div class="float-right" >
                     <a href="#" v-on:click="deleteDocument(doc)" ><i class="fas fa-trash"></i></a>                    
                 </div>
