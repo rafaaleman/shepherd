@@ -51,26 +51,36 @@
                         <ul class="chat-box chatContainerScroll" ref="message_list">
 
                             <li class="chat" v-for="(message,i) in messages">
-                                <div class="chat-avatar" >
-                                    <template v-if="message.id_user != user" >
+
+                                <template v-if="message.id_user == user" >
+                                    <div class="chat-avatar" >
                                         <img class="img-fluid" :src="user_photo"  v-if="user_photo !='' ">
-                                        <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
-                                    </template>
-                                    <template v-if="message.id_user == user">
-                                        <img class="img-fluid" :src="selected_chat2.user.photo" v-if="selected_chat2.user.photo != ''" >
-                                        <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
-                                    </template>
+                                        <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else>                                     
+                                    </div>
+                                    <div class="chat-text">
+                                        @{{ message.message }}
+                                        <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
+                                    </div>
+                                    <div class="chat-hour">@{{ message.created_at | formatDate }}</div>
+                                </template>
+                                
+                                <template v-if="message.id_user != user">
+                                        <div class="chat-text">
+                                            @{{ message.message }}
+                                            <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
+                                        </div>
+                                        <div class="chat-avatar" >
+                                            <img class="img-fluid" style="left:-3px" :src="selected_chat2.user.photo" v-if="selected_chat2.user.photo != ''" >
+                                            <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
+                                        </div>
+                                        <div class="chat-hour">@{{ message.created_at | formatDate }}</div>
+                                </template>
                                     
                                     
                                     
                                     
                                     
-                                </div>
-                                <div class="chat-text">
-                                    @{{ message.message }}
-                                    <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
-                                </div>
-                                <div class="chat-hour">@{{ message.created_at | formatDate }}</div>
+                                
                             </li>                           
                
                         </ul>
