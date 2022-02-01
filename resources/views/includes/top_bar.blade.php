@@ -17,16 +17,12 @@ $(function(){
         // console.log(loveone.firstname);
         $('.top-bar .name').text(loveone.firstname + ' ' + loveone.lastname);
         $('.top-bar .photo').css('background-image', 'url('+loveone.photo+')');
-        $('.top-bar').css('background-color', loveone.color);
-    }
-
-    current_loveone = localStorage.getItem('loveone');
-    if(current_loveone != null){
-        current_loveone = JSON.parse(current_loveone);
+        // $('.top-bar').css('background-color', loveone.color);
+        
         $('.menu-link').each( function () { 
             newurl = $(this).attr('href');
             // console.log(newurl);
-            newurl = newurl.replace('**SLUG**', current_loveone.slug);
+            newurl = newurl.replace('**SLUG**', loveone.slug);
             $(this).attr('href', newurl)
         });
     } else {

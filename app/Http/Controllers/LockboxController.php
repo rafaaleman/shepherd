@@ -431,10 +431,10 @@ class LockboxController extends Controller
                             ->orderBy('updated_at', 'desc')
                             ->take(1)
                             ->get();
-    $l ="No documents yet";
-    if(count($num_documents) > 0){
-        $l = $num_documents[0]->updated_at->diffForHumans();
-    }
+        $l ="No documents yet";
+        if(count($num_documents) > 0){
+            $l = $num_documents[0]->updated_at->diffForHumans();
+        }
         return response()->json(['success' => true, 'data' => ['l_document'=>$l,'num_documents' => $num_documents,'documents' => $documents]], 200);
     }
 

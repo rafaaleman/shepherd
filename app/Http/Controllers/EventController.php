@@ -135,10 +135,11 @@ class EventController extends Controller
            // dd($request->date);
             $to_date = new DateTime($request->date);
             $calendar = $this->calendar_week_month($to_date->format('Y-m'));
+           // dump($calendar);
             //$calendar['calendar'][0]['datos'];
             foreach($calendar['calendar'] as $i => $w){
                 foreach($w['datos'] as $day){
-                    if($day['dia'] == $to_date->format('d')){
+                    if($day['fecha'] == $to_date->format('Y-m-d')){
                         $week = $calendar['calendar'][$i]['datos'];
                     }
                 }
