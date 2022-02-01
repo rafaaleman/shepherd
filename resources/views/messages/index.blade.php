@@ -64,7 +64,7 @@
                                     <div class="chat-hour">@{{ message.created_at | formatDate }}</div>
                                 </template>
                                 
-                                <template v-if="message.id_user != user">
+                                <template v-if="message.id_user !git= user">
                                         <div class="chat-text">
                                             @{{ message.message }}
                                             <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
