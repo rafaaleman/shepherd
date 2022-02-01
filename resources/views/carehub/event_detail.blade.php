@@ -55,9 +55,9 @@
                 
                 @foreach($event->messages as $message)
                         <div class="col-6 pl-0 mb-2">
-                            <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? $event->creator->photo : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                            <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? $message->creator_img : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                             <span class="font-weight-bold spn-name">
-                                {{$event->creator->name}} {{$event->creator->lastname}}
+                                {{$message->creator->user->name}} {{$message->creator->user->lastname}}
                             </span>
                         </div>
                         
