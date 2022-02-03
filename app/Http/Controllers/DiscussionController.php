@@ -115,6 +115,7 @@ class DiscussionController extends Controller
     {
 
         $discussion = discussion::where('id', $request->id)->with('messages','creator')->first();
+        //dd($discussion);
         $loveone  = loveone::whereSlug($request->slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
         $is_careteam = false;
@@ -125,11 +126,11 @@ class DiscussionController extends Controller
             }
         }
 
-        foreach ($careteam as $key => $team){
-            if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/no-avatar.png');
-            }
-        }
+        // foreach ($careteam as $key => $team){
+        //     if(isset($team->user)){
+        //         $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/no-avatar.png');
+        //     }
+        // }
 
         $discussion->members = $careteam->whereIn('user_id',json_decode($discussion->assigned_ids));
         foreach($discussion->members as $member){
@@ -169,7 +170,7 @@ class DiscussionController extends Controller
          }
          $discussion->creator->photo = ($discussion->creator->photo != '') ? $discussion->creator->photo :  asset('img/no-avatar.png');
          //dd();
-        // dd($event);
+         //dd($discussion);
         return view('carehub.discussion_detail',compact('discussion','is_careteam','id_careteam'));
 
     }
