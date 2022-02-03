@@ -38,6 +38,7 @@ body{
 
 .top-bar{
     background-color: $primary-color;
+    border-bottom: 10px solid $secondary-color;
     color: #fff;
     font-size: 18px;
     z-index: 9;
