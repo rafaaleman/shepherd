@@ -10735,8 +10735,8 @@ a:hover {
   font-size: 24px;
   font-weight: bold;
 }
-#homeCarousel .carousel-item .carousel__caption a.text-white {
-  text-decoration: underline;
+#homeCarousel .carousel-item .carousel__caption a {
+  color: #369bb6;
 }
 @media (min-width: 576px) {
   #homeCarousel .carousel-item {

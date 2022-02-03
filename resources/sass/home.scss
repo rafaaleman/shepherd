@@ -106,13 +106,13 @@
         
         &.resources{
             .fas, .card-text span{
-                color: #eac257;
+                color: $resources-color;
                 font-weight: bold;
             }
 
             .btn-primary {
-                background-color: #eac257;
-                border-color: darken($color: #eac257, $amount: 15);
+                background-color: $resources-color;
+                border-color: darken($color: $resources-color, $amount: 15);
             }
         }
 
@@ -204,8 +204,8 @@
                 font-weight: bold;
             }
 
-            a.text-white{
-                text-decoration: underline;
+            a{
+                color: $secondary-color;
             }
         }
 
