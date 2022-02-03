@@ -33,32 +33,10 @@
                                     <div class="container mt-5">
                                         <div class="row">
 
-                                            {{-- Careteam --}}
-                                            <div class="card widget team shadow-sm mb-3">
-                                                <div class="card-body">
-                                                    
-                                                    <a href="{{ route('careteam', [$loveone->slug] )}}" class="">
-                                                    <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
-                                                    </a>
-                                                    <div class="card-text">
-                                                        <div class="card__member-count"><span>{{$loveone->members->count()}}</span> Member(s)</div>
                                             
-                                                        <div class="pl-3 avatar-imgs">
-                                                            @foreach ($loveone->members as $member)
-                                                                
-                                                                <img src="{{asset($member->photo)}}" class="member-img" title="{{$member->name . ' ' . $member->lastname}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
-                                                            @endforeach
-                                                        </div>
-                                                        
-                                                        @if ($loveone->careteam->role == 'admin')
-                                                            <a href="{{ route('careteam', [$loveone->slug] )}}" class="btn btn-primary btn-sm">View Members</a>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             {{-- Carepoints --}}
-                                            <div class="card widget hub shadow-sm mx-3 mb-3">
+                                            <div class="card widget hub shadow-sm mb-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('carehub', [$loveone->slug] )}}" class="hub">
@@ -82,7 +60,7 @@
                                             </div>
 
                                             {{-- Lockbox --}}
-                                            <div class="card widget lockbox shadow-sm mb-3">
+                                            <div class="card widget lockbox shadow-sm mb-3 mx-3">
                                                 <div class="card-body">
 
                                                     <a href="{{ route('lockbox', [$loveone->slug] )}}" class="hub">
@@ -98,6 +76,30 @@
                                                         </div>
                                                     </a>
                                                     
+                                                </div>
+                                            </div>
+
+                                            {{-- Careteam --}}
+                                            <div class="card widget team shadow-sm mb-3">
+                                                <div class="card-body">
+                                                    
+                                                    <a href="{{ route('careteam', [$loveone->slug] )}}" class="">
+                                                    <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
+                                                    </a>
+                                                    <div class="card-text">
+                                                        <div class="card__member-count"><span>{{$loveone->members->count()}}</span> Member(s)</div>
+                                            
+                                                        <div class="pl-3 avatar-imgs">
+                                                            @foreach ($loveone->members as $member)
+                                                                
+                                                                <img src="{{asset($member->photo)}}" class="member-img" title="{{$member->name . ' ' . $member->lastname}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                                            @endforeach
+                                                        </div>
+                                                        
+                                                        @if ($loveone->careteam->role == 'admin')
+                                                            <a href="{{ route('careteam', [$loveone->slug] )}}" class="btn btn-primary btn-sm">View Members</a>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -145,7 +147,7 @@
                                             </div>
 
                                             {{-- resources --}}
-                                            <div class="card widget resources shadow-sm">
+                                            <div class="card widget resources shadow-sm mb-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('resources', [$loveone->slug] )}}" class="hub">
@@ -158,12 +160,11 @@
                                                                     <i class="gray">Last article published {{date('M, d Y')}}</i>
                                                                 @else
                                                                     
-                                                                    <i class="gray" v-else>No articles of your interest have been published</i>
+                                                                    <i class="gray">No articles of your interest have been published</i>
                                                                 @endif
                                                             </div>
-                                                            @if ($loveone->careteam->role == 'admin')
-                                                                <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}" v-if="is_admin">View Resources</a>
-                                                            @endif
+                                                            
+                                                            <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}">View Resources</a>
                                                         </div>
                                                     </a>
                                                 </div>
