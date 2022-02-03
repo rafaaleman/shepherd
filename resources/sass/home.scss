@@ -1,6 +1,6 @@
 .dashboard {
     background: #369bb7;
-    background: linear-gradient(180deg, #369bb7 150px, #f8fafc 150px);
+    background: linear-gradient(180deg, #369bb7 150px, #369bb778 150px, #f8fafc 450px);
     padding: 0;
 
     .widget{
@@ -106,13 +106,13 @@
         
         &.resources{
             .fas, .card-text span{
-                color: $blue;
+                color: #eac257;
                 font-weight: bold;
             }
 
             .btn-primary {
-                background-color: $blue;
-                border-color: darken($color: $blue, $amount: 15);
+                background-color: #eac257;
+                border-color: darken($color: #eac257, $amount: 15);
             }
         }
 

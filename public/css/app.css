@@ -10579,7 +10579,7 @@ a:hover {
 }
 .dashboard {
   background: #369bb7;
-  background: linear-gradient(180deg, #369bb7 150px, #f8fafc 150px);
+  background: linear-gradient(180deg, #369bb7 150px, #369bb778 150px, #f8fafc 450px);
   padding: 0;
 }
 .dashboard .widget {
@@ -10618,12 +10618,12 @@ a:hover {
   color: #aaa;
 }
 .dashboard .widget.team .fas, .dashboard .widget.team .card-text span {
-  color: #cf6cf9;
+  color: #35799f;
   font-weight: bold;
 }
 .dashboard .widget.team .btn-primary {
-  background-color: #cf6cf9;
-  border-color: #b723f6;
+  background-color: #35799f;
+  border-color: #224d66;
 }
 .dashboard .widget.team .member-img {
   background-color: #fff;
@@ -10634,44 +10634,44 @@ a:hover {
   border: 1px solid #cacaca;
 }
 .dashboard .widget.message .fas, .dashboard .widget.message .card-text span {
-  color: #f79151;
+  color: #dea771;
   font-weight: bold;
 }
 .dashboard .widget.message .btn-primary {
-  background-color: #f79151;
-  border-color: #f0630b;
+  background-color: #dea771;
+  border-color: #d08133;
 }
 .dashboard .widget.hub .far, .dashboard .widget.hub .card-text span {
-  color: #e45252;
+  color: #d36582;
   font-weight: bold;
 }
 .dashboard .widget.hub .btn-primary {
-  background-color: #e45252;
-  border-color: #ca2020;
+  background-color: #d36582;
+  border-color: #b73457;
 }
 .dashboard .widget.lockbox .fas, .dashboard .widget.lockbox .card-text span {
-  color: #44be6f;
+  color: #179f9d;
   font-weight: bold;
 }
 .dashboard .widget.lockbox .btn-primary {
-  background-color: #44be6f;
-  border-color: #2f874e;
+  background-color: #179f9d;
+  border-color: #0d5c5b;
 }
 .dashboard .widget.resources .fas, .dashboard .widget.resources .card-text span {
-  color: #3490dc;
+  color: #eac257;
   font-weight: bold;
 }
 .dashboard .widget.resources .btn-primary {
-  background-color: #3490dc;
-  border-color: #1d68a7;
+  background-color: #eac257;
+  border-color: #d9a61b;
 }
 .dashboard .widget.medlist .fas, .dashboard .widget.medlist .card-text span {
-  color: #ffd468;
+  color: #9888b5;
   font-weight: bold;
 }
 .dashboard .widget.medlist .btn-primary {
-  background-color: #ffd468;
-  border-color: #ffbe1c;
+  background-color: #9888b5;
+  border-color: #705c94;
   color: black;
 }
 
@@ -11039,13 +11039,13 @@ a:hover {
 
 /*--------------------------------------------------------------------------------*/
 #notifications .lockbox > .fas {
-  color: #44be6f;
+  color: #179f9d;
 }
 #notifications .medlist > .fas {
-  color: #ffd468;
+  color: #9888b5;
 }
 #notifications .event > .far {
-  color: #e45252;
+  color: #d36582;
 }
 #notifications .notification {
   flex-direction: row;
