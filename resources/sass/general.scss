@@ -38,7 +38,7 @@ body{
 
 .top-bar{
     background-color: $primary-color;
-    border-bottom: 10px solid $secondary-color;
+    border-bottom: 10px solid $gray-color;
     color: #fff;
     font-size: 18px;
     z-index: 9;
@@ -80,6 +80,12 @@ body{
         &:hover, &.active{
             color: #32a4ea;
             background-color: #f7f7fa;
+
+            &.careteam{ color: $team-color;}
+            &.hub{ color: $hub-color;}
+            &.lockbox{ color: $lockbox-color;}
+            &.medlist{ color: $medlist-color;}
+            &.resources{ color: $resources-color;}
         }
 
         span{

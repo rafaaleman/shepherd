@@ -10272,7 +10272,7 @@ body {
 
 .top-bar {
   background-color: #78849e;
-  border-bottom: 10px solid #369bb6;
+  border-bottom: 10px solid #cdcdd8;
   color: #fff;
   font-size: 18px;
   z-index: 9;
@@ -10312,6 +10312,21 @@ body {
 .sidebar .item:hover, .sidebar .item.active {
   color: #32a4ea;
   background-color: #f7f7fa;
+}
+.sidebar .item:hover.careteam, .sidebar .item.active.careteam {
+  color: #35799f;
+}
+.sidebar .item:hover.hub, .sidebar .item.active.hub {
+  color: #d36582;
+}
+.sidebar .item:hover.lockbox, .sidebar .item.active.lockbox {
+  color: #179f9d;
+}
+.sidebar .item:hover.medlist, .sidebar .item.active.medlist {
+  color: #9888b5;
+}
+.sidebar .item:hover.resources, .sidebar .item.active.resources {
+  color: #eac257;
 }
 .sidebar .item span {
   display: inline-block;
