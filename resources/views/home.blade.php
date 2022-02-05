@@ -15,7 +15,7 @@
 
                     <div class="carousel-inner">
                         @foreach ($loveones as $loveone)
-                            <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }} slide-{{ $loop->index }}" data-id="{{ $loveone->id }}"  data-slug="{{ $loveone->slug }}" data-info="{{json_encode($loveone)}}">
+                            <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }} slide-{{ $loop->index }}" data-id="{{ $loveone->id }}"  data-slug="{{ $loveone->slug }}" data-info="{{json_encode(collect($loveone)->except(['messages', 'resources', 'medlist', 'lockbox', 'discussions']))}}">
                                 <div class="carousel-item__container">
                                     <div class="text-center">
                                         <div style="background-image: url('{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('/img/no-avatar.png')}}')" class="loveone-photo mx-auto"></div>
@@ -184,11 +184,11 @@
 
                     @if (sizeof($loveones) > 1)
                     
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <a class="carousel-control-prev" href="#" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <a class="carousel-control-next" href="#" role="button" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>

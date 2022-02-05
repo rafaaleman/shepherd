@@ -49,7 +49,8 @@ class CareteamController extends Controller
 
         $roles         = self::ROLES;
         $relationships = relationship::where('status', 1)->get();
-        return view('careteam.index', compact('loveone', 'loveone_slug', 'roles', 'relationships'));
+        $section       = 'careteam';
+        return view('careteam.index', compact('loveone', 'loveone_slug', 'roles', 'relationships', 'section'));
     }
 
     /**
@@ -80,6 +81,43 @@ class CareteamController extends Controller
                                                         'invitations' => $invitations,
                                                         'is_admin' => $is_admin
                                                     ]]);
+    }
+
+    /**
+     * Show create/edit careteam member
+     */
+    public function createNewMember(Request $request)
+    {
+        $loveone  = loveone::whereSlug($request->loveone_slug)->first();
+        if(!$loveone) return view('errors.not-found');
+
+        $section       = 'careteam';
+        $roles         = self::ROLES;
+        $relationships = relationship::where('status', 1)->get();
+        
+        return view('careteam.create', compact('loveone', 'roles', 'relationships', 'section'));
+    }
+
+    /**
+     * Edit member
+     */
+    public function editMember(Request $request)
+    {
+        $loveone  = loveone::whereSlug($request->loveone_slug)->with('careteam')->first();
+        if(!$loveone) return view('errors.not-found');
+
+        $member = User::with('permissions')->find($request->member_id);
+        if(!$member) return view('errors.not-found');
+
+        if(!$loveone->careteam->contains('user_id', $request->member_id))return view('errors.not-found');
+
+        $member->permissions->permissions = unserialize($member->permissions->permissions);
+        // dd($member);
+        $section       = 'careteam';
+        $roles         = self::ROLES;
+        $relationships = relationship::where('status', 1)->get();
+        
+        return view('careteam.edit', compact('loveone', 'roles', 'relationships', 'section', 'member'));
     }
 
     /**
