@@ -138,6 +138,8 @@ $(function(){
         ){
             window.location.href="/home";
         }
+
+        $('.lovedone').hide();
     }
 });
 

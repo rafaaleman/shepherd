@@ -10887,6 +10887,7 @@ a:hover {
 #careteam.editMember .section.photo {
   padding: 0px;
   background-size: cover;
+  background-position: center;
   height: 200px;
 }
 #careteam.editMember .section.photo img.photo {
@@ -10920,7 +10921,7 @@ a:hover {
   padding: 15px;
 }
 #careteam.editMember .section table tr td:nth-of-type(1) {
-  width: 40%;
+  width: 35%;
   color: #aaa;
 }
 #careteam.editMember .section table tr td a {

@@ -219,6 +219,8 @@ class CareteamController extends Controller
 
                 $this->sendNewCareteamPermissionsEmail($request->loveone_id, $request->id, $old_permissions, $new_permissions);
                 return response()->json(['success' => true]);
+            }else {
+                return response()->json(['success' => false]);
             }
 
         } catch (\Exception $ex) {

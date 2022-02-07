@@ -219,6 +219,10 @@
     main.py-4{
         padding-top: 0 !important;
     }
+
+    .lovedone{
+        display: none !important;
+    }
 </style>
 @endpush
 
@@ -233,15 +237,17 @@ const home = new Vue ({
     created: function() {
         console.log('home');
         
-        loveone = localStorage.getItem('loveone');
-        if(loveone != null){
-            loveone = JSON.parse(loveone);
-            l_id   = loveone.id;
-            l_slug = loveone.slug;
-        } else {
-            l_id   = '{{ $loveones[0]->id }}';
-            l_slug = '{{ $loveones[0]->slug }}';
-        }
+        // loveone = localStorage.getItem('loveone');
+        // if(loveone != null){
+        //     loveone = JSON.parse(loveone);
+        //     l_id   = loveone.id;
+        //     l_slug = loveone.slug;
+        // } else {
+        //     l_id   = '{{ $loveones[0]->id }}';
+        //     l_slug = '{{ $loveones[0]->slug }}';
+        // }
+        l_id   = '{{ $loveones[0]->id }}';
+        l_slug = '{{ $loveones[0]->slug }}';
         this.refreshWidgets(l_id, l_slug);
         // $('#homeCarousel .carousel-item.loveone-' + l_id + ' .btn').attr('disabled', true).text('Selected').addClass('disabled').removeClass('btn-primary').addClass('btn-secondary');
     },

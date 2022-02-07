@@ -89,7 +89,7 @@
             &.photo{
                 padding: 0px;
                 background-size: cover;
-                // filter: saturate(10%);
+                background-position: center;
                 height: 200px;
 
                 img.photo{
@@ -128,7 +128,7 @@
                         padding: 15px;
 
                         &:nth-of-type(1){
-                            width: 40%;
+                            width: 35%;
                             color: #aaa;
                         }
 

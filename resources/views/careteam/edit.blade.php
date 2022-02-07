@@ -14,7 +14,7 @@
                     
                     <div class="member-info">
                         <strong>@{{member.name}} @{{member.lastname}}</strong> <br>
-                        <span class="role">@{{ member.role_id }}</span>
+                        <span class="role">@{{ member.role }}</span>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                             <span>Remove from CareTeam</span>
                         </td>
                         <td align="right">
-                            <button type="button" id="deleteMember" class="btn btn-danger text-white" href="#!" @click="deleteMember();" :disabled="member.role_id == 'admin'">
+                            <button type="button" id="deleteMember" class="btn btn-danger text-white" href="#!" @click="deleteMember();" :disabled="member.role == 'admin'">
                                 <i class="fas fa-trash-alt"></i> Delete
                             </button>
                         </td>
@@ -126,9 +126,12 @@
                 </table>
             </div>
 
+            <div class=" p-3 centered">
+                <input type="hidden" name="id" id="id" required v-model="member.id">
+                <a class="btn btn-primary centered" href="{{route('careteam', $loveone->slug)}}">Return to careteam</a>
+                <button class="btn btn-primary loadingBtn mr-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn"  v-if="is_admin" :disabled="member.role == 'admin'">Save changes</button>
+            </div>
 
-            <input type="hidden" name="id" id="id" required v-model="member.id">
-            <button class="btn btn-primary loadingBtn btn-lg mt-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn"  v-if="is_admin" :disabled="member.role_id == 'admin'">Save</button>
         </form>
     </div>
 </div>
@@ -151,14 +154,16 @@ const careteam = new Vue ({
     },
     data: {
         member: {
-            loveone_id: '{{$member->id}}',
+            loveone_id: {{$loveone->id}},
             name: '{{$member->name}}',
             lastname: '{{$member->lastname}}',
             email: '{{$member->email}}',
             phone: '{{$member->phone}}',
             address: '{{$member->address}}',
             photo: '{{$member->photo}}',
-            id: 0,
+            photo: '{{$member->photo}}',
+            role: '{{$member->permissions->role}}',
+            id: {{$member->id}},
             permissions: {
                 carehub: {{ $member->permissions->permissions['carehub']}},
                 lockbox: {{ $member->permissions->permissions['lockbox']}},
@@ -167,7 +172,7 @@ const careteam = new Vue ({
             },
         },
         action: '',
-        is_admin: {{ ($member->permissions->role == 'admin') ? true : false}},
+        is_admin: {{ (Auth::user()->permissions->role == 'admin') ? 'true' : 'false'}},
     },
     filters: {
         mayuscula: function (value) {
@@ -197,13 +202,12 @@ const careteam = new Vue ({
             
             axios.post(url, this.member)
             .then(response => {
-                // console.log(response.data);
+                console.log(response.data);
                 
                 if(response.data.success){
                     $('#editMemberModal').modal('hide');
                     msg = 'The member was edited successfully.';
                     icon = 'success';
-                    this.getCareteamMembers();
                     
                 } else {
                     msg = 'There was an error. Please try again. Error: ' + response.data.error;
@@ -223,7 +227,57 @@ const careteam = new Vue ({
         editMember: function(member_id) {
             $('#editMemberForm #member_id').val(member_id);
             $('#editMemberForm').submit();
-        }
+        },
+        deleteMember: function() {
+
+            swal({
+                title: "Warning",
+                text: "Are you sure delete this member?",
+                icon: "warning",
+                buttons: [
+                    'No, cancel it!',
+                    "Yes, I'm sure!"
+                ],
+                dangerMode: true,
+            }).then(function(isConfirm) {
+                console.log(isConfirm);
+                if (isConfirm) {
+
+                    $('#deleteMember').html('<i class="fas fa-trash-alt"></i> Deleting...').attr('disabled', true);
+                    var url = '{{ route("careteam.deleteMember") }}';
+                    data = {
+                        loveoneId: careteam.member.loveone_id,
+                        memberId: careteam.member.id
+                    };
+                    
+                    axios.post(url, data)
+                    .then(response => {
+                        // console.log(response.data.success);
+                        
+                        if(response.data.success){
+                            $('#editMemberModal').modal('hide');
+                            msg = 'The member was deleted from the Careteam.';
+                            icon = 'success';
+                            
+                        } else {
+                            msg = 'There was an error. Please try again. Error: ' + response.data.error;
+                            icon = 'error';
+                        }
+                        swal(msg, "", icon);
+                        // $('#deleteMember').html('<i class="fas fa-trash-alt"></i> Delete').attr('disabled', false);
+                        window.location.href="{{ route('careteam', [$loveone->slug] )}}";
+
+                        
+                    }).catch( error => {
+                        console.log(error);
+                        msg = 'There was an error editing the member permissions. Please try again. Error: ' + error;
+                        swal('Error', msg, 'error');
+                        $('#deleteMember').html('Save').attr('disabled', false);
+                    });
+
+                } 
+            });
+        },
     }
 });
 </script>
