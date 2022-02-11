@@ -164,7 +164,9 @@
                                                                 @endif
                                                             </div>
                                                             
-                                                            <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}">View Resources</a>
+                                                            @if ($loveone->careteam->role == 'admin')
+                                                                <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}">View Resources</a>
+                                                            @endif
                                                         </div>
                                                     </a>
                                                 </div>
