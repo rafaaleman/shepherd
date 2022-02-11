@@ -21,11 +21,11 @@
                                         <div style="background-image: url('{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('/img/no-avatar.png')}}')" class="loveone-photo mx-auto"></div>
 
                                         <div class="carousel__caption">
-                                            <h5>{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
+                                            <h5 class="mb-3">{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
                                             {{-- <p>{{ $loveone->relationshipName }}</p> --}}
                         
                                             @if ($loveone->careteam->role == 'admin')
-                                                <a href="/loveone/{{$loveone->slug}}"><i class="far fa-edit"></i> Edit Profile</a>
+                                                <a href="/loveone/{{$loveone->slug}}" class="mt-3"><i class="far fa-edit"></i> Edit Profile</a>
                                             @endif
                                         </div>
                                     </div>
