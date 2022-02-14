@@ -9,9 +9,9 @@ class loveone extends Model
     protected $guarded = [];
 
     /**
-     * Get the careteam row
+     * Get the careteam members
      */
-    // public function mycareteam() {
-    //     return $this->hasOne('App\Models\careteam', 'id_empleado', 'id');
-    // }
+    public function careteam() {
+        return $this->hasMany('App\Models\careteam', 'loveone_id', 'id');
+    }
 }

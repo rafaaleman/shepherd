@@ -10246,6 +10246,25 @@ body {
   font-size: 1.15rem;
 }
 
+.navbar .nav-item.lovedone {
+  font-size: 13px;
+}
+.navbar .nav-item.lovedone .name {
+  color: #78849e;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 16px;
+  margin-top: 8px;
+}
+.navbar .nav-item .photo {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-size: cover;
+  background-position: top center;
+}
+
 .dropdown-menu {
   border: none;
 }
@@ -10274,22 +10293,29 @@ body {
   background-color: #78849e;
   border-bottom: 10px solid #cdcdd8;
   color: #fff;
-  font-size: 18px;
+  font-size: 32px;
   z-index: 9;
   margin-bottom: 20px;
+}
+.top-bar.careteam {
+  border-bottom: 10px solid #35799f;
+}
+.top-bar.hub {
+  border-bottom: 10px solid #d36582;
+}
+.top-bar.lockbox {
+  border-bottom: 10px solid #179f9d;
+}
+.top-bar.medlist {
+  border-bottom: 10px solid #9888b5;
+}
+.top-bar.resources {
+  border-bottom: 10px solid #eac257;
 }
 .top-bar .name {
   font-weight: bold;
   font-size: 22px;
   text-shadow: #777 2px 2px;
-}
-.top-bar .photo {
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  margin-left: 20px;
-  background-size: cover;
-  background-position: top center;
 }
 
 .sidebar {
@@ -10696,7 +10722,7 @@ a:hover {
   background-size: cover;
 }
 #homeCarousel .carousel-indicators {
-  top: 325px;
+  top: 285px;
   bottom: inherit;
 }
 #homeCarousel .carousel-indicators li {
@@ -10792,13 +10818,18 @@ a:hover {
   }
 }
 #careteam .mm {
-  width: 31%;
-  border-radius: 5px;
+  width: 49%;
+  background-color: #f7f7fa;
+  border: 0 !important;
 }
 @media (max-width: 450px) {
   #careteam .mm {
     width: 47%;
   }
+}
+#careteam .members {
+  background-color: #fff;
+  border-radius: 8px;
 }
 #careteam .member {
   overflow: hidden;
@@ -10808,9 +10839,11 @@ a:hover {
   width: 50px;
   border-radius: 50%;
 }
+#careteam .member .data {
+  width: 100%;
+}
 @media (max-width: 450px) {
   #careteam .member .data {
-    width: 100%;
     margin-top: 10px;
   }
 }
@@ -10828,25 +10861,21 @@ a:hover {
 #careteam .member .fas {
   color: #aaa;
 }
+#careteam .member .info {
+  font-size: 15px;
+}
 #careteam .newMember {
   text-decoration: none;
 }
-#careteam #inviteMemberModal .custom-control-label::after,
-#careteam #editMemberModal .custom-control-label::after {
+#careteam.editMember .custom-control-label::after {
   width: 15px;
   height: 15px;
 }
-#careteam #inviteMemberModal .custom-control-label::before,
-#careteam #editMemberModal .custom-control-label::before {
+#careteam.editMember .custom-control-label::before {
   height: 19px;
   width: 32px;
 }
-#careteam #inviteMemberModal form,
-#careteam #editMemberModal form {
-  background-color: #f5f5f5;
-}
-#careteam #inviteMemberModal .section,
-#careteam #editMemberModal .section {
+#careteam.editMember .section {
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 15px;
@@ -10855,110 +10884,94 @@ a:hover {
   width: 100%;
   margin-bottom: 20px;
 }
-#careteam #inviteMemberModal .section.photo,
-#careteam #editMemberModal .section.photo {
+#careteam.editMember .section.photo {
   padding: 0px;
   background-size: cover;
+  background-position: center;
   height: 200px;
 }
-#careteam #inviteMemberModal .section.photo img.photo,
-#careteam #editMemberModal .section.photo img.photo {
+#careteam.editMember .section.photo img.photo {
   filter: opacity(20%);
   width: auto;
   height: 100%;
   margin: auto;
 }
-#careteam #inviteMemberModal .section.photo .member-info,
-#careteam #editMemberModal .section.photo .member-info {
+#careteam.editMember .section.photo .member-info {
   position: absolute;
   bottom: 15px;
   left: 15px;
   color: #fff;
   font-size: 16px;
 }
-#careteam #inviteMemberModal .section.photo .member-info strong,
-#careteam #editMemberModal .section.photo .member-info strong {
+#careteam.editMember .section.photo .member-info strong {
   font-size: 20px;
   text-shadow: #171616 1px 1px 2px;
 }
-#careteam #inviteMemberModal .section.photo .member-info .role,
-#careteam #editMemberModal .section.photo .member-info .role {
+#careteam.editMember .section.photo .member-info .role {
   text-transform: uppercase;
   text-shadow: #171616 1px 1px 2px;
 }
-#careteam #inviteMemberModal .section table,
-#careteam #editMemberModal .section table {
+#careteam.editMember .section table {
   width: 100%;
 }
-#careteam #inviteMemberModal .section table tr,
-#careteam #editMemberModal .section table tr {
+#careteam.editMember .section table tr {
   border-bottom: 1px solid #eee;
 }
-#careteam #inviteMemberModal .section table tr td,
-#careteam #editMemberModal .section table tr td {
-  padding: 10px;
+#careteam.editMember .section table tr td {
+  padding: 15px;
 }
-#careteam #inviteMemberModal .section table tr td:nth-of-type(1),
-#careteam #editMemberModal .section table tr td:nth-of-type(1) {
-  width: 50%;
+#careteam.editMember .section table tr td:nth-of-type(1) {
+  width: 35%;
   color: #aaa;
 }
-#careteam #inviteMemberModal .section table tr td a,
-#careteam #editMemberModal .section table tr td a {
+#careteam.editMember .section table tr td a {
   color: #000;
   text-decoration: none;
 }
-#careteam #inviteMemberModal .section table tr td.carehub,
-#careteam #editMemberModal .section table tr td.carehub {
+#careteam.editMember .section table tr td.carehub {
   font-size: 16px;
 }
-#careteam #inviteMemberModal .section table tr td.carehub i,
-#careteam #editMemberModal .section table tr td.carehub i {
+#careteam.editMember .section table tr td.carehub i {
   color: #f78383;
   font-size: 18px;
 }
-#careteam #inviteMemberModal .section table tr td.carehub span,
-#careteam #editMemberModal .section table tr td.carehub span {
+#careteam.editMember .section table tr td.carehub span {
   color: #555;
 }
-#careteam #inviteMemberModal .section table tr td.lockbox,
-#careteam #editMemberModal .section table tr td.lockbox {
+#careteam.editMember .section table tr td.lockbox {
   font-size: 16px;
 }
-#careteam #inviteMemberModal .section table tr td.lockbox i,
-#careteam #editMemberModal .section table tr td.lockbox i {
+#careteam.editMember .section table tr td.lockbox i {
   color: #58c69c;
   font-size: 18px;
 }
-#careteam #inviteMemberModal .section table tr td.lockbox span,
-#careteam #editMemberModal .section table tr td.lockbox span {
+#careteam.editMember .section table tr td.lockbox span {
   color: #555;
 }
-#careteam #inviteMemberModal .section table tr td.medlist,
-#careteam #editMemberModal .section table tr td.medlist {
+#careteam.editMember .section table tr td.medlist {
   font-size: 16px;
 }
-#careteam #inviteMemberModal .section table tr td.medlist i,
-#careteam #editMemberModal .section table tr td.medlist i {
+#careteam.editMember .section table tr td.medlist i {
   color: #4dc0b5;
   font-size: 18px;
 }
-#careteam #inviteMemberModal .section table tr td.medlist span,
-#careteam #editMemberModal .section table tr td.medlist span {
+#careteam.editMember .section table tr td.medlist span {
   color: #555;
 }
-#careteam #inviteMemberModal .section table tr td.resources,
-#careteam #editMemberModal .section table tr td.resources {
+#careteam.editMember .section table tr td.resources {
   font-size: 16px;
 }
-#careteam #inviteMemberModal .section table tr td.resources i,
-#careteam #editMemberModal .section table tr td.resources i {
+#careteam.editMember .section table tr td.resources i {
   color: #155c9e;
   font-size: 18px;
 }
-#careteam #inviteMemberModal .section table tr td.resources span,
-#careteam #editMemberModal .section table tr td.resources span {
+#careteam.editMember .section table tr td.resources span {
   color: #555;
+}
+#careteam .white-section {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px;
 }
 
 .invitations strong {

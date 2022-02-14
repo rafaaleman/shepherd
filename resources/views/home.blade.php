@@ -15,17 +15,17 @@
 
                     <div class="carousel-inner">
                         @foreach ($loveones as $loveone)
-                            <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }} slide-{{ $loop->index }}" data-id="{{ $loveone->id }}"  data-slug="{{ $loveone->slug }}" data-info="{{json_encode($loveone)}}">
+                            <div class="carousel-item {{ ($loop->first) ? 'active' : '' }} loveone-{{ $loveone->id }} slide-{{ $loop->index }}" data-id="{{ $loveone->id }}"  data-slug="{{ $loveone->slug }}" data-info="{{json_encode(collect($loveone)->except(['messages', 'resources', 'medlist', 'lockbox', 'discussions']))}}">
                                 <div class="carousel-item__container">
                                     <div class="text-center">
                                         <div style="background-image: url('{{ (!empty($loveone->photo) && $loveone->photo != null ) ? asset($loveone->photo) : asset('/img/no-avatar.png')}}')" class="loveone-photo mx-auto"></div>
 
                                         <div class="carousel__caption">
-                                            <h5>{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
+                                            <h5 class="mb-3">{{ strtoupper($loveone->firstname) }} {{ strtoupper($loveone->lastname) }}</h5>
                                             {{-- <p>{{ $loveone->relationshipName }}</p> --}}
                         
                                             @if ($loveone->careteam->role == 'admin')
-                                                <a href="/loveone/{{$loveone->slug}}"><i class="far fa-edit"></i> Edit Profile</a>
+                                                <a href="/loveone/{{$loveone->slug}}" class="mt-3"><i class="far fa-edit"></i> Edit Profile</a>
                                             @endif
                                         </div>
                                     </div>
@@ -164,7 +164,9 @@
                                                                 @endif
                                                             </div>
                                                             
-                                                            <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}">View Resources</a>
+                                                            @if ($loveone->careteam->role == 'admin')
+                                                                <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}">View Resources</a>
+                                                            @endif
                                                         </div>
                                                     </a>
                                                 </div>
@@ -184,11 +186,11 @@
 
                     @if (sizeof($loveones) > 1)
                     
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <a class="carousel-control-prev" href="#" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <a class="carousel-control-next" href="#" role="button" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -219,6 +221,10 @@
     main.py-4{
         padding-top: 0 !important;
     }
+
+    .lovedone{
+        display: none !important;
+    }
 </style>
 @endpush
 
@@ -233,15 +239,17 @@ const home = new Vue ({
     created: function() {
         console.log('home');
         
-        loveone = localStorage.getItem('loveone');
-        if(loveone != null){
-            loveone = JSON.parse(loveone);
-            l_id   = loveone.id;
-            l_slug = loveone.slug;
-        } else {
-            l_id   = '{{ $loveones[0]->id }}';
-            l_slug = '{{ $loveones[0]->slug }}';
-        }
+        // loveone = localStorage.getItem('loveone');
+        // if(loveone != null){
+        //     loveone = JSON.parse(loveone);
+        //     l_id   = loveone.id;
+        //     l_slug = loveone.slug;
+        // } else {
+        //     l_id   = '{{ $loveones[0]->id }}';
+        //     l_slug = '{{ $loveones[0]->slug }}';
+        // }
+        l_id   = '{{ $loveones[0]->id }}';
+        l_slug = '{{ $loveones[0]->slug }}';
         this.refreshWidgets(l_id, l_slug);
         // $('#homeCarousel .carousel-item.loveone-' + l_id + ' .btn').attr('disabled', true).text('Selected').addClass('disabled').removeClass('btn-primary').addClass('btn-secondary');
     },
