@@ -53,9 +53,9 @@
                                                             </div>
                                                         </div>
                                                     </a>
-                                                    @if ($loveone->careteam->role == 'admin')
+                                                    {{-- @if ($loveone->careteam->role == 'admin') --}}
                                                         <a href="{{ route('carehub', [$loveone->slug] )}}" class="btn btn-primary btn-sm">View CarePoints</a>
-                                                    @endif
+                                                    {{-- @endif --}}
                                                 </div>                                           
                                             </div>
 
@@ -70,9 +70,9 @@
                                                                 <span>{{ $loveone->lockbox->data->documents }}</span> Files in your lockbox <br />
                                                                 <i class="gray">Last updated {{ $loveone->lockbox->data->l_document }}</i>
                                                             </div>
-                                                            @if ($loveone->careteam->role == 'admin')
+                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
                                                                 <a class="btn btn-primary btn-sm mt-2" href="{{ route('lockbox', [$loveone->slug] )}}">View Documents</a>
-                                                            @endif
+                                                            {{-- @endif --}}
                                                         </div>
                                                     </a>
                                                     
@@ -96,9 +96,9 @@
                                                             @endforeach
                                                         </div>
                                                         
-                                                        @if ($loveone->careteam->role == 'admin')
+                                                        {{-- @if ($loveone->careteam->role == 'admin') --}}
                                                             <a href="{{ route('careteam', [$loveone->slug] )}}" class="btn btn-primary btn-sm">View Members</a>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -119,9 +119,9 @@
                                                                 @endif
                                                             </div>
                                                         </p>
-                                                        @if ($loveone->careteam->role == 'admin')
+                                                        {{-- @if ($loveone->careteam->role == 'admin') --}}
                                                             <a href="{{ route('medlist', [$loveone->slug] )}}" class="btn btn-primary btn-sm text-white">View Medications</a>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                     </a>
                                                 </div>
                                             </div>
@@ -138,9 +138,9 @@
                                                                 <i class="gray" >Last message from {{ $loveone->messages->data->last_message }}</i>
                                                             </div>
 
-                                                            @if ($loveone->careteam->role == 'admin')
+                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
                                                                 <a class="btn btn-primary btn-sm" href="{{ route('messages', [$loveone->slug] )}}">View Messages</a>
-                                                            @endif
+                                                            {{-- @endif --}}
                                                         </div>
                                                     </a>
                                                 </div>
@@ -164,9 +164,9 @@
                                                                 @endif
                                                             </div>
                                                             
-                                                            @if ($loveone->careteam->role == 'admin')
+                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
                                                                 <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}">View Resources</a>
-                                                            @endif
+                                                            {{-- @endif --}}
                                                         </div>
                                                     </a>
                                                 </div>
