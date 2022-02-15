@@ -29,6 +29,7 @@ class EventController extends Controller
     public function index(Request $request)
     {   
         $is_admin = false;
+        $section  = 'CarePoints';
         $to_day = new DateTime();
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         $months = array(
@@ -64,17 +65,18 @@ class EventController extends Controller
         }
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
 
-        return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day','months'));
+        return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day','months','section'));
     }
 
     public function createForm($loveone_slug){
+        $section  = 'CarePoints';
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get()->keyBy('user_id');
         $date_now = new DateTime();
         $date_now->sub(new DateInterval('P1D'));
         //dd($careteam);
         $readTour = $this->alreadyReadTour('carepoints_create');
-        return view('carehub.create_event',compact('loveone','careteam','date_now', 'readTour'));
+        return view('carehub.create_event',compact('loveone','careteam','date_now', 'readTour','section'));
     }
 
     public function createUpdate(Request $request)
