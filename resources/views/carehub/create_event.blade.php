@@ -118,7 +118,7 @@
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
                         <button data-title="Welcome to CarePoints" data-intro="Don't forget to save your task here. This will send an email reminder to the people you assign this task to." class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
-                            Save
+                            Add
                         </button>
                     </center>
                     <input type="hidden" name="id" v-model="event.id" value="">
