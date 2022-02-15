@@ -74,6 +74,7 @@ body{
     &.lockbox{ border-bottom: 10px solid $lockbox-color;}
     &.medlist{ border-bottom: 10px solid $medlist-color;}
     &.resources{ border-bottom: 10px solid $resources-color;}
+    &.messages{ border-bottom: 10px solid $messages-color;}
 
     .name{
         font-weight: bold;

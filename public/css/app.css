@@ -10312,6 +10312,9 @@ body {
 .top-bar.resources {
   border-bottom: 10px solid #eac257;
 }
+.top-bar.messages {
+  border-bottom: 10px solid #dea771;
+}
 .top-bar .name {
   font-weight: bold;
   font-size: 22px;
