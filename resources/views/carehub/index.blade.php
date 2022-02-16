@@ -209,7 +209,7 @@
         filters:{
             txt_event: function(value) {
                 if (!value) return ''
-                value = value.substr(1,6);
+                value = value.substr(0,6);
                 return '• ' + value + '...';
             },
         },

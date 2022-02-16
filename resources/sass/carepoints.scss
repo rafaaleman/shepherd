@@ -318,3 +318,150 @@
     }
 
 }
+
+
+
+// --------------
+// create Task
+// --------------
+
+
+#collapseMemers{
+    .member{
+        background-color: #f7f7fa;
+        border: 0 !important;
+        border-radius: 8px;
+        padding: 8px 16px;
+    }
+}
+
+input[type=date] {
+    text-align: right;
+  }
+  
+  input[type="date"]:before {
+    content: attr(placeholder) !important;
+    margin-right: 0.5em;
+  }
+  
+  /* The customcheck */
+  .ccheck{
+      padding-left: 5px;
+      padding-right: 5px;
+  }
+  .customcheck {
+      display: block;
+      position: relative;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .customcheck input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 25px;
+      width: 25px;
+      background-color: #fff;
+      border-radius: 25px;
+      border: 1px solid;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .customcheck:hover input ~ .checkmark {
+      background-color: #369bb6;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .customcheck input:checked ~ .checkmark {
+      background-color: #369bb6;
+      border-radius: 25px;
+      border:0;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .customcheck input:checked ~ .checkmark:after {
+      display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .customcheck .checkmark:after {
+      left: 10px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+      color:#78849e;
+  }
+  
+  .customcheck .checkmark:after {
+      left: 10px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+      color:red;
+  }
+  .no-border{
+      border:0;
+  }
+  .no-focus:focus { outline: none; } 
+  .label{
+      opacity: 0.5;
+      color: #78849e;
+      font-size: 10px;
+      margin-bottom:0;
+      padding-left: 11px;
+      font-size: 18px;
+  }
+  
+  .only-border-bottom{
+      border: 0px ;
+      border-bottom: solid 1px #cdcdd8;
+      border-radius:0.25rem 0.25rem 0 0;
+  }
+  
+   .dropdown-toggle::after{
+      float:right;
+      margin-top: .5em;
+  }
+  
+  .introjs-fixParent {
+    position: absolute;
+  }
+  
+  
+  @media only screen and (max-width: 370px) {
+      #collapseMemers .card-body{
+          padding: .35rem;
+      }        
+  
+  }
