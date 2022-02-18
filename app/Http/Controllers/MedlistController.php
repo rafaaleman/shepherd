@@ -30,6 +30,7 @@ class MedlistController extends Controller
     public function index(Request $request)
     {   
         $is_admin = false;
+        $section  = 'MedList';
         $to_day = new DateTime();
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         if(!$loveone){
@@ -55,11 +56,12 @@ class MedlistController extends Controller
 
 
 
-        return view('medlist.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
+        return view('medlist.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day','section'));
     }
 
     public function createForm($loveone_slug)
     {
+        $section  = 'MedList';
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         $routes  = route::orderBy('route')->get();
        // $dosages  = dosage::orderBy('dosage')->get();
@@ -68,7 +70,7 @@ class MedlistController extends Controller
         $date_now->sub(new DateInterval('P1D'));
 
         $readTour = $this->alreadyReadTour('medlist_create');
-        return view('medlist.create_medication',compact('loveone','careteam','date_now','routes', 'readTour'));
+        return view('medlist.create_medication',compact('loveone','careteam','date_now','routes', 'readTour','section'));
     }
 
     public function createUpdate(Request $request)

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container"  id="careteam">
 
-    <a href="#!" data-toggle="modal" data-target="#inviteMemberModal" class="newMember btn btn-primary btn-lg mb-3" @click="changeAction('CREATE', '')" v-if="is_admin">
+    <a href="{{route('careteam.createNewMember', [$loveone_slug])}}" class="newMember btn btn-primary mb-3" v-if="is_admin">
         Invite a New Member
     </a>
 
@@ -11,42 +11,49 @@
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading members...
     </div>
     
-    <div class="members d-flex flex-wrap">
+    <div class="members d-flex flex-wrap shadow-sm p-4">
     
-        <div class="card shadow-sm mm p-3 border mb-2 mr-2" v-for="member in members">
+        <div class="card mm p-3 border mb-2 mr-2" v-for="member in members">
             <div class="card-body_">
                 
-                <a class="" href="#" data-toggle="modal" data-target="#editMemberModal" @click="changeAction('EDIT', member)">
-                    <div class="member">
-                        <img :src="member.photo" class="mb-2">
+                <a class="" href="#" @click.prevent="editMember(member.id)">
+                    <div class="member d-flex">
+                        <img :src="member.photo" class=" mr-2">
                         <div class="data">
+                            <i class="fas fa-info-circle fa-2x mt-2 info mr-2 float-right"></i>
                             <div class="name">@{{ member.name }} @{{ member.lastname }}</div>
                             <div class="role">@{{ (member.careteam.role == 'admin') ? 'Leader' : member.careteam.role | mayuscula }}</div>
-                            {{-- <i class="fas fa-info-circle fa-2x mt-2 info mr-2 d-none d-sm-block"></i> --}}
                         </div>
                     </div>
                 </a>
             </div>
         </div>
 
-        <div class="card shadow-sm mm p-3 border mb-2 mr-2" v-for="invitation in invitations">
+        <div class="card  mm p-3 border mb-2 mr-2" v-for="invitation in invitations">
             <div class="member">
-                <img src="{{asset('/img/no-avatar.png')}}" class= mr-2">
-                <div class="data ml-2">
-                    <div class="name">@{{ invitation.email }}</div>
-                    <div class="role">@{{ invitation.role | mayuscula }}</div>
+                <div class="d-flex">
+                    <img src="{{asset('/img/no-avatar.png')}}" class= mr-2">
+                    <div class="data ml-2">
+                        <div class="name">@{{ invitation.email }}</div>
+                        {{-- <div class="role">@{{ invitation.role | mayuscula }}</div> --}}
+                        <div class="d-block">
+                            <i class="fas fa-times-circle text-danger" @click="deleteInvitation(invitation.id)"></i>
+                            <i class="info mr-2 text-danger">Invitation sent</i>
+                        </div>
+                    </div>
                 </div>
-
-                <i class="fas fa-times-circle text-danger float-right mr-2 mt-3" @click="deleteInvitation(invitation.id)"></i>
-                <i class="mt-3 info float-right mr-2 text-danger">Pending...</i>
             </div>
         </div>
-
-        
     </div>
-    @include('careteam.create_modal')
-    @include('careteam.edit_modal')
 </div>
+
+{{-- Form to edit members --}}
+<form action="{{ route('careteam.editMember', $loveone->slug) }}" method="POST" id="editMemberForm">
+    @csrf
+    <input type="hidden" name="member_id" id="member_id">
+    <input type="hidden" name="loveoned_id" value="{{$loveone->id}}">
+</form>
+
 @endsection
 
 @push('styles')
@@ -60,11 +67,11 @@
 
 $(function(){
 
-    if(window.location.hash == '#addMember') {
+    // if(window.location.hash == '#addMember') {
         
-        $('#inviteMemberModal').modal('show');
-        careteam.changeAction('CREATE', '');
-    } 
+    //     $('#inviteMemberModal').modal('show');
+    //     careteam.changeAction('CREATE', '');
+    // } 
 });
 
     const careteam = new Vue ({
@@ -146,7 +153,7 @@ $(function(){
             }, 
             getCareteamMembers: function() {
                 
-                // console.log('getting members');  
+                console.log('getting members of {{$loveone_slug}}');  
                 $('.loading').show();              
 
                 var url = '{{ route("careteam.getCareteamMembers") }}';
@@ -473,6 +480,10 @@ $(function(){
                         });
                     } 
                 });
+            },
+            editMember: function(member_id) {
+                $('#editMemberForm #member_id').val(member_id);
+                $('#editMemberForm').submit();
             }
         }
     });

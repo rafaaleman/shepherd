@@ -9,6 +9,31 @@ body{
     font-size: 1.15rem;
 }
 
+.navbar{
+    .nav-item{
+        &.lovedone{
+            font-size: 13px;
+
+            .name{
+                color: $primary-color;
+                font-size: 16px;
+                font-weight: bold;
+                line-height: 16px;
+                margin-top: 8px;
+            }
+        }
+
+        .photo{
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-size: cover;
+            background-position: top center;
+        }
+    }
+}
+
 .dropdown-menu
 {
     border: none;
@@ -38,24 +63,23 @@ body{
 
 .top-bar{
     background-color: $primary-color;
+    border-bottom: 10px solid $gray-color;
     color: #fff;
-    font-size: 18px;
+    font-size: 32px;
     z-index: 9;
     margin-bottom: 20px;
+
+    &.careteam{ border-bottom: 10px solid $team-color;}
+    &.hub{ border-bottom: 10px solid $hub-color;}
+    &.lockbox{ border-bottom: 10px solid $lockbox-color;}
+    &.medlist{ border-bottom: 10px solid $medlist-color;}
+    &.resources{ border-bottom: 10px solid $resources-color;}
+    &.messages{ border-bottom: 10px solid $messages-color;}
 
     .name{
         font-weight: bold;
         font-size: 22px;
         text-shadow: #777 2px 2px;
-    }
-
-    .photo{
-        height: 80px;
-        width: 80px;
-        border-radius: 50%;
-        margin-left: 20px;
-        background-size: cover;
-        background-position: top center;
     }
 }
 
@@ -79,6 +103,12 @@ body{
         &:hover, &.active{
             color: #32a4ea;
             background-color: #f7f7fa;
+
+            &.careteam{ color: $team-color;}
+            &.hub{ color: $hub-color;}
+            &.lockbox{ color: $lockbox-color;}
+            &.medlist{ color: $medlist-color;}
+            &.resources{ color: $resources-color;}
         }
 
         span{

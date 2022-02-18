@@ -38,7 +38,8 @@ class MessagesController extends Controller
         if(!$loveone){
            // dd("no existe");
         }
-        return view('messages.index',compact('loveone','loveone_slug'));
+        $section = 'messages';
+        return view('messages.index',compact('loveone','loveone_slug','section'));
     }
 
     public function getCareteam(Request $request)

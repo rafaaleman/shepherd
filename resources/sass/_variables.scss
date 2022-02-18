@@ -18,16 +18,22 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
-$lockbox-color: #44be6f;
-$medlist-color: #ffd468;
-$hub-color: #e45252;
-$message-color:  #f79151;
-$team-color:  #cf6cf9;
+$lockbox-color: #179f9d;
+$medlist-color: #9888b5;
+$hub-color: #d36582;
+$message-color:  #dea771;
+$team-color:  #35799f;
+$resources-color:  #eac257;
+$messages-color:  #dea771;
 
 
-$primary-color: #369bb6;
+$primary-color: #78849e;
+$secondary-color: #369bb6;
+$gray-color: #cdcdd8;
 
 $theme-colors: (
-    "primary": #369bb6,
-    "danger": #d8817d
+    "primary" : #78849e,
+    "secondary": #369bb6,
+    "danger": #d8817d,
+    "light-button" : #cdcdd8
 );

@@ -12,6 +12,7 @@ class ResourceController extends Controller
     
     public function getTopics(Client $client,Request $request){
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
+        $section  = 'resources';
         if(!$loveone){
             return view('errors.not-found');
         }
@@ -24,23 +25,27 @@ class ResourceController extends Controller
         $topics = get_object_vars(json_decode($response->getBody()));
         
         //dd($topics);
-        return view('resources.index',compact('topics','conditions_loveone'));
+        return view('resources.index',compact('topics','conditions_loveone','section'));
 
     }
 
-    public function getTopicsCarehub(Client $client,Request $request){
+    public function getTopicsCarehub(Request $request){
+
+        $client = new Client();
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         if(!$loveone){
-            return view('errors.not-found');
+            return 0;
         }
         // Produce: <body text='black'>
         $conditions = str_replace(",", " OR ", $loveone->conditions);
-        $response = $client->request('GET', 'https://newsapi.org/v2/everything?q='.$conditions.'&from='.date('Y-m-d').'&language=en&apiKey='.$this->apikey);
+        if(empty($conditions)) $conditions = 'health';
+        $url = 'https://newsapi.org/v2/everything?q='.$conditions.'&from='.date('Y-m-d').'&language=en&apiKey='.$this->apikey;
+        $response = $client->request('GET', $url);
         $conditions_loveone = explode(',',$loveone->conditions);
         
         $topics = get_object_vars(json_decode($response->getBody()));
-        //dd($topics, 'sfdvdfbv');
-        return response()->json(['success' => true, 'topics' => $topics]);
+        // dd($topics);
+        return $topics;
     }
     
     // general query to API, no longer used

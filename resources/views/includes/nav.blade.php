@@ -61,6 +61,13 @@
                         </li>
                     @endif
                 @else
+                    <li class="nav-item d-flex lovedone pr-4">
+                        <div class="photo" style="" alt=""></div>
+                        <div>
+                            <div class="name">Loved one Name</div>
+                            Loved one
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-danger font-weight-bold mr-3 d-none d-md-flex align-items-center" href="tel: 911">
                             <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
@@ -95,11 +102,52 @@
 @push('scripts')
 <script>
 $(function(){
+
     $('#logoutLnk').click(function(event){
         event.preventDefault(); 
         localStorage.removeItem('loveone');
         document.getElementById('logout-form').submit();
     });
+
+
+    loveone = localStorage.getItem('loveone');
+    if(loveone != null){
+        loveone = JSON.parse(loveone);
+        // console.log(loveone.firstname);
+        $('.navbar .name').text(loveone.firstname + ' ' + loveone.lastname);
+        $('.navbar .photo').css('background-image', 'url('+loveone.photo+')');
+        // $('.navbar').css('background-color', loveone.color);
+        
+        $('.menu-link').each( function () { 
+            newurl = $(this).attr('href');
+            // console.log(newurl);
+            newurl = newurl.replace('**SLUG**', loveone.slug);
+            $(this).attr('href', newurl)
+        });
+    } else {
+        //$('.notificationsLnk').hide();
+        // Redirect to home if no lovedone is set
+        if(
+            window.location.pathname.includes('/carehub') || 
+            window.location.pathname.includes('/lockbox') || 
+            window.location.pathname.includes('/careteam') ||
+            window.location.pathname.includes('/medlist') ||
+            window.location.pathname.includes('/messages') ||
+            window.location.pathname.includes('/resources') ||
+            window.location.pathname.includes('/notifications')
+        ){
+            window.location.href="/home";
+        }
+
+        $('.lovedone').hide();
+    }
 });
+
+setTimeout(() => {
+    current_loveone = localStorage.getItem('loveone');
+    if(current_loveone == null){
+        $('.notificationsLnk').hide();
+    }
+}, 2000);
 </script>
 @endpush
