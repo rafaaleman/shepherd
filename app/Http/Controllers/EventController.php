@@ -519,8 +519,14 @@ class EventController extends Controller
 
     public function getEvent(Request $request)
     {
-
+        $section  = 'CarePoints';
         $event = event::where('id', $request->id)->with('messages','creator')->first();
+        $msg = array();
+        $event->messages = $event->messages->groupBy('date');
+        if(count($event->messages) == 0){
+            $msg = array(date('Y-m-d') => array());
+        }
+        //dd(count($event->messages), $msg);
         $loveone  = loveone::whereSlug($request->slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
         $is_careteam = false;
@@ -546,31 +552,33 @@ class EventController extends Controller
         $event->date_title = $date_temp->format('l, m.j.Y');
         
         //dd($event->messages);
-        foreach ($event->messages as $key => $message){
-            $date_temp_m = new DateTime($message->date . " " . $message->time);
+        foreach ($event->messages as $day => $messages){
+            foreach ($messages as $key => $message){
+                $date_temp_m = new DateTime($message->created_at);
 
-            $date_now = new DateTime();
-            $interval = $date_temp_m->diff($date_now);
-           // dump($date_temp, $date_now, $interval,);
+                $date_now = new DateTime();
+                $interval = $date_temp_m->diff($date_now);
+            // dump($date_temp, $date_now, $interval,);
 
-            if($interval->format('%H') == 0){
-                $event->messages[$key]->date_title_msj = $interval->i .'m ago';
-            }else if($interval->format('%H') > 0 && $interval->format('%H') < 24){
-                $event->messages[$key]->date_title_msj = $interval->format('%H h %i m') .' ago';
-            }else{
-                $event->messages[$key]->date_title_msj = $date_temp_m->format('j M Y');
+                if($interval->format('%H') == 0){
+                    $event->messages[$day][$key]->date_title_msj = $interval->i .'m ago';
+                }else if($interval->format('%H') > 0 && $interval->format('%H') < 24){
+                    $event->messages[$day][$key]->date_title_msj = $interval->format('%H h %i m') .' ago';
+                }else{
+                    $event->messages[$day][$key]->date_title_msj = $date_temp_m->format('j M Y');
+                }
+
+                $event->messages[$day][$key]->time_cad_gi = $date_temp_m->format('g:i');
+                $event->messages[$day][$key]->time_cad_a = $date_temp_m->format('a');
+                $event->messages[$day][$key]->date_title = $date_temp_m->format('j M Y');
+                $event->messages[$day][$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/no-avatar.png');
+                
             }
-
-            $event->messages[$key]->time_cad_gi = $date_temp_m->format('g:i');
-            $event->messages[$key]->time_cad_a = $date_temp_m->format('a');
-            $event->messages[$key]->date_title = $date_temp_m->format('j M Y');
-            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/no-avatar.png');
-            
-         }
+        }
          $event->creator->photo = ($event->creator->photo != '') ? $event->creator->photo :  asset('img/no-avatar.png');
          //dd();
         // dd($event);
-        return view('carehub.event_detail',compact('event','is_careteam','id_careteam'));
+        return view('carehub.event_detail',compact('event','is_careteam','id_careteam','msg','section'));
 
     }
 

@@ -7730,6 +7730,7 @@ button.bg-light-button:focus {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7749,8 +7750,9 @@ button.bg-light-button:focus {
   z-index: 1030;
 }
 
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -10463,6 +10465,7 @@ body {
   margin-left: -10px;
   margin-top: -70px;
   z-index: 0;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
@@ -11910,4 +11913,129 @@ input[type=date]:before {
   #collapseMemers .card-body {
     padding: 0.35rem;
   }
+}
+.member-assing-img {
+  background-color: #fff;
+  margin-left: -10px !important;
+  width: 25px;
+  border-radius: 50%;
+}
+
+.member-img-cab {
+  background-color: #fff;
+  margin-left: -16px !important;
+  margin-bottom: -34px;
+  width: 32px;
+  border-radius: 50%;
+  border: solid #fff 2px;
+}
+
+.spn-name {
+  font-size: 0.8em;
+}
+
+.spn-time {
+  font-size: 0.6em;
+  color: #cdcdd8;
+}
+
+.message-details {
+  padding: 0.75rem 1.25rem;
+  left: 15px;
+  right: 15px;
+  text-align: justify;
+  border-radius: 8px;
+  background-color: #f7f7fa;
+  color: #78849e;
+}
+
+.creator div.msg {
+  left: 10px;
+  background-color: #369bb6;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+}
+
+.member div.msg {
+  right: 10px;
+  background-color: #78849e;
+  border-radius: 15px;
+  right: 10px;
+  background-color: #78849e;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+}
+
+.creator div .member-img, .creator .member-img, .member div .member-img {
+  margin-left: -35px !important;
+  margin-top: -45px;
+  width: 35px !important;
+  border: solid #fff 2px;
+}
+
+.member div .member-img, .member .member-img {
+  margin-right: -35px !important;
+  margin-top: -25px;
+  float: right;
+  width: 35px !important;
+  border: solid #fff 2px;
+}
+
+.time-msg-task {
+  color: #78849e;
+  font-size: 10px;
+}
+
+#messagess-task-detail .pr-00 {
+  padding-right: 0 !important;
+}
+
+.badge-chat {
+  padding: 5px 0px;
+  margin: 15px 0;
+  font-weight: 100 !important;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.badge-chat span {
+  color: #78849e !important;
+}
+
+.badge-chat:before {
+  border-top: 2px solid #cdcdd8;
+  content: "";
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 95%;
+  z-index: -1;
+}
+
+.badge-chat span {
+  background: #f8fafc;
+  padding: 0 10px;
+}
+
+.task-date-title {
+  opacity: 0.56;
+  font-family: Gotham;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: center;
+  color: #78849e;
+  text-transform: uppercase;
 }

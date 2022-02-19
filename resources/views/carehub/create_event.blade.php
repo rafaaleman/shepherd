@@ -100,7 +100,7 @@
                 <div class="col-12  col-xl-3 my-2">
                     <div class="card shadow-sm my-2">
                         <div class="card-body">
-                            <input data-title="Welcome to CarePoints" data-intro="Choose the time of the event here in 15 minute increments" id="time" type="text" class="no-border" name="time" value="--:--" required  onclick="" v-model="event.time" placeholder="Select Time">
+                            <input data-title="Welcome to CarePoints" data-intro="Choose the time of the event here in 15 minute increments" id="time" type="text" class="form-control no-border" name="time" value="--:--" required  onclick="" v-model="event.time" placeholder="Select Time">
                         </div>
                     </div>
                 </div>
