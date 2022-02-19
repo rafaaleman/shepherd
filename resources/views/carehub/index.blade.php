@@ -42,8 +42,8 @@
                         </select>
                     </div>
                     <div class="col-4 col-md-8 px-2">
-                        <button type="button" class="float-right btn btn-outline-light-button btn-sm btn-icon right" id="right" v-on:click="dateNext()"> <i class="fas fa-angle-right"></i> </button>&nbsp;&nbsp;
-                        <button type="button" class="float-right btn btn-outline-light-button btn-sm btn-icon mr-3 left" id="left" v-on:click="datePrev()"> <i class="fas fa-angle-left"></i> </button>
+                        <button type="button" class="float-right btn btn-outline-light-button btn-sm btn-icon right" id="right" v-on:click.prevent="dateNext()"> <i class="fas fa-angle-right"></i> </button>&nbsp;&nbsp;
+                        <button type="button" class="float-right btn btn-outline-light-button btn-sm btn-icon mr-3 left" id="left" v-on:click.prevent="datePrev()"> <i class="fas fa-angle-left"></i> </button>
                     </div>
                 </div>
 
@@ -188,6 +188,11 @@
 
     <div v-else class=" w-100 text-center">No tasks found...</div>
 
+    <form action="{{route('carehub.getEvent')}}" method="post" id="formDetail">
+        @csrf
+        <input type="hidden" name="id" id="id" :value="event_url.id">
+        <input type="hidden" name="slug" :value="event_url.slug">
+    </form>
 </div>
 
 
@@ -201,7 +206,7 @@
     $("main").removeClass("py-4").addClass("py-0");
     const carehub = new Vue({
         el: '#carehub',
-        created: function() {
+        mounted: function() {
             this.refreshWidgets('{{$loveone->slug}}','{{$to_day->format("Y-m-d")}}');
             this.valButtons();
             
@@ -209,7 +214,7 @@
         filters:{
             txt_event: function(value) {
                 if (!value) return ''
-                value = value.substr(1,6);
+                value = value.substr(0,6);
                 return '• ' + value + '...';
             },
         },
@@ -247,6 +252,13 @@
             week_events:[],
             day_events:[],
             events_in_calendar: [],
+
+            event_url: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: "",
+                loveone_id: "{{ $loveone->id ?? 0 }}",
+                slug: "{{$loveone->slug}}"
+            },
         },
         methods: {
             refreshWidgets: function(current_slug,date) {
@@ -263,7 +275,6 @@
                 this.listMonths();
                 this.getYearEvents();
                // this.filterEvents();
-               //this.getEventsInCalendar();
                 this.events = this.day_events;
 
             },
@@ -340,11 +351,17 @@
                     $('#calendar_div .loading').hide();
                 //    $('#calendar').show();
                    // this.eventInCalendar();
-                    
+                   this.valButtons();
                 }).catch(error => {
 
-                    msg = 'There was an error getting calendar. Please reload the page';
-                    swal('Error', msg, 'error');
+                    msg = "To make your calendar experience easier, we recommend that you use the Months and Years drop-down lists.";
+                    swal({
+                            title: "Wait!",
+                            text: msg,
+                            icon: "info",
+                            closeOnClickOutside: false,
+                        });
+                    this.getCalendar();
                 });
             },
             changeSelectCalendar: function(){
@@ -356,8 +373,8 @@
                 this.date_end_month_events = end_date.format('YYYY-MM-DD'),
                 this.listMonths(); // modificar la lista de meses
                 this.getCalendar(); // modificar el calendario
-                this.valButtons();
                 this.filterEvents();
+                
             },
             changeSelectCalendarYear: function(){
                 this.getYearEvents();
@@ -421,6 +438,7 @@
             },
             datePrev:function(){
                 //console.log(this.mm);
+                $('.left').attr('disabled',true).addClass('qqq');
                 if(this.mm == '01'){
                     this.yyyy = parseInt(this.yyyy) - 1;
                     this.mm = '12';
@@ -433,11 +451,13 @@
                         this.mm = m;
                     }
                 }
-                this.valButtons();
                 //this.getEvents();
                 this.changeSelectCalendar();
+                
             },
             dateNext:function(){
+                //console.log(this.mm);
+                $('.right').attr('disabled',true);
                 if(this.mm == '12'){
                     this.mm = '01';
                     this.yyyy = parseInt(this.yyyy) + 1;
@@ -450,13 +470,14 @@
                         this.mm = m;
                     }
                 }
-                this.valButtons();
                 //this.getEvents();
                 this.changeSelectCalendar();
+                
             },
 
             getYearEvents: function(){
                 // $('.events .card-events-date').hide();
+                console.log('eventos del anio');
                 $('.loading-events').show();
                 var url = '{{ route("carehub.getEvents", ["*SLUG*","*DATE*","*TYPE*"]) }}';
                 url = url.replace('*SLUG*', this.current_slug);
@@ -467,12 +488,8 @@
 
                 if (response.data.success) {
                     this.year_events = response.data.data.events;
-                    // if(this.month_events){
                          this.filterEvents();
-                    // }
-                    // this.date_title = response.data.data.date_title;
-                    //this.count_event = this.events.length;
-                    // this.eventInCalendar();
+                    
                 } else {
 
                 }
@@ -481,31 +498,27 @@
                 // $('.events .card-events-date').show();
 
                 }).catch(error => {
-
-                msg = 'There was an error getting events. Please reload the page';
-                swal('Error', msg, 'error');
+                    this.getYearEvents();
+                    // msg = 'There was an error getting events. Please reload the page';
+                    // swal('Error', msg, 'error');
                 });
             },
             filterEvents: function(){
                 //console.log(this.year_events);
                 this.month_events = [];
+                this.week_events = [];
                 Object.entries(this.year_events).forEach(([key, event]) => {
-                //alert();
-                   // console.log('filtro');
-                    //console.log(event.date + "  " + carehub.date_ini_month_events + "  " + carehub.date_end_month_events);
+                
                     if(event.date >= carehub.date_ini_month_events && event.date <= carehub.date_end_month_events){
                         carehub.month_events.push(event);
-                        //console.log(event.data);
                         
                     }
 
-                    if(carehub.week_events.length == 0){
-                        if(event.date >= carehub.calendar_week[0]['fecha'] && event.date <= carehub.calendar_week[6]['fecha']){
+                    if(event.date >= carehub.calendar_week[0]['fecha'] && event.date <= carehub.calendar_week[6]['fecha']){
                             carehub.week_events.push(event);
-                        }   
-                    }
+                    }   
 
-                    if(carehub.date_day_events.length == 0){
+                    if(carehub.day_events.length == 0){
                         if(event.date == carehub.date_day_events){
                             carehub.day_events.push(event);
                         }    
@@ -522,62 +535,16 @@
                     this.events = this.month_events; 
                 }
 
-                this.getEventsInCalendar();
-            },
-            getEventsInCalendar: function(){
-                // $(".eventname").html('-');
-                // $(".eventpoint").html('-');
-                Object.entries(this.month_events).forEach(([key, event]) => {
-                //alert();
-                   // console.log('filtro');
-                    console.log(event.date + "  " + carehub.date_ini_month_events + "  " + carehub.date_end_month_events);
-                    //console.log(event.data);
-
-                    // asosiativo['' + event.date + ''] = event.data[0]['name'];
-                    //console.log(asosiativo);
-                    //var  c = { event.date : { event.data[0]['name'] }};
-                   // $(".event-calendar-"+event.date+"-0").html("• " + event.data[0]['name'] );
-                    //carehub.events_in_calendar.push({ 'event.date' : { event.data[0]['name'] }});
-                    //carehub.events_in_calendar.push(event.data[0]['name']);
-                    //carehub.events_in_calendar[""+event.date+""].push(event.data[0]['name']);
-                     //console.log(event.date + "  " + event.data[0]['name']);
-                    $(".event-calendar-"+event.date+"-point").html("•");
-                    if(event.data[1] != undefined){
-                        //carehub.events_in_calendar[event.date].push(event.data[1]['name']);
-                        $(".event-calendar-"+event.date+"-1").html("• " + event.data[1]['name'] );
-                    }
-                    
-
-                    
-                });
             },
             
             
+            eventDetails: function(event) {
+                $("#formDetail #id").val(event);
+                //this.event_url.id = event;
+                $("#formDetail").submit();
+                return false;
+            },
 
-            // searchCalendar: function() {
-            //     $('#calendar').hide();
-            //     $('#calendar_div .loading').show();
-
-            //     this.date_events_month = this.yyyy + "-" + this.mm + "-01";
-
-            //     var url = '{{ route("carehub.getCalendar", ["*DATE*"]) }}';
-            //     url = url.replace('*DATE*', this.date_events_month);
-            //     axios.get(url).then(response => {
-            //         this.calendar_month = response.data.calendar;
-            //         this.month_name = response.data.month;
-            //        // this.week_div = response.data.week;
-            //        // this.day_div = response.data.day;
-            //         $('#calendar_div .loading').hide();
-            //         $('#calendar').show();
-            //         this.valButtons();
-            //         this.eventInCalendar();
-            //     }).catch(error => {
-
-            //         msg = 'There was an error getting calendar. Please reload the page';
-            //         swal('Error', msg, 'error');
-            //     });
-
-            // },
         }
     });
 
