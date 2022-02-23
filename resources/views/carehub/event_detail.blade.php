@@ -7,22 +7,34 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 events">
-                            <h3 class="card-title font-weight-bold mb-3">{{$event->name}}</h3>
+                        <div class="w-100">
+                            <div class="float-left font-weight-bold vertical-align-top">{{$event->date_title}}</div>
+                            <div class="float-right text-danger font-weight-bold text-uppercase">{{$event->time_cad_gi}} {{$event->time_cad_a}}</div>
+                        </div>
+                            <h3 class="card-title font-weight-bold mb-3 mt-5">{{$event->name}}</h3>
                             <p class="mb-1" style="color:#cdcdd8" >{{$event->location}}</p>
-                            <div style="padding-left:10px;">
+                            <div style="padding-left:10px;" class="text-right">
+                                <label for="name" class="col-form-label text-md-right" style="color: #78849e;font-size:12px;padding-right:10px">Assign to:  </label>
                                 @foreach($event->members as $assigned)
-                                    <img src="{{ (!empty($assigned->user->photo) && $assigned->user->photo != null ) ? asset($assigned->user->photo) : asset('/img/no-avatar.png')}}" class="member-img" title="{{$assigned->user->photo}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                    <img src="{{ (!empty($assigned->user->photo) && $assigned->user->photo != null ) ? $assigned->user->photo : '/img/no-avatar.png'}}" class="member-img" title="{{$assigned->user->photo}}" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 @endforeach
                             </div>
-                            <hr class="mb-1">
-                            <div class="w-100">
-                                <div class="float-left font-weight-bold vertical-align-top">{{$event->date_title}}</div>
-                                <div class="float-right text-danger font-weight-bold text-uppercase">{{$event->time_cad_gi}} {{$event->time_cad_a}}</div>
-                            </div>
-
+                            
                             @if(!empty($event->notes))
-                                <div class="bg w-100 mt-5 @if($event->creator_id == $id_careteam) creator @else member @endif">
-                                    <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? asset($event->creator->photo) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                <div class="row">
+                                    <div class="col-1 text-right">
+                                        <img src="{{ (!empty($event->creator->photo) && $event->creator->photo != null ) ? $event->creator->photo : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                    </div>
+                                    <div class="col-11">
+                                        <span class="font-weight-bold d-block spn-name">
+                                            {{$event->creator->name}} {{$event->creator->lastname}}
+                                        </span>
+                                        <span class="d-block spn-time">
+                                        {{$event->date_title_msj}} at {{$event->time_cad_gi}} {{$event->time_cad_a}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="bg w-100 @if($event->creator_id == $id_careteam) creator @else member @endif">
                                     {{$event->notes}}
                                 </div>
                             @endif
@@ -32,18 +44,38 @@
             </div>
         </div>
 
+
+        
         <div class="loading-events w-100 text-center d-none">
             <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading comments...
         </div>
 
-        <div id="messagess" class="w-100 row mx-0">
+        <div id="messagess" class="w-100 row mx-0 pt-3">
             @if(isset($event->messages) && $event->messages->count())
                 
                 @foreach($event->messages as $message)
+                        <div class="col-6 pl-0 mb-2">
+                            <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? $message->creator_img : '/img/no-avatar.png'}}" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                            <span class="font-weight-bold spn-name">
+                                {{$message->creator->user->name}} {{$message->creator->user->lastname}}
+                            </span>
+                        </div>
+                        
+                        <div class="col-6 text-right d-block spn-time align-bottom" style="bottom: -15px !important;">
+                            
+                                {{$message->date_title_msj}}
+                        </div>
+                    
+                        <div class="col-12 alert alert-white text-left m-0 msg border mb-3" >
+                            {{$message->message}}
+                        </div>
+
+
+                    {{--
                     @if($message->creator_id == $id_careteam)
                         <div class="row col-12 justify-content-center align-items-center m-2 creator" >
                             <div class="col-10 col-sm-11 alert alert-dark text-white text-left m-0 msg">
-                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? asset($message->creator_img) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? $message->creator_img : '/img/no-avatar.png'}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 {{$message->message}}
                             </div>
                             <div class="col-2 col-sm-1 text-uppercase time justify-content-center align-items-center">
@@ -58,15 +90,16 @@
                                 {{$message->time_cad_a}}
                             </div>
                             <div class="col-10 col-sm-11 alert alert-dark text-white text-right m-0 msg">
-                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? asset($message->creator_img) : asset('/img/no-avatar.png')}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                <img src="{{ (!empty($message->creator_img) && $message->creator_img != null ) ? $message->creator_img : '/img/no-avatar.png'}}" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                 {{$message->message}}
                             </div>
                             
                         </div>
                     @endif
+                    --}}
                 @endforeach
                 @else
-                <div class="loading-events w-100 text-center">
+                <div class="loading-events w-100 text-center no-messages">
                     <span class="spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> There are no messages...
                 </div>
             @endif
@@ -96,11 +129,27 @@
         width: 25px;
         border-radius: 50%;
     }
+
+    .member-img-cab {
+        background-color: #fff;
+        margin-top: 2px;
+        margin-left: 0px !important;
+        width: 25px;
+        border-radius: 50%;
+    }
+    .spn-name{
+        font-size: .8em;
+    }
+
+    .spn-time{
+        font-size: .6em;
+        color:#cdcdd8;
+    }
     .bg {
-        padding: 16.5px 25px 13.1px 24px;
-        background-color: #f7f7fa;
-        left:15px;
-        right:15px;
+        padding: 16.5px 0px 1.1px 4px;
+        left: 15px;
+        right: 15px;
+        text-align: justify;
     }
     .creator div.msg{
         left:10px;
@@ -171,8 +220,11 @@
                         console.log(response);
 
                         if (response.data.success) {
-                            $("#messagess").append('<div class="row col-12 justify-content-center align-items-center m-2 creator" ><div class="col-10 col-sm-11 alert alert-dark text-white text-left m-0 msg"><img src="'+response.data.message.photo+'" class="member-img" title="" data-bs-toggle="tooltip" data-bs-placement="bottom">'+ response.data.message.message +'</div><div class="col-2 col-sm-1 text-uppercase time justify-content-center align-items-center">'+ response.data.message.time_cad_gi + '<br/>'+ response.data.message.time_cad_a +'</div></div>');
+                            $("#messagess").append('<div class="col-6 pl-0 mb-2"><img src="'+response.data.message.photo+'" class="member-img-cab" title="" data-bs-toggle="tooltip" data-bs-placement="bottom"><span class="font-weight-bold spn-name"> '+response.data.message.name+'</span></div><div class="col-6 text-right d-block spn-time align-bottom" style="bottom: -15px !important;">'+ response.data.message.time_cad_gi + ' '+ response.data.message.time_cad_a +'</div><div class="col-12 alert alert-white text-left m-0 msg border mb-3" >'+ response.data.message.message +'</div>');
+                            
+                            
                             this.message.message = '';
+                            $(".no-messages").remove();
                         } else {
                             msg = 'There was an error. Please try again';
                             icon = 'error';

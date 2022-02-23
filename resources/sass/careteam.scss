@@ -1,19 +1,39 @@
 #careteam {
-    .member {
-        border-radius: 6px;
-        border: none;
-        background-color: #f2f4f4;
-        padding: 10px;
-        margin-bottom: 20px;
-        overflow: hidden;
 
-        &:nth-child(2n){
-            margin-left: 5px;
+    .mm{
+        width: 49%;
+        background-color: #f7f7fa;
+        border:0 !important;
+    }
+
+    @media (max-width: 450px) {
+        .mm{
+            width: 47%;
         }
+    }
+
+    .members{
+        background-color: #fff;
+        border-radius: 8px;
+    }
+
+    .member {
+        overflow: hidden;
 
         img{
             height: 50px;
+            width: 50px;
             border-radius: 50%;
+        }
+
+        .data{
+            width: 100%;
+        }
+        
+        @media (max-width: 450px) {
+            .data{
+                margin-top: 10px;
+            }
         }
 
         .name{
@@ -33,14 +53,17 @@
         .fas{
             color: #aaa;
         }
+
+        .info{
+            font-size: 15px;
+        }
     }
 
     .newMember{
         text-decoration: none;
     }
 
-    #inviteMemberModal, 
-    #editMemberModal {
+    &.editMember {
         // Bootstrap switch
         .custom-control-label::after{
             width:15px; 
@@ -52,9 +75,7 @@
             width: 32px;
         }
 
-        form{
-            background-color: #f5f5f5;
-        }
+        
 
         .section{
             background-color: #fff;
@@ -68,7 +89,7 @@
             &.photo{
                 padding: 0px;
                 background-size: cover;
-                // filter: saturate(10%);
+                background-position: center;
                 height: 200px;
 
                 img.photo{
@@ -104,10 +125,10 @@
                     border-bottom: 1px solid #eee;
 
                     td{
-                        padding: 10px;
+                        padding: 15px;
 
                         &:nth-of-type(1){
-                            width: 40%;
+                            width: 35%;
                             color: #aaa;
                         }
 
@@ -164,9 +185,14 @@
             }
         }
     }
+
+    .white-section{
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 10px;
+    }
 }
 
-#joinTeam {
     .invitations {
 
         strong{
@@ -185,4 +211,3 @@
             font-style: italic;
         }
     }
-}

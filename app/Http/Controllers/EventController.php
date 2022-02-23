@@ -12,6 +12,9 @@ use App\Models\careteam;
 use App\User;
 use DateTime;
 use DateInterval;
+use App\Notifications\EventNotification;
+use Illuminate\Support\Facades\Notification;
+
 use function GuzzleHttp\json_decode;
 
 use App\Http\Traits\NotificationTrait;
@@ -19,6 +22,7 @@ use App\Http\Traits\NotificationTrait;
 class EventController extends Controller
 {
     use NotificationTrait;
+    //use Notification;
 
     const EVENTS_TABLE = 'events';
 
@@ -44,6 +48,7 @@ class EventController extends Controller
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
 
         return view('carehub.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
@@ -54,7 +59,8 @@ class EventController extends Controller
         $date_now = new DateTime();
         $date_now->sub(new DateInterval('P1D'));
         //dd($careteam);
-        return view('carehub.create_event',compact('loveone','careteam','date_now'));
+        $readTour = $this->alreadyReadTour('carepoints_create');
+        return view('carehub.create_event',compact('loveone','careteam','date_now', 'readTour'));
     }
 
     public function createUpdate(Request $request)
@@ -63,9 +69,11 @@ class EventController extends Controller
         $assigned_ids = $data['assigned'];
         $data['assigned_ids'] = json_encode($data['assigned']);
         $data['creator_id'] = Auth::user()->id;
-        //dd($data);
+        $loveone_name = $data['loveone_name'];
+        
         unset($data['_token']);
         unset($data['assigned']);
+        unset($data['loveone_name']);
         //dd($data);
         // edit
         if($request->id > 0)
@@ -84,10 +92,23 @@ class EventController extends Controller
                     'event_date' => $data['date'].' '.$data['time']
                 ];
                 $this->createNotification($notification);
+
             }
         }
 
         $event->assigned = json_decode($event->assigned_ids);
+        $event->loveone_name = $loveone_name;
+        $users = User::whereIn('id',$event->assigned)->get();
+        //dd($users);
+            //$user->notification(new EventNotification($event));
+            Notification::send($users, new EventNotification ($event));  
+
+       /*     $when = now()->addMinutes(10);
+            foreach($users as $user){
+                $user->notify((new EventNotification($event))->delay($when));
+
+            }*/
+       
         // if ($request->ajax()) 
         return response()->json(['success' => true, 'data' => ['event' => $event]]);
     }
@@ -101,7 +122,7 @@ class EventController extends Controller
         foreach ($careteam as $key => $team){
            // dd($team);
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('public/img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/no-avatar.png');
                 if(Auth::user()->id == $team->user_id && $team->role == 'admin')
                     $is_admin = true;
             }
@@ -114,10 +135,11 @@ class EventController extends Controller
            // dd($request->date);
             $to_date = new DateTime($request->date);
             $calendar = $this->calendar_week_month($to_date->format('Y-m'));
+           // dump($calendar);
             //$calendar['calendar'][0]['datos'];
             foreach($calendar['calendar'] as $i => $w){
                 foreach($w['datos'] as $day){
-                    if($day['dia'] == $to_date->format('d')){
+                    if($day['fecha'] == $to_date->format('Y-m-d')){
                         $week = $calendar['calendar'][$i]['datos'];
                     }
                 }
@@ -156,8 +178,9 @@ class EventController extends Controller
                 $date_temp = new DateTime($day['date'] . " " . $day['time']);
                 $events_to_day[$cve_event][$cve_day]['time_cad_gi'] = $date_temp->format('g:i');
                 $events_to_day[$cve_event][$cve_day]['time_cad_a'] = $date_temp->format('a');
-                $events_to_day[$cve_event][$cve_day]['members'] = $careteam->whereIn('id',json_decode($events_to_day[$cve_event][$cve_day]['assigned_ids']));
+                $events_to_day[$cve_event][$cve_day]['members'] = $careteam->whereIn('user_id',json_decode($day['assigned_ids']));
                 $events_to_day[$cve_event][$cve_day]['count_messages'] = count($events_to_day[$cve_event][$cve_day]['messages']);
+               // dd($careteam->toArray(),json_decode($day['assigned_ids']));
                 if($cve_day == 0){
                     $time_first_event = $date_temp->format('g:i a');
                 }
@@ -180,16 +203,17 @@ class EventController extends Controller
     }
 
     public function getCalendar(Request $request){
-
-        if(isset($request->month)){
+        
+        if(!isset($request->month)){
             $to_date = new DateTime();
             $calendar = $this->calendar_month($to_date->format('Y-m'));
         }else{
+            //dd($request->month);
             $to_date = new DateTime($request->month);
             $calendar = $this->calendar_month($to_date->format('Y-m'));
         }
         $calendar['day'] = $this->getDay($to_date->format('Y-m-d'));
-        $calendar['week'] = $this->getWeek($this->calendar_week_month($to_date->format('Y-m')),$to_date->format('d'));
+        $calendar['week'] = $this->getWeek($this->calendar_week_month($to_date->format('Y-m')),$to_date->format('Y-m-d'));
         // $calendar['day_medlist'] = $this->getDayMedlist($to_date->format('Y-m-d'));
 
         //dd($calendar);
@@ -227,8 +251,9 @@ class EventController extends Controller
         //dump($semana1, $semana2,date("m", strtotime($mes)),$fecha, $dateini);
         if (date("m", strtotime($mes))==12) {
             $semana = 5;
-        }
-        else {
+        }else if($semana1 > $semana2){
+            $semana = $semana2+1;
+        }else {
           $semana = ($semana2-$semana1)+1;
         }
         // semana todal del mes
@@ -244,7 +269,12 @@ class EventController extends Controller
               // code...
               //dd(date("Y-m-d",strtotime($datafecha."+ 1 day")));
               //$datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
-              $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              //$datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              if($iday == 0 && $iweek == 1){
+                $datafecha = date("Y-m-d",strtotime($datafecha));
+              }else{
+                  $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              }
               $datanew['mes'] = date("M", strtotime($datafecha));
               $datanew['dia'] = date("d", strtotime($datafecha));
               $datanew['fecha'] = $datafecha;
@@ -256,6 +286,7 @@ class EventController extends Controller
             $dataweek['semana'] = $iweek;
             $dataweek['datos'] = $weekdata;
             //$datafecha['horario'] = $datahorario;
+            //dump($dataweek);
             array_push($calendario,$dataweek);
         endwhile;
         $nextmonth = date("Y-M",strtotime($mes."+ 1 month"));
@@ -276,6 +307,7 @@ class EventController extends Controller
       }
 
       public static function calendar_week_month($month){
+      //    dump($month);
         //$mes = date("Y-m");
         $mes = $month;
       //  dump($mes);
@@ -287,12 +319,13 @@ class EventController extends Controller
         $montmonth  =  date("m", strtotime($fecha));
         $yearmonth  =  date("Y", strtotime($fecha));
         //$montmonth =  $montmonth -1; 
-      //  dump($montmonth);
+      //  dump($daylast, $fecha,$daysmonth, $montmonth, $yearmonth);
         // sacar el lunes de la primera semana
         $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
 
-       // dd($nuevaFecha);
         $diaDeLaSemana = date("w", $nuevaFecha);
+       // dump($nuevaFecha, $diaDeLaSemana);
+
         $nuevaFecha = $nuevaFecha - ($diaDeLaSemana*24*3600); //Restar los segundos totales de los dias transcurridos de la semana
         $dateini = date ("Y-m-d",$nuevaFecha);
         //$dateini = date("Y-m-d",strtotime($dateini."+ 1 day"));
@@ -304,10 +337,12 @@ class EventController extends Controller
         // en caso si es diciembre
         if (date("m", strtotime($mes))==12) {
             $semana = 5;
-        }
-        else {
+        }else if($semana1 > $semana2){
+            $semana = $semana2+1;
+        }else {
           $semana = ($semana2-$semana1)+1;
         }
+        //dump($semana1,$semana2,$semana,$dateini); 
         // semana todal del mes
         $datafecha = $dateini;
         $calendario = array();
@@ -319,12 +354,19 @@ class EventController extends Controller
             $weekdata = [];
             for ($iday=0; $iday < 7 ; $iday++){
               // code...
-              $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              if($iday == 0 && $iweek == 1){
+                $datafecha = date("Y-m-d",strtotime($datafecha));
+              }else{
+                  $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+              }
+                    //$datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+                
               $datanew['mes'] = date("M", strtotime($datafecha));
               $datanew['dia'] = date("d", strtotime($datafecha));
               $datanew['fecha'] = $datafecha;
               $datanew['class'] = '';
               //AGREGAR CONSULTAS EVENTO
+             // dump($datanew);
               //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
               array_push($weekdata,$datanew);
             }
@@ -351,14 +393,17 @@ class EventController extends Controller
 
       public function getWeek($calendar,$date_day){
           $week = '';
+          //dump($calendar,$date_day);
           //obtener la semana que abarca el día señalado
           foreach($calendar['calendar'] as $i => $w){
                 foreach($w['datos'] as $day){
-                    if($day['dia'] == $date_day){
+                    if($day['fecha'] == $date_day){
                         $week = $calendar['calendar'][$i]['datos'];
                     }
                 }
           }
+         // dd($week);
+
           //obtener los das que muestra en web
           $dateini = date("Y-m-d",strtotime($week[0]['fecha']));
           $datafecha = $dateini;
@@ -443,11 +488,11 @@ class EventController extends Controller
         $id_careteam = 0;
         foreach ($careteam as $key => $team){
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? '/public'.$team->user->photo :  asset('public/img/avatar2.png');
+                $team->user->photo = ($team->user->photo != '') ? $team->user->photo :  asset('img/no-avatar.png');
             }
         }
 
-        $event->members = $careteam->whereIn('id',json_decode($event->assigned_ids));
+        $event->members = $careteam->whereIn('user_id',json_decode($event->assigned_ids));
         foreach($event->members as $member){
             if(Auth::user()->id == $member->user_id ){
                 $is_careteam = true;
@@ -456,20 +501,35 @@ class EventController extends Controller
         }
 
         $date_temp = new DateTime($event->date . " " . $event->time);
+        
         $event->time_cad_gi = $date_temp->format('g:i');
         $event->time_cad_a = $date_temp->format('a');
-        $event->date_title = $date_temp->format('l, j F Y');
+        $event->date_title = $date_temp->format('l, m.j.Y');
+        
         //dd($event->messages);
         foreach ($event->messages as $key => $message){
-           
-            $date_temp = new DateTime($message->date . " " . $message->time);
-            $event->messages[$key]->time_cad_gi = $date_temp->format('g:i');
-            $event->messages[$key]->time_cad_a = $date_temp->format('a');
-            $event->messages[$key]->date_title = $date_temp->format('l, j F Y');
-            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? '/public'.$message->creator->user->photo :  asset('public/img/avatar2.png');
+            $date_temp_m = new DateTime($message->date . " " . $message->time);
+
+            $date_now = new DateTime();
+            $interval = $date_temp_m->diff($date_now);
+           // dump($date_temp, $date_now, $interval,);
+
+            if($interval->format('%H') == 0){
+                $event->messages[$key]->date_title_msj = $interval->i .'m ago';
+            }else if($interval->format('%H') > 0 && $interval->format('%H') < 24){
+                $event->messages[$key]->date_title_msj = $interval->format('%H h %i m') .' ago';
+            }else{
+                $event->messages[$key]->date_title_msj = $date_temp_m->format('j M Y');
+            }
+
+            $event->messages[$key]->time_cad_gi = $date_temp_m->format('g:i');
+            $event->messages[$key]->time_cad_a = $date_temp_m->format('a');
+            $event->messages[$key]->date_title = $date_temp_m->format('j M Y');
+            $event->messages[$key]->creator_img = ($message->creator->user->photo != '') ? $message->creator->user->photo :  asset('img/no-avatar.png');
             
          }
-         $event->creator->photo = ($event->creator->photo != '') ? '/public'.$event->creator->photo :  asset('public/img/avatar2.png');
+         $event->creator->photo = ($event->creator->photo != '') ? $event->creator->photo :  asset('img/no-avatar.png');
+         //dd();
         // dd($event);
         return view('carehub.event_detail',compact('event','is_careteam','id_careteam'));
 

@@ -7,8 +7,8 @@
                         {{asset('/img/LogoShepherd@3x.png')}} 3x"
                 src="{{asset('/img/LogoShepherd.png')}}"
                 alt="Shepherd logo"
-                class="mr-5"
-                width="114">
+                class=""
+                width="120">
         </a>
         <a class="nav-link text-danger font-weight-bold  align-items-center d-flex d-sm-none" href="tel: 911">
             <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
@@ -23,8 +23,8 @@
                 <!-- Left Side Of Navbar -->
             @else
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item mr-4 d-none d-sm-block">
-                        <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
+                    <li class="nav-item mr-1 d-none d-sm-block">
+                        <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home"></i> CareHub</a>
                     </li>
 
                     <li class="nav-item dropdown mr-4 d-block d-sm-none">
@@ -35,10 +35,12 @@
                         </div>
                     </li>
 
-                    <li class="nav-item mr-4">
-                        <a href="{{route('loveone')}}" class="nav-link"><i class="far fa-heart"></i> Add Loved One</a>
-                    </li>
-                    <li class="nav-item mr-4 notificationsLnk">
+                    @if (Session::get('total_loveones') < 3)
+                        <li class="nav-item mr-1">
+                            <a href="{{route('loveone')}}" class="nav-link"><i class="far fa-heart"></i> Add Loved One</a>
+                        </li>
+                    @endif
+                    <li class="nav-item mr-1 notificationsLnk">
                         <a href="{{ route('notifications', '**SLUG**')}}" class="menu-link nav-link {{ (Session::get('notifications') > 0) ? 'text-danger font-weight-bold' : ''}}">
                             <i class="{{ (Session::get('notifications') > 0) ? 'fas' : 'far'}} fa-bell"></i> Notifications
                         </a>
@@ -59,9 +61,16 @@
                         </li>
                     @endif
                 @else
+                    <li class="nav-item d-flex lovedone pr-4">
+                        <div class="photo" style="" alt=""></div>
+                        <div>
+                            <div class="name">Loved one Name</div>
+                            Loved one
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-danger font-weight-bold mr-3 d-none d-md-flex align-items-center" href="tel: 911">
-                            <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">Emergency call</span>
+                            <i class="fas fa-phone-square fa-2x mr-1"></i> <span class="">911</span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -93,11 +102,52 @@
 @push('scripts')
 <script>
 $(function(){
+
     $('#logoutLnk').click(function(event){
         event.preventDefault(); 
         localStorage.removeItem('loveone');
         document.getElementById('logout-form').submit();
     });
+
+
+    loveone = localStorage.getItem('loveone');
+    if(loveone != null){
+        loveone = JSON.parse(loveone);
+        // console.log(loveone.firstname);
+        $('.navbar .name').text(loveone.firstname + ' ' + loveone.lastname);
+        $('.navbar .photo').css('background-image', 'url('+loveone.photo+')');
+        // $('.navbar').css('background-color', loveone.color);
+        
+        $('.menu-link').each( function () { 
+            newurl = $(this).attr('href');
+            // console.log(newurl);
+            newurl = newurl.replace('**SLUG**', loveone.slug);
+            $(this).attr('href', newurl)
+        });
+    } else {
+        //$('.notificationsLnk').hide();
+        // Redirect to home if no lovedone is set
+        if(
+            window.location.pathname.includes('/carehub') || 
+            window.location.pathname.includes('/lockbox') || 
+            window.location.pathname.includes('/careteam') ||
+            window.location.pathname.includes('/medlist') ||
+            window.location.pathname.includes('/messages') ||
+            window.location.pathname.includes('/resources') ||
+            window.location.pathname.includes('/notifications')
+        ){
+            window.location.href="/home";
+        }
+
+        $('.lovedone').hide();
+    }
 });
+
+setTimeout(() => {
+    current_loveone = localStorage.getItem('loveone');
+    if(current_loveone == null){
+        $('.notificationsLnk').hide();
+    }
+}, 2000);
 </script>
 @endpush

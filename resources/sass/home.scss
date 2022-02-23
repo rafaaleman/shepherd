@@ -1,14 +1,25 @@
 .dashboard {
-    background: rgb(222,222,222);
-    background: linear-gradient(180deg, #95bbc7 10%, #f8fafc 70%);
+    background: #369bb7;
+    background: linear-gradient(180deg, #369bb7 150px, #369bb778 150px, #f8fafc 450px);
     padding: 0;
 
     .widget{
-        cursor: pointer;
-        width: 33%;
+        width: 30%;
         min-height: 180px;
-        margin-bottom: 20px;
+        margin-bottom:5px;
         transition: width 0.3s;
+
+        &.card {
+            border-radius: 8px;
+
+            .btn {
+                border-radius: 6px;
+                width: 100%;
+                max-width: 220px;
+                margin-top: 1em;
+
+            }
+        }
 
         a{
             text-decoration: none;
@@ -20,6 +31,11 @@
 
         .card-title {
             font-weight: bold;
+            color:rgb(81, 81, 81);
+
+            i {
+                display: block;
+            };
         }
 
         .card-text span{
@@ -32,51 +48,123 @@
         }
 
         &.team{
-
             .fas, .card-text span{
-                color: $blue;
+                color: $team-color;
                 font-weight: bold;
+            }
+
+            .btn-primary{
+                background-color: $team-color;
+                border-color: darken($color: $team-color, $amount: 15);
             }
 
             .member-img{
                 background-color: #fff;
                 margin-left: -10px;
                 width: 35px;
+                height: 36px;
                 border-radius: 50%;
-                border: 1px solid #999;
+                border: 1px solid #cacaca;
             }
         }
 
+        &.message{
+            .fas, .card-text span{
+                color: $message-color;
+                font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $message-color;
+                border-color: darken($color: $message-color, $amount: 15);
+            }
+        }
+        
         &.hub{
             .far, .card-text span{
-                color: #f78383;
+                color: $hub-color;
                 font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $hub-color;
+                border-color: darken($color: $hub-color, $amount: 15);
             }
         }
 
         &.lockbox{
             .fas, .card-text span{
-                color: #58c69c;
+                color: $lockbox-color;
                 font-weight: bold;
+            }
+
+            .btn-primary{
+                background-color: $lockbox-color;
+                border-color: darken($color: $lockbox-color, $amount: 15);
+            }
+        }
+        
+        &.resources{
+            .fas, .card-text span{
+                color: $resources-color;
+                font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $resources-color;
+                border-color: darken($color: $resources-color, $amount: 15);
             }
         }
 
         &.medlist{
             .fas, .card-text span{
-                color: $teal;
+                color: $medlist-color;
                 font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $medlist-color;
+                border-color: darken($color: $medlist-color, $amount: 15);
+                color: darken($color: $medlist-color, $amount: 75)
             }
         }
     }
 }
 
 #homeCarousel {
-    .carousel-indicators button {
-        border: 1px solid gray;
+    // background-image: url('/img/home_bg_2.jpg');
+    background-position: bottom center;
+    background-size: cover;
+
+    .carousel-indicators {
+        top: 285px;
+        bottom: inherit;
+
+        li{
+            background-color: $primary-color;
+            opacity: 0.5;
+
+            &.active{
+                opacity: 1;
+            }
+        }
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        // background-color: #369ab637;
+        align-items: start;
+        margin-top: 65px;
+        bottom: inherit;
+
+        span{
+            width: 25px;
+            height: 25px;
+        }
     }
 
     .carousel-shadow{
-        background: linear-gradient(180deg, #fafafa00 15%, #4c4c4c73 100%);
+        // background: linear-gradient(180deg, #fafafa00 15%, #4c4c4c73 100%);
         width: 100%;
         height: 20px;
         bottom: 0;
@@ -84,52 +172,69 @@
     }
 
     .carousel-item{
-        background-color: $primary-color;
-        min-height: 200px;
-        max-height: 200px;
-        cursor: pointer;
+        // cursor: pointer;
 
         &__container {
-            display: flex;
+            // display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: nowrap;
-        }
 
-        .carousel__caption{
-            color: white;
-
-            h5{
-                font-size: 24px;
-                font-weight: bold;
-                text-shadow: #686868 2px 2px;
-            }
-
-            a.text-white{
-                text-decoration: underline;
+            @media (max-width: 576px) {
+                width: 80%;
+                margin: 0 auto;
             }
         }
 
-
-        img{
+        .loveone-photo{
+            border-radius: 50%;
             height: 200px;
-            width: auto;
+            width: 200px;
+            background-position: center;
+            background-size: cover;
             margin-right: 1em;
             margin-left: -1em;
         }
+
+        .carousel__caption{
+            color: rgb(81, 81, 81);
+            
+            h5{
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            a{
+                color: $secondary-color;
+            }
+        }
+
+
+        
         
     }
 
     @media (min-width: 576px) {
         .carousel-item{
             min-height: 200px;
-            max-height: 300px;
+            // max-height: 300px;
     
-            img{
-                height: 300px;
-                width: auto;
-                margin-right: 4em;
-                margin-left: 0;
+            .loveone-photo{
+                margin: 30px ;
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        .carousel-item{
+            padding: 15px;
+    
+            .loveone-photo{
+                min-height: 120px;
+                min-width: 120px;
+                height: 120px;
+                width: 120px;
+                border: 3px solid white;
             }
         }
     }
@@ -139,7 +244,24 @@
 
 /******************************* MOBILE *********************************/
 @media (max-width: 576px) {
-    .dashboard .widget {
-        width: 100%;
+    .dashboard {
+
+        background: linear-gradient(180deg, #369bb7 100px, #f8fafc 160px);
+
+        #homeCarousel .carousel-indicators{
+            top: 200px;
+        }
+
+        .widget {
+            width: 100%;
+            text-align: center;
+
+            &.card {
+                .btn {
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+        }
     }
 }

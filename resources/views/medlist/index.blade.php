@@ -73,12 +73,12 @@
                         <div class="col-xsm col-6 col-sm-8 col-md-8 col-lg-10">
                             <a href="#!" data-toggle="modal" data-target="#api-medlist-modal" class=""  @click.prevent="wikiMedication(medicine)">
                                 
-                                <h5 class="font-weight-bold text-truncate Lipitor mb-0" >@{{medicine.medicine}}</h5>
+                                <h5 class="font-weight-bold Lipitor mb-3" >@{{medicine.medicine}}</h5>
                             </a>
                             <a href="" data-toggle="modal" data-target="#medlist-modal" class="" @click.prevent="viewMedication(medicine,key)" v-if="medicine.frequency != 'as needed'">
                                 <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment Schedule
                             </a>
-                            <div class="role">@{{medicine.medicine}}</div>
+                            <div class="role">@{{medicine.prescribing}}s</div>
                         </div>
                         <div class="col-xsm col-3 col-sm-2 col-md-2 col-lg-1 justify-content-center align-items-center text-right" v-if="medicine.frequency != 'as needed'">
                             <template v-if="medicine.status == 1">

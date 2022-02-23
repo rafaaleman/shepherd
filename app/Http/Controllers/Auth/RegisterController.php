@@ -7,6 +7,7 @@ use App\Models\careteam;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
@@ -42,7 +43,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['updateUser']]);
+        $this->middleware('guest', ['except' => ['updateUser', 'showRegistrationForm2']]);
     }
 
     /**
@@ -77,7 +78,7 @@ class RegisterController extends Controller
             'phone'    => $data['phone'],
             'dob'      => $data['dob-year'].'-'.$data['dob-month'].'-'.$data['dob-day'],
             'email'    => $data['email'],
-            'photo'    => (isset($data['photo'])) ? $data['photo'] : '/images/avatar2.png',
+            'photo'    => (isset($data['photo'])) ? $data['photo'] : '/images/no-avatar.png',
             'status'   => 1,
             'company'  => ($data['company']) ?: '',
             'password' => Hash::make($data['password']),
@@ -104,6 +105,10 @@ class RegisterController extends Controller
     {
         $token = $request->token;
         $invitation = Invitation::whereToken($token)->first();
+
+        // Session::flush();
+        Auth::logout();
+
         if($invitation){
             $email = $invitation->email;
             return view('auth.register', compact('email', 'token'));
@@ -148,6 +153,7 @@ class RegisterController extends Controller
             'lastname' => $user->lastname,
             'phone'    => $user->phone,
             'email'    => $user->email,
+            'address'  => $user->address,
         ];
         
 
@@ -158,8 +164,8 @@ class RegisterController extends Controller
         $photo = '';
         if($user->photo){
 
-            $prefix = str_replace('@', '_at_', $user->email);
-            $photoName = $prefix.'.'.$request->file->getClientOriginalExtension();
+            $prefix = explode('@', $user->email);
+            $photoName = $prefix[0].'_'.time().'.'.$request->file->getClientOriginalExtension();
             $request->file->move(public_path('members/'), $photoName);
             $photo = '/members/'.$photoName;
 

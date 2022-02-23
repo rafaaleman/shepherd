@@ -20,14 +20,17 @@
             </div>
             <!-- Row start -->
             <div class="row no-gutters">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                     <div class="users-container">
                         <div class="chat_list" v-for="(chat, i) in chats" :id=" 'chat_' + chat.id " @click="selectChat(chat)" :class="(selected_chat == chat.id
                         ) ? 'active_chat' : '' ">
 
                             <div class="chat_people">
                                 <div class="chat_img"> 
-                                    <img :src="chat.user.photo" alt="sunil"> 
+
+                                    <img class="img-fluid" :src="chat.user.photo" alt="User Photo" v-if="chat.user.photo"> 
+                                    <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
+                                    
                                 </div>
                                 <div class="chat_ib">
                                     <h5>                                    
@@ -43,29 +46,51 @@
 
                     </div>
                 </div>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
+                <div class="col-xl-8 col-lg-6 col-md-8 col-sm-12">
                     <div class="chat-container" v-if="selected_chat">
                         <ul class="chat-box chatContainerScroll" ref="message_list">
 
                             <li class="chat" v-for="(message,i) in messages">
-                                <div class="chat-avatar">
 
-                                    <img :src="selected_chat2.user.photo" v-if="message.id_user == user">
+                                <template v-if="message.id_user == user" >
+                                    <div class="chat-avatar" >
+                                        <img class="img-fluid" :src="user_photo"  v-if="user_photo !='' ">
+                                        <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else>                                     
+                                    </div>
+                                    <div class="chat-text">
+                                        @{{ message.message }}
+                                        <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
+                                    </div>
+                                    <div class="chat-hour">@{{ message.created_at | formatDate }}</div>
+                                </template>
+                                
+                                <template v-if="message.id_user !git= user">
+                                        <div class="chat-text">
+                                            @{{ message.message }}
+                                            <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
+                                        </div>
+                                        <div class="chat-avatar" >
+                                            <img class="img-fluid" style="left:-3px" :src="selected_chat2.user.photo" v-if="selected_chat2.user.photo != ''" >
+                                            <img class="img-fluid" src="{{asset('img/no-avatar.png')}}" alt="User Photo" v-else> 
+                                        </div>
+                                        <div class="chat-hour">@{{ message.created_at | formatDate }}</div>
+                                </template>
                                     
-                                    <img src="https://2mingenieria.com.ve/wp-content/uploads/2018/10/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" v-if="message.id_user != user">
                                     
-                                </div>
-                                <div class="chat-text">
-                                    @{{ message.message }}
-                                    <span class="trash fa fa-trash " @click="deleteMsg(i,message)"></span>
-                                </div>
-                                <div class="chat-hour">@{{ message.created_at | formatDate }}<br> AM</div>
+                                    
+                                    
+                                    
+                                
                             </li>                           
                
                         </ul>
                         <div class="form-group mt-3 mb-0">
                             <textarea class="form-control" rows="3" placeholder="Type your message and press Enter..." v-model="message" v-on:keyup.enter="sendMessage"></textarea>
                         </div>
+                        <br>
+                        <input type="checkbox" id="urgent" name="urgent" v-model="urgent">
+                        <label for="urgent">Mark this message as urgent</label>
+                        <a class="btn btn-primary btn-sm" @click="sendMessage">Send Message</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +107,7 @@
 body{margin-top:20px;}
 .users-container {
     position: relative;
-    padding: 1rem 0;
+    padding: 1rem;
     border-right: 1px solid #e6ecf3;
     height: 100%;
     display: -ms-flexbox;
@@ -92,17 +117,20 @@ body{margin-top:20px;}
 }
 
 .chat_list {
-  width: 100%;
-  margin: 0;
-  padding: 18px 16px 10px;
-  cursor: pointer;
-  background: #ffffff;
-  border-bottom: 1px solid #f0f4f8;
-  position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 18px 16px 10px;
+    cursor: pointer;
+    background: #ffffff;
+    border-bottom: 1px solid #f0f4f8;
+    position: relative;
+    box-shadow: 0px 2px 4px #e1e4e7;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 .active_chat{
-  background: transparent;
   border-bottom: 1px solid #f0f4f8;
+  border-right: 5px solid #359cb6;
 }
 
 .chat_people{ overflow:hidden; clear:both;}
@@ -113,11 +141,10 @@ body{margin-top:20px;}
 }
 
 .chat_img img {
-    width: 65px;
-    height: 65px;
     -webkit-border-radius: 50px;
     -moz-border-radius: 50px;
     border-radius: 50px;
+    max-width: 60px;
 }
 
 .chat_ib {
@@ -127,7 +154,7 @@ body{margin-top:20px;}
 }
 
 
-.chat_ib h5{ font-size:19px; color:#32a4ea; margin:0 0 8px 0;font-weight: bold;}
+.chat_ib h5{ font-size:19px; color:#359cb6; margin:0 0 8px 0;font-weight: bold;}
 .chat_ib h5 span{ font-size:13px; float:right;}
 .chat_ib p{ font-size:13px; color:#78849e; margin:auto;font-weight: bold;}
 
@@ -190,7 +217,10 @@ body{margin-top:20px;}
 *********************************************************************************************/
 .chat-container {
     position: relative;
+    background: white;
     padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #efefef;
 }
 
 .chat-container li.chat {
@@ -217,7 +247,7 @@ body{margin-top:20px;}
     padding: .4rem 1rem;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    background: #ffffff;
+    background: #f1f1f1;
     border-radius: 4px;
     font-weight: 300;
     line-height: 150%;
@@ -323,6 +353,7 @@ body{margin-top:20px;}
          data: 
          {
             user : {{ Auth::id() }},
+            user_photo : '{{ Auth::user()->photo }}',
             user_send: null,
             selected_chat: null,
             selected_chat2: null,
@@ -331,6 +362,7 @@ body{margin-top:20px;}
             messages:[],
             message:null,
             status: false,
+            urgent:false,
             m1: false,
             m2: false
          },
@@ -341,10 +373,11 @@ body{margin-top:20px;}
                 return value.toUpperCase(); 
             },
             formatDate: function(value) {
-                if (value) {                    
+                if (value) {     
                     value = value.split('T');   
                     value = value[1].split('.');   
-                    return value[0];
+
+                    return moment(value[0], "HH:mm:ss").format("hh:mm A");
                    // return moment(String(value[0])).format('hh:mm');
                 }
             },
@@ -379,7 +412,8 @@ body{margin-top:20px;}
                 this.messages = [];
                 this.chats = [];
                 this.status = false;
-                this.message = null;       
+                this.message = null;
+                this.urgent = false;
             },
             getCareteam: function(){
                 var url = '{{ route("messages.careteam",$loveone_slug) }}';  
@@ -423,7 +457,7 @@ body{margin-top:20px;}
                 }else{
                     var url = '{{ route("messages.chat.new",$loveone_slug) }}';
                     let msg = {
-                        user_id: contact.id,
+                        user_id: contact.id
                     };
                     axios.post(url, msg).then(response => {
                         let chat = response.data.data.chat;
@@ -438,6 +472,7 @@ body{margin-top:20px;}
                 this.selected_chat = chat.id;
                 this.selected_chat2 = chat;
                 this.message = null;
+                this.urgent = false;
                 this.changeUser(chat);
                 
                 this.getChat();
@@ -463,7 +498,8 @@ body{margin-top:20px;}
                 let msg = {
                         user_id: this.user_send,
                         chat_id: this.selected_chat,
-                        message: this.message
+                        message: this.message,
+                        urgent:  this.urgent
                     };
                 axios.post(url, msg).then(response => {
                     this.message = null;

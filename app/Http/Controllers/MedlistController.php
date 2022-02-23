@@ -10,6 +10,8 @@ use App\Http\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Models\medication;
 use App\Models\medlist;
+use App\Models\route;
+use App\Models\dosage;
 use GuzzleHttp\Client;
 use App\Models\loveone;
 use App\Models\event;
@@ -34,7 +36,7 @@ class MedlistController extends Controller
             return view('errors.not-found');
         }
         /* Seguridad */
-       if(!Auth::user()->permission('medlist',$loveone->id))
+        if(!Auth::user()->permission('medlist',$loveone->id))
         {
             return redirect('/home')->with('err_permisison', 'You don\'t have permission to access MedList');  
         }
@@ -49,16 +51,24 @@ class MedlistController extends Controller
                 $is_admin = true;
         }
 
+        $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
+
+
+
         return view('medlist.index',compact('events','careteam', 'loveone', 'members', 'is_admin','to_day'));
     }
 
-    public function createForm($loveone_slug){
+    public function createForm($loveone_slug)
+    {
         $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $routes  = route::orderBy('route')->get();
+       // $dosages  = dosage::orderBy('dosage')->get();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get()->keyBy('user_id');
         $date_now = new DateTime();
         $date_now->sub(new DateInterval('P1D'));
-        //dd($careteam);
-        return view('medlist.create_medication',compact('loveone','careteam','date_now'));
+
+        $readTour = $this->alreadyReadTour('medlist_create');
+        return view('medlist.create_medication',compact('loveone','careteam','date_now','routes', 'readTour'));
     }
 
     public function createUpdate(Request $request)
@@ -68,8 +78,10 @@ class MedlistController extends Controller
         if($data['frequency'] == 'as needed'){
             $data['time'] = '00:00';
         }
+        $remind = $data['remind'];
         unset($data['_token']);
         unset($data['assigned']);
+        unset($data['remind']);
         $date_i = $date = new DateTime(date('Y-m-d').' '.$data['time']);
         $data['ini_date'] = $date->format('Y-m-d');
         $di = $date_i->format('Y-m-d H:i:s');
@@ -87,17 +99,32 @@ class MedlistController extends Controller
             medlist::insert($medlist);
 
             // Create notification rows
+
             $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'medlist');
             foreach($notified_members as $member_id){
 
-                foreach ($medlist as $med) {
-                    
+                if($remind){
+                    foreach ($medlist as $med) {
+                        
+                        $notification = [
+                            'user_id'    => $member_id,
+                            'loveone_id' => $request->loveone_id,
+                            'table'      => self::MEDICATIONS_TABLE,
+                            'table_id'   => $medication->id,
+                            'event_date' => $med['date'].' '.$med['time']
+                        ];
+                        $this->createNotification($notification);
+                    }
+                }
+
+                if($medication->refill_date != ''){
+
                     $notification = [
                         'user_id'    => $member_id,
                         'loveone_id' => $request->loveone_id,
                         'table'      => self::MEDICATIONS_TABLE,
                         'table_id'   => $medication->id,
-                        'event_date' => $med['date'].' '.$med['time']
+                        'event_date' => $medication->refill_date.' 00:00:00'
                     ];
                     $this->createNotification($notification);
                 }
@@ -143,6 +170,7 @@ class MedlistController extends Controller
     {
         //dd($_POST);
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
+        $next_dosage = '';
         $time_first_event = '';
         $inidate = $request->date;
         $modal = $medlist = array();
@@ -166,6 +194,7 @@ class MedlistController extends Controller
                 $med['date'] = $medicine->date;
                 $med['time'] = $medicine->time;
                 $med['dosage'] = $medication->dosage;
+                $med['prescribing'] = $medication->prescribing;
                 $med['drugbank_pcid'] = $medication->drugbank_pcid;
                 $med['route'] = $medication->route;
                 $med['frequency'] = $medication->frequency;
@@ -188,17 +217,26 @@ class MedlistController extends Controller
         usort($medlist, function ($a, $b) {
             return strcmp($a["time"], $b["time"]);
         });
-        
+
+        if(count($medlist) >0){
+            $date_now = new DateTime();
+            foreach($medlist as $med){
+                $date_temp = new DateTime($med['date'] . " " . $med['time']);
+                if($date_now->format('H:i:s') <= $date_temp->format('H:i:s') && $next_dosage == '' ){
+                    $next_dosage = $med['medicine']. ' at ' . $med['time_cad_gi']. ' '. $med['time_cad_a'];
+                }
+            }
+        }
         
         
         $date = new DateTime($request->date);
         return response()->json(['success' => true, 'data' => [
-            
             'time_first_event' => $time_first_event,
             'medlist' => $medlist,
             'date_title' => $date->format('l, j F Y'),
             'medlist_modal' => $modal,
-            'count_medications' => count($medlist)
+            'count_medications' => count($medlist),
+            'next_dosage' => $next_dosage
         ]]);
     }
 

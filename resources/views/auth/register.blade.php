@@ -140,7 +140,8 @@
                         <input type="hidden" name="token" value="{{isset($token) ? $token : ''}}">
                         <input type="hidden" name="company" value="{{isset($company) ? $company : ''}}">
                         <br>
-                        <div class="text-black-50 mb-5 pb-5"> Already have an account? <a href="{{ route('login') }}">Login</a></div>
+                        <div class="text-black-50 mb-5 pb-5"> Already have an account? 
+                            <a class="d-block btn btn-primary btn-lg mt-5 mb-5" href="{{ route('login') }}">Login</a></div>
                     </div>
                 </div>
             </form>

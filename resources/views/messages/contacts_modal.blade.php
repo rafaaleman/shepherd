@@ -15,7 +15,7 @@
                         <div class="chat_list" v-for="cc in contacts" @click="newChat(cc)">
                             <div class="chat_people">
                                 <div class="chat_img"> 
-                                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="sunil"> 
+                                    <img :src="cc.photo" alt="User Photo" width="60" >
                                 </div>
                                 <div class="chat_ib">
                                     <h5>@{{ cc.name }} </h5>

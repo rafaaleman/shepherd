@@ -25,7 +25,8 @@ class NotificationController extends Controller
 
         $loveone = loveone::whereSlug($request->slug)->first();
         if($loveone){
-            $from    = date('Y-m-d 00:00:00');
+            $from    = new DateTime('-30 days');
+            $from    = $from->format('Y-m-d').' 00:00:00';
             $to      = new DateTime('tomorrow');
             $to      = $to->format('Y-m-d').' 23:59:00';
 
@@ -39,33 +40,56 @@ class NotificationController extends Controller
             $user_notifications = [];
             foreach ($notifications as $n) {
                 $notification = DB::table($n->table)->where('id', $n->table_id)->first();
-                $notification->type = $n->table;
-                $notification->read = $n->read;
-                $notification->event_date = (date('Y-m-d', strtotime($n->event_date)) == date('Y-m-d')) ? 'Today' : 'Tomorrow';
-                $notification->event_date .= ' at ' . Carbon::parse($n->event_date)->format('g:i a');
-                // dd(date('Y-m-d', strtotime($n->event_date)), date('Y-m-d'));
+                if($notification){
+                    $notification->type = $n->table;
+                    $notification->nid = $n->id;
+                    $notification->read = $n->read;
+                    $notification->event_date = (date('Y-m-d', strtotime($n->event_date)) == date('Y-m-d')) ? 'Today' : date('M, d Y g:i a', strtotime($n->event_date));
+                    // $notification->event_date .= ' at ' . Carbon::parse($n->event_date)->format('g:i a');
+                    // $notification->event_date = date('M, d Y g:i a', strtotime($n->event_date));
+                    // dd(date('Y-m-d', strtotime($n->event_date)), date('Y-m-d'));
 
-                if($n->table == 'events'){
-                    $notification->description = $notification->location;
-                    $notification->icon = 'far fa-calendar-plus';
+                    if($n->table == 'events'){
+                        $notification->title = 'You have a new event';
+                        $notification->description = $notification->location;
+                        $notification->icon = 'far fa-calendar-plus';
+                        $notification->type = 'event';
 
-                } else if($n->table == 'lockbox'){
-                    $notification->description = '';
-                    $notification->icon = 'fas fa-file-medical';
-                    
-                } else if($n->table == 'medications'){
-                    $notification->name = $notification->medicine . ' ' .$notification->dosage;
-                    $notification->description = '';
-                    $notification->icon = 'fas fa-prescription-bottle-alt';
-                    
-                } else { 
-                    $notification->description = '';
-                    $notification->icon = 'far fa-calendar-alt';
+                    } else if($n->table == 'lockbox'){
+                        $notification->title = 'A new file is available';
+                        $notification->description = '';
+                        $notification->type = 'lockbox';
+                        $notification->icon = 'fas fa-file-medical';
+                        
+                    } else if($n->table == 'lockbox_permission'){
+                        $notification->title = 'You have a permission on a file';
+                        $notification->description = '';
+                        $notification->type = 'lockbox';
+                        $notification->icon = 'fas fa-file-medical';
+                        
+                    } 
+                    else if($n->table == 'medications'){
+                        $notification->title = 'It\'s time for medication';
+                        $notification->name = $notification->medicine;
+                        $notification->description = '';
+                        $notification->type = 'medlist';
+                        $notification->icon = 'fas fa-prescription-bottle-alt';
+                        
+                    } else if($n->table == 'discussions'){
+                        $notification->title = 'You have a pending Discussion';
+                        $notification->description = '';
+                        $notification->type = 'discussion';
+                        $notification->icon = 'far fa-comments';
+                        
+                    } else { 
+                        $notification->title = 'Notification: ' . $n->table;
+                        $notification->description = '';
+                        $notification->icon = 'far fa-calendar-alt';
+                        $notification->type = $n->table;
+                    }
+                    $user_notifications[] = $notification;
                 }
-                $user_notifications[] = $notification;
             }
-
-            // TODO: Mark as read all above notifications
 
             // dd($user_notifications);
             return view('notifications.index', compact('user_notifications'));
@@ -75,5 +99,12 @@ class NotificationController extends Controller
         
     }
 
-    
+    /**
+     * 
+     */
+    public function readNotification(Request $request)
+    {
+        notification::where('id', $request->id)->update(['read' => 1]);
+        return response()->json(['success' => true]);
+    }
 }

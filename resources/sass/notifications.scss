@@ -1,0 +1,36 @@
+#notifications{
+
+    .lockbox {
+        > .fas {
+            color: $lockbox-color;
+        }
+    }
+    
+    .medlist {
+        > .fas {
+            color: $medlist-color;
+        }
+    }
+    
+    .event {
+        > .far {
+            color: $hub-color;
+        }
+    }
+    .notification{
+        flex-direction: row;
+
+        &.read{
+            opacity: 0.5;
+        }
+
+        .info{
+            width: 95%;
+        }
+
+        .title{
+            font-size: 21px;
+            text-transform: capitalize;
+        }
+    }
+}

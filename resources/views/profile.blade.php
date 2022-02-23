@@ -17,7 +17,7 @@
                             Click To Change Photo
                         @endif
                     </div>
-                    <input id="photo" type="file" class="d-none form-control" name="photo" accept=".jpg, .png" v-on:change="onFileChange">
+                    <input id="photo" type="file" class="d-none form-control" name="photo" accept=".jpg, .png, .jpeg" v-on:change="onFileChange">
                 </div>
             </div>
         </div>
@@ -66,10 +66,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mt-2">
-                        <i class="text-black-50 p-4" style="font-size: 12px">Leave blank if you want to preserve your current password</i>
+                    <div class="form-group row mt-2 mb-0">
+                        <i class="text-black-50 p-4" style="font-size: 12px">Leave blank if you want to preserve your current password</i> 
+                    </div>
+                    <div class="form-group row">
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
                         <div class="col-md-7">
                             <input id="password" type="password" class="form-control" name="password" autocomplete="new-password" v-model="user.password">
                         </div>
@@ -88,7 +89,7 @@
         </div>
 
         <div class="col-md-12">
-            <button type="submit" class="btn btn-primary btn-lg update mt-3">Save</button>
+            <button type="submit" class="btn btn-primary update mt-3">Save</button>
         </div>
     </form>
 
@@ -101,12 +102,17 @@
                         <div style="background-image: url('{{asset($loveone->photo)}}');" class="float-left mr-3 photo"></div>
                         <div class="data float-left">
                             <div class="name">{{$loveone->firstname}} {{$loveone->lastname}} <i class="text-danger"></i></div>
-                            <small>{{ucfirst($loveone->careteam->role)}}</small>
+                            <small>{{($loveone->careteam->role == 'admin') ? 'Leader' : ucfirst($loveone->careteam->role)}}</small>
                         </div>
                         
-                        <div class="custom-control custom-switch float-right mt-3">
-                            <input type="checkbox" class="custom-control-input checkbox" id="loveone{{$loveone->id}}" {{($loveone->careteam->status == 1) ? 'checked' : ''}} value="{{$loveone->id}}">
-                            <label class="custom-control-label" for="loveone{{$loveone->id}}"></label>
+                        <div class="custom-control custom-switch float-right mt-3 mr-3">
+                            @if ($loveone->careteam->role != 'admin')
+                                <input type="checkbox" class="custom-control-input checkbox" id="loveone{{$loveone->id}}" {{($loveone->careteam->status == 1) ? 'checked' : ''}} value="{{$loveone->id}}">
+                                <label class="custom-control-label" for="loveone{{$loveone->id}}"></label>
+                            @else
+                                Leader
+                            @endif
+                            
                         </div>
                     </div>
                 @endforeach
@@ -123,7 +129,7 @@
                 <table width="100%" class="invitations" v-if="invitations">
                     <tr v-for="invitation in invitations">
                         <td>
-                            <img :src="invitation.loveone.photo" class="photo">
+                            <img :src="invitation.loveone.photo" class="photo" width="100">
                         </td>
                         <td>
                             <strong>@{{ invitation.loveone.firstname }} @{{ invitation.loveone.lastname }}</strong>
@@ -174,7 +180,7 @@
 
 .photo-container .bigBtn {
     background: rgb(49, 133, 152);
-    background: linear-gradient(0deg, rgba(49, 133, 152, 0.8491771709) 0%, rgba(49, 133, 152, 0.7763480392) 9%, rgba(49, 133, 152, 0) 17%);
+    background: linear-gradient(0deg, rgba(112, 112, 112, 0.849) 0%, rgba(112, 112, 112, 0.7763480392) 9%, rgba(49, 133, 152, 0) 17%);
 }
 </style>
 @endpush

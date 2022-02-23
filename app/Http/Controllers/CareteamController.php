@@ -10,12 +10,13 @@ use App\Models\relationship;
 use Illuminate\Http\Request;
 use App\Mail\sendJoinTeamMail;
 use App\Mail\sendInvitationMail;
+use App\Mail\sendNewPermissionsMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 
 use App\Http\Traits\NotificationTrait;
+use Illuminate\Support\Facades\Session;
 
 class CareteamController extends Controller
 {
@@ -48,7 +49,8 @@ class CareteamController extends Controller
 
         $roles         = self::ROLES;
         $relationships = relationship::where('status', 1)->get();
-        return view('careteam.index', compact('loveone', 'loveone_slug', 'roles', 'relationships'));
+        $section       = 'careteam';
+        return view('careteam.index', compact('loveone', 'loveone_slug', 'roles', 'relationships', 'section'));
     }
 
     /**
@@ -65,7 +67,7 @@ class CareteamController extends Controller
         foreach ($members as $key => $member){
             $careteam[$member->id]->permissions = unserialize($careteam[$member->id]->permissions);
             $members[$key]['careteam'] = $careteam[$member->id];
-            $member->photo = ($member->photo != '') ? asset($member->photo) :  asset('/img/avatar2.png');
+            $member->photo = ($member->photo != '') ? asset($member->photo) :  asset('/img/no-avatar.png');
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
@@ -79,6 +81,43 @@ class CareteamController extends Controller
                                                         'invitations' => $invitations,
                                                         'is_admin' => $is_admin
                                                     ]]);
+    }
+
+    /**
+     * Show create/edit careteam member
+     */
+    public function createNewMember(Request $request)
+    {
+        $loveone  = loveone::whereSlug($request->loveone_slug)->first();
+        if(!$loveone) return view('errors.not-found');
+
+        $section       = 'careteam';
+        $roles         = self::ROLES;
+        $relationships = relationship::where('status', 1)->get();
+        
+        return view('careteam.create', compact('loveone', 'roles', 'relationships', 'section'));
+    }
+
+    /**
+     * Edit member
+     */
+    public function editMember(Request $request)
+    {
+        $loveone  = loveone::whereSlug($request->loveone_slug)->with('careteam')->first();
+        if(!$loveone) return view('errors.not-found');
+
+        $member = User::with('permissions')->find($request->member_id);
+        if(!$member) return view('errors.not-found');
+
+        if(!$loveone->careteam->contains('user_id', $request->member_id))return view('errors.not-found');
+
+        $member->permissions->permissions = unserialize($member->permissions->permissions);
+        // dd($member);
+        $section       = 'careteam';
+        $roles         = self::ROLES;
+        $relationships = relationship::where('status', 1)->get();
+        
+        return view('careteam.edit', compact('loveone', 'roles', 'relationships', 'section', 'member'));
     }
 
     /**
@@ -162,23 +201,30 @@ class CareteamController extends Controller
     public function updateMemberPermissions(Request $request)
     {
         // dd($request->all());
-        $permissions = [
+        $new_permissions = [
             'carehub' => intval($request->permissions['carehub']),
             'lockbox' => intval($request->permissions['lockbox']),
             'medlist' => intval($request->permissions['medlist']),
             'resources' => intval($request->permissions['resources']),
         ];
 
-        // dd($permissions);
+        // dd($new_permissions);
         try {
             if($request->loveone_id && $request->id){
-                $res = careteam::where('loveone_id', $request->loveone_id)->where('user_id', $request->id)->update(['permissions' => serialize($permissions)]);
-                // TODO: SEnd email to new user with the new permissions;
+
+                $old_permissions = careteam::where('loveone_id', $request->loveone_id)->where('user_id', $request->id)->first()->permissions;
+                $old_permissions = unserialize($old_permissions);
+
+                $res = careteam::where('loveone_id', $request->loveone_id)->where('user_id', $request->id)->update(['permissions' => serialize($new_permissions)]);
+
+                $this->sendNewCareteamPermissionsEmail($request->loveone_id, $request->id, $old_permissions, $new_permissions);
                 return response()->json(['success' => true]);
+            }else {
+                return response()->json(['success' => false]);
             }
 
-        } catch (\Throwable $th) {
-            return response()->json(['success' => false, 'error' => $th]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'error' => $ex->getMessage()]);
         }
         
     }
@@ -362,6 +408,29 @@ class CareteamController extends Controller
         } catch (Exception $e) {
             // dd($e);
             return response()->json(['success' => false]);
+        }
+    }
+
+    /**
+     * Send an email to the careteam member only if was granted a new permission(s)
+     */
+    protected function sendNewCareteamPermissionsEmail($loveone_id, $user_id, $old_permissions, $new_permissions)
+    {
+        $permissions = [] ;
+        if($old_permissions['carehub'] == 0 && $new_permissions['carehub'] == 1) $permissions[] = 'CareHub';
+        if($old_permissions['lockbox'] == 0 && $new_permissions['lockbox'] == 1) $permissions[] = 'Lockbox';
+        if($old_permissions['medlist'] == 0 && $new_permissions['medlist'] == 1) $permissions[] = 'Medlist';
+        if($old_permissions['resources'] == 0 && $new_permissions['resources'] == 1) $permissions[] = 'Resources';
+
+        if(count($permissions) > 0){
+
+            $user = User::find($user_id);
+            $loveone = loveone::find($loveone_id);
+            $permissions_str = implode(', ', $permissions);
+            $email['permissions_str'] = $permissions_str;
+            $email['loveone_name'] = $loveone->firstname;
+            $email['loveone_photo'] = $loveone->photo;
+            Mail::to($user->email)->send(new sendNewPermissionsMail($email));
         }
     }
 }

@@ -3,7 +3,7 @@ $body-bg: #f8fafc;
 
 // Typography
 $font-family-sans-serif: 'Arial', sans-serif;
-$font-size-base: 0.9rem;
+$font-size-base: 1.2rem;
 $line-height-base: 1.6;
 
 // Colors
@@ -18,9 +18,20 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
-$primary-color: #369bb6;
+$lockbox-color: #179f9d;
+$medlist-color: #9888b5;
+$hub-color: #d36582;
+$message-color:  #dea771;
+$team-color:  #35799f;
+$resources-color:  #eac257;
+
+
+$primary-color: #78849e;
+$secondary-color: #369bb6;
+$gray-color: #cdcdd8;
 
 $theme-colors: (
-    "primary": #369bb6,
+    "primary" : #78849e,
+    "secondary": #369bb6,
     "danger": #d8817d
 );

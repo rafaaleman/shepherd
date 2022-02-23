@@ -69,7 +69,7 @@
                             </a>
                         @endif
 
-                        <div class="text-black-50 ">New to Shepherd? <a href="{{ route('register') }}" class="">Create an account</a></div>
+                        <!-- <div class="text-black-50 ">New to Shepherd? <a href="{{ route('register') }}" class="">Create an account</a></div> -->
                     </div>
                 </div>
             </form>
@@ -108,7 +108,7 @@
 @push('scripts')
 <script>
 $(function(){
-
+    localStorage.removeItem('loveone');
     $('#login_form').submit(function(){
         console.log('login');
         $('#loginBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
