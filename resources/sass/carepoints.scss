@@ -325,6 +325,7 @@
 // create Task
 // --------------
 
+#create_event{
 
 #collapseMemers{
     .member{
@@ -458,7 +459,7 @@ input[type=date] {
     position: absolute;
   }
   
-  
+}
   @media only screen and (max-width: 370px) {
       #collapseMemers .card-body{
           padding: .35rem;
