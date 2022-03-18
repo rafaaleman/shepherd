@@ -42,6 +42,7 @@ class LockboxController extends Controller
         $careteam = array();
         $isAdmin = 0 ;
         $tmpUser = null;
+        $section = 'lockbox';
 
         $this->areNewNotifications($request->loveone_slug, Auth::user()->id);
         $readTour = $this->alreadyReadTour('lockbox_index');
@@ -125,7 +126,7 @@ class LockboxController extends Controller
                 return array('types' => $types,'careteam' => $careteam, 'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
             }
 
-            return view('lockbox.index',compact('loveone','loveone_slug','careteam', 'readTour'));
+            return view('lockbox.index',compact('loveone','loveone_slug','careteam', 'readTour','section'));
         }else{
             
             if ($request->ajax()) 
@@ -188,7 +189,7 @@ class LockboxController extends Controller
                 return array('types' => $types,'documents' => $documents,'lastDocuments' => $last ,'slug' => $loveone_slug );
             }
             
-            return view('lockbox.index_user',compact('loveone','loveone_slug', 'readTour'));
+            return view('lockbox.index_user',compact('loveone','loveone_slug', 'readTour','section'));
         }
     }
 

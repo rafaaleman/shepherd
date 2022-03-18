@@ -12,6 +12,7 @@ class ResourceController extends Controller
     
     public function getTopics(Client $client,Request $request){
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
+        $section  = 'resources';
         if(!$loveone){
             return view('errors.not-found');
         }
@@ -24,7 +25,7 @@ class ResourceController extends Controller
         $topics = get_object_vars(json_decode($response->getBody()));
         
         //dd($topics);
-        return view('resources.index',compact('topics','conditions_loveone'));
+        return view('resources.index',compact('topics','conditions_loveone','section'));
 
     }
 
@@ -52,7 +53,7 @@ class ResourceController extends Controller
         //dd($_POST);// keyword
         $response = $client->request('GET', 'https://newsapi.org/v2/top-headlines?q='.$request->keyword.'&language=en&apiKey='.$this->apikey);
         $topics = get_object_vars(json_decode($response->getBody()));
-        dd($topics);
+       // dd($topics);
         return response()->json(['success' => true, 'topics' => $topics]);
     }
 

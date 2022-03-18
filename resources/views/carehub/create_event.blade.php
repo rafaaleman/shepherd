@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 my-2 accordion" id="accordionMembers">
+                <div class="col-12 col-lg-6 col-xl-5  my-2 accordion" id="accordionMembers">
                     <div class="card my-2 shadow-sm">
                         <div class="card-body" id="headingOne">
                             <h2 class="mb-0" id="toggle-members">
@@ -62,7 +62,7 @@
                                                     <div class="role">{{ ucfirst($team->role) }}</div>
                                                 </div>
 
-                                                <div class="ccheck col-3">
+                                                <div class="ccheck col-4 col-lg-3 ">
                                                     <center>
                                                     <label class="customcheck">
                                                         <input type="checkbox" value="{{$team->user_id}}"  v-model="event.assigned">
@@ -90,17 +90,17 @@
                 </div>
 
 
-                <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
+                <div class="col-12 col-lg-6 col-xl-4 my-2">
                     <div class="card shadow-sm my-2 col-12">
                         <div class="card-body">
                             <input data-title="Welcome to CarePoints" data-intro="Here you can select the data of the task" id="carehub_datepicker" type="text" class="form-control no-border" name="date" required autocomplete="date"  placeholder="Select Date" >
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-lg-6 col-xl-4 my-2">
+                <div class="col-12  col-xl-3 my-2">
                     <div class="card shadow-sm my-2">
                         <div class="card-body">
-                            <input data-title="Welcome to CarePoints" data-intro="Choose the time of the event here in 15 minute increments" id="time" type="text" class="no-border" name="time" value="--:--" required  onclick="" v-model="event.time" placeholder="Select Time">
+                            <input data-title="Welcome to CarePoints" data-intro="Choose the time of the event here in 15 minute increments" id="time" type="text" class="form-control no-border" name="time" value="--:--" required  onclick="" v-model="event.time" placeholder="Select Time">
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
                         <button data-title="Welcome to CarePoints" data-intro="Don't forget to save your task here. This will send an email reminder to the people you assign this task to." class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
-                            Save
+                            Add
                         </button>
                     </center>
                     <input type="hidden" name="id" v-model="event.id" value="">
@@ -137,136 +137,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
-input[type=date] {
-  text-align: right;
-}
 
-input[type="date"]:before {
-  content: attr(placeholder) !important;
-  margin-right: 0.5em;
-}
-
-/* The customcheck */
-.ccheck{
-    padding-left: 5px;
-    padding-right: 5px;
-}
-.customcheck {
-    display: block;
-    position: relative;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-/* Hide the browser's default checkbox */
-.customcheck input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #fff;
-    border-radius: 25px;
-    border: 1px solid;
-}
-
-/* On mouse-over, add a grey background color */
-.customcheck:hover input ~ .checkmark {
-    background-color: #369bb6;
-}
-
-/* When the checkbox is checked, add a blue background */
-.customcheck input:checked ~ .checkmark {
-    background-color: #369bb6;
-    border-radius: 25px;
-    border:0;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-/* Show the checkmark when checked */
-.customcheck input:checked ~ .checkmark:after {
-    display: block;
-}
-
-/* Style the checkmark/indicator */
-.customcheck .checkmark:after {
-    left: 10px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    color:#78849e;
-}
-
-.customcheck .checkmark:after {
-    left: 10px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    color:red;
-}
-.no-border{
-    border:0;
-}
-.no-focus:focus { outline: none; } 
-.label{
-    opacity: 0.5;
-    color: #78849e;
-    font-size: 10px;
-    margin-bottom:0;
-    padding-left: 11px;
-    font-size: 18px;
-}
-
-.only-border-bottom{
-    border: 0px ;
-    border-bottom: solid 1px #cdcdd8;
-    border-radius:0.25rem 0.25rem 0 0;
-}
-
- .dropdown-toggle::after{
-    float:right;
-    margin-top: .5em;
-}
-
-.introjs-fixParent {
-  position: absolute;
-}
-
-
-@media only screen and (max-width: 370px) {
-    #collapseMemers .card-body{
-        padding: .35rem;
-    }        
-
-}
 </style>
 @endpush
 
@@ -293,7 +164,7 @@ input[type="date"]:before {
 
         var picker = new Pikaday({
             field: document.getElementById('carehub_datepicker'),
-            format: 'Y-M-D',
+            format: 'Y-MM-DD',
             minDate: moment().toDate(),
             onSelect: function() {
                 create_event.event.date = this.getMoment().format('YYYY/MM/DD')

@@ -24,6 +24,7 @@ $hub-color: #d36582;
 $message-color:  #dea771;
 $team-color:  #35799f;
 $resources-color:  #eac257;
+$messages-color:  #dea771;
 
 
 $primary-color: #78849e;
@@ -33,5 +34,7 @@ $gray-color: #cdcdd8;
 $theme-colors: (
     "primary" : #78849e,
     "secondary": #369bb6,
-    "danger": #d8817d
+    "danger": #d8817d,
+    "light-button" : #cdcdd8,
+    "gray-bg" : #efeff5
 );
