@@ -10574,13 +10574,13 @@ body {
 .top-bar.careteam {
   border-bottom: 10px solid #35799f;
 }
-.top-bar.hub {
+.top-bar.CarePoints {
   border-bottom: 10px solid #d36582;
 }
 .top-bar.lockbox {
   border-bottom: 10px solid #179f9d;
 }
-.top-bar.medlist {
+.top-bar.MedList {
   border-bottom: 10px solid #9888b5;
 }
 .top-bar.resources {
