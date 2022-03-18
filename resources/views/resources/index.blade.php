@@ -1,29 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-@php
-//dump($topics['articles']);
-@endphp
+
 <div class="container" id="topics">
-    {{--
-    <h5 class="mb-3 font-weight-bolder text-dark">Trending topics</h5>
-    <div class="d-flex mb-4">
-        <div class="input-group">
-            <input type="text" class="form-control h-100" style="border-radius: 50rem 0 0 50rem !important;" v-model="search.keyword" aria-label="fbg">
+    
+    <div class="d-flex mb-4 row">
+        
+        <div class="input-group col-12 col-md-6">
+            <input type="text" id="search" class="form-control h-100" style="border-radius: 50rem 0 0 50rem !important;" placeholder="Search" v-model="search.keyword" aria-label="fbg">
             <div class="input-group-append">
                 <button type="button" class="btn btn-outline-secondary" v-on:click="searchArticles"><i class="fas fa-search" ></i></button>
             </div>
         </div>
-
+        
     </div>
+    <h5 class="mb-3 font-weight-bolder text-dark">Trending topics</h5>
 
     <div class="loading-articles text-center">
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading articles...
     </div>
-    <div class="text-center mb-2" v-if="articles.length == 0 && search.keyword != ''">
+    <div class="text-center mb-2 slide-articles" v-if="articles.length == 0 && search.keyword != ''">
             <b> @{{articles.length}}</b> Results for '<b>@{{search.keyword}}</b>'
     </div>
-        <div class="slide-articles" >
+        <div class="slide-articles" id="slide-articles">
             <div class="col mb-4" v-for="article in articles">
                 <div class="card ">
                     <a :href="article.url" class="text-decoration-none" target="_blank">
@@ -37,14 +36,14 @@
                         <div class="card-body">
                             <h5 class="card-title font-weight-bolder text-dark">@{{article.title}}</h5>
                             <template v-if="article.author != ''">
-                                <p class="card-text">by <small class="btn-link font-weight-bolder text-decoration-none">@{{article.author}}</small></p>
+                                <p class="card-text text-truncate">by <small class="card-text-author btn-link font-weight-bolder text-decoration-none">@{{article.author}}</small></p>
                             </template>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
-        --}}
+        
   
         
     
@@ -56,7 +55,7 @@
         @endforeach
     </div>
     @if($topics['totalResults'] > 0)
-    <div class="row row-cols-1 row-cols-md-3 ">
+    <div class="row row-cols-1 row-cols-md-3" id="condition-resource">
         @foreach($topics['articles'] as $cve => $article)
             @php
             //dump($article);
@@ -74,7 +73,7 @@
                     <div class="card-body">
                         <h5 class="card-title font-weight-bolder text-dark">{{$article->title}}</h5>
                         @if(!empty($article->author))
-                            <p class="card-text">by <small class="btn-link font-weight-bolder text-decoration-none">{{$article->author}}</small></p>
+                            <p class="card-text text-truncate">by <small class="card-text-author btn-link font-weight-bolder text-decoration-none">{{$article->author}}</small></p>
 
                         @endif
                     </div>
@@ -99,9 +98,6 @@
 @push('styles')
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
-<style>
-
-</style>
 
 @endpush
 @push('scripts')
@@ -125,7 +121,7 @@ var app = new Vue({
         
     },
     created: function(){
-        //this.searchArticlesIni();
+        this.searchArticlesIni();
 
     },
     updated:function(){
@@ -141,7 +137,7 @@ var app = new Vue({
 
             $('.searchBtn').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + $('.searchBtn').data('loading-text')).attr('disabled', true);
 
-            $('.slide-articles').slick('unslick');
+            $('#slide-articles').slick('unslick');
             $('.loading-articles').show(); 
             $('.slide-articles').hide();
             app.articles=[];
@@ -150,11 +146,12 @@ var app = new Vue({
             var url = '{{ route("resources.search") }}';
             axios.post(url, keyword)
                 .then(function(response){
+                    console.log(response.data);
                     app.articles = response.data.topics.articles;
                     $('.loading-articles').hide(); 
                     $('.slide-articles').show();
                     $(document).ready(function(){
-                        $('.slide-articles').slick({
+                        $('#slide-articles').slick({
                             infinite: true,
                         slidesToShow: 2,
                         slidesToScroll: 2

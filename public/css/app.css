@@ -12161,6 +12161,40 @@ a:hover {
   text-transform: uppercase;
 }
 
+#condition-resource .card-img-top {
+  max-height: 200px;
+  border-radius: 12px;
+}
+
+#slide-articles .card-img-top {
+  max-height: 256px;
+  border-radius: 12px;
+}
+
+#topics .input-group-append .btn {
+  border: none !important;
+  color: #78849e !important;
+  border-radius: 0 99px 99px 0 !important;
+  background-color: #fff;
+  padding: 0px 25px;
+  box-shadow: 0 3px 6px 0 rgba(153, 153, 153, 0.1);
+}
+
+#topics .input-group #search {
+  border: none !important;
+  color: #78849e !important;
+  box-shadow: 0 3px 6px 0 rgba(153, 153, 153, 0.1);
+  padding: 10px 25px;
+}
+
+#topics h5 {
+  font-size: 16px;
+}
+
+#topics .card-text .card-text-author {
+  color: #32a4ea !important;
+}
+
 .Lipitor {
   font-weight: bold;
   font-stretch: normal;
