@@ -66,8 +66,8 @@ class CareteamController extends Controller
 
         foreach ($members as $key => $member){
             $careteam[$member->id]->permissions = unserialize($careteam[$member->id]->permissions);
+            $member->photo = ($member->photo != '') ? asset($member->photo) :  asset(create_avatar($member,true));
             $members[$key]['careteam'] = $careteam[$member->id];
-            $member->photo = ($member->photo != '') ? asset($member->photo) :  asset('/img/no-avatar.png');
             if(Auth::user()->id == $member->id && $careteam[$member->id]->role == 'admin')
                 $is_admin = true;
         }
