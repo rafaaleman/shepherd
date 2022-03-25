@@ -160,6 +160,10 @@ class CareteamController extends Controller
                 $member['photo'] = public_path('/loveones/'.$loveone_id.'/members/'.$photoName);
             }
             $user = User::create($member);
+            
+            if(!$request->file){
+                $member['photo'] = asset(create_avatar($user,true));
+            }
             $this->createCareteamRow($user->id, $loveone_id, $relationship_id, $role_id);
 
             // TODO: SEnd email to new user with the credentials;
