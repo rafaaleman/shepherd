@@ -294,6 +294,11 @@ const profile = new Vue ({
                 return;
             }
 
+            if(this.user.photo.size > 2100000 ){
+                swal('Error ', "You photo must be max 2Mb. Please select other image.", 'warning');
+                return
+            }
+
             console.log('updating');
             $('.btn.update').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Saving...').attr('disabled', true);
             this.user.phone = this.user.phone.replace(/\D/g,'');
@@ -333,7 +338,7 @@ const profile = new Vue ({
             });
         },
         onFileChange(e){
-            console.log(e.target.files[0]);
+            console.log(e.target.files[0].size);
             this.user.photo = e.target.files[0];
 
             var file = $('#photo');
@@ -342,6 +347,10 @@ const profile = new Vue ({
                 $('.photo-container').css('background-image', 'url('+e.target.result+')');
             }
             reader.readAsDataURL(file[0].files[0]);
+
+            if(e.target.files[0].size > 2100000 ){
+                swal('Error ', "You photo must be max 2Mb. Please select other image.", 'warning');
+            }
         },
         getInvitations: function() {
 
