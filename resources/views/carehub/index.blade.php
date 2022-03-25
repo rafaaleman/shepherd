@@ -4,7 +4,6 @@
 <div class="container" id="carehub">
 
     <div class="row mb-3 align-items-center justify-content-center">
-
         <div class="col-12 row">
             <div class="col-2 col-md-1 px-2"><a href="#/" v-on:click="calendarType(1)" data-tpe="1" class="btn-event btn-lg btn-block rounded-pill btn-outline-pink rounded-top btn-outline-pink-active menuDate menuDateCarepoints" id="Today">Today</a></div>
             <div class="col-2 col-md-1 px-2"><a href="#/" v-on:click="calendarType(2)" data-tpe="2" class="btn-event btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate menuDateCarepoints" id="Week">Week</a></div>
@@ -117,7 +116,7 @@
                             </h6>
                             <template v-for="(day,index) in event.data" >
                                 <div class="row border-bottom-1 mb-3" v-if="day.status">
-                                    <div class="col-4 col-sm-3 col-lg-2">
+                                    <div class="col-auto">
                                         <div class="bottom-50 end-50">
                                             <h3 class="text-danger font-weight-bold text-uppercase time">
                                                 @{{day.time_cad_gi}} <br /><small style="font-size:.6em">@{{day.time_cad_a}}</small>
@@ -125,16 +124,33 @@
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="col-8 col-sm-9 col-lg-10 row eventinf">
+                                    <div class="col-8 col-sm-9 col-lg-10 col-xl-11 row eventinf">
 
-                                        <div class="col-12 col-lg-6">
-                                            <h5 class="font-weight-bold">@{{day.name}}</h5>
+                                        <div class="col-12 col-lg-5">
+                                            <h5 class="font-weight-bold name-event-title">@{{day.name}}</h5>
                                             <p class="text-muted name-event-subtitle">@{{day.location}}</p>
                                         </div>
-                                        <div class="widget team col-12 col-lg-6 p-0">
+                                        <div class="widget team col-12 col-lg-7 p-0">
                                             <div class="d-flex">
                                                 <div class="pl-0 pl-md-3 pl-lg-3 avatar-imgs ml-0 ml-lg-0 ml-lg-auto">
-                                                    <p>
+
+                                                <div class="row">
+                                                    <div class="col-auto lgi-carehub text-center" v-for="member in day.members">
+                                                        <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                                                        <span class="member-name-event">@{{member.user.name}}</span>
+                                                    </div>
+                                                    <div class="col-11 col-sm-auto ">
+                                                          <i class="num-messages" style="display:inline-flex;vertical-align:sub;">@{{day.count_messages}}&nbsp; &nbsp;<img src="{{asset('images/IconMessages.png')}}" alt="" id="icon-messages"></i>
+                                                        <!-- <i class="num-messages">@{{day.count_messages}}<img src="{{asset('images/IconMessages.png')}}" alt="" id="icon-messages"></i>  -->
+                                                    </div>
+                                                    <div class="col-1 col-sm-auto ">
+                                                        <a href="" class="text-danger " style="display:inline-flex;vertical-align:sub;" v-on:click.prevent="deleteEvent(day)">
+                                                            <i class="fa fa-trash"> </i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                    <!-- <p>
                                                         <span class="btn btn-link" v-on:click="eventDetails(day.id)" style="text-decoration: none;">
                                                             <template v-for="member in day.members">
                                                                 <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
@@ -144,7 +160,7 @@
                                                         <a href="" class="text-danger " v-on:click.prevent="deleteEvent(day)">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
-                                                    </p>
+                                                    </p> -->
                                                         <!-- <ul class="list-group list-group-horizontal"> -->
                                                                 <!-- <span class="btn btn-link" v-on:click="eventDetails(day.id)" style="text-decoration: none;"> -->
                                                                     <!-- <li v-on:click="eventDetails(day.id)" style="text-decoration: none;" class="list-group-item lgi-carehub text-center" v-for="member in day.members" >
