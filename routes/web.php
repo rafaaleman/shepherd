@@ -45,12 +45,12 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('two_facto
 
 Route::get('/new', 'HomeController@newUser')->name('new');
 
-Route::get("/resources/{loveone_slug}","ResourceController@getTopics")->name("resources")->middleware('two_factor');
+Route::get("/resources/{loveone_slug}","ResourceController@getTopics")->name("resources")->middleware('two_factor','auth');
 Route::get("/resources/home/{loveone_slug}","ResourceController@getTopicsCarehub")->name("resources.carehub");
 
 
-Route::post("/resources/search","ResourceController@getTopicsSearch")->name("resources.search");
-Route::post("/resources/search/ini","ResourceController@getTopicsSearchIni")->name("resources.ini");
+Route::post("/resources/search","ResourceController@getTopicsSearch")->middleware('auth')->name("resources.search");
+Route::post("/resources/search/ini","ResourceController@getTopicsSearchIni")->middleware('auth')->name("resources.ini");
 
 
 Route::view('/terms', 'terms');

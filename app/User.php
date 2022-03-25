@@ -41,6 +41,9 @@ class User extends Authenticatable
         'two_factor_expires_at'
     ];
     
+    /**
+     * 
+     */
     public function permission($permission,$loveones){
         $care = $this->belongsTo('App\Models\careteam','id', 'user_id')->where('loveone_id',$loveones)->first();
         $permissions =  \unserialize($care->permissions);
@@ -50,8 +53,13 @@ class User extends Authenticatable
         }else{
             return false;
         }
+    }
 
-
+    /**
+     * Return the careteam row related to the user
+     */
+    public function permissions(){
+        return $this->belongsTo('App\Models\careteam','id', 'user_id');
     }
 
     public function generateTwoFactorCode()
