@@ -178,7 +178,7 @@
                                             <div class="card widget vitals shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                             
-                                                    <a href="" class="hub">
+                                                    <a href="#" class="hub">
                                                         <h5 class="card-title"><i class="fas fa-heartbeat fa-2x"></i> Vital stats</h5>
                                                         <div class="card-text">
                                                             ...
