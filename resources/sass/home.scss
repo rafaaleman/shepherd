@@ -4,7 +4,7 @@
     padding: 0;
 
     .widget{
-        width: 30%;
+        width: 23%;
         min-height: 180px;
         margin-bottom:5px;
         transition: width 0.3s;
@@ -126,6 +126,18 @@
                 background-color: $medlist-color;
                 border-color: darken($color: $medlist-color, $amount: 15);
                 color: darken($color: $medlist-color, $amount: 75)
+            }
+        }
+
+        &.vitals{
+            .fas, .card-text span{
+                color: $vitals-color;
+                font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $vitals-color;
+                border-color: darken($color: $vitals-color, $amount: 15);
             }
         }
     }

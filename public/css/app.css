@@ -10903,7 +10903,7 @@ a:hover {
   padding: 0;
 }
 .dashboard .widget {
-  width: 30%;
+  width: 23%;
   min-height: 180px;
   margin-bottom: 5px;
   transition: width 0.3s;
@@ -10993,6 +10993,14 @@ a:hover {
   background-color: #9888b5;
   border-color: #705c94;
   color: black;
+}
+.dashboard .widget.vitals .fas, .dashboard .widget.vitals .card-text span {
+  color: #bbbbbb;
+  font-weight: bold;
+}
+.dashboard .widget.vitals .btn-primary {
+  background-color: #bbbbbb;
+  border-color: #959595;
 }
 
 #homeCarousel {
