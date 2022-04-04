@@ -238,7 +238,8 @@ class MedlistController extends Controller
             'date_title' => $date->format('l, j F Y'),
             'medlist_modal' => $modal,
             'count_medications' => count($medlist),
-            'next_dosage' => $next_dosage
+            'next_dosage' => $next_dosage,
+            'medications' => $medications,
         ]]);
     }
 

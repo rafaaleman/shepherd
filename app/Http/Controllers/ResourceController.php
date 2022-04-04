@@ -53,7 +53,7 @@ class ResourceController extends Controller
         //dd($_POST);// keyword
         $response = $client->request('GET', 'https://newsapi.org/v2/top-headlines?q='.$request->keyword.'&language=en&apiKey='.$this->apikey);
         $topics = get_object_vars(json_decode($response->getBody()));
-        dd($topics);
+       // dd($topics);
         return response()->json(['success' => true, 'topics' => $topics]);
     }
 

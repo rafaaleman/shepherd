@@ -117,6 +117,12 @@ class HomeController extends Controller
                             ->where('loveone_id', $loveone_id )->where('status', 1);
                         })->get();
 
+        // Create initials avatar if no photo
+        foreach ($users as $user) {
+            if(empty($user->photo))
+                asset(create_avatar($user,true));
+        }
+
         return $users;
     }
 

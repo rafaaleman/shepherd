@@ -36,7 +36,7 @@
                                             
 
                                             {{-- Carepoints --}}
-                                            <div class="card widget hub shadow-sm mb-3">
+                                            <div class="card widget hub shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('carehub', [$loveone->slug] )}}" class="hub">
@@ -60,7 +60,7 @@
                                             </div>
 
                                             {{-- Lockbox --}}
-                                            <div class="card widget lockbox shadow-sm mb-3 mx-3">
+                                            <div class="card widget lockbox shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
 
                                                     <a href="{{ route('lockbox', [$loveone->slug] )}}" class="hub">
@@ -80,7 +80,7 @@
                                             </div>
 
                                             {{-- Careteam --}}
-                                            <div class="card widget team shadow-sm mb-3">
+                                            <div class="card widget team shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                                     
                                                     <a href="{{ route('careteam', [$loveone->slug] )}}" class="">
@@ -126,8 +126,10 @@
                                                 </div>
                                             </div>
 
+
+
                                             {{-- messages --}}
-                                            <div class="card widget message shadow-sm mx-3 mb-3">
+                                            <div class="card widget message shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('messages', [$loveone->slug] )}}" class="hub">
@@ -147,7 +149,7 @@
                                             </div>
 
                                             {{-- resources --}}
-                                            <div class="card widget resources shadow-sm mb-3">
+                                            <div class="card widget resources shadow-sm mb-3  mr-lg-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('resources', [$loveone->slug] )}}" class="hub">
@@ -169,6 +171,31 @@
                                                             {{-- @endif --}}
                                                         </div>
                                                     </a>
+                                                </div>
+                                            </div>
+
+                                            {{-- vitals --}}
+                                            <div class="card widget vitals shadow-sm mb-3 mr-lg-3">
+                                                <div class="card-body">
+                                            
+                                                    <a href="#" class="hub">
+                                                        <h5 class="card-title"><i class="fas fa-heartbeat fa-2x"></i> Vital stats</h5>
+                                                        <div class="card-text">
+                                                            ...
+                                                            
+                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
+                                                                <a class="btn btn-primary btn-sm disabled" href="{{ route('resources', [$loveone->slug] )}}">View Vitals</a>
+                                                            {{-- @endif --}}
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            {{-- blank --}}
+                                            <div class="card widget resources shadow-sm mb-3">
+                                                <div class="card-body">
+                                            
+                                                    
                                                 </div>
                                             </div>
                                             
