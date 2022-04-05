@@ -128,12 +128,12 @@
 
 
 
-                                            {{-- messages --}}
+                                            {{-- Discussions --}}
                                             <div class="card widget message shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                             
-                                                    <a href="{{ route('messages', [$loveone->slug] )}}" class="hub">
-                                                        <h5 class="card-title"><i class="fas fa-comments fa-2x"></i> Messages</h5>
+                                                    <a href="{{ route('discussions', [$loveone->slug] )}}" class="hub">
+                                                        <h5 class="card-title"><i class="fas fa-comments fa-2x"></i> Discussions</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
                                                                 <span >{{ $loveone->messages->data->num_message }}</span> Unread Message(s) <br>
@@ -141,7 +141,7 @@
                                                             </div>
 
                                                             {{-- @if ($loveone->careteam->role == 'admin') --}}
-                                                                <a class="btn btn-primary btn-sm" href="{{ route('messages', [$loveone->slug] )}}">View Messages</a>
+                                                                <a class="btn btn-primary btn-sm" href="{{ route('discussions', [$loveone->slug] )}}">View Messages</a>
                                                             {{-- @endif --}}
                                                         </div>
                                                     </a>
@@ -179,7 +179,7 @@
                                                 <div class="card-body">
                                             
                                                     <a href="#" class="hub">
-                                                        <h5 class="card-title"><i class="fas fa-heartbeat fa-2x"></i> Vital stats</h5>
+                                                        <h5 class="card-title text-black-50"><i class="fas fa-heartbeat fa-2x"></i> Vital stats</h5>
                                                         <div class="card-text">
                                                             ...
                                                             
