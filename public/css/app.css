@@ -10590,9 +10590,6 @@ body {
 .top-bar.messages {
   border-bottom: 16px solid #dea771;
 }
-.top-bar.discussions {
-  border-bottom: 10px solid #dea771;
-}
 .top-bar .name {
   font-weight: bold;
   font-size: 22px;
