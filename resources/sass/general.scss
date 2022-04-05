@@ -75,6 +75,7 @@ body{
     &.MedList{ border-bottom: 10px solid $medlist-color;}
     &.resources{ border-bottom: 10px solid $resources-color;}
     &.messages{ border-bottom: 10px solid $messages-color;}
+    &.discussions{ border-bottom: 10px solid $messages-color;}
 
     .name{
         font-weight: bold;
@@ -109,6 +110,7 @@ body{
             &.lockbox{ color: $lockbox-color;}
             &.medlist{ color: $medlist-color;}
             &.resources{ color: $resources-color;}
+            &.discussions{ color: $messages-color;}
         }
 
         span{
