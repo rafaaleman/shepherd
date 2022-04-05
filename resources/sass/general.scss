@@ -69,12 +69,12 @@ body{
     z-index: 9;
     margin-bottom: 20px;
 
-    &.careteam{ border-bottom: 10px solid $team-color;}
-    &.CarePoints{ border-bottom: 10px solid $hub-color;}
-    &.lockbox{ border-bottom: 10px solid $lockbox-color;}
-    &.MedList{ border-bottom: 10px solid $medlist-color;}
-    &.resources{ border-bottom: 10px solid $resources-color;}
-    &.messages{ border-bottom: 10px solid $messages-color;}
+    &.careteam{ border-bottom: 16px solid $team-color;}
+    &.CarePoints{ border-bottom: 16px solid $hub-color;}
+    &.lockbox{ border-bottom: 16px solid $lockbox-color;}
+    &.MedList{ border-bottom: 16px solid $medlist-color;}
+    &.resources{ border-bottom: 16px solid $resources-color;}
+    &.messages{ border-bottom: 16px solid $messages-color;}
 
     .name{
         font-weight: bold;

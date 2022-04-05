@@ -5,6 +5,9 @@
 // Variables
 @import 'variables';
 
+// Font
+// @import 'fonts';
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import 'general';
@@ -15,5 +18,5 @@
 @import 'chat';
 @import 'carepoints';
 @import 'medlist';
- @import '/node_modules/pikaday/css/pikaday.css';
+@import '/node_modules/pikaday/css/pikaday.css';
 
