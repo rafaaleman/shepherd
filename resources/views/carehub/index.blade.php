@@ -76,9 +76,9 @@
                                         @{{ day.dia  }}
                                         <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha">
                                             
-                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'" v-if="year_events[day.fecha]?.data[0]"><a :href="'#' + day.fecha" class="event-name-calendar">•</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a :href="'#' + day.fecha" class="event-name-calendar">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a :href="'#' + day.fecha" class="event-name-calendar">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
+                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'" v-if="year_events[day.fecha]?.data[0]"><a v-on:click="filterEventsDay(day.fecha)" href="#/" class="event-name-calendar">•</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a href="#/" v-on:click="filterEventsDay(day.fecha)" class="event-name-calendar">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a href="#/" v-on:click="filterEventsDay(day.fecha)" class="event-name-calendar">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
                                         </div>
 
                                     </div>
@@ -97,7 +97,8 @@
     </div>
     <div class="carepoint-subtitle mb-3" v-if="type == 3">@{{months_of_the_year[parseInt(mm)]['name']}} @{{yyyy}}</div>
     <div class="carepoint-subtitle mb-3" v-else-if="type == 2">Week, @{{calendar_week[0]['mes']}} @{{calendar_week[0]['dia']}} to <span v-if="calendar_week[1]['mes'] != calendar_week[6]['mes']"> @{{calendar_week[6]['mes']}}</span> @{{calendar_week[6]['dia']}}</div>
-    <div class="carepoint-subtitle mb-3" v-else>Today</div>
+    <div class="carepoint-subtitle mb-3" v-else-if="type == 1">Today</div>
+    <div class="carepoint-subtitle mb-3" v-else>Day @{{date_day_events}}</div>
 
     <div class="loading-events w-100 text-center d-none">
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading events...
@@ -124,27 +125,33 @@
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="col-8 col-sm-9 col-lg-10 col-xl-11 row eventinf">
+                                    <div class="col row eventinf">
 
                                         <div class="col-12 col-lg-5">
                                             <h5 class="font-weight-bold name-event-title">@{{day.name}}</h5>
                                             <p class="text-muted name-event-subtitle">@{{day.location}}</p>
                                         </div>
                                         <div class="widget team col-12 col-lg-7 p-0">
-                                            <div class="d-flex">
+                                            <div class="d-md-flex">
                                                 <div class="pl-0 pl-md-3 pl-lg-3 avatar-imgs ml-0 ml-lg-0 ml-lg-auto">
 
-                                                <div class="row">
+                                                <div class="row row-cols-12 m-0">
                                                     <div class="col-auto lgi-carehub text-center" v-for="member in day.members">
                                                         <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
                                                         <span class="member-name-event">@{{member.user.name}}</span>
                                                     </div>
-                                                    <div class="col-11 col-sm-auto ">
-                                                          <i class="num-messages" style="display:inline-flex;vertical-align:sub;">@{{day.count_messages}}&nbsp; &nbsp;<img src="{{asset('images/IconMessages.png')}}" alt="" id="icon-messages"></i>
+                                                    <!-- <div class=" col-auto num-messages"> -->
+                                                          <!-- @{{day.count_messages}}&nbsp;<i class="fa fa-comments" style=""> </i> -->
+                                                          <!-- <i class="num-messages" style="display:inline-flex;vertical-align:sub;">@{{day.count_messages}}&nbsp; &nbsp;<img src="{{asset('images/IconMessages.png')}}" alt="" id="icon-messages"></i> -->
+
                                                         <!-- <i class="num-messages">@{{day.count_messages}}<img src="{{asset('images/IconMessages.png')}}" alt="" id="icon-messages"></i>  -->
-                                                    </div>
-                                                    <div class="col-1 col-sm-auto ">
-                                                        <a href="" class="text-danger " style="display:inline-flex;vertical-align:sub;" v-on:click.prevent="deleteEvent(day)">
+                                                    <!-- </div> -->
+                                                    <div class="col col-md-auto text-right col-icons">
+                                                        <a href="#/" class="num-messages" style="display:inline-flex;vertical-align:sub;" v-on:click="eventDetails(day.id)">
+                                                            @{{day.count_messages}}&nbsp;<i class="fa fa-comments" > </i>
+                                                        </a>
+                                                        &nbsp;
+                                                        <a href="#/" class="text-danger " style="display:inline-flex;vertical-align:sub;" v-on:click.prevent="deleteEvent(day)">
                                                             <i class="fa fa-trash"> </i>
                                                         </a>
                                                     </div>
@@ -244,7 +251,8 @@
             date_end_month_events: '{{$to_day->format("Y-m-t")}}',
             date_ini_week_events:'',
             date_end_week_events:'',
-            date_day_events:'{{$to_day->format("Y-m-d")}}', 
+            date_day_events:'{{$to_day->format("Y-m-d")}}',
+            date_today_events:'{{$to_day->format("Y-m-d")}}', 
             date_selected:'',
 
             dd: '',
@@ -266,6 +274,7 @@
             year_events:[],
             month_events:[],
             week_events:[],
+            today_events:[],
             day_events:[],
             events_in_calendar: [],
 
@@ -291,7 +300,7 @@
                 this.listMonths();
                 this.getYearEvents();
                // this.filterEvents();
-                this.events = this.day_events;
+                this.events = this.today_events;
 
             },
             listMonths: function(){
@@ -319,7 +328,7 @@
                     
                     $("#Today").addClass("btn-outline-pink-active").removeClass("disabled");
                     $("#Week, #Month").removeClass("btn-outline-pink-active");
-                    this.events = this.day_events;
+                    this.events = this.today_events;
                     //this.getEvents();
                 } else if (type == 2) {
                    
@@ -338,6 +347,11 @@
                     }else{
                         //this.searchEvents();
                     }
+                } else if (type == 4) {
+                    
+                    $("#Month, #Today, #Week").removeClass("btn-outline-pink-active");
+                    this.events = this.day_events;
+                    
                 } else {
                     alert();
                 }
@@ -534,15 +548,15 @@
                             carehub.week_events.push(event);
                     }   
 
-                    if(carehub.day_events.length == 0){
-                        if(event.date == carehub.date_day_events){
-                            carehub.day_events.push(event);
+                    if(carehub.today_events.length == 0){
+                        if(event.date == carehub.date_today_events){
+                            carehub.today_events.push(event);
                         }    
                     }
                 });
 
                 if (this.type == 1) {
-                    this.events = this.day_events;
+                    this.events = this.today_events;
                     
                 } else if (this.type == 2) {
                     this.events = this.week_events;
@@ -550,6 +564,28 @@
                 } else if (this.type == 3) {
                     this.events = this.month_events; 
                 }
+
+            },
+            filterEventsDay: function(date){
+                //console.log(this.year_events);
+                this.day_events = [];
+                this.date_day_events = date;
+                this.type = 4;
+                $("#Month, #Today, #Week").removeClass("btn-outline-pink-active");
+
+                
+                Object.entries(this.month_events).forEach(([key, event]) => {  
+
+                    if(carehub.day_events.length == 0){
+                        if(event.date == carehub.date_day_events){
+                            carehub.day_events.push(event);
+                        }    
+                    }
+                });
+
+                    this.events = this.day_events;
+                    
+               
 
             },
             
