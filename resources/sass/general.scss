@@ -5,6 +5,14 @@ body{
     font-size: 1rem;
 }
 
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=password]{
+    border: none;
+    border-bottom: 1px solid #cacaca;
+}
+
 .help-text{
     font-size: 1.15rem;
 }
@@ -37,6 +45,13 @@ body{
 .dropdown-menu
 {
     border: none;
+    font-size: 16px;
+
+    .dropdown-item{
+        line-height: 25px;
+        white-space: inherit !important;
+        font-size: 15px;
+    }
 
     .item{
         color: #00000080;

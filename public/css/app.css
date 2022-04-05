@@ -10517,6 +10517,14 @@ body {
   font-size: 1rem;
 }
 
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=password] {
+  border: none;
+  border-bottom: 1px solid #cacaca;
+}
+
 .help-text {
   font-size: 1.15rem;
 }
@@ -10542,6 +10550,12 @@ body {
 
 .dropdown-menu {
   border: none;
+  font-size: 16px;
+}
+.dropdown-menu .dropdown-item {
+  line-height: 25px;
+  white-space: inherit !important;
+  font-size: 15px;
 }
 .dropdown-menu .item {
   color: #00000080;
@@ -11115,7 +11129,7 @@ a:hover {
 }
 @media (max-width: 450px) {
   #careteam .mm {
-    width: 47%;
+    width: 100%;
   }
 }
 #careteam .members {
@@ -11263,6 +11277,11 @@ a:hover {
 }
 #careteam table tr td.resources span {
   color: #555;
+}
+@media (max-width: 450px) {
+  #careteam table tr td {
+    padding: 7px;
+  }
 }
 
 .invitations strong {
