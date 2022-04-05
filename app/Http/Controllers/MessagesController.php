@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Traits\NotificationTrait;
-use App\Events\NewMessage;
-use Session;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\sendNewMessageMail;
+use App\User;
 use App\Models\loveone;
 use App\Models\careteam;
+use App\Models\discussion;
 use App\Models\chat;
 use App\Models\chat_message;
-use App\User;
+use App\Mail\sendNewMessageMail;
+use App\Events\NewMessage;
+use App\Http\Traits\NotificationTrait;
 
 
 class MessagesController extends Controller
@@ -31,77 +32,83 @@ class MessagesController extends Controller
      */
     public function index(Request $request)
     {
-        
+        $selected_discussions = $request->discussions; 
         $loveone_slug = $request->loveone_slug;
         $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $discussions = self::discussions($loveone_slug,Auth::id());
+        $careteam     = self::careteam($request->loveone_slug);
+        if(!$loveone){
+           // dd("no existe");
+        }
+        $section = 'discussions';
+        return view('discussion.index',compact('loveone','loveone_slug','section','discussions','careteam'));
+
+    }
+    
+    public function create(Request $request)
+    {
+        $loveone_slug = $request->loveone_slug;
+        $loveone      = loveone::whereSlug($loveone_slug)->first();
+        $careteam     = self::careteam($request->loveone_slug);
 
         if(!$loveone){
            // dd("no existe");
         }
-        $section = 'messages';
-        return view('messages.index',compact('loveone','loveone_slug','section'));
+        $section = 'discussions';
+        
+        return view('discussion.create',compact('loveone','loveone_slug','section','careteam'));
+
+    }
+
+    public function store(Request $request)
+    {
+        
+        $data = $request->all();
+        
+        $loveone_slug = $request->loveone_slug;
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        
+        $discussion                 = new discussion;
+        $discussion->loveone_id     = $loveone->id;
+        $discussion->owner_id       = Auth::id();
+        $discussion->name           = $data["name"];
+        $discussion->last_message   = $data["message"];
+        $discussion->users          = json_encode($data["users"]);
+        $discussion->status         = 1;
+        $discussion->save();
+        
+        $msg          = new chat_message;
+        $msg->id_user = Auth::id();
+        $msg->id_chat = $discussion->id;
+        $msg->message = $data["message"];
+        $msg->status  = 1;
+        $msg->save();
+
+        return response()->json(['success' => true, 'data' => ['discussion' => $discussion]], 200);
     }
 
     public function getCareteam(Request $request)
     {
-        $users = array();
-        $loveone_slug = $request->loveone_slug;
-        $loveone  = loveone::whereSlug($loveone_slug)->first();
-        
-        $careteam = careteam::where('loveone_id',$loveone->id)->get();
-        foreach($careteam as $u){
-            $user = $u->user;
-            if($user->id != Auth::id()){
-                $users[] =array('id'=>$user->id,'name'=> $user->name . ' ' . $user->lastname,'photo' => $user->photo, 'status' => $user->status);
-            }
-        }
-        return response()->json(['success' => true, 'data' => ['careteam' => $users]], 200);
+        $careteam = self::careteam($request->loveone_slug);
+        return response()->json(['success' => true, 'data' => ['careteam' => $careteam]], 200);
     }
 
     /* Chats */
-    public function getChats(Request $request)
+    public function getDiscussions(Request $request)
     {
-        $data = array();
         $loveone_slug = $request->loveone_slug;
-        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $data = self::discussions($loveone_slug,Auth::id());
 
-        $chats = chat::where('loveone_id',$loveone->id)
-                                ->where('sender_id',Auth::id())
-                                ->orWhere('receiver_id',Auth::id())->get();
-        foreach($chats as $c){
-            if($c->sender_id == Auth::id()){
-                $c->user = User::find($c->receiver_id);
-            }else{
-                $c->user = User::find($c->sender_id);
-            }
-            $data[] = $c;
-        }
-        return response()->json(['success' => true, 'data' => ['chats' => $data,'count_chats' => count($data)]], 200);
+        return response()->json(['success' => true, 'data' => ['discussions' => $data,'count_discussions' => count($data)]], 200);
     }
-
 
     /* */
     public function getChat($id)
     {
-        $chat = chat_message::where('id_chat',$id)->get();
-        return response()->json(['success' => true, 'data' => ['chat' => $chat]], 200);
+        $messages = chat_message::where('id_chat',$id)->get();
+        return response()->json(['success' => true, 'data' => ['messages' => $messages]], 200);
     }
-    
-    /* */
-    public function newChat(Request $request)
-    {
-        $loveone_slug = $request->loveone_slug;
-        $loveone  = loveone::whereSlug($loveone_slug)->first();
-        
-        $chat = new chat;
-        $chat->loveone_id = $loveone->id;
-        $chat->sender_id = Auth::id();
-        $chat->receiver_id =  $request->user_id;
-        $chat->status = 1;
-        
-        $chat->save();
-        return response()->json(['success' => true, 'data' => ['chat' => $chat]], 200);
-    }
+
     /* */
     public function storeMessage(Request $request){
 
@@ -110,6 +117,7 @@ class MessagesController extends Controller
             'chat_id'     => 'required|numeric',
             'message'     => 'required|max:250',
         ]);
+        
         $msg = new chat_message;
         $msg->id_user = $request->user_id; 
         $msg->id_chat = $request->chat_id; 
@@ -117,7 +125,7 @@ class MessagesController extends Controller
         $msg->status  = 1;
         $msg->save();
 
-        if($request->urgent == "true"){
+        if($request->urgent == "true" || $request->urgent == "1"){
             $user = User::find($request->user_id);
             $email['message'] = $msg->message;
             /*
@@ -132,10 +140,10 @@ class MessagesController extends Controller
         }
 
         
-        $chat = chat::find($request->chat_id);
-        $chat->last_message = $request->message; 
-        $chat->status  = 1;
-        $chat->save();
+        $discussion = discussion::find($request->chat_id);
+        $discussion->last_message = $request->message; 
+        $discussion->new_message  = 1;
+        $discussion->save();
         
         broadcast(new NewMessage($msg));
 
@@ -144,6 +152,76 @@ class MessagesController extends Controller
         return response()->json(['success' => true, 'data' => ['chat' => $data]], 200);
     }
 
+
+
+
+
+
+
+    /** Internas */
+
+    protected function careteam($slug){
+        $users = array();        
+        $loveone  = loveone::whereSlug($slug)->first();        
+        $careteam = careteam::where('loveone_id',$loveone->id)->get();
+        foreach($careteam as $u){
+            $user = $u->user;
+            if($user->id != Auth::id()){
+                $users[] =array('id'=>$user->id,'name'=> $user->name . ' ' . $user->lastname,'photo' => $user->photo, 'status' => $user->status,'selected' => false);
+            }
+        }
+        return $users;
+    }
+
+    protected function discussions($slug,$user){
+        $data = array();
+        $loveone  = loveone::whereSlug($slug)->first();
+        $chats = discussion::where('loveone_id',$loveone->id)->get();
+       
+        foreach($chats as $c){
+            $us = explode(',',json_decode($c->users));
+            $c->users = $us;
+            if($c->owner_id == $user){
+                $data[] = $c;
+            }else{
+                if (in_array($user, $us)) {
+                    $data[] = $c;
+                }
+            }
+        }
+        return $data;
+           
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #########################################################################################################################################################################################
+
+    
+
+
+    
+    
+
+    
 
 
     /* Messages */
