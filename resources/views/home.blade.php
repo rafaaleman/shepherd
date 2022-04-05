@@ -42,13 +42,13 @@
                                                     <a href="{{ route('carehub', [$loveone->slug] )}}" class="hub">
                                                         <h5 class="card-title"><i class="far fa-calendar-plus fa-2x hub"></i> CarePoints</h5>
                                                         <div class="card-text events-today">
-                                                            <div class="card__counts">
-                                                                <span>{{ count($loveone->discussions->data->discussions) }}</span> Discussion(s) <br>
+                                                            <div class="card__count">
+                                                                
                                                                 <span>{{ count($loveone->carepoints->data->events) }}</span> Task(s) for today <br>
                                                                 @if ($loveone->carepoints->data->time_first_event)
                                                                     <i class="gray">Task Name at {{$loveone->carepoints->data->time_first_event}}</i>
                                                                 @else
-                                                                    <i class="gray">No events</i>
+                                                                    <i class="gray">No tasks</i>
                                                                 @endif
                                                             </div>
                                                         </div>

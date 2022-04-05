@@ -65,13 +65,15 @@
 
     // Bootstrap switch
     .custom-control-label::after{
-        width:15px; 
-        height:15px;
+        width: 1rem !important; 
+        height: 1rem !important;
+        top: 0.26rem;
     }
 
     .custom-control-label::before {
-        height: 19px;
-        width: 32px;
+        height: 1rem !important;
+        width: 1rem !important;
+        top: 0.26rem;
     }
 
     &.editMember {
