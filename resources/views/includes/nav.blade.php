@@ -61,7 +61,7 @@
                         </li>
                     @endif
                 @else
-                    <li class="nav-item d-flex lovedone pr-4">
+                    <li class="nav-item d-flex lovedone pr-4 py-4 py-md-0">
                         <div class="photo" style="" alt=""></div>
                         <div>
                             <div class="name">Loved one Name</div>

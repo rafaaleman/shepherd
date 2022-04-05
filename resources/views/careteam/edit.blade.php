@@ -128,8 +128,8 @@
 
             <div class=" p-3 centered">
                 <input type="hidden" name="id" id="id" required v-model="member.id">
-                <a class="btn btn-primary centered" href="{{route('careteam', $loveone->slug)}}">Return to careteam</a>
-                <button class="btn btn-primary loadingBtn mr-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn"  v-if="is_admin" :disabled="member.role == 'admin'">Save changes</button>
+                <a class="btn btn-primary centered mb-2" href="{{route('careteam', $loveone->slug)}}">Return to careteam</a>
+                <button class="btn btn-primary loadingBtn mr-2 mb-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn"  v-if="is_admin" :disabled="member.role == 'admin'">Save changes</button>
             </div>
 
         </form>
