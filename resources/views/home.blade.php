@@ -40,7 +40,9 @@
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('carehub', [$loveone->slug] )}}" class="hub">
-                                                        <h5 class="card-title"><i class="far fa-calendar-plus fa-2x hub"></i> CarePoints</h5>
+                                                        <h5 class="card-title mb-5">
+                                                            <i class="far fa-calendar-plus fa-2x hub"></i> CarePoints
+                                                        </h5>
                                                         <div class="card-text events-today">
                                                             <div class="card__count">
                                                                 
