@@ -11173,14 +11173,12 @@ a:hover {
   text-decoration: none;
 }
 #careteam .custom-control-label::after {
-  width: 1rem !important;
-  height: 1rem !important;
-  top: 0.26rem;
+  width: 15px;
+  height: 15px;
 }
 #careteam .custom-control-label::before {
-  height: 1rem !important;
-  width: 1rem !important;
-  top: 0.26rem;
+  height: 19px !important;
+  width: 32px !important;
 }
 #careteam.editMember .section {
   background-color: #fff;
@@ -11737,6 +11735,16 @@ h5.name-event-title {
   /* Create the checkmark/indicator (hidden when not checked) */
   /* Show the checkmark when checked */
   /* Style the checkmark/indicator */
+}
+#create_event .custom-control-label::after {
+  width: 1rem !important;
+  height: 1rem !important;
+  top: 0.26rem;
+}
+#create_event .custom-control-label::before {
+  height: 1rem !important;
+  width: 1rem !important;
+  top: 0.26rem;
 }
 #create_event #collapseMemers .member {
   background-color: #f7f7fa;
