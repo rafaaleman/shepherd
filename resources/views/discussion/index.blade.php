@@ -465,6 +465,7 @@
                 this.selected_chat = d.id;
                 this.urgent = d.urgent;
                 $("#NM-"+d.id).addClass('d-none');
+
                 var url = '{{ route("discussions.chat","*ID*") }}';
                 url = url.replace('*ID*', this.selected_chat);                
                 axios.get(url).then(response => {
@@ -487,8 +488,7 @@
                         user_id: this.user,
                         chat_id: this.selected_chat,
                         message: this.message,
-                        urgent:  this.urgent
-                    };
+                        urgent:  this.urgent  
                 axios.post(url, msg).then(response => {
                     this.message = null;
                     this.messages = response.data.data.chat;                    
