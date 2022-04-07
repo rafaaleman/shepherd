@@ -10517,6 +10517,14 @@ body {
   font-size: 1rem;
 }
 
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=password] {
+  border: none;
+  border-bottom: 1px solid #cacaca;
+}
+
 .help-text {
   font-size: 1.15rem;
 }
@@ -10542,6 +10550,12 @@ body {
 
 .dropdown-menu {
   border: none;
+  font-size: 16px;
+}
+.dropdown-menu .dropdown-item {
+  line-height: 25px;
+  white-space: inherit !important;
+  font-size: 15px;
 }
 .dropdown-menu .item {
   color: #00000080;
@@ -10589,9 +10603,6 @@ body {
 }
 .top-bar.messages {
   border-bottom: 16px solid #dea771;
-}
-.top-bar.discussions {
-  border-bottom: 10px solid #dea771;
 }
 .top-bar .name {
   font-weight: bold;
@@ -11118,7 +11129,7 @@ a:hover {
 }
 @media (max-width: 450px) {
   #careteam .mm {
-    width: 47%;
+    width: 100%;
   }
 }
 #careteam .members {
@@ -11166,8 +11177,8 @@ a:hover {
   height: 15px;
 }
 #careteam .custom-control-label::before {
-  height: 19px;
-  width: 32px;
+  height: 19px !important;
+  width: 32px !important;
 }
 #careteam.editMember .section {
   background-color: #fff;
@@ -11266,6 +11277,11 @@ a:hover {
 }
 #careteam table tr td.resources span {
   color: #555;
+}
+@media (max-width: 450px) {
+  #careteam table tr td {
+    padding: 7px;
+  }
 }
 
 .invitations strong {
@@ -11719,6 +11735,16 @@ h5.name-event-title {
   /* Create the checkmark/indicator (hidden when not checked) */
   /* Show the checkmark when checked */
   /* Style the checkmark/indicator */
+}
+#create_event .custom-control-label::after {
+  width: 1rem !important;
+  height: 1rem !important;
+  top: 0.26rem;
+}
+#create_event .custom-control-label::before {
+  height: 1rem !important;
+  width: 1rem !important;
+  top: 0.26rem;
 }
 #create_event #collapseMemers .member {
   background-color: #f7f7fa;
@@ -12249,25 +12275,36 @@ h5.name-event-title {
     font-size: 30px !important;
   }
 }
-input[type=date] {
+#create_medication {
+  /* The customcheck */
+  /* Hide the browser's default checkbox */
+  /* Create a custom checkbox */
+  /* On mouse-over, add a grey background color */
+  /* When the checkbox is checked, add a blue background */
+  /* Create the checkmark/indicator (hidden when not checked) */
+  /* Show the checkmark when checked */
+  /* Style the checkmark/indicator */
+  /*
+  .dropdown-menu{
+      height: 500%;
+      overflow-y: auto;
+  }
+  */
+}
+#create_medication input[type=date] {
   text-align: right;
 }
-
-input[type=date]:before {
+#create_medication input[type=date]:before {
   content: attr(placeholder) !important;
   margin-right: 0.5em;
 }
-
-.introjs-fixParent {
+#create_medication .introjs-fixParent {
   position: absolute;
 }
-
-/* The customcheck */
-.ccheck {
+#create_medication .ccheck {
   padding-left: 0px;
 }
-
-.customcheck {
+#create_medication .customcheck {
   /* display: block;*/
   position: relative;
   margin-bottom: 12px;
@@ -12278,16 +12315,12 @@ input[type=date]:before {
   -ms-user-select: none;
   user-select: none;
 }
-
-/* Hide the browser's default checkbox */
-.customcheck input {
+#create_medication .customcheck input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
-
-/* Create a custom checkbox */
-.checkmark {
+#create_medication .checkmark {
   position: absolute;
   top: 0;
   right: 0;
@@ -12297,33 +12330,23 @@ input[type=date]:before {
   border-radius: 25px;
   border: 1px solid;
 }
-
-/* On mouse-over, add a grey background color */
-.customcheck:hover input ~ .checkmark {
+#create_medication .customcheck:hover input ~ .checkmark {
   background-color: #369bb6;
 }
-
-/* When the checkbox is checked, add a blue background */
-.customcheck input:checked ~ .checkmark {
+#create_medication .customcheck input:checked ~ .checkmark {
   background-color: #369bb6;
   border-radius: 25px;
   border: 0;
 }
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+#create_medication .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
-
-/* Show the checkmark when checked */
-.customcheck input:checked ~ .checkmark:after {
+#create_medication .customcheck input:checked ~ .checkmark:after {
   display: block;
 }
-
-/* Style the checkmark/indicator */
-.customcheck .checkmark:after {
+#create_medication .customcheck .checkmark:after {
   left: 10px;
   top: 5px;
   width: 5px;
@@ -12332,52 +12355,38 @@ input[type=date]:before {
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
 }
-
-.no-border {
+#create_medication .no-border {
   border: 0;
 }
-
-.no-focus:focus {
+#create_medication .no-focus:focus {
   outline: none;
 }
-
-.label {
+#create_medication .label {
   opacity: 0.5;
   color: #78849e;
   font-size: 10px;
   margin-bottom: 0;
   padding-left: 11px;
 }
-
-.only-border-bottom {
+#create_medication .only-border-bottom {
   border: 0px;
   border-bottom: solid 1px #cdcdd8;
   border-radius: 0.25rem 0.25rem 0 0;
 }
-
-.dropdown-toggle::after {
+#create_medication .dropdown-toggle::after {
   float: right;
   margin-top: 0.5em;
 }
-
-/*
-.dropdown-menu{
-    height: 500%;
-    overflow-y: auto;
-}
-*/
-.dropdown-item {
+#create_medication .dropdown-item {
   white-space: break-spaces !important;
   color: #369bb6 !important;
   padding: 0.15rem 1rem;
   border: 0;
   font-size: 0.8rem;
 }
-
-.dropdown-item em {
+#create_medication .dropdown-item em {
   color: #235c6b !important;
 }
-
-#create_medication .dropdown-toggle {
+#create_medication #create_medication .dropdown-toggle {
   color: #495057 !important;
 }

@@ -132,7 +132,8 @@ class HomeController extends Controller
     public function profile()
     {
         $loveones = $this->getLoveones('all');
-        return view('profile', compact('loveones'));
+        $section = 'profile';
+        return view('profile', compact('loveones', 'section'));
     }
 
     /**

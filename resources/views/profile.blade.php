@@ -101,7 +101,7 @@
                     <div class="loveone p-2 mb-3">
                         <div style="background-image: url('{{asset($loveone->photo)}}');" class="float-left mr-3 photo"></div>
                         <div class="data float-left">
-                            <div class="name">{{$loveone->firstname}} {{$loveone->lastname}} <i class="text-danger"></i></div>
+                            <div class="name"><strong>{{$loveone->firstname}} {{$loveone->lastname}}</strong> <i class="text-danger"></i></div>
                             <small>{{($loveone->careteam->role == 'admin') ? 'Leader' : ucfirst($loveone->careteam->role)}}</small>
                         </div>
                         
@@ -175,7 +175,10 @@
 
 .photo-container{
     padding: 0;
+}
 
+.form-control{
+    font-size: 15px;
 }
 
 .photo-container .bigBtn {
