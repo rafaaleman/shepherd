@@ -182,14 +182,22 @@
     }
 
     .tabs {
-        margin: 2px 5px 0px 5px;
-        padding-bottom: 10px;
-        cursor: pointer
+        margin: 2px 0px 0px 0px;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 0px;
+        padding-top: 7px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
     }
 
     .tabs:hover,
     .tabs.active {
-        border-bottom: 1px solid #2196F3
+        background-color: #e9ecef;
+        color: #6c757d;
+        border-color: #dee2e6 #dee2e6 #fff;
     }
 
     a:hover {
@@ -212,7 +220,16 @@
         height: 1px;
         width: 100%
     }
+    .avatar_img {
+      float: left;
+      width: 30px;
+      height: 30px;
+    }
 
+    .avatar {     
+        width: 30px;
+        height: 30px;
+    }
     @media screen and (max-width: 768px) {
         .tabs h6 {
             font-size: 12px
@@ -305,6 +322,15 @@
             
         },
         methods: {
+            avatarPhoto : function(value){
+                const user = this.careteam.find(user => user.id == value);
+                
+                if(user){
+                    return  '..' + user.photo;
+                }else{
+                    return "https://ui-avatars.com/api/?rounded=true&name=" + user.name ;
+                }
+            },
             borrar(){
                 this.document = { 'id': '' , 'user_id': {{Auth::Id()}} ,'loveones_id': {{ $loveone->id}},'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : 1,'permissions' : [] };
                 this.permissions = [];
@@ -336,7 +362,7 @@
                 this.save = true;
             },
             getDocuments() {
-                var url = '{{ route("lockbox",$loveone_slug) }}';
+                var url = '{{ route("lockbox.view",$loveone_slug) }}';
                 axios.get(url).then(response => {
                     this.types = response.data.types;
                     this.documents = response.data.documents;                    

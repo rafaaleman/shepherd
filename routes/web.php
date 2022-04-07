@@ -60,4 +60,6 @@ Route::view('/privacy', 'privacy');
 Route::post("/readTour","HomeController@readTour")->name("readTour");
 
 Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
+Route::get('verify/lockbox', 'Auth\TwoFactorController@lockbox')->name('verify.lockbox');
+Route::post('verify/lockbox_store', 'Auth\TwoFactorController@lockbox_store')->name('verify.lockbox_store');
 Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);

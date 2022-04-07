@@ -63,7 +63,7 @@
                                             <div class="card widget lockbox shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
 
-                                                    <a href="{{ route('lockbox', [$loveone->slug] )}}" class="hub">
+                                                    <a href="{{ route('lockbox.index', [$loveone->slug] )}}" class="hub">
                                                         <h5 class="card-title"><i class="fas fa-file-medical fa-2x"></i> LockBox</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
@@ -71,7 +71,7 @@
                                                                 <i class="gray">Last updated {{ $loveone->lockbox->data->l_document }}</i>
                                                             </div>
                                                             {{-- @if ($loveone->careteam->role == 'admin') --}}
-                                                                <a class="btn btn-primary btn-sm mt-2" href="{{ route('lockbox', [$loveone->slug] )}}">View Documents</a>
+                                                                <a class="btn btn-primary btn-sm mt-2" href="{{ route('lockbox.index', [$loveone->slug] )}}">View Documents</a>
                                                             {{-- @endif --}}
                                                         </div>
                                                     </a>

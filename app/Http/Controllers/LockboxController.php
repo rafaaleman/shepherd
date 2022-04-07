@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Storage;
 use SoareCostin\FileVault\Facades\FileVault;
+use App\Notifications\TwoFactorCode;
 use Session;
 
 /**
@@ -32,12 +33,29 @@ class LockboxController extends Controller
     use NotificationTrait;
     const EVENTS_TABLE = 'lockbox';
     const EVENTS_TABLE_P = 'lockbox_permission';
+
+    public function test(Request $request)
+    {
+        
+        echo "holi";
+    }
+
+    public function index(Request $request){
+        $p = explode('/',$request->path());
+        $request->session()->put('loveone', $p[2]);
+        $user = auth()->user();
+        $user->generateTwoFactorCode();
+        $user->notify(new TwoFactorCode());
+
+        
+        return redirect()->route('verify.lockbox');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function view(Request $request)
     {
         $careteam = array();
         $isAdmin = 0 ;
@@ -57,6 +75,7 @@ class LockboxController extends Controller
            // dd("no existe");
         }
 
+        
         /* Seguridad */
         if(!Auth::user()->permission('lockbox',$loveone->id))
         {
