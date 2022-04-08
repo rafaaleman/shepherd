@@ -55,6 +55,9 @@ class TwoFactorController extends Controller
     /** For Lockbox */
     public function lockbox(Request $request) 
     {
+
+        
+
         if(auth()->user()->two_factor_code == null)
         {
             

@@ -42,6 +42,9 @@ class LockboxController extends Controller
 
     public function index(Request $request){
         $p = explode('/',$request->path());
+        
+       // return redirect()->route('lockbox.view',$p[2]);
+
         $request->session()->put('loveone', $p[2]);
         $user = auth()->user();
         $user->generateTwoFactorCode();
