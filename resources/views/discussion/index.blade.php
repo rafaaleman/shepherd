@@ -393,7 +393,7 @@
         padding: 30px 10px 0 0;
         overflow-x: hidden;
         overflow-y: auto;
-        max-height : 600px;
+        max-height : 450px;
     }
 </style>
 @endpush
@@ -489,6 +489,7 @@
                         chat_id: this.selected_chat,
                         message: this.message,
                         urgent:  this.urgent  
+                    };
                 axios.post(url, msg).then(response => {
                     this.message = null;
                     this.messages = response.data.data.chat;                    

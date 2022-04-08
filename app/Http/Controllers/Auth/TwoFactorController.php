@@ -86,4 +86,13 @@ class TwoFactorController extends Controller
 
         return redirect()->back()->withErrors(['two_factor_code' => 'The login code you have entered does not match']);
     }
+
+    public function lockbox_cancel(Request $request)
+    {    
+        $user = auth()->user();    
+        
+        $user->resetTwoFactorCode();
+        
+        return redirect()->route('home');
+    }
 }

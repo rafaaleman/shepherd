@@ -62,4 +62,5 @@ Route::post("/readTour","HomeController@readTour")->name("readTour");
 Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
 Route::get('verify/lockbox', 'Auth\TwoFactorController@lockbox')->name('verify.lockbox');
 Route::post('verify/lockbox_store', 'Auth\TwoFactorController@lockbox_store')->name('verify.lockbox_store');
+Route::post('verify/cancel', 'Auth\TwoFactorController@lockbox_cancel')->name('verify.lockbox_cancel');
 Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
