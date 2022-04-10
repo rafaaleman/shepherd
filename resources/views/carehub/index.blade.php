@@ -72,13 +72,18 @@
                                     <div v-else-if="date_events == day.fecha" class="number_day box-now" :class="day.fecha">
                                         @{{ day.dia  }}
                                     </div>
-                                    <div v-else class="number_day" :class="day.fecha" data-events="0">
+                                    <div v-else class="number_day" :class="day.fecha" data-events="0" >
                                         @{{ day.dia  }}
-                                        <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha">
+                                        <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha" v-on:click.prevent="filterEventsDay(day.fecha)" style="cursor: pointer;" v-if="year_events[day.fecha]">
                                             
-                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'" v-if="year_events[day.fecha]?.data[0]"><a v-on:click="filterEventsDay(day.fecha)" href="#/" class="event-name-calendar">•</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a href="#/" v-on:click="filterEventsDay(day.fecha)" class="event-name-calendar">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a href="#/" v-on:click="filterEventsDay(day.fecha)" class="event-name-calendar">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
+                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'" v-if="year_events[day.fecha]?.data[0]"><a href="#/" class="event-name-calendar">•</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a href="#/" class="event-name-calendar">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a href="#/" class="event-name-calendar">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
+                                        </div>
+                                        <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha" v-else>
+                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'"></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" ></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" ></span>
                                         </div>
 
                                     </div>
@@ -595,6 +600,44 @@
                 //this.event_url.id = event;
                 $("#formDetail").submit();
                 return false;
+            },
+            deleteEvent: function(event){
+                //console.log(event);
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to delete the '"+event.name+"' event?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    if(isConfirm){
+                        var url = '{{ route("carehub.event.delete") }}';
+                        data = {
+                            id: event.id,
+                        };
+
+                        axios.post(url, data).then(response => {
+                           // console.log(response.data);
+                            
+                            if( response.data.success == true ){
+                                //joinTeam.getInvitations();
+                                msg = 'The event was deleted';
+                                icon = 'success';
+                                carehub.count_event--;
+                                event.status = 0;
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            
+                            swal(msg, "", icon);
+                        });
+                    }
+                });
             },
 
         }

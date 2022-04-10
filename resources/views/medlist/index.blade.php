@@ -114,16 +114,25 @@
 
                     <div v-for="(medication,key) in medications" class="row justify-content-center align-items-center mb-2 row-medlist" style="padding: 0;">
 
-                        <div class="col-10 col-sm-11 m-0 card">
+                        <div class="col-10 col-sm-11 m-0 card" v-if="medication.status">
 
                             <div class="card-body row row-medlist">
-                                <div class="col-xsm col-3 col-sm-2 col-md-2 col-lg-1 p-0">
+                                <div class="col-auto p-0">
                                     
-                                    <template>
                                         <img src="{{asset('/img/icons/tablets.png')}}" alt="dosage" class="dosage">
-                                    </template>
                                 </div>
-                                <div class="col-xsm col-9 col-sm-10 col-md-10 ">
+                                <div class="col">
+                                    <div class="float-right col-icons p-0">
+                                        <a href="#/" class="num-messages" style="display:inline-flex;vertical-align:sub;" v-on:click="medEdit(medication.id)">
+                                            <i class="fa fa-pencil" > </i>
+                                        </a>
+                                            &nbsp; 
+                                        <a href="#/" class="text-danger " style="display:inline-flex;vertical-align:sub;" v-on:click.prevent="deleteMedication(medication)">
+                                            <i class="fa fa-trash"> </i>
+                                        </a>
+                                    </div>
+
+
                                     <a href="#!" data-toggle="modal" data-target="#api-medlist-modal" class="" @click.prevent="wikiMedication(medication)">
 
                                         <h5 class="font-weight-bold Lipitor mb-0">@{{medication.medicine}} <small class="medicine-prescribing">Refill date @{{medication.refill_date}}</small></h5>
@@ -132,7 +141,12 @@
                                         <i class="fa fa-calendar" style="font-size:20px;color:#cdcdd8"></i> Treatment Schedule
                                     </a>
                                     <div class="medicine-prescribing">@{{medication.prescribing}}s</div>
+
+
+                                    
+
                                 </div>
+
                                 
                             </div>
                         </div>
@@ -154,7 +168,11 @@
         </div>
     </div>
 
-
+    <form action="{{route('medlist.editMedication')}}" method="post" id="formDetailMed">
+        @csrf
+        <input type="hidden" name="id" id="id" :value="med_edit.id">
+        <input type="hidden" name="slug" :value="med_edit.slug">
+    </form>
 
 
 
@@ -194,7 +212,13 @@
             medication_complete: '',
             medication_view: '',
             products: '',
-            medications:''
+            medications:'',
+            med_edit:{
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: "",
+                loveone_id: "{{ $loveone->id ?? 0 }}",
+                slug: "{{$loveone->slug}}"
+            }
         },
         methods: {
             refreshWidgets: function(loveone_id, current_slug, date, month, now) {
@@ -292,10 +316,10 @@
                 //console.log(this.medlist_complete[medication.medication_id]);
                 this.medication_complete = this.medlist_complete[medication.id];
             },
-            deleteMedication: function(medication) {
+            deleteMedication: function(med) {
                 swal({
                     title: "Warning",
-                    text: "Are you sure to eliminate the " + medication.time_cad_gi + " " + medication.time_cad_a + " drug intake on " + medication.date_usa + "?",
+                    text: "Are you sure to eliminate the " + med.time_cad_gi + " " + med.time_cad_a + " drug intake on " + med.date_usa + "?",
                     icon: "warning",
                     buttons: [
                         'No, cancel it!',
@@ -306,9 +330,32 @@
 
                     //console.log(isConfirm);
                     if (isConfirm) {
-                        console.log(this.medication[this.medication_view.skey]);
-                        console.log(medication);
-                        medication = "";
+                        //console.log(this.med[this.med_view.skey]);
+                        //console.log(med);
+                        //med = "";
+                        
+                        var url = '{{ route("medlist.medication.delete") }}';
+                        data = {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            id: med.id,
+                        };
+
+                        axios.post(url, data).then(response => {
+                           // console.log(response.data);
+                            
+                            if( response.data.success == true ){
+                                //joinTeam.getInvitations();
+                                msg = 'The medication was deleted';
+                                icon = 'success';
+                                //carehub.count_medication--;
+                                medlist.getMedications();
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            
+                            swal(msg, "", icon);
+                        });
 
                     } else {}
                 });
@@ -352,7 +399,51 @@
                         });
                     }
                 });
-            }
+            },
+            medEdit: function(medlist) {
+                $("#formDetailMed #id").val(medlist);
+                $("#formDetailMed").submit();
+                return false;
+            },
+          /*  deleteMedication: function(medication){
+                //console.log(medication);
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to delete the '"+medication.medicine+"' medication?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    if(isConfirm){
+                        var url = '{{ route("medlist.medication.delete") }}';
+                        data = {
+                            id: medication.id,
+                        };
+
+                        axios.post(url, data).then(response => {
+                           // console.log(response.data);
+                            
+                            if( response.data.success == true ){
+                                //joinTeam.getInvitations();
+                                msg = 'The medication was deleted';
+                                icon = 'success';
+                                //carehub.count_medication--;
+                                medlist.getMedications();
+                                medication.status = 0;
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            
+                            swal(msg, "", icon);
+                        });
+                    }
+                });
+            },*/
 
         },
     });

@@ -11424,7 +11424,8 @@ a:hover {
 
 .member-img {
   background-color: #fff;
-  width: 24px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
@@ -11433,7 +11434,7 @@ a:hover {
   margin: 5px 10px 7px;
   height: 12px;
   font-family: Gotham;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -11465,7 +11466,7 @@ a:hover {
   height: 16px;
   margin: 10px -2px 1px 16px;
   font-family: Gotham;
-  font-size: 14px;
+  font-size: 25px;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
@@ -11668,6 +11669,10 @@ h5.name-event-title {
   font-size: 1em;
 }
 
+.col-icons {
+  font-size: 25px;
+}
+
 @media only screen and (max-width: 767px) {
   .menuDate {
     font-size: 0.8rem;
@@ -11860,7 +11865,8 @@ h5.name-event-title {
 .member-assing-img {
   background-color: #fff;
   margin-left: -10px !important;
-  width: 25px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
@@ -11868,7 +11874,8 @@ h5.name-event-title {
   background-color: #fff;
   margin-left: -16px !important;
   margin-bottom: -34px;
-  width: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: solid #fff 2px;
 }
@@ -11918,7 +11925,7 @@ h5.name-event-title {
 .creator div .member-img, .creator .member-img, .member div .member-img {
   margin-left: -35px !important;
   margin-top: -45px;
-  width: 35px !important;
+  width: 40px !important;
   border: solid #fff 2px;
 }
 
@@ -11926,7 +11933,7 @@ h5.name-event-title {
   margin-right: -35px !important;
   margin-top: -25px;
   float: right;
-  width: 35px !important;
+  width: 40px !important;
   border: solid #fff 2px;
 }
 

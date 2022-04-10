@@ -9,6 +9,9 @@ Route::post('/create', 'MedlistController@createUpdate')->name('medlist.create')
 
 Route::get('/getMedications/{loveone_slug}/{date}', 'MedlistController@getMedications')->name('medlist.getMedications');
 Route::get('/getCalendar/{month}', 'MedlistController@getCalendar')->name('medlist.getCalendar');
+Route::post('/medication/detail', 'MedlistController@detailMedication')->name('medlist.editMedication');
+Route::post('/medication/delete', 'MedlistController@deleteMedication')->name('medlist.medication.delete');
+
 
 Route::post("/medicine/search","MedlistController@getMedicineSearch")->name("medicine.search");
 Route::post("/medicine/route/search","MedlistController@getRouteSearch")->name("medicine.route.search");
