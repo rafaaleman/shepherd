@@ -10934,6 +10934,9 @@ a:hover {
   max-width: 220px;
   margin-top: 1em;
 }
+.dashboard .widget .fa-info-circle {
+  font-size: 22px;
+}
 .dashboard .widget a {
   text-decoration: none;
 }

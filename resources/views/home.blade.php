@@ -38,8 +38,13 @@
                                             {{-- Carepoints --}}
                                             <div class="card widget hub shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
-                                            
+
                                                     <a href="{{ route('carehub', [$loveone->slug] )}}" class="hub">
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Carepoints tooltip">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
+
                                                         <h5 class="card-title mb-5">
                                                             <i class="far fa-calendar-plus fa-2x hub"></i> CarePoints
                                                         </h5>
@@ -65,7 +70,12 @@
                                             <div class="card widget lockbox shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
 
-                                                    <a href="{{ route('lockbox', [$loveone->slug] )}}" class="hub">
+                                                    <a href="{{ route('lockbox.index', [$loveone->slug] )}}" class="hub">
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Lockbox tooltip">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
+
                                                         <h5 class="card-title"><i class="fas fa-file-medical fa-2x"></i> LockBox</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
@@ -73,7 +83,7 @@
                                                                 <i class="gray">Last updated {{ $loveone->lockbox->data->l_document }}</i>
                                                             </div>
                                                             {{-- @if ($loveone->careteam->role == 'admin') --}}
-                                                                <a class="btn btn-primary btn-sm mt-2" href="{{ route('lockbox', [$loveone->slug] )}}">View Documents</a>
+                                                                <a class="btn btn-primary btn-sm mt-2" href="{{ route('lockbox.index', [$loveone->slug] )}}">View Documents</a>
                                                             {{-- @endif --}}
                                                         </div>
                                                     </a>
@@ -86,7 +96,11 @@
                                                 <div class="card-body">
                                                     
                                                     <a href="{{ route('careteam', [$loveone->slug] )}}" class="">
-                                                    <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="CareTeam tooltip">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
+                                                        <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
                                                     </a>
                                                     <div class="card-text">
                                                         <div class="card__member-count"><span>{{$loveone->members->count()}}</span> Member(s)</div>
@@ -110,6 +124,10 @@
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('medlist', [$loveone->slug] )}}" class="medlist">
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Medlist tooltip">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
                                                         <h5 class="card-title"><i class="fas fa-prescription-bottle-alt fa-2x"></i> Medlist</h5>
                                                         <p class="card-text medlist-today ">
                                                             <div class="card__count">
@@ -135,6 +153,10 @@
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('discussions', [$loveone->slug] )}}" class="hub">
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Discussions tooltip">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
                                                         <h5 class="card-title"><i class="fas fa-comments fa-2x"></i> Discussions</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
@@ -155,6 +177,9 @@
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('resources', [$loveone->slug] )}}" class="hub">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Resources tooltip">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
                                                         <h5 class="card-title"><i class="fas fa-globe fa-2x"></i> Resources</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
@@ -475,6 +500,12 @@ const home = new Vue ({
 
 
 $(function(){
+
+    // Enable tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
     $(".tabs").click(function(){            
         $(".tabs").removeClass("active");
         $(".tabs h6").removeClass("font-weight-bold");
