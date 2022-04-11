@@ -232,8 +232,8 @@
                 this.medlist_complete = '';
                 this.medication_complete = '';
                 this.medication_view = '',
-                this.getCalendar();
                 this.getMedications();
+                this.getCalendar();
             },
 
             getMedications: function() {
