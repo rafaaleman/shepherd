@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-4 col-md-2 px-2">
                         <select class="custom-select mr-sm-2 sel-no-bor" v-model="yyyy" id="yearsSelect" v-on:change="changeSelectCalendarYear()" style="background: #fff url({{asset('img/icons/Angle-down.png')}}) right 0.75rem center/15px 16px no-repeat;">
-                            @for($i = date('Y'); $i >= 1997; $i--) 
+                            @for($i = (date('Y') + 10); $i >= 1997; $i--) 
                                 <option value="{{$i}}">{{$i}}</option>
                             @endfor
 
@@ -72,13 +72,18 @@
                                     <div v-else-if="date_events == day.fecha" class="number_day box-now" :class="day.fecha">
                                         @{{ day.dia  }}
                                     </div>
-                                    <div v-else class="number_day" :class="day.fecha" data-events="0">
+                                    <div v-else class="number_day" :class="day.fecha" data-events="0" >
                                         @{{ day.dia  }}
-                                        <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha">
+                                        <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha" v-on:click.prevent="filterEventsDay(day.fecha)" style="cursor: pointer;" v-if="year_events[day.fecha]">
                                             
-                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'" v-if="year_events[day.fecha]?.data[0]"><a v-on:click="filterEventsDay(day.fecha)" href="#/" class="event-name-calendar">•</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a href="#/" v-on:click="filterEventsDay(day.fecha)" class="event-name-calendar">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a href="#/" v-on:click="filterEventsDay(day.fecha)" class="event-name-calendar">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
+                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'" v-if="year_events[day.fecha]?.data[0]"><a href="#/" class="event-name-calendar">•</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a href="#/" class="event-name-calendar">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a href="#/" class="event-name-calendar">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
+                                        </div>
+                                        <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha" v-else>
+                                            <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'"></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" ></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" ></span>
                                         </div>
 
                                     </div>
@@ -297,14 +302,14 @@
                 this.current_year = '{{date("Y")}}';
                 this.now = date;
                 this.getCalendar();
-                this.listMonths();
+              //  this.listMonths();
                 this.getYearEvents();
                // this.filterEvents();
                 this.events = this.today_events;
 
             },
             listMonths: function(){
-                if(this.yyyy == this.current_year){
+               /* if(this.yyyy == this.current_year){
                     $.each(this.months_of_the_year,function(index, month){
                         var current_month_number = parseInt('{{date("n")}}');
                         if(index <= current_month_number){
@@ -319,7 +324,7 @@
                     }
                 }else{
                     $("#monthsSelect .op").attr('disabled',false);
-                }
+                }*/
             },
             calendarType: function(type) {
                 //alert(type);
@@ -401,7 +406,7 @@
                 //console.log("end of date");
                 //console.log(end_date.format('YYYY-MM-DD'));
                 this.date_end_month_events = end_date.format('YYYY-MM-DD'),
-                this.listMonths(); // modificar la lista de meses
+               // this.listMonths(); // modificar la lista de meses
                 this.getCalendar(); // modificar el calendario
                 this.filterEvents();
                 
@@ -429,7 +434,7 @@
                 var date = moment(year + '-' + month + '-01');
                // console.log(date);
                 if(date > this.limit_buttons){
-                    $("#right").attr('disabled', true);
+                   // $("#right").attr('disabled', true);
                 }else{
                     if($("#right").is(':disabled')){
                         $("#right").attr('disabled', false);
@@ -487,7 +492,7 @@
             },
             dateNext:function(){
                 //console.log(this.mm);
-                $('.right').attr('disabled',true);
+             //   $('.right').attr('disabled',true);
                 if(this.mm == '12'){
                     this.mm = '01';
                     this.yyyy = parseInt(this.yyyy) + 1;
@@ -595,6 +600,44 @@
                 //this.event_url.id = event;
                 $("#formDetail").submit();
                 return false;
+            },
+            deleteEvent: function(event){
+                //console.log(event);
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to delete the '"+event.name+"' event?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    if(isConfirm){
+                        var url = '{{ route("carehub.event.delete") }}';
+                        data = {
+                            id: event.id,
+                        };
+
+                        axios.post(url, data).then(response => {
+                           // console.log(response.data);
+                            
+                            if( response.data.success == true ){
+                                //joinTeam.getInvitations();
+                                msg = 'The event was deleted';
+                                icon = 'success';
+                                carehub.count_event--;
+                                event.status = 0;
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            
+                            swal(msg, "", icon);
+                        });
+                    }
+                });
             },
 
         }

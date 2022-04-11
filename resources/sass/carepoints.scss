@@ -24,7 +24,8 @@
     background-color: #fff;
     // margin-left: -10px;
    // margin: 0 8px 0 12px;
-    width: 24px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -34,7 +35,7 @@
         //width: 24px;
         height: 12px;
         font-family: Gotham;
-        font-size: 10px;
+        font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
@@ -65,7 +66,7 @@
     height: 16px;
     margin: 10px -2px 1px 16px;
     font-family: Gotham;
-    font-size: 14px;
+    font-size: 25px;
     font-weight: 600;
     font-stretch: normal;
     font-style: normal;
@@ -282,7 +283,9 @@ h3.time{
 h5.name-event-title{
     font-size: 1em;
 }
-
+.col-icons{
+    font-size: 25px;
+}
 
 @media only screen and (max-width: 767px) {
     .menuDate {
@@ -514,7 +517,8 @@ input[type=date] {
   .member-assing-img {
     background-color: #fff;
     margin-left: -10px !important;
-    width: 25px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -522,7 +526,8 @@ input[type=date] {
     background-color: #fff;
     margin-left: -16px !important;
     margin-bottom: -34px;
-    width: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: solid #fff 2px;
 }
@@ -570,7 +575,7 @@ input[type=date] {
 .creator div .member-img,.creator .member-img, .member div .member-img{
     margin-left: -35px !important;
     margin-top: -45px;
-    width: 35px !important;
+    width: 40px !important;
     border: solid #fff 2px;
 }
 
@@ -578,7 +583,7 @@ input[type=date] {
     margin-right: -35px !important;
     margin-top: -25px;
     float: right;
-    width: 35px !important;
+    width: 40px !important;
     border: solid #fff 2px;
 }
 
