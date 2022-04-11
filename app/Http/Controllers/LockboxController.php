@@ -5,6 +5,7 @@ use App\Models\lockbox;
 use App\Models\loveone;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\sendMissingMail;
+use App\Mail\sendNewDocumentMail;
 use App\Models\careteam;
 use App\User;
 use Illuminate\Http\Request;
@@ -286,6 +287,9 @@ class LockboxController extends Controller
                     $perm->u          = 0;
                     $perm->d          = 0;            
                     $perm->save();
+
+                    $ustmp = User::find($p->user);
+                    Mail::to($ustmp->email)->send(new sendNewDocumentMail($ustmp->email));                    
                 }
 
                 $this->createNotifications($request->loveones_id, $doct->id);
@@ -385,6 +389,11 @@ class LockboxController extends Controller
                         'event_date' => date('Y-m-d H:i:s')
                     ];
                     $this->createNotification($notification);
+
+                    $ustmp = User::find($p->user);
+                    Mail::to($ustmp->email)->send(new sendNewDocumentMail($ustmp->email));
+                    
+                    
                 }
                 $perm = lockbox_permissions::updateOrCreate(
                     ['user_id' => $p->user, 'lockbox_id' => $request->id],
