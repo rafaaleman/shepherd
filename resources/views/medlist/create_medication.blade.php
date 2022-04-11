@@ -381,7 +381,7 @@ $(function () {
                 frequency : "{{ $medication->frequency ?? '' }}",
                 time: "{{ $medication->time ?? '' }}",
                 days: "{{ $medication->days ?? '' }}",
-                notes: "{{ utf8_encode($medication->notes) ?? '' }}",
+                notes: "{{ $medication->notes ?? '' }}",
                 refill_date: "{{ $medication->refill_date ?? '' }}",
                // route:"",
                 drugbank_pcid:"",
