@@ -8,9 +8,9 @@
             <div class="col-4 p-0">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="text" class="form-control input-lg" placeholder="Buscar" />
+                        <input type="text" class="form-control input-lg" placeholder="Search" id="txtSearch" v-model="searchText"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-info btn-lg" type="button">
+                            <button class="btn btn-info btn-lg" type="button" @click="findMessage()">
                                 <i class="fas fa-search"></i>
                             </button>
                         </span>
@@ -64,11 +64,11 @@
 
                 <div class="col-xl-8 col-lg-6 col-md-8 col-sm-12 pl-2" id="chat-container">
                     <div class="card">
+                        <template v-if="!this.onSearch">
                         <div class="card-body" id="chat-selected" v-if="selected_chat != 0">
-
-                            <ul class="chat-box chatContainerScroll" ref="message_list">
-                                <template v-for="m in messages">
-                                    <li class="chat" v-if="m.id_user == user">
+                            <ul class="chat-box chatContainerScroll" ref="message_list" id="messages-list">
+                                <template v-for="(m,pos) in messages">
+                                    <li class="chat" v-if="m.id_user == user" :id="'msgChat'+m.id" :key="pos">
                                         <div class="img-discussion" >
                                             <img class="chat-avatar rounded-circle" :src="user_photo" alt="sunil">
                                         </div>
@@ -79,7 +79,7 @@
                                         <div class="chat-hour">@{{ m.created_at | formatTime }}</div>
                                     </li>
                                 
-                                    <li class="chat" v-else>
+                                    <li class="chat" :id="'msgChat'+m.id" :key="pos" v-else>
                                         <div class="chat-hour">@{{ m.created_at | formatTime }}</div>
                                         <div class="chat-text revert">
                                             @{{m.message}}
@@ -97,9 +97,25 @@
                                 <textarea class="form-control chat-form" rows="4" v-model="message" v-on:keyup.enter="sendMessage"></textarea>
                                 <a id="btn-send" class="btn btn-primary btn-sm" @click="sendMessage">submit</a>
                             </div>
-
-
                         </div>
+                    </template>
+                    <template v-else>
+                        <div class="card-body" id="chat-selected">
+                            <ul class="chat-box">
+                                <template v-for="(m,pos) in searchResult">                                
+                                    <li class="chat chat-search" :key="pos" role="button" @click="selectMessage(m)">
+                                        <div class="img-discussion" >
+                                            <img class="chat-avatar rounded-circle" :src="avatarPhoto(m.id_user)" alt="sunil"> 
+                                        </div>
+                                        <div class="chat-text">
+                                            @{{m.message}}
+                                        </div>
+                                        <div class="chat-hour">@{{ m.created_at | formatTime }}</div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
                     </div>
                 </div>
 
@@ -401,7 +417,10 @@
 @push('scripts')
 <script>
          const messages = new Vue ({        
-         el: '#discussion-app',        
+         el: '#discussion-app',
+         created: function () {
+            this.selectChat({{$selected_discussions}});
+         },
          data: 
          {
             user : {{ Auth::id() }},
@@ -412,7 +431,10 @@
             slug : '{{$loveone_slug}}',
             selected_chat: 0,
             message : "",
-            urgent : 0
+            urgent : 0,
+            onSearch: false,
+            searchText: '',
+            searchResult:[],
          },
          filters: {
             mayuscula: function (value) {
@@ -442,7 +464,9 @@
          },
          watch:{
             messages(messages){
-                this.scrollToBottom();
+                if(messages.lenght >0){
+                    this.scrollToBottom();
+                }
             }
          },
          methods: 
@@ -461,7 +485,14 @@
                     return "https://ptetutorials.com/images/user-profile.png";
                 }
             },
-            getChat(d){
+            selectChat(c,top = 0){
+                this.selected_chat = c;
+                if(c != 0){
+                    let x =   this.discussions.find(discussion => discussion.id === c);
+                    this.getChat(x,top);
+                }
+            },
+            getChat(d,top = 0){
                 this.selected_chat = d.id;
                 this.urgent = d.urgent;
                 $("#NM-"+d.id).addClass('d-none');
@@ -469,15 +500,38 @@
                 var url = '{{ route("discussions.chat","*ID*") }}';
                 url = url.replace('*ID*', this.selected_chat);                
                 axios.get(url).then(response => {
-                    console.info(response,this.messages);
                     this.messages = response.data.data.messages;
-
+                    this.onSearch     = false;
+                    this.searchText   = '';
+                    this.searchResult = [];
+                }).then(() =>{
+                    if(top != 0){
+                        let m = '#msgChat'+top;
+                        $('#messages-list').animate({
+                            scrollTop: $('#messages-list '+m).position().top
+                        }, 'slow');
+                    }
                 });
                 Echo.private("chat."+ d.id ) 
                     .listen('NewMessage',(e)=>{ 
-                        //console.log(e);                       
-                      //  this.newM(e.message);
                         this.messages.push(e.message);
+                });
+            },
+            selectMessage(message){
+                this.selectChat(message.id_chat,message.id);
+            },
+            findMessage(){
+                let url = '{{ route("discussions.find","*ID*") }}';
+                let data = { txt: this.searchText };
+                url = url.replace('*ID*', this.slug);
+                this.onSearch = true;
+                console.log(data);
+                axios.post(url,data).then(response => {
+                    this.messages =[];
+                    this.selected_chat=0;
+                    this.searchResult = response.data.messages;
+                    console.info(response,this.messages);
+
                 });
             },
             sendMessage: function(e){
@@ -488,7 +542,8 @@
                         user_id: this.user,
                         chat_id: this.selected_chat,
                         message: this.message,
-                        urgent:  this.urgent  
+                        urgent:  this.urgent,
+                        slug: this.slug  
                     };
                 axios.post(url, msg).then(response => {
                     this.message = null;
