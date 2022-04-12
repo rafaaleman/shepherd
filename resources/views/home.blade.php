@@ -41,7 +41,7 @@
 
                                                     <a href="{{ route('carehub', [$loveone->slug] )}}" class="hub">
 
-                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Carepoints tooltip">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Assign tasks to CareTeam members. Add notes. Schedule appointments and events on the calendar.">
                                                             <i class="fas fa-info-circle text-black-50"></i>
                                                         </span>
 
@@ -72,7 +72,7 @@
 
                                                     <a href="{{ route('lockbox.index', [$loveone->slug] )}}" class="hub">
 
-                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Lockbox tooltip">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Upload and store important documents needed in the care of your loved one.">
                                                             <i class="fas fa-info-circle text-black-50"></i>
                                                         </span>
 
@@ -97,7 +97,7 @@
                                                     
                                                     <a href="{{ route('careteam', [$loveone->slug] )}}" class="">
 
-                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="CareTeam tooltip">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Invite family, friends and professionals to join your loved one’s CareTeam. ">
                                                             <i class="fas fa-info-circle text-black-50"></i>
                                                         </span>
                                                         <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
@@ -125,7 +125,7 @@
                                             
                                                     <a href="{{ route('medlist', [$loveone->slug] )}}" class="medlist">
 
-                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Medlist tooltip">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Track prescription information and manage medication schedules.">
                                                             <i class="fas fa-info-circle text-black-50"></i>
                                                         </span>
                                                         <h5 class="card-title"><i class="fas fa-prescription-bottle-alt fa-2x"></i> Medlist</h5>
@@ -154,7 +154,7 @@
                                             
                                                     <a href="{{ route('discussions', [$loveone->slug] )}}" class="hub">
 
-                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Discussions tooltip">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Document specific conversations regarding the care of your loved one.  ">
                                                             <i class="fas fa-info-circle text-black-50"></i>
                                                         </span>
                                                         <h5 class="card-title"><i class="fas fa-comments fa-2x"></i> Discussions</h5>
@@ -177,7 +177,7 @@
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('resources', [$loveone->slug] )}}" class="hub">
-                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Resources tooltip">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Access current information based on your loved one's medical profile. Receive expert guidance on caregiver well-being.">
                                                             <i class="fas fa-info-circle text-black-50"></i>
                                                         </span>
                                                         <h5 class="card-title"><i class="fas fa-globe fa-2x"></i> Resources</h5>
