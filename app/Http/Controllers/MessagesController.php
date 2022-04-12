@@ -32,7 +32,7 @@ class MessagesController extends Controller
      */
     public function index(Request $request)
     {
-        $selected_discussions = $request->discussions; 
+        $selected_discussions = request('discussions',0); 
         $loveone_slug = $request->loveone_slug;
         $loveone  = loveone::whereSlug($loveone_slug)->first();
         $discussions = self::discussions($loveone_slug,Auth::id());
@@ -41,7 +41,7 @@ class MessagesController extends Controller
            // dd("no existe");
         }
         $section = 'discussions';
-        return view('discussion.index',compact('loveone','loveone_slug','section','discussions','careteam'));
+        return view('discussion.index',compact('loveone','loveone_slug','section','discussions','careteam','selected_discussions'));
 
     }
     
@@ -152,7 +152,29 @@ class MessagesController extends Controller
         return response()->json(['success' => true, 'data' => ['chat' => $data]], 200);
     }
 
+    public function findMessages(Request $request){
+        $loveone_slug = $request->loveone_slug;
+        $loveone  = loveone::whereSlug($loveone_slug)->first();
+        $discussions = discussion::where('loveone_id',$loveone->id)->get();
 
+        $ds = array();
+        $user = Auth::id();
+        foreach($discussions as $c){
+            $us = explode(',',json_decode($c->users));
+            if (in_array($user, $us)) {
+                $ds[] = $c->id;
+            }else if($c->owner_id == $user){
+                $ds[] = $c->id;
+            }
+        }
+        // $messages = chat_message::select('id','id_chat','message')->whereIn('id_chat', $ds)->get();
+        $messages = chat_message::select('id','id_chat','id_user','created_at','message')
+                                ->whereIn('id_chat', $ds)
+                                ->whereRaw("MATCH(message) AGAINST(?)", array($request->txt))
+                                ->get();        
+        //dd($data,$discussions,$ds,$messages);
+        return response()->json(['success' => true, 'messages' => $messages], 200);
+    }
 
 
 
