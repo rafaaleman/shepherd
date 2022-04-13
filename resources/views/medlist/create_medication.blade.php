@@ -290,7 +290,7 @@
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
                         <input type="checkbox" id="optout" v-model="medication.remind">
-                        <label for="optout">Remind me to take this medication</label><br >
+                        <label for="optout">Send A Reminder</label><br >
                         <button data-title="And that's it!" data-intro="Click this button to save your medication and we will remind you when it's time" class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
                         </button>
