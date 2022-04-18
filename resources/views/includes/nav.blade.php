@@ -61,7 +61,7 @@
                         </li>
                     @endif
                 @else
-                    <li class="nav-item d-flex lovedone pr-4">
+                    <li class="nav-item d-flex lovedone pr-4 py-4 py-md-0">
                         <div class="photo" style="" alt=""></div>
                         <div>
                             <div class="name">Loved one Name</div>
@@ -132,7 +132,7 @@ $(function(){
             window.location.pathname.includes('/lockbox') || 
             window.location.pathname.includes('/careteam') ||
             window.location.pathname.includes('/medlist') ||
-            window.location.pathname.includes('/messages') ||
+            window.location.pathname.includes('/discussions') ||
             window.location.pathname.includes('/resources') ||
             window.location.pathname.includes('/notifications')
         ){

@@ -4,7 +4,7 @@
     padding: 0;
 
     .widget{
-        width: 30%;
+        width: 23%;
         min-height: 180px;
         margin-bottom:5px;
         transition: width 0.3s;
@@ -19,6 +19,10 @@
                 margin-top: 1em;
 
             }
+        }
+
+        .fa-info-circle{
+            font-size: 22px;
         }
 
         a{
@@ -128,6 +132,18 @@
                 color: darken($color: $medlist-color, $amount: 75)
             }
         }
+
+        &.vitals{
+            .fas, .card-text span{
+                color: $vitals-color;
+                font-weight: bold;
+            }
+
+            .btn-primary {
+                background-color: $vitals-color;
+                border-color: darken($color: $vitals-color, $amount: 15);
+            }
+        }
     }
 }
 
@@ -194,6 +210,8 @@
             background-size: cover;
             margin-right: 1em;
             margin-left: -1em;
+            border: 5px solid white;
+            background-color: #fff;
         }
 
         .carousel__caption{

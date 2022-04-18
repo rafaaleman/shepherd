@@ -5,6 +5,7 @@ use App\Models\lockbox;
 use App\Models\loveone;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\sendMissingMail;
+use App\Mail\sendNewDocumentMail;
 use App\Models\careteam;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Storage;
 use SoareCostin\FileVault\Facades\FileVault;
+use App\Notifications\TwoFactorCode;
 use Session;
 
 /**
@@ -32,12 +34,32 @@ class LockboxController extends Controller
     use NotificationTrait;
     const EVENTS_TABLE = 'lockbox';
     const EVENTS_TABLE_P = 'lockbox_permission';
+
+    public function test(Request $request)
+    {
+        
+        echo "holi";
+    }
+
+    public function index(Request $request){
+        $p = explode('/',$request->path());
+        
+       // return redirect()->route('lockbox.view',$p[2]);
+
+        $request->session()->put('loveone', $p[2]);
+        $user = auth()->user();
+        $user->generateTwoFactorCode();
+        $user->notify(new TwoFactorCode());
+
+        
+        return redirect()->route('verify.lockbox');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function view(Request $request)
     {
         $careteam = array();
         $isAdmin = 0 ;
@@ -57,6 +79,7 @@ class LockboxController extends Controller
            // dd("no existe");
         }
 
+        
         /* Seguridad */
         if(!Auth::user()->permission('lockbox',$loveone->id))
         {
@@ -264,6 +287,9 @@ class LockboxController extends Controller
                     $perm->u          = 0;
                     $perm->d          = 0;            
                     $perm->save();
+
+                    $ustmp = User::find($p->user);
+                    Mail::to($ustmp->email)->send(new sendNewDocumentMail($ustmp->email));                    
                 }
 
                 $this->createNotifications($request->loveones_id, $doct->id);
@@ -363,6 +389,11 @@ class LockboxController extends Controller
                         'event_date' => date('Y-m-d H:i:s')
                     ];
                     $this->createNotification($notification);
+
+                    $ustmp = User::find($p->user);
+                    Mail::to($ustmp->email)->send(new sendNewDocumentMail($ustmp->email));
+                    
+                    
                 }
                 $perm = lockbox_permissions::updateOrCreate(
                     ['user_id' => $p->user, 'lockbox_id' => $request->id],

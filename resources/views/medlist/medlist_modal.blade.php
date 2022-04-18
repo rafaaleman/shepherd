@@ -36,9 +36,6 @@
                 <div class="modal-title">
                     <h3>
                         <b>@{{medication_view.medicine}}</b>
-                        <a href="" class="text-danger float-right" v-on:click.prevent="deleteMedlist(medication_view,current_slug)">
-                            <i class="fa fa-trash"></i>
-                        </a>
                         
                         <br> <small>@{{products.drugbank_pcid}}</small>    
                     </h3>

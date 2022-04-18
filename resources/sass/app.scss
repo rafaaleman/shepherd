@@ -1,8 +1,12 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Laravolt');
 
 // Variables
 @import 'variables';
+
+// Font
+// @import 'fonts';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -14,5 +18,5 @@
 @import 'chat';
 @import 'carepoints';
 @import 'medlist';
- @import '/node_modules/pikaday/css/pikaday.css';
+@import '/node_modules/pikaday/css/pikaday.css';
 

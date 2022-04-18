@@ -2,46 +2,66 @@
 
 @section('content')
 <div class="container"  id="lockbox">
-
-    <div data-title="Welcome to Lockbox" data-intro="Here you can store the documents and files you need to care for your loved one. We have provided a list of essential files you can use to get started. Just click on a name to upload. " class="row mt-3">
-        <div class="col-12">
-            <h5>Recommended Documents</h5>
-        </div>
-        <div v-if="loading">Loading Documents...</div>
-        <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4  align-middle"  >
-            <div class="card-body">
-                <h5 class="card-title t1">@{{ doc.name }}</h5>
-                <p class="card-text t2">@{{ doc.description}}</p>
-            </div>
-        </div>
-        
-    </div>
-    <div data-title="Welcome to CarePoints" data-intro="Here you can upload any other documents you think you might need to care for your loved one. " class="row mt-5">
-        <div class="col-12">
-            <h5>Other Documents</h5>
-        </div>
-        <div v-if="loading">Loading Documents...</div>
-        <div class="card document-card col-sm-12 col-md-5 col-lg-5 mr-4 align-middle"  v-for="doc in documents"  >
-            <div class="card-body" >
-                <h5 class="card-title t1" v-on:click="viewDocument(doc)" >@{{ doc.name }}</h5>
-                <span class="card-text t2"  v-on:click="viewDocument(doc)">@{{ doc.created_at | formatDate }}</span>
-                <div class="float-right" >
-                    <a href="#" v-on:click="deleteDocument(doc)" ><i class="fas fa-trash"></i></a>                    
+    
+    <div class="row mb-3 align-items-center justify-content-center">
+        <div class="col-12 row">
+            <div class="col-4 p-0">
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+                        <input type="text" class="form-control input-lg" placeholder="Buscar" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
                 </div>
-                {{-- <div class="dropdown" >
-                    <i class="fa fa-ellipsis-v float-right mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button"></i>                
-                </div> --}}
             </div>
-        </div>  
-        
-        <div class="col-12 mt-4 text-center">
-            <a data-title="Welcome to CarePoints" data-intro="Just click here to upload a new document" href="#!" class="btn btn-primary btn-submit"  v-on:click="showM(8,null)">Add New Document</a>
-        </div>        
+            <div class="col-8 d-lg-block">
+                <a data-title="Welcome to CarePoints" data-intro="Just click here to upload a new document" href="#!"  id="new" class="float-right btn btn-sm btn-primary rounded-pill text-white" v-on:click="showM(8,null)">
+                    Add New Document
+                </a>
+            </div>
+        </div>
+    </div>   
+
+<div class="row">
+    <div class="col-6">
+    <div data-title="Welcome to Lockbox" data-intro="Here you can store the documents and files you need to care for your loved one. We have provided a list of essential files you can use to get started. Just click on a name to upload. " class="row mt-3">
+            <h5>Recommended Documents</h5>
+            <div v-if="loading">Loading Documents...</div>
+            <div v-for="doc in types" v-if="doc.required == 1" v-on:click="showM(doc.id,doc)" :class="doc.asFile ? 'si' : 'no' " class="card document-card col-12 mr-4  align-middle"  >
+                <div class="card-body">
+                    <h5 class="card-title t1">@{{ doc.name }}</h5>
+                    <p class="card-text t2">@{{ doc.description}}</p>
+                </div>
+            </div>
+        </div>
+            
+    </div>
+    <div class="col-5 offset-1">
+    <div data-title="Welcome to CarePoints" data-intro="Here you can upload any other documents you think you might need to care for your loved one. " class="row mt-3">
+            <h5>Other Documents</h5>
+            <div v-if="loading">Loading Documents...</div>
+            <div class="card document-card col-12 pl-3"  v-for="doc in documents"  >
+                <div class="card-body" >
+                    <h5 class="card-title t1" v-on:click="viewDocument(doc)" >@{{ doc.name }}</h5>
+                    <span class="card-text t2"  v-on:click="viewDocument(doc)">@{{ doc.created_at | formatDate }}</span>
+                    <div class="float-right" >
+                        <a href="#" v-on:click="deleteDocument(doc)" ><i class="fas fa-trash"></i></a>                    
+                    </div>
+                    {{-- <div class="dropdown" >
+                        <i class="fa fa-ellipsis-v float-right mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button"></i>                
+                    </div> --}}
+                </div>
+            </div>  
+        </div>
+
     </div>    
     
+</div>
     @include('lockbox.create_modal')
     @include('lockbox.edit_modal')
-
 </div>
 @endsection
 
@@ -49,6 +69,54 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
+    #new{
+        font-size: .8rem;
+        margin-top: 10px;
+    }
+
+    #custom-search-input{
+        padding: 3px;
+        border: solid 1px #E4E4E4;
+        border-radius: 60px;
+        background-color: #fff;
+    }
+
+    #custom-search-input input{
+        font-size: 12px;
+        border: 0;
+        box-shadow: none; 
+    }
+
+    #custom-search-input input:focus{
+        outline: none;
+        box-shadow: none !important;
+        border: 0 !important;
+        outline-width: 0 !important;    
+
+    }
+
+    #custom-search-input button{
+        font-size: 16px;
+        margin: 2px 0 0 0;
+        background: none;
+        box-shadow: none;
+        border: 0;
+        color: #666666;
+        padding: 0 8px 0 10px;
+        border-left: solid 1px #ccc;
+        border-radius: 0 !important;
+    }
+
+    #custom-search-input button:hover{
+        border: 0;
+        box-shadow: none;
+        border-left: solid 1px #ccc;
+    }
+
+    #custom-search-input .fas{
+        font-size: 10px;
+    }
+
     .introjs-fixParent {
     position: absolute;
     }
@@ -182,14 +250,22 @@
     }
 
     .tabs {
-        margin: 2px 5px 0px 5px;
-        padding-bottom: 10px;
-        cursor: pointer
+        margin: 2px 0px 0px 0px;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 0px;
+        padding-top: 7px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
     }
 
     .tabs:hover,
     .tabs.active {
-        border-bottom: 1px solid #2196F3
+        background-color: #e9ecef;
+        color: #6c757d;
+        border-color: #dee2e6 #dee2e6 #fff;
     }
 
     a:hover {
@@ -212,7 +288,16 @@
         height: 1px;
         width: 100%
     }
+    .avatar_img {
+      float: left;
+      width: 30px;
+      height: 30px;
+    }
 
+    .avatar {     
+        width: 30px;
+        height: 30px;
+    }
     @media screen and (max-width: 768px) {
         .tabs h6 {
             font-size: 12px
@@ -305,6 +390,15 @@
             
         },
         methods: {
+            avatarPhoto : function(value){
+                const user = this.careteam.find(user => user.id == value);
+                
+                if(user){
+                    return  '..' + user.photo;
+                }else{
+                    return "https://ui-avatars.com/api/?rounded=true&name=" + user.name ;
+                }
+            },
             borrar(){
                 this.document = { 'id': '' , 'user_id': {{Auth::Id()}} ,'loveones_id': {{ $loveone->id}},'lockbox_types_id': '', 'name': '', 'description' : '', 'file' : '', 'status' : 1,'permissions' : [] };
                 this.permissions = [];
@@ -336,7 +430,7 @@
                 this.save = true;
             },
             getDocuments() {
-                var url = '{{ route("lockbox",$loveone_slug) }}';
+                var url = '{{ route("lockbox.view",$loveone_slug) }}';
                 axios.get(url).then(response => {
                     this.types = response.data.types;
                     this.documents = response.data.documents;                    
