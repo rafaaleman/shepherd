@@ -138,7 +138,13 @@ class EventController extends Controller
         foreach ($careteam as $key => $team){
            // dd($team);
             if(isset($team->user)){
-                $team->user->photo = ($team->user->photo != '') ? asset($team->user->photo) :  asset('img/no-avatar.png');
+                if($team->user->photo != ''){
+                    $team->user->photo = asset($team->user->photo);
+                }else{
+                    $photo = create_avatar($team->user,true);
+                    $team->user->photo = asset($photo);
+
+                }
                 if(Auth::user()->id == $team->user_id && $team->role == 'admin')
                     $is_admin = true;
             }

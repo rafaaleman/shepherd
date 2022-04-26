@@ -1,14 +1,14 @@
 #careteam {
 
     .mm{
-        width: 49%;
+        width: 48%;
         background-color: #f7f7fa;
         border:0 !important;
     }
 
     @media (max-width: 450px) {
         .mm{
-            width: 47%;
+            width: 100%;
         }
     }
 
@@ -63,19 +63,18 @@
         text-decoration: none;
     }
 
+    // Bootstrap switch
+    .custom-control-label::after{
+        width:15px; 
+        height:15px;
+    }
+
+    .custom-control-label::before {
+        height: 19px !important;
+        width: 32px !important;
+    }
+
     &.editMember {
-        // Bootstrap switch
-        .custom-control-label::after{
-            width:15px; 
-            height:15px;
-        }
-
-        .custom-control-label::before {
-            height: 19px;
-            width: 32px;
-        }
-
-        
 
         .section{
             background-color: #fff;
@@ -117,72 +116,6 @@
                     }
                 }
             }
-
-            table {
-                width: 100%;
-
-                tr{
-                    border-bottom: 1px solid #eee;
-
-                    td{
-                        padding: 15px;
-
-                        &:nth-of-type(1){
-                            width: 35%;
-                            color: #aaa;
-                        }
-
-                        a {
-                            color: #000;
-                            text-decoration: none;
-                        }
-
-                        &.carehub{
-                            font-size: 16px;
-                            i { 
-                                color: #f78383;
-                                font-size: 18px;
-                            }
-                            span { 
-                                color: #555; 
-                            }
-                        }
-
-                        &.lockbox{
-                            font-size: 16px;
-                            i { 
-                                color: #58c69c;
-                                font-size: 18px;
-                            }
-                            span { 
-                                color: #555; 
-                            }
-                        }
-
-                        &.medlist{
-                            font-size: 16px;
-                            i { 
-                                color: $teal;
-                                font-size: 18px;
-                            }
-                            span { 
-                                color: #555; 
-                            }
-                        }
-
-                        &.resources{
-                            font-size: 16px;
-                            i { 
-                                color: #155c9e;
-                                font-size: 18px;
-                            }
-                            span { 
-                                color: #555; 
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -190,6 +123,78 @@
         background-color: #fff;
         border-radius: 8px;
         padding: 10px;
+    }
+
+    table {
+        width: 100%;
+
+        tr{
+            border-bottom: 1px solid #eee;
+
+            td{
+                padding: 15px;
+
+                &:nth-of-type(1){
+                    width: 45%;
+                    color: #aaa;
+                }
+
+                a {
+                    color: #000;
+                    text-decoration: none;
+                }
+
+                &.carehub{
+                    font-size: 16px;
+                    i { 
+                        color: #f78383;
+                        font-size: 18px;
+                    }
+                    span { 
+                        color: #555; 
+                    }
+                }
+
+                &.lockbox{
+                    font-size: 16px;
+                    i { 
+                        color: #58c69c;
+                        font-size: 18px;
+                    }
+                    span { 
+                        color: #555; 
+                    }
+                }
+
+                &.medlist{
+                    font-size: 16px;
+                    i { 
+                        color: $teal;
+                        font-size: 18px;
+                    }
+                    span { 
+                        color: #555; 
+                    }
+                }
+
+                &.resources{
+                    font-size: 16px;
+                    i { 
+                        color: #155c9e;
+                        font-size: 18px;
+                    }
+                    span { 
+                        color: #555; 
+                    }
+                }
+            }
+
+            @media (max-width: 450px) {
+                td{
+                    padding: 7px;
+                }
+            }
+        }
     }
 }
 

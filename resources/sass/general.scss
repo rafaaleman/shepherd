@@ -5,6 +5,14 @@ body{
     font-size: 1rem;
 }
 
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=password]{
+    border: none;
+    border-bottom: 1px solid #cacaca;
+}
+
 .help-text{
     font-size: 1.15rem;
 }
@@ -37,6 +45,13 @@ body{
 .dropdown-menu
 {
     border: none;
+    font-size: 16px;
+
+    .dropdown-item{
+        line-height: 25px;
+        white-space: inherit !important;
+        font-size: 15px;
+    }
 
     .item{
         color: #00000080;
@@ -69,12 +84,12 @@ body{
     z-index: 9;
     margin-bottom: 20px;
 
-    &.careteam{ border-bottom: 10px solid $team-color;}
-    &.hub{ border-bottom: 10px solid $hub-color;}
-    &.lockbox{ border-bottom: 10px solid $lockbox-color;}
-    &.medlist{ border-bottom: 10px solid $medlist-color;}
-    &.resources{ border-bottom: 10px solid $resources-color;}
-    &.messages{ border-bottom: 10px solid $messages-color;}
+    &.careteam{ border-bottom: 16px solid $team-color;}
+    &.CarePoints{ border-bottom: 16px solid $hub-color;}
+    &.lockbox{ border-bottom: 16px solid $lockbox-color;}
+    &.MedList{ border-bottom: 16px solid $medlist-color;}
+    &.resources{ border-bottom: 16px solid $resources-color;}
+    &.messages{ border-bottom: 16px solid $messages-color;}
 
     .name{
         font-weight: bold;
@@ -109,6 +124,7 @@ body{
             &.lockbox{ color: $lockbox-color;}
             &.medlist{ color: $medlist-color;}
             &.resources{ color: $resources-color;}
+            &.discussions{ color: $messages-color;}
         }
 
         span{

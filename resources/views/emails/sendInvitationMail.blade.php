@@ -9,7 +9,8 @@
 
 @if ($details['loveone_photo'])
     <img src="{{ config('app.url') . $details['loveone_photo']}}" alt="Shepherd" title="Shepherd" style="float: left; margin-right: 10px; border-radius: 50%; width: 150px;">  
-@endif
+@endif 
+
 {{$details['inviter']}} is inviting you to become a member of the CareTeam for {{$details['loveone_name']}} in the ShepherdCares platform.
 
 ShepherdCares enables families to more easily manage the care and affairs of their loved ones who need assistance. You would be a valuable addition to this team.

@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container" id="create_medication">
 
     <form method="POST" action="#" style="width: 100%;" class="row mx-0 fs-0 justify-content-center" v-on:submit.prevent="createMedication()">
         @csrf
         
         <div class="col-md-12">
-            <h3>Add medication</h3>
+
+            <h3>{{(Request::is('medlist/medication/detail') ) ? 'Update' : 'Add'}} medication</h3>
         </div>
 
         
@@ -288,7 +290,7 @@
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
                         <input type="checkbox" id="optout" v-model="medication.remind">
-                        <label for="optout">Remind me to take this medication</label><br >
+                        <label for="optout">Send A Reminder</label><br >
                         <button data-title="And that's it!" data-intro="Click this button to save your medication and we will remind you when it's time" class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
                         </button>
@@ -374,7 +376,7 @@ $(function () {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: "{{ $medication->id ?? 0 }}",
                 loveone_id: "{{ $loveone->id ?? 0 }}",
-                medicine: "{{ $medication->medicine ?? '' }}",
+                medicine: "{{ $medication->medicine ?? '' }}", 
                // dosage: "{{ $medication->dosage ?? '' }}",
                 frequency : "{{ $medication->frequency ?? '' }}",
                 time: "{{ $medication->time ?? '' }}",
@@ -385,7 +387,7 @@ $(function () {
                 drugbank_pcid:"",
                 prescribing:"{{ $medication->prescribing ?? '' }}",
                // creator_id: "{{ $medication->creator_id ?? '' }}",
-               remind:false,
+               remind:"{{ $medication->remind ?? false }}",
             },
         },
         filters: {},

@@ -88,7 +88,7 @@
     .image{
         background-size: cover;
         background-position: top left;
-        height: 60vh;
+        height: 50vh;
     }
 
     @media (min-width: 576px) {

@@ -50,9 +50,13 @@
                     <table class="w-100">
                         <tr>
                             <th></th>
+                            <th></th>
                             <th>Read</th>
                         </tr>
                         <tr v-for="c in careteam">
+                            <td >
+                                <img class="avatar rounded-circle" :src="avatarPhoto(c.id)" alt="sunil"> 
+                            </td>
                             <td >
                                 <span>@{{ c.name }}</span>
                             </td>

@@ -10,9 +10,10 @@
             <i class="fas fa-globe mt-2 mr-3"></i>
         @elseif($section == 'lockbox')
             <i class="fas fa-file-medical mt-2 mr-3"></i>
-        @elseif($section == 'messages')
+        @elseif($section == 'discussions')
             <i class="fas fa-comment-alt mt-2 mr-3"></i>
-            Lockbox
+        @elseif($section == 'profile')
+            <i class="fas fa-id-badge mt-2 mr-3"></i>
         @else
             <i class="fas fa-users mt-2 mr-3"></i>
         @endif

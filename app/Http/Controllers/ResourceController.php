@@ -9,7 +9,8 @@ use App\Models\loveone;
 class ResourceController extends Controller
 {
     protected $apikey =  '3c4aff2abc6c40edbc69320556dd35e4';
-    
+    public $categorys = array('health','science','caregiver');
+
     public function getTopics(Client $client,Request $request){
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         $section  = 'resources';
@@ -18,7 +19,8 @@ class ResourceController extends Controller
         }
         // Produce: <body text='black'>
         $conditions = str_replace(",", " OR ", $loveone->conditions);
-        $response = $client->request('GET', 'https://newsapi.org/v2/everything?q='.$conditions.'&language=en&from='.date('Y-m-d').'&apiKey='.$this->apikey);
+        //dd($conditions);
+        $response = $client->request('GET', 'https://newsapi.org/v2/everything?qInTitle='.$conditions.'&language=en&from='.date('Y-m-d').'&apiKey='.$this->apikey);
         $conditions_loveone = explode(',',$loveone->conditions);
         //$response = $client->request('GET', "https://newsapi.org/v2/top-headlines?q=(litecoin||covid)&language=en&apiKey=".$this->apikey);
         //https://newsapi.org/v2/everything?q=(litecoin||covid)&apiKey=3c4aff2abc6c40edbc69320556dd35e4
@@ -39,7 +41,7 @@ class ResourceController extends Controller
         // Produce: <body text='black'>
         $conditions = str_replace(",", " OR ", $loveone->conditions);
         if(empty($conditions)) $conditions = 'health';
-        $url = 'https://newsapi.org/v2/everything?q='.$conditions.'&from='.date('Y-m-d').'&language=en&apiKey='.$this->apikey;
+        $url = 'https://newsapi.org/v2/everything?qInTitle='.$conditions.'&from='.date('Y-m-d').'&language=en&apiKey='.$this->apikey;
         $response = $client->request('GET', $url);
         $conditions_loveone = explode(',',$loveone->conditions);
         
@@ -60,7 +62,8 @@ class ResourceController extends Controller
     // general query to API, no longer used
     public function getTopicsSearchIni(Client $client, Request $request){
         //dd($_POST);// keyword
-        $response = $client->request('GET', "https://newsapi.org/v2/top-headlines?language=en&apiKey=".$this->apikey);
+        $categorys = 'Health OR Science OR Caregiver';
+        $response = $client->request('GET', "https://newsapi.org/v2/top-headlines?category=health&language=en&apiKey=".$this->apikey);
 
         $topics = get_object_vars(json_decode($response->getBody()));
         //dd($topics);

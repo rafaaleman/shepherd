@@ -22,7 +22,7 @@ class LoveoneController extends Controller
     {
         $careteams = careteam::where('user_id', Auth::user()->id)->where('status', 1)->get()->keyBy('loveone_id');
 
-        if($careteams->count() < 3){
+        if($careteams->count() < Auth::user()->max_lovedones){
             $relationships = relationship::where('status', 1)->get();
             $conditions    = condition::where('status', 1)->get();
             return view('loveone.create', compact('relationships', 'conditions'));

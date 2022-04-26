@@ -19,26 +19,30 @@
     text-align: left;
     color: #cdcdd8 !important;
 }
+
 .member-img {
     background-color: #fff;
-     margin-left: -10px;
+    // margin-left: -10px;
    // margin: 0 8px 0 12px;
-    width: 25px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
 .member-name-event{
         /* height: 12px; */
-        margin: 5px 16px 7px;
+         margin: 5px 10px 7px;
+        //width: 24px;
+        height: 12px;
         font-family: Gotham;
-        font-size: 10px;
+        font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
         line-height: 1.2;
         letter-spacing: normal;
         /* text-align: left; */
-        color: #78849e;
+        color: #78849e !important;
         display: block;
 }
 
@@ -62,7 +66,7 @@
     height: 16px;
     margin: 10px -2px 1px 16px;
     font-family: Gotham;
-    font-size: 14px;
+    font-size: 25px;
     font-weight: 600;
     font-stretch: normal;
     font-style: normal;
@@ -271,6 +275,18 @@
     color: $hub-color;
 }
 
+
+h3.time{
+    font-size: 1.8em;
+}
+
+h5.name-event-title{
+    font-size: 1em;
+}
+.col-icons{
+    font-size: 25px;
+}
+
 @media only screen and (max-width: 767px) {
     .menuDate {
         font-size: .8rem;
@@ -298,8 +314,8 @@
         width:40px;
         height:40px;
     }
-    .time{
-        font-size:1.2rem;
+    h3.time{
+        font-size: 1.5em;
     }
     .eventinf, .events{
         padding-left:5px !important;
@@ -307,6 +323,16 @@
 
     }
 
+    .member-name-event{
+        /* height: 12px; */
+         margin: 2px 5px 3px;
+        
+    }
+
+    .col-icons{
+        padding-left: 0;
+        padding-right: 35px;
+    }
     
 
 }
@@ -315,6 +341,10 @@
     
     .event-name-calendar{
         max-width: 45px;
+    }
+
+    h3.time{
+        font-size: 1.5em;
     }
 
 }
@@ -326,6 +356,19 @@
 // --------------
 
 #create_event{
+
+    // Bootstrap switch
+.custom-control-label::after{
+        width: 1rem !important; 
+        height: 1rem !important;
+        top: 0.26rem;
+}
+
+.custom-control-label::before {
+        height: 1rem !important;
+        width: 1rem !important;
+        top: 0.26rem;
+}
 
 #collapseMemers{
     .member{
@@ -474,7 +517,8 @@ input[type=date] {
   .member-assing-img {
     background-color: #fff;
     margin-left: -10px !important;
-    width: 25px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -482,7 +526,8 @@ input[type=date] {
     background-color: #fff;
     margin-left: -16px !important;
     margin-bottom: -34px;
-    width: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: solid #fff 2px;
 }
@@ -530,7 +575,7 @@ input[type=date] {
 .creator div .member-img,.creator .member-img, .member div .member-img{
     margin-left: -35px !important;
     margin-top: -45px;
-    width: 35px !important;
+    width: 40px !important;
     border: solid #fff 2px;
 }
 
@@ -538,7 +583,7 @@ input[type=date] {
     margin-right: -35px !important;
     margin-top: -25px;
     float: right;
-    width: 35px !important;
+    width: 40px !important;
     border: solid #fff 2px;
 }
 
