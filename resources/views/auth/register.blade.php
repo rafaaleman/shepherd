@@ -241,8 +241,23 @@ $(function(){
         $('#photo').click();
     });
 
-    $('#register_user').submit(function(){
+    $('.create').click(function(e){
+        e.preventDefault();
         $('#phone').val($('#phone').val().replace(/\D/g,''));
+        if(isNaN($('#dob-month').val()) || $('#dob-month').val() > 12){
+            swal('Error', 'The month value should be numeric and between 1 - 12', 'error')
+            return;
+        }
+        if(isNaN($('#dob-day').val()) || $('#dob-day').val() > 31){
+            swal('Error', 'The day value should be numeric and between 1 - 31.', 'error')
+            return;
+        }
+        if(isNaN($('#dob-year').val()) || $('#dob-year').val() > {{ date('Y') }}){
+            swal('Error', "The year value should be numeric and lower than {{ date('Y') }}.", 'error')
+            return;
+        }
+
+        $('#register_user').submit();
         $('.create').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Wait...').attr('disabled', true);
     });
 

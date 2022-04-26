@@ -36,19 +36,26 @@
                                             
 
                                             {{-- Carepoints --}}
-                                            <div class="card widget hub shadow-sm mb-3">
+                                            <div class="card widget hub shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
-                                            
+
                                                     <a href="{{ route('carehub', [$loveone->slug] )}}" class="hub">
-                                                        <h5 class="card-title"><i class="far fa-calendar-plus fa-2x hub"></i> CarePoints</h5>
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Assign tasks to CareTeam members. Add notes. Schedule appointments and events on the calendar.">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
+
+                                                        <h5 class="card-title mb-5">
+                                                            <i class="far fa-calendar-plus fa-2x hub"></i> CarePoints
+                                                        </h5>
                                                         <div class="card-text events-today">
-                                                            <div class="card__counts">
-                                                                <span>{{ count($loveone->discussions->data->discussions) }}</span> Discussion(s) <br>
+                                                            <div class="card__count">
+                                                                
                                                                 <span>{{ count($loveone->carepoints->data->events) }}</span> Task(s) for today <br>
                                                                 @if ($loveone->carepoints->data->time_first_event)
                                                                     <i class="gray">Task Name at {{$loveone->carepoints->data->time_first_event}}</i>
                                                                 @else
-                                                                    <i class="gray">No events</i>
+                                                                    <i class="gray">No tasks</i>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -60,10 +67,15 @@
                                             </div>
 
                                             {{-- Lockbox --}}
-                                            <div class="card widget lockbox shadow-sm mb-3 mx-3">
+                                            <div class="card widget lockbox shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
 
-                                                    <a href="{{ route('lockbox', [$loveone->slug] )}}" class="hub">
+                                                    <a href="{{ route('lockbox.index', [$loveone->slug] )}}" class="hub">
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Upload and store important documents needed in the care of your loved one.">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
+
                                                         <h5 class="card-title"><i class="fas fa-file-medical fa-2x"></i> LockBox</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
@@ -71,7 +83,7 @@
                                                                 <i class="gray">Last updated {{ $loveone->lockbox->data->l_document }}</i>
                                                             </div>
                                                             {{-- @if ($loveone->careteam->role == 'admin') --}}
-                                                                <a class="btn btn-primary btn-sm mt-2" href="{{ route('lockbox', [$loveone->slug] )}}">View Documents</a>
+                                                                <a class="btn btn-primary btn-sm mt-2" href="{{ route('lockbox.index', [$loveone->slug] )}}">View Documents</a>
                                                             {{-- @endif --}}
                                                         </div>
                                                     </a>
@@ -80,11 +92,15 @@
                                             </div>
 
                                             {{-- Careteam --}}
-                                            <div class="card widget team shadow-sm mb-3">
+                                            <div class="card widget team shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                                     
                                                     <a href="{{ route('careteam', [$loveone->slug] )}}" class="">
-                                                    <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Invite family, friends and professionals to join your loved one’s CareTeam. ">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
+                                                        <h5 class="card-title"><i class="fas fa-users fa-2x"></i> CareTeam</h5>
                                                     </a>
                                                     <div class="card-text">
                                                         <div class="card__member-count"><span>{{$loveone->members->count()}}</span> Member(s)</div>
@@ -108,6 +124,10 @@
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('medlist', [$loveone->slug] )}}" class="medlist">
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Track prescription information and manage medication schedules.">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
                                                         <h5 class="card-title"><i class="fas fa-prescription-bottle-alt fa-2x"></i> Medlist</h5>
                                                         <p class="card-text medlist-today ">
                                                             <div class="card__count">
@@ -126,12 +146,18 @@
                                                 </div>
                                             </div>
 
-                                            {{-- messages --}}
-                                            <div class="card widget message shadow-sm mx-3 mb-3">
+
+
+                                            {{-- Discussions --}}
+                                            <div class="card widget message shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                             
-                                                    <a href="{{ route('messages', [$loveone->slug] )}}" class="hub">
-                                                        <h5 class="card-title"><i class="fas fa-comments fa-2x"></i> Messages</h5>
+                                                    <a href="{{ route('discussions', [$loveone->slug] )}}" class="hub">
+
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Document specific conversations regarding the care of your loved one.  ">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
+                                                        <h5 class="card-title"><i class="fas fa-comments fa-2x"></i> Discussions</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
                                                                 <span >{{ $loveone->messages->data->num_message }}</span> Unread Message(s) <br>
@@ -139,7 +165,7 @@
                                                             </div>
 
                                                             {{-- @if ($loveone->careteam->role == 'admin') --}}
-                                                                <a class="btn btn-primary btn-sm" href="{{ route('messages', [$loveone->slug] )}}">View Messages</a>
+                                                                <a class="btn btn-primary btn-sm" href="{{ route('discussions', [$loveone->slug] )}}">View Messages</a>
                                                             {{-- @endif --}}
                                                         </div>
                                                     </a>
@@ -147,10 +173,13 @@
                                             </div>
 
                                             {{-- resources --}}
-                                            <div class="card widget resources shadow-sm mb-3">
+                                            <div class="card widget resources shadow-sm mb-3  mr-lg-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('resources', [$loveone->slug] )}}" class="hub">
+                                                        <span class="float-right " tabindex="0" data-toggle="tooltip" title="Access current information based on your loved one's medical profile. Receive expert guidance on caregiver well-being.">
+                                                            <i class="fas fa-info-circle text-black-50"></i>
+                                                        </span>
                                                         <h5 class="card-title"><i class="fas fa-globe fa-2x"></i> Resources</h5>
                                                         <div class="card-text">
                                                             <div class="card__count">
@@ -169,6 +198,31 @@
                                                             {{-- @endif --}}
                                                         </div>
                                                     </a>
+                                                </div>
+                                            </div>
+
+                                            {{-- vitals --}}
+                                            <div class="card widget vitals shadow-sm mb-3 mr-lg-3">
+                                                <div class="card-body">
+                                            
+                                                    <a href="#" class="hub">
+                                                        <h5 class="card-title text-black-50"><i class="fas fa-heartbeat fa-2x"></i> Vital stats</h5>
+                                                        <div class="card-text">
+                                                            ...
+                                                            
+                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
+                                                                <a class="btn btn-primary btn-sm disabled" href="{{ route('resources', [$loveone->slug] )}}">View Vitals</a>
+                                                            {{-- @endif --}}
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            {{-- blank --}}
+                                            <div class="card widget resources shadow-sm mb-3">
+                                                <div class="card-body">
+                                            
+                                                    
                                                 </div>
                                             </div>
                                             
@@ -446,6 +500,12 @@ const home = new Vue ({
 
 
 $(function(){
+
+    // Enable tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
     $(".tabs").click(function(){            
         $(".tabs").removeClass("active");
         $(".tabs h6").removeClass("font-weight-bold");

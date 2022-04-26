@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container" id="create_medication">
 
     <form method="POST" action="#" style="width: 100%;" class="row mx-0 fs-0 justify-content-center" v-on:submit.prevent="createMedication()">
         @csrf
         
         <div class="col-md-12">
-            <h3>Add medication</h3>
+
+            <h3>{{(Request::is('medlist/medication/detail') ) ? 'Update' : 'Add'}} medication</h3>
         </div>
 
         
@@ -288,7 +290,7 @@
                 <div class="col-md-12 mt-4 mb-4 justify-content-center">
                     <center>
                         <input type="checkbox" id="optout" v-model="medication.remind">
-                        <label for="optout">Remind me to take this medication</label><br >
+                        <label for="optout">Send A Reminder</label><br >
                         <button data-title="And that's it!" data-intro="Click this button to save your medication and we will remind you when it's time" class="btn btn-primary loadingBtn btn-lg" type="submit" data-loading-text="Saving..." id="saveBtn">
                             Save
                         </button>
@@ -310,135 +312,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
-input[type=date] {
-  text-align: right;
-}
 
-input[type="date"]:before {
-  content: attr(placeholder) !important;
-  margin-right: 0.5em;
-}
-
-.introjs-fixParent {
-  position: absolute;
-}
-
-/* The customcheck */
-.ccheck{
-    padding-left: 0px;
-}
-.customcheck {
-   /* display: block;*/
-    position: relative;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-/* Hide the browser's default checkbox */
-.customcheck input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #fff;
-    border-radius: 25px;
-    border: 1px solid;
-
-}
-
-/* On mouse-over, add a grey background color */
-.customcheck:hover input ~ .checkmark {
-    background-color: #369bb6;
-}
-
-/* When the checkbox is checked, add a blue background */
-.customcheck input:checked ~ .checkmark {
-    background-color: #369bb6;
-    border-radius: 25px;
-    border:0;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-/* Show the checkmark when checked */
-.customcheck input:checked ~ .checkmark:after {
-    display: block;
-}
-
-/* Style the checkmark/indicator */
-.customcheck .checkmark:after {
-    left: 10px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-.no-border{
-    border:0;
-}
-.no-focus:focus { outline: none; } 
-.label{
-    opacity: 0.5;
-    color: #78849e;
-    font-size: 10px;
-    margin-bottom:0;
-    padding-left: 11px;
-}
-
-.only-border-bottom{
-    border: 0px ;
-    border-bottom: solid 1px #cdcdd8;
-    border-radius:0.25rem 0.25rem 0 0;
-}
-
- .dropdown-toggle::after{
-    float:right;
-    margin-top: .5em;
-}
-/*
-.dropdown-menu{
-    height: 500%;
-    overflow-y: auto;
-}
-*/
-.dropdown-item{
-    white-space: break-spaces !important;
-    color:#369bb6 !important;
-
-   
-    padding: 0.15rem 1rem;
-    
-    border: 0;
-    font-size: .8rem;
-}
-.dropdown-item em{
-    color:#235c6b !important;
-}
-#create_medication .dropdown-toggle{
-    color: #495057 !important;
-}
 
 </style>
 @endpush
@@ -502,7 +376,7 @@ $(function () {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 id: "{{ $medication->id ?? 0 }}",
                 loveone_id: "{{ $loveone->id ?? 0 }}",
-                medicine: "{{ $medication->medicine ?? '' }}",
+                medicine: "{{ $medication->medicine ?? '' }}", 
                // dosage: "{{ $medication->dosage ?? '' }}",
                 frequency : "{{ $medication->frequency ?? '' }}",
                 time: "{{ $medication->time ?? '' }}",
@@ -513,7 +387,7 @@ $(function () {
                 drugbank_pcid:"",
                 prescribing:"{{ $medication->prescribing ?? '' }}",
                // creator_id: "{{ $medication->creator_id ?? '' }}",
-               remind:false,
+               remind:"{{ $medication->remind ?? false }}",
             },
         },
         filters: {},

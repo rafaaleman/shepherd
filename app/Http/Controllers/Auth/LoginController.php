@@ -44,8 +44,8 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        // $user->generateTwoFactorCode();
-        // $user->notify(new TwoFactorCode());
+         $user->generateTwoFactorCode();
+         $user->notify(new TwoFactorCode());
 
         //  check pending invitations
         $invitations = Invitation::where('email', Auth::user()->email)->get();

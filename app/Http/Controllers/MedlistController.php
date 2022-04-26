@@ -18,6 +18,7 @@ use App\Models\event;
 use App\Models\Invitation;
 use App\Models\careteam;
 use Illuminate\Support\Collection;
+use App\Models\notification;
 
 use App\User;
 
@@ -73,6 +74,23 @@ class MedlistController extends Controller
         return view('medlist.create_medication',compact('loveone','careteam','date_now','routes', 'readTour','section'));
     }
 
+
+    public function detailMedication(Request $request){
+        $section  = 'MedList';
+        $loveone  = loveone::whereSlug($request->slug)->first();
+        $routes  = route::orderBy('route')->get();
+       // $dosages  = dosage::orderBy('dosage')->get();
+        $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get()->keyBy('user_id');
+        $date_now = new DateTime();
+        $date_now->sub(new DateInterval('P1D'));
+        $medication = medication::where('id',$request->id)->first();
+        $notifications = notification::where('table_id', $request->id)->get()->count();
+        $medication->remind = ($notifications > 1)? true : false;
+        $readTour = $this->alreadyReadTour('medlist_create');
+        //dd($request->id,$medication,$notifications);
+        return view('medlist.create_medication',compact('loveone','careteam','date_now','routes', 'readTour','section','medication'));
+    }
+
     public function createUpdate(Request $request)
     {
 
@@ -92,18 +110,25 @@ class MedlistController extends Controller
 
 
         // edit
-        if($request->id > 0)
-            $medication = medication::where('id',$request->id)->update($data);
+        if($request->id > 0){
+            notification::where('table','medications')->where('table_id', $request->id)->delete();
+            medlist::where('medication_id',$request->id)->delete();
+            $medication = medication::where('id',$request->id);
+            $medication->update($data);
+            $medication = $medication->first();
+            //dd($medication);
         // create
-        else{
+        }else{
             $medication = medication::create($data);
-            $medlist = $this->medicationTime($di,$end_date->format('Y-m-d H:i:s'),$data['frequency'],$medication->id);
-            medlist::insert($medlist);
+        }
+        
+        $medlist = $this->medicationTime($di,$end_date->format('Y-m-d H:i:s'),$data['frequency'],$medication->id);
+        medlist::insert($medlist);
 
-            // Create notification rows
+        // Create notification rows
 
-            $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'medlist');
-            foreach($notified_members as $member_id){
+        $notified_members = $this->getLovedoneMembersToBeNotified($request->loveone_id, 'medlist');
+        foreach($notified_members as $member_id){
 
                 if($remind){
                     foreach ($medlist as $med) {
@@ -130,8 +155,8 @@ class MedlistController extends Controller
                     ];
                     $this->createNotification($notification);
                 }
-            }
-        }
+         }
+        
 
         return response()->json(['success' => true, 'data' => ['medication' => $medication]]);
     }
@@ -177,6 +202,7 @@ class MedlistController extends Controller
         $inidate = $request->date;
         $modal = $medlist = array();
         $medications = medication::where('loveone_id', $loveone->id)
+        ->where('status',1)
         ->where(function ($query) use($inidate){
             $query->where('ini_date', '<=', $inidate)
                 ->where('end_date', '>=', $inidate);
@@ -238,12 +264,22 @@ class MedlistController extends Controller
             'date_title' => $date->format('l, j F Y'),
             'medlist_modal' => $modal,
             'count_medications' => count($medlist),
-            'next_dosage' => $next_dosage
+            'next_dosage' => $next_dosage,
+            'medications' => $medications,
         ]]);
     }
 
     
-
+    public function deleteMedication(Request $request){
+        //dd($request->id);
+       // dd($request->id);
+        $medication = medication::find($request->id)->update(['status' => 0]);
+        notification::where('table','medications')->where('table_id', $request->id)->delete();
+        medlist::where('medication_id',$request->id)->delete();
+        return response()->json(['success' => true, 'data' => [
+            'success' => 1
+        ]]);
+    }
 
     public function getCalendar(Request $request){
 

@@ -101,7 +101,7 @@
                     <div class="loveone p-2 mb-3">
                         <div style="background-image: url('{{asset($loveone->photo)}}');" class="float-left mr-3 photo"></div>
                         <div class="data float-left">
-                            <div class="name">{{$loveone->firstname}} {{$loveone->lastname}} <i class="text-danger"></i></div>
+                            <div class="name"><strong>{{$loveone->firstname}} {{$loveone->lastname}}</strong> <i class="text-danger"></i></div>
                             <small>{{($loveone->careteam->role == 'admin') ? 'Leader' : ucfirst($loveone->careteam->role)}}</small>
                         </div>
                         
@@ -175,7 +175,10 @@
 
 .photo-container{
     padding: 0;
+}
 
+.form-control{
+    font-size: 15px;
 }
 
 .photo-container .bigBtn {
@@ -294,6 +297,11 @@ const profile = new Vue ({
                 return;
             }
 
+            if(this.user.photo.size > 2100000 ){
+                swal('Error ', "You photo must be max 2Mb. Please select other image.", 'warning');
+                return
+            }
+
             console.log('updating');
             $('.btn.update').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Saving...').attr('disabled', true);
             this.user.phone = this.user.phone.replace(/\D/g,'');
@@ -333,7 +341,7 @@ const profile = new Vue ({
             });
         },
         onFileChange(e){
-            console.log(e.target.files[0]);
+            console.log(e.target.files[0].size);
             this.user.photo = e.target.files[0];
 
             var file = $('#photo');
@@ -342,6 +350,10 @@ const profile = new Vue ({
                 $('.photo-container').css('background-image', 'url('+e.target.result+')');
             }
             reader.readAsDataURL(file[0].files[0]);
+
+            if(e.target.files[0].size > 2100000 ){
+                swal('Error ', "You photo must be max 2Mb. Please select other image.", 'warning');
+            }
         },
         getInvitations: function() {
 

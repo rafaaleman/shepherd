@@ -52,6 +52,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapNotificationsRoutes();
         $this->mapMedlistRoutes();
         $this->mapMessagesRoutes();
+        $this->mapDiscussionsRoutes();
         //
     }
 
@@ -187,5 +188,19 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web', 'auth','two_factor')
             ->namespace($this->namespace)
             ->group(base_path('routes/messages.php'));
+    }
+    /**
+     * Define the "discussions" routes for the application.
+     
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapDiscussionsRoutes()
+    {
+        Route::prefix('discussions')
+            ->middleware('web', 'auth','two_factor')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/discussions.php'));
     }
 }

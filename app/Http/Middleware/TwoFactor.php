@@ -31,6 +31,7 @@ class TwoFactor
 
                 if(!$request->is('verify*'))
                 {
+                    
                     return redirect()->route('verify.index');
                 }
             }

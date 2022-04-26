@@ -7,12 +7,12 @@
 
         <form method="post" id="searchMemberForm" class="col-md-12 p-3" v-on:submit.prevent="searchMember()">
 
-            <h5 class="mb-4">Invite Someone to <span id="loveoneName"></span>'s Care Team</h5>
+            <h5 class="mb-4">Invite Someone to <span id="loveoneName"></span>'s CareTeam</h5>
             
             <label for="s_email" class="text-black-50">Enter invitee’s email:</label>
             <div class="d-flex mb-1">
                 <input id="s_email" type="email" class="form-control mr-2" name="s_email" autofocus required>
-                <button class="btn btn-primary searchBtn"> <i class="fas fa-search"></i> </button>
+                <button class="btn btn-primary searchBtn"> <i class="fas fa-plus"></i> </button>
             </div>
         </form>
 
@@ -51,7 +51,7 @@
                 <table class="mt-4 col-md-12 table w-100">
                     <tr>
                         <td class="carehub pt-4 text-primary">
-                            <i class="far fa-calendar-plus"></i> 
+                            <i class="mr-3 far fa-calendar-plus"></i> 
                             <span>CareHub</span>
                         </td>
                         <td align="right">
@@ -63,7 +63,7 @@
                     </tr>
                     <tr>
                         <td class="lockbox pt-4 text-primary">
-                            <i class="fas fa-file-medical"></i> 
+                            <i class="mr-3 fas fa-file-medical"></i> 
                             <span>LockBox</span>
                         </td>
                         <td align="right">
@@ -75,7 +75,7 @@
                     </tr>
                     <tr>
                         <td class="medlist pt-4 text-primary">
-                            <i class="fas fa-prescription-bottle-alt"></i> 
+                            <i class="mr-3 fas fa-prescription-bottle-alt"></i> 
                             <span>MedList</span>
                         </td>
                         <td align="right">
@@ -87,7 +87,7 @@
                     </tr>
                     <tr>
                         <td class="resources pt-4 text-primary">
-                            <i class="fas fa-globe"></i> 
+                            <i class="mr-3 fas fa-globe"></i> 
                             <span>Resources</span>
                         </td>
                         <td align="right">
@@ -205,7 +205,11 @@ const careteam = new Vue ({
                         resources : false,
                     }
 
-                    $('.searchBtn').html('<i class="fas fa-user-check"></i>').attr('disabled', true).removeClass('btn-primary').addClass('btn-success');
+                    if(response.data.user.photo == '')
+                        $('.searchBtn').html('<i class="fas fa-user-check"></i>').attr('disabled', true).removeClass('btn-primary').addClass('btn-success');
+                    else
+                        $('.searchBtn').html('<img src="'+ response.data.user.photo +'" style="height:35px" class="rounded-pill">').attr('disabled', true).removeClass('btn-primary');
+
                     $('#s_email').attr('disabled', true).val(response.data.user.name + ' ' + response.data.user.lastname + ' ('+response.data.user.email+')');
                     $('#inlcudeMemberForm').removeClass('d-none');
 
