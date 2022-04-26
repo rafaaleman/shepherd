@@ -25,5 +25,5 @@ Homestead.json
 storage/debugbar/
 
 shepherd-systems.pem
-public/loveones/lockbox/*
+public/loveones/*
 public/loveones/members/*
