@@ -8,9 +8,9 @@
             <div class="col-4 p-0">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="text" class="form-control input-lg" placeholder="Buscar" />
+                        <input type="text" class="form-control input-lg" placeholder="Search" id="txtSearch" v-model="searchText"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-info btn-lg" type="button">
+                            <button class="btn btn-info btn-lg" type="button" @click="find()">
                                 <i class="fas fa-search"></i>
                             </button>
                         </span>
@@ -339,6 +339,9 @@
                 status: 1,
                 permissions : []
             },
+            onSearch: false,
+            searchText: '',
+            searchResult:[],
         },
         filters: {
             mayuscula: function (value) {
@@ -668,6 +671,24 @@
             },
             readTour: function(){
                 axios.post('{{ route("readTour") }}', {section_name:'lockbox_index'});
+            },
+            find(){
+                this.onSearch = true;
+                
+                let data = { txt: this.searchText };
+                console.log(data);
+                
+                /*
+                let url = '{{ route("discussions.find","*ID*") }}';
+                url = url.replace('*ID*', this.slug);
+                axios.post(url,data).then(response => {
+                    this.messages =[];
+                    this.selected_chat=0;
+                    this.searchResult = response.data.messages;
+                    console.info(response,this.messages);
+
+                });
+                */
             }
         }
     });
