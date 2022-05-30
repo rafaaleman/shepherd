@@ -10,7 +10,7 @@
 <a class="menu-link item d-block lockbox {{(Request::is('lockbox/*') ) ? 'active' : ''}}" href="{{ route('lockbox.index', '**SLUG**')}}">
     <i class="fas fa-file-medical fa-2x"></i> <span>LockBox</span>
 </a>
-<a class="menu-link item d-block medlist {{(Request::is('medlist/*') ) ? 'active' : ''}}" href="{{ route('medlist', '**SLUG**')}}">
+{{-- <a class="menu-link item d-block medlist {{(Request::is('medlist/*') ) ? 'active' : ''}}" href="{{ route('medlist', '**SLUG**')}}">
     <i class="fas fa-prescription-bottle-alt fa-2x"></i> <span>MedList</span>
 </a>
 <a class="menu-link item d-block resources {{(Request::is('resources/*') ) ? 'active' : ''}}" href="{{ route('resources', '**SLUG**')}}">
@@ -18,5 +18,5 @@
 </a>
 <a class="menu-link item d-block discussions {{(Request::is('discussions/*') ) ? 'active' : ''}}" href="{{ route('discussions', '**SLUG**')}}">
     <i class="fas fa-comments"></i>    <span>Discussions</span>
-</a>
+</a> --}}
 

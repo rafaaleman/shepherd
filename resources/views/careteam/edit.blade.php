@@ -44,7 +44,7 @@
                     <tr>
                         <td class="carehub" width="70%">
                             <i class="far fa-calendar-plus"></i> 
-                            <span>CareHub</span>
+                            <span>CarePoints</span>
                         </td>
                         <td align="right">
                             <div class="custom-control custom-switch" v-if="is_admin">
@@ -128,7 +128,7 @@
 
             <div class=" p-3 centered">
                 <input type="hidden" name="id" id="id" required v-model="member.id">
-                <a class="btn btn-primary centered mb-2" href="{{route('careteam', $loveone->slug)}}">Return to careteam</a>
+                <a class="btn btn-primary centered mb-2" href="{{route('careteam', $loveone->slug)}}">Return to CareTeam</a>
                 <button class="btn btn-primary loadingBtn mr-2 mb-2" type="submit" data-loading-text="Saving..." id="savePermissionsBtn"  v-if="is_admin" :disabled="member.role == 'admin'">Save changes</button>
             </div>
 

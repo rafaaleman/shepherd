@@ -9,14 +9,14 @@
 
             <h5 class="mb-4">Invite Someone to <span id="loveoneName"></span>'s CareTeam</h5>
             
-            <label for="s_email" class="text-black-50">Enter invitee’s email:</label>
+            <label for="s_email" class="text-black-50">Enter invitee's email:</label>
             <div class="d-flex mb-1">
                 <input id="s_email" type="email" class="form-control mr-2" name="s_email" autofocus required>
-                <button class="btn btn-primary searchBtn"> <i class="fas fa-plus"></i> </button>
+                <button class="btn btn-primary searchBtn text-nowrap">Set Role and Permissions </button>
             </div>
         </form>
 
-        <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
+        <form method="post" id="inviteMemberForm__" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
             <div class="col text-center">
                 <p class="text-danger">Configure role and permissions to send an invite.</p>
             </div>            
@@ -52,7 +52,7 @@
                     <tr>
                         <td class="carehub pt-4 text-primary">
                             <i class="mr-3 far fa-calendar-plus"></i> 
-                            <span>CareHub</span>
+                            <span>CarePoints</span>
                         </td>
                         <td align="right">
                             <div class="custom-control custom-switch">
@@ -103,16 +103,16 @@
             </div>
             <div class="col text-center">
                 <input type="hidden" name="id" id="id" required v-model="member.id">
-                <button class="btn btn-primary loadingBtn m-4 centered" type="submit" data-loading-text="Sending..." id="includeMember">Send invite</button>
+                <button class="btn btn-primary loadingBtn m-4 centered" type="submit" data-loading-text="Sending..." id="includeMember">Send an Invitation</button>
             </div>
         </form>
         
-        <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
+        <form method="post" id="inviteMemberForm__" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
             <div class="col text-center">
-                <a class="btn btn-primary centered" href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an invite</a>
+                <a class="btn btn-primary centered" href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an Invitation</a>
             </div>            
         </form>
-        <a class="btn btn-primary loadingBtn my-2 centered" href="{{route('careteam', $loveone->slug)}}">Return to careteam</a>
+        <a class="btn btn-primary loadingBtn my-2 centered" href="{{route('careteam', $loveone->slug)}}">Return to CareTeam</a>
     </div>
 </div>
 @endsection
@@ -121,12 +121,10 @@
 @push('scripts')
 <script>
 $(function(){
-    // $('#inviteMemberModal').on('shown.bs.modal', function (e) {
-
-    //     $('#inviteMemberForm, #inlcudeMemberForm').addClass('d-none');
-    //     $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled').removeClass('btn-success').addClass('btn-primary');
-    //     $('#s_email').val('').attr('disabled', false);
-    // });
+    
+    loveone = localStorage.getItem('loveone');
+    loveone = JSON.parse(loveone);
+    $('#loveoneName').text(loveone.firstname)
 });
 
 const careteam = new Vue ({

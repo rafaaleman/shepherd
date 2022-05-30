@@ -169,7 +169,7 @@ class CareteamController extends Controller
             // TODO: SEnd email to new user with the credentials;
             return response()->json(['success' => true]);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // dd($e);
         }
     }
@@ -242,7 +242,7 @@ class CareteamController extends Controller
             careteam::where('loveone_id', $request->loveoneId)->where('user_id', $request->memberId)->delete();
             return response()->json(['success' => true]);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // dd($e);
             return response()->json(['success' => false]);
         }
@@ -409,7 +409,7 @@ class CareteamController extends Controller
             careteam::where('loveone_id', $request->loveoneId)->where('user_id', $request->userId)->update(['status' => $request->status]);
             return response()->json(['success' => true]);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // dd($e);
             return response()->json(['success' => false]);
         }
