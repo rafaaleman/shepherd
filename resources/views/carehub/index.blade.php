@@ -10,7 +10,7 @@
             <div class="col-2 col-md-1 px-2"><a href="#/" v-on:click="calendarType(3)" data-tpe="3" class="btn-event btn-lg btn-block rounded-pill btn-outline-pink rounded-top menuDate menuDateCarepoints" id="Month">Month</a></div>
             <div class="col-6 col-md-9 px-2">
                 <a href="{{route('carehub.event.form.create',[$loveone->slug])}}" class="float-right btn btn-primary btn-lg rounded-pill text-white mr-2 btn-carepoints">
-                    Add New Task
+                    Add New CarePoint
                 </a>
 
             </div>
@@ -162,41 +162,6 @@
                                                     </div>
                                                 </div>
 
-                                                    <!-- <p>
-                                                        <span class="btn btn-link" v-on:click="eventDetails(day.id)" style="text-decoration: none;">
-                                                            <template v-for="member in day.members">
-                                                                <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
-                                                            </template>
-                                                            <i class="num-messages">@{{day.count_messages}}</i> <img src="{{asset('images/IconMessages.png')}}" alt="" id="icon-messages">
-                                                        </span>
-                                                        <a href="" class="text-danger " v-on:click.prevent="deleteEvent(day)">
-                                                            <i class="fa fa-trash"></i>
-                                                        </a>
-                                                    </p> -->
-                                                        <!-- <ul class="list-group list-group-horizontal"> -->
-                                                                <!-- <span class="btn btn-link" v-on:click="eventDetails(day.id)" style="text-decoration: none;"> -->
-                                                                    <!-- <li v-on:click="eventDetails(day.id)" style="text-decoration: none;" class="list-group-item lgi-carehub text-center" v-for="member in day.members" >
-                                                                        <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
-                                                                        <span class="member-name-event">@{{member.user.name}}</span>
-                                                                    </li> -->
-                                                                <!-- </span> -->
-                                                                <!-- <li class="list-group-item lgi-carehub text-center num-messages">
-                                                                    @{{day.count_messages}} <img src="{{asset('images/IconMessages.png')}}" alt="" id="icon-messages">
-                                                                </li> -->
-                                                                <!-- <li class="list-group-item lgi-carehub text-center">
-                                                                    <a href="" class="text-danger " v-on:click.prevent="deleteEvent(day)">
-                                                                        <i class="fa fa-trash">  </i>
-                                                                    </a>
-                                                                </li> -->
-                                                            <!-- </ul> -->
-                                                            <!-- <template v-for="member in day.members">
-                                                                <img :src="member.user.photo" class="member-img" :title="member.user.name + ' ' + member.user.lastname" data-bs-toggle="tooltip" data-bs-placement="bottom">
-                                                                <span class="member-name-event">@{{member.user.name}}</span>
-                                                            </template> -->
-                                                            <!-- @{{day.count_messages}} <i class="fa fa-comments" style="font-size:15px;"></i> --> 
-                                                        <!-- <a href="" class="text-danger " v-on:click.prevent="deleteEvent(day)">
-                                                            <i class="fa fa-trash"></i>
-                                                        </a-->
                                                 </div>
                                             </div>
                                         </div>
@@ -518,7 +483,7 @@
                 url = url.replace('*SLUG*', this.current_slug);
                 //url = url.replace('*DATE*', this.date_events);
                 url = url.replace('*DATE*', this.yyyy);
-                url = url.replace('*TYPE*', this.type);
+                url = url.replace('*TYPE*', 3);
                 axios.get(url).then(response => {
 
                 if (response.data.success) {

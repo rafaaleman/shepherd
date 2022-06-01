@@ -50,13 +50,14 @@
                                                         </h5>
                                                         <div class="card-text events-today">
                                                             <div class="card__count">
-                                                                
-                                                                <span>{{ count($loveone->carepoints->data->events) }}</span> Task(s) for today <br>
-                                                                @if ($loveone->carepoints->data->time_first_event)
-                                                                    <i class="gray">Task Name at {{$loveone->carepoints->data->time_first_event}}</i>
-                                                                @else
-                                                                    <i class="gray">No tasks</i>
-                                                                @endif
+                                                                @foreach($loveone->carepoints->data->events as $event)
+                                                                    <span>{{ count($event->data) }}</span> Task(s) for today <br>
+                                                                    @if ($loveone->carepoints->data->time_first_event)
+                                                                        <i class="gray">Task Name at {{$loveone->carepoints->data->time_first_event}}</i>
+                                                                    @else
+                                                                        <i class="gray"></i>
+                                                                    @endif
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                     </a>

@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-12 col-sm-12 col-lg-6 my-2">
                         <label for="location" class="label">Address</label>
-                        <input data-title="Welcome to CarePoints" data-intro="Then you can add the location of the task or event here" id="location" type="text" class="form-control only-border-bottom" name="location" value="" placeholder='e.g. "123 main street" ' required autocomplete="location" S v-model="event.location">
+                        <input data-title="Welcome to CarePoints" data-intro="Then you can add the location of the task or event here" id="location" type="text" class="form-control only-border-bottom" name="location" value="" placeholder='e.g. "123 main street" ' autocomplete="location" S v-model="event.location">
 
                     </div>
                 </div>
