@@ -8,7 +8,7 @@
             <div class="col-4 p-0">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="text" class="form-control input-lg" placeholder="Search" id="txtSearch" v-model="searchText"/>
+                        <input type="text" class="form-control input-lg" placeholder="" id="txtSearch" v-model="searchText"/>
                         <span class="input-group-btn">
                             <button class="btn btn-info btn-lg" type="button" @click="find()">
                                 <i class="fas fa-search"></i>
@@ -554,11 +554,11 @@
 
                 swal({
                     title: "Warning",
-                    text: "Are you sure delete this document?",
+                    text: "Delete this document?",
                     icon: "warning",
                     buttons: [
-                        'No, cancel it!',
-                        "Yes, I'm sure!"
+                        'No',
+                        "Yes"
                     ],
                     dangerMode: true,
                 }).then(function(isConfirm) {
