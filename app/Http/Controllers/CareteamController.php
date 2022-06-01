@@ -394,6 +394,19 @@ class CareteamController extends Controller
     /**
      * 
      */
+    public function declineInvitation(Request $request)
+    {   
+        try {
+            Invitation::whereToken($request->token)->delete();
+            return response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false]);
+        }
+    }
+
+    /**
+     * 
+     */
     protected function generateToken(){
         $permitted_chars = '023456789abcdefghjkmnopqrstuvwxyz';
         $token = substr(str_shuffle($permitted_chars), 0, 20);

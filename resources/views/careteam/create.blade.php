@@ -85,7 +85,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td class="resources pt-4 text-primary">
                             <i class="mr-3 fas fa-globe"></i> 
                             <span>Resources</span>
@@ -96,7 +96,7 @@
                                 <label class="custom-control-label" for="resources"></label>
                             </div>
                         </td>
-                    </tr>
+                    </tr> --}}
                     
 
                 </table>
@@ -107,7 +107,7 @@
             </div>
         </form>
         
-        <form method="post" id="inviteMemberForm__" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
+        <form method="post" id="inviteMemberForm" class="col-md-12 px-3 d-none" v-on:submit.prevent="inviteMember()">
             <div class="col text-center">
                 <a class="btn btn-primary centered" href="#!" class="text-black-50" id="sendLink" v-on:click.prevent="sendInvitation()">Send an Invitation</a>
             </div>            

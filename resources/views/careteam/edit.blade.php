@@ -89,7 +89,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td class="resources">
                             <i class="fas fa-globe"></i> 
                             <span>Resources</span>
@@ -104,7 +104,7 @@
                                 <div class="" v-else>OFF</div>
                             </div>
                         </td>
-                    </tr>
+                    </tr> --}}
                     
 
                 </table>

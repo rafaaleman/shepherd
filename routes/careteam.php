@@ -22,6 +22,7 @@ Route::post('/inlcudeAMember', 'CareteamController@inlcudeAMember')->name('caret
 Route::post('/sendInvitation', 'CareteamController@sendInvitation')->name('careteam.sendInvitation');
 Route::post('/deleteInvitation', 'CareteamController@deleteInvitation')->name('careteam.deleteInvitation');
 Route::post('/acceptInvitation', 'CareteamController@acceptInvitation')->name('careteam.acceptInvitation');
+Route::post('/declineInvitation', 'CareteamController@declineInvitation')->name('careteam.declineInvitation');
 
 
 Route::get('/joinTeam', 'CareteamController@joinTeam')->name('careteam.joinTeam');
