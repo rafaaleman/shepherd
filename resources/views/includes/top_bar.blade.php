@@ -17,6 +17,6 @@
         @else
             <i class="fas fa-users mt-2 mr-3"></i>
         @endif
-        {{ucfirst($section)}}
+        {{ ( $section == 'careteam') ? 'CareTeam' : ucfirst($section)}}
     @endif
 </div>

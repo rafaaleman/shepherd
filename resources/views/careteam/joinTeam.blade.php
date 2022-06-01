@@ -15,7 +15,7 @@
 
             <div class="p-5">Pending invitations:</div>
             <div class="row justify-content-center d-flex">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="card shadow-sm">
 
                         <div class="card-body mb-3">
@@ -32,9 +32,10 @@
                                                 <strong>@{{ invitation.loveone.firstname }} @{{ invitation.loveone.lastname }}</strong>
                                                 <div class="role">@{{ invitation.role | mayuscula }}</div>
                                             </td>
-                                            <td align="right" width="60px">
+                                            <td align="right" class=""text-nowrap>
                                                 <div class="custom-control custom-switch">
-                                                    <button class="btn btn-primary" @click.prevent="acceptInvitation({{Auth::user()->id}}, invitation.token)">Accept</button>
+                                                    <button class="btn btn-primary btn-sm" @click.prevent="acceptInvitation({{Auth::user()->id}}, invitation.token)">Accept</button>
+                                                    <button class="btn btn-danger btn-sm" @click.prevent="declineInvitation( invitation.token)">Decline</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -157,6 +158,42 @@
                         });
                 //     }
                 // });
+            },
+            declineInvitation: function(token) {
+
+                swal({
+                    title: "Warning",
+                    text: "Are you sure decline this invitation?",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        "Yes, I'm sure!"
+                    ],
+                    dangerMode: true,
+                }).then(function(isConfirm) {
+
+                    if(isConfirm){
+                        var url = '{{ route("careteam.declineInvitation") }}';
+                        data = {
+                            token: token
+                        };
+                        axios.post(url, data).then(response => {
+                            console.log(response.data);
+                            
+                            if( response.data.success == true ){
+                                joinTeam.getInvitations();
+                                msg = 'The invitation was declined';
+                                icon = 'success';
+                                
+                            } else {
+                                msg = 'There was an error. Please try again';
+                                icon = 'error';
+                            }
+                            
+                            swal(msg, "", icon);
+                        });
+                    }
+                });
             }
         },
     });

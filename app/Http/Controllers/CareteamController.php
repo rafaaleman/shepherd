@@ -169,7 +169,7 @@ class CareteamController extends Controller
             // TODO: SEnd email to new user with the credentials;
             return response()->json(['success' => true]);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // dd($e);
         }
     }
@@ -242,7 +242,7 @@ class CareteamController extends Controller
             careteam::where('loveone_id', $request->loveoneId)->where('user_id', $request->memberId)->delete();
             return response()->json(['success' => true]);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // dd($e);
             return response()->json(['success' => false]);
         }
@@ -394,6 +394,19 @@ class CareteamController extends Controller
     /**
      * 
      */
+    public function declineInvitation(Request $request)
+    {   
+        try {
+            Invitation::whereToken($request->token)->delete();
+            return response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false]);
+        }
+    }
+
+    /**
+     * 
+     */
     protected function generateToken(){
         $permitted_chars = '023456789abcdefghjkmnopqrstuvwxyz';
         $token = substr(str_shuffle($permitted_chars), 0, 20);
@@ -409,7 +422,7 @@ class CareteamController extends Controller
             careteam::where('loveone_id', $request->loveoneId)->where('user_id', $request->userId)->update(['status' => $request->status]);
             return response()->json(['success' => true]);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // dd($e);
             return response()->json(['success' => false]);
         }

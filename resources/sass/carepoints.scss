@@ -93,7 +93,7 @@
 .mon{
     height: 15px;
     font-family: Gotham;
-    font-size: 12px;
+    font-size: calc(.5em + .3vw);
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -112,7 +112,7 @@
 .number_day {
     height: 15px;
     font-family: Gotham;
-    font-size: 12px;
+    font-size: calc(.6em + .4vw);
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;

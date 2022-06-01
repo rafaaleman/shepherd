@@ -50,13 +50,14 @@
                                                         </h5>
                                                         <div class="card-text events-today">
                                                             <div class="card__count">
-                                                                
-                                                                <span>{{ count($loveone->carepoints->data->events) }}</span> Task(s) for today <br>
-                                                                @if ($loveone->carepoints->data->time_first_event)
-                                                                    <i class="gray">Task Name at {{$loveone->carepoints->data->time_first_event}}</i>
-                                                                @else
-                                                                    <i class="gray">No tasks</i>
-                                                                @endif
+                                                                @foreach($loveone->carepoints->data->events as $event)
+                                                                    <span>{{ count($event->data) }}</span> Task(s) for today <br>
+                                                                    @if ($loveone->carepoints->data->time_first_event)
+                                                                        <i class="gray">Task Name at {{$loveone->carepoints->data->time_first_event}}</i>
+                                                                    @else
+                                                                        <i class="gray"></i>
+                                                                    @endif
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                     </a>
@@ -120,7 +121,7 @@
                                             </div>
 
                                             {{-- Medlist --}}
-                                            <div class="card widget medlist shadow-sm mb-3">
+                                            {{-- <div class="card widget medlist shadow-sm mb-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('medlist', [$loveone->slug] )}}" class="medlist">
@@ -139,17 +140,17 @@
                                                                 @endif
                                                             </div>
                                                         </p>
-                                                        {{-- @if ($loveone->careteam->role == 'admin') --}}
+                                                        {{-- @if ($loveone->careteam->role == 'admin') -}}
                                                             <a href="{{ route('medlist', [$loveone->slug] )}}" class="btn btn-primary btn-sm text-white">View Medications</a>
-                                                        {{-- @endif --}}
+                                                        {{-- @endif -}}
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
 
 
                                             {{-- Discussions --}}
-                                            <div class="card widget message shadow-sm mb-3 mr-lg-3">
+                                            {{-- <div class="card widget message shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('discussions', [$loveone->slug] )}}" class="hub">
@@ -164,16 +165,16 @@
                                                                 <i class="gray" >Last message from {{ $loveone->messages->data->last_message }}</i>
                                                             </div>
 
-                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
+                                                            {{-- @if ($loveone->careteam->role == 'admin') -}}
                                                                 <a class="btn btn-primary btn-sm" href="{{ route('discussions', [$loveone->slug] )}}">View Messages</a>
-                                                            {{-- @endif --}}
+                                                            {{-- @endif -}}
                                                         </div>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                             {{-- resources --}}
-                                            <div class="card widget resources shadow-sm mb-3  mr-lg-3">
+                                            {{-- <div class="card widget resources shadow-sm mb-3  mr-lg-3">
                                                 <div class="card-body">
                                             
                                                     <a href="{{ route('resources', [$loveone->slug] )}}" class="hub">
@@ -193,16 +194,16 @@
                                                                 @endif
                                                             </div>
                                                             
-                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
+                                                            {{-- @if ($loveone->careteam->role == 'admin') -}}
                                                                 <a class="btn btn-primary btn-sm" href="{{ route('resources', [$loveone->slug] )}}">View Resources</a>
-                                                            {{-- @endif --}}
+                                                            {{-- @endif -}}
                                                         </div>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                             {{-- vitals --}}
-                                            <div class="card widget vitals shadow-sm mb-3 mr-lg-3">
+                                            {{-- <div class="card widget vitals shadow-sm mb-3 mr-lg-3">
                                                 <div class="card-body">
                                             
                                                     <a href="#" class="hub">
@@ -210,13 +211,13 @@
                                                         <div class="card-text">
                                                             ...
                                                             
-                                                            {{-- @if ($loveone->careteam->role == 'admin') --}}
+                                                            {{-- @if ($loveone->careteam->role == 'admin') -}}
                                                                 <a class="btn btn-primary btn-sm disabled" href="{{ route('resources', [$loveone->slug] )}}">View Vitals</a>
-                                                            {{-- @endif --}}
+                                                            {{-- @endif -}}
                                                         </div>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                             {{-- blank --}}
                                             <div class="card widget resources shadow-sm mb-3">

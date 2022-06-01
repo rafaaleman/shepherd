@@ -134,7 +134,7 @@ class EventController extends Controller
     {
         $loveone  = loveone::whereSlug($request->loveone_slug)->first();
         $careteam = careteam::where('loveone_id', $loveone->id)->with(['user'])->get();
-
+      //  dump($request->date,$request->loveone_slug,$loveone );
         foreach ($careteam as $key => $team){
            // dd($team);
             if(isset($team->user)){
@@ -150,10 +150,13 @@ class EventController extends Controller
             }
            
         }
-    /*    if($request->type == 1){
+        if($request->type == 1){
             $inidate = $request->date;
             $enddate = $request->date;
-        }else if($request->type == 2){
+        }else{
+             $inidate = $request->date."-01-01";
+            $enddate = $request->date."-12-31";
+        }/*else if($request->type == 2){
            // dd($request->date);
             $to_date = new DateTime($request->date);
             $calendar = $this->calendar_week_month($to_date->format('Y-m'));
@@ -178,8 +181,11 @@ class EventController extends Controller
             $to_date_end->modify('last day of this month');
             $enddate = $to_date_end->format('Y-m-d'); 
         }*/
-        $inidate = $request->date."-01-01";
-        $enddate = $request->date."-12-31";
+        // $inidate = $request->date."-01-01";
+        // $enddate = $request->date."-12-31";
+        //dd($request->type,$request->date);
+        
+        //dd($inidate);
       //  $invitations = Invitation::where('loveone_id', $loveone->id)->get();
         $events_to_day = event::where('loveone_id', $loveone->id)
         ->where('status',1)
@@ -212,7 +218,7 @@ class EventController extends Controller
             $events[$cve_event] = array('title'=> $ftitle_temp->format('l, j F Y'),'data' => $events_to_day[$cve_event], 'date' => $cve_event);
             
         }
-        //dd($events);
+       // dd($events);
         $date = new DateTime($request->date);
         return response()->json(['success' => true, 'data' => [
             //    'loveone' => $loveone,
