@@ -6,8 +6,12 @@
     <div class="row">
         
         <h5 class="modal-title">EDIT MEMBER</h5>
+
+        <div class="loading w-100 mt-3">
+            <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> Loading member...
+        </div>
             
-        <form method="post" id="editMemberForm" action="" class="col-md-12 row" v-on:submit.prevent="saveMemberPermissions()">
+        <form method="post" id="editMemberForm" action="" class="col-md-12 row d-none" v-on:submit.prevent="saveMemberPermissions()">
 
             <div class="col-xs-12 col-md-6 p-3">
                 <div class="section photo h-200" v-bind:style="{ backgroundImage: 'url(' + member.photo + ')' }">
@@ -151,6 +155,8 @@ const careteam = new Vue ({
     el: '#careteam',
     created: function() {
         console.log('careteam');
+        $('#editMemberForm').removeClass('d-none');
+        $('.loading').addClass('d-none');
     },
     data: {
         member: {
