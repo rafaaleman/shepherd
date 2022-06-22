@@ -77,8 +77,8 @@
                                         <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha" v-on:click.prevent="filterEventsDay(day.fecha)" style="cursor: pointer;" v-if="year_events[day.fecha]">
                                             
                                             <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'" v-if="year_events[day.fecha]?.data[0]"><a href="#/" class="event-name-calendar">•</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a href="#/" class="event-name-calendar">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
-                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a href="#/" class="event-name-calendar">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-0'"><a href="#/" class="event-name-calendar" :id="year_events[day.fecha]?.data[0]?.id">@{{year_events[day.fecha]?.data[0].name | txt_event}}</a></span>
+                                            <span class="d-none d-sm-none d-md-inline-block eventname w-100 text-truncate" :class="'event-calendar-'+day.fecha+'-1'"><a href="#/" class="event-name-calendar" :id="year_events[day.fecha]?.data[1]?.id">@{{year_events[day.fecha]?.data[1]?.name | txt_event}}</a></span>
                                         </div>
                                         <div class="event_calendar pt-lg-1" :class="'event-calendar-'+day.fecha" v-else>
                                             <span class="d-block d-sm-block d-md-none event-point" :class="'event-calendar-'+day.fecha+'-point'"></span>
@@ -333,7 +333,7 @@
 
                // $('#calendar').hide();
                 $('#calendar_div .loading').show();
-
+                console.log("carga calendario");
                 var url = '{{ route("carehub.getCalendar", ["*DATE*"]) }}';
                 url = url.replace('*DATE*', this.date_month_calendar);
 
@@ -590,6 +590,8 @@
                             
                             if( response.data.success == true ){
                                 //joinTeam.getInvitations();
+                                carehub.changeSelectCalendarYear(); // modificar el calendario
+                                carehub.getYearEvents();
                                 msg = 'The event was deleted';
                                 icon = 'success';
                                 carehub.count_event--;

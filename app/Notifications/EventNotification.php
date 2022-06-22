@@ -48,7 +48,7 @@ class EventNotification extends Notification
             'emails.sendNewEventMail', ['event' => $this->event]
         );*/
         return (new MailMessage)
-                    ->line("Your Loved One's '".$this->event->loveone_name."' has a new Task")
+                    ->line("You have a new task for your Loved One ".$this->event->loveone_name."")
                     ->line('Task called "'.$this->event->name.'" with location at "'.$this->event->location.'" on "'.date('M, d Y', strtotime($this->event->date)).'" at "'.date('h:i a' , strtotime($this->event->time)).'"')
                     ->action('View task', url('/'));
     }
