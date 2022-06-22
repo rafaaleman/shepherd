@@ -262,7 +262,7 @@ const careteam = new Vue ({
                         
                         if(response.data.success){
                             $('#editMemberModal').modal('hide');
-                            msg = 'The member was deleted from the Careteam.';
+                            msg = 'The member was deleted from the CareTeam.';
                             icon = 'success';
                             
                         } else {

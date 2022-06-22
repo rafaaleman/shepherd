@@ -10761,6 +10761,7 @@ footer {
 #home .card-body .card-text {
   display: grid;
   align-content: space-between;
+  min-height: 30px;
 }
 
 .document-card .card-body {

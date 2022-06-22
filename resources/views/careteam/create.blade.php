@@ -186,7 +186,7 @@ const careteam = new Vue ({
                 // console.log(response.data);
                 if(response.data.user === 2){ // Already in careteam
 
-                    msg = 'The user is already in the careteam';
+                    msg = 'The user is already in the CareTeam';
                     icon = 'warning';
                     swal(msg, "", icon);
                     $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');

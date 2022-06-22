@@ -31,7 +31,7 @@
                                     </div>
 
                                     <div class="container mt-5">
-                                        <div class="row">
+                                        <div class="row justify-content-center">
 
                                             
 
@@ -220,12 +220,12 @@
                                             </div> --}}
 
                                             {{-- blank --}}
-                                            <div class="card widget resources shadow-sm mb-3">
+                                            {{-- <div class="card widget resources shadow-sm mb-3">
                                                 <div class="card-body">
                                             
                                                     
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             
 
 
