@@ -174,7 +174,7 @@ $(function(){
                     
                 }).catch( error => {
                     
-                    msg = 'There was an error getting careteam members. Please reload the page';
+                    msg = 'There was an error getting CareTeam members. Please reload the page';
                     swal('Error', msg, 'error');
                 });
             },
@@ -233,7 +233,7 @@ $(function(){
                     // console.log(response.data);
                     if(response.data.user === 2){ // Already in careteam
 
-                        msg = 'The user is already in the careteam';
+                        msg = 'The user is already in the CareTeam';
                         icon = 'warning';
                         swal(msg, "", icon);
                         $('.searchBtn').html('<i class="fas fa-search"></i>').attr('disabled', false).removeClass('disabled');
@@ -413,7 +413,7 @@ $(function(){
                             
                             if(response.data.success){
                                 $('#editMemberModal').modal('hide');
-                                msg = 'The member was deleted from the Careteam.';
+                                msg = 'The member was deleted from the CareTeam.';
                                 icon = 'success';
                                 careteam.getCareteamMembers();
                                 
