@@ -9,6 +9,8 @@ use App\Models\event;
 use App\Models\loveone;
 use App\Models\Invitation;
 use App\Models\careteam;
+use App\Models\notification as NotificationModel;
+
 use App\User;
 use DateTime;
 use DateInterval;
@@ -596,7 +598,9 @@ class EventController extends Controller
 
     public function deleteEvent(Request $request){
         //dd($request->id);
+        NotificationModel::where('table_id', $request->id)->where('table','events')->delete();
         $event = event::find($request->id)->update(['status' => 0]);
+
         return response()->json(['success' => true, 'data' => [
             'success' => 1
         ]]);

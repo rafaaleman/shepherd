@@ -85,7 +85,7 @@
     // display: flex;
     justify-content: center;
     align-items: center;
-    height: 72px;
+    height: 92px;
     border: solid 1px #f6f6f9;
     padding-top: 10px;
     padding-right: 10px !important;
@@ -93,7 +93,7 @@
 .mon{
     height: 15px;
     font-family: Gotham;
-    font-size: calc(.5em + .3vw);
+    font-size: calc(1em + .3vw);
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -112,7 +112,7 @@
 .number_day {
     height: 15px;
     font-family: Gotham;
-    font-size: calc(.6em + .4vw);
+    font-size: calc(1.2em + .4vw);
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -295,7 +295,7 @@ h5.name-event-title{
     .col-day {
         justify-content: center;
         align-items: center;
-        height: 52px;
+        height: 65px;
         border: solid 1px #f6f6f9;
         display: flex;
         padding-right: 0px !important;
