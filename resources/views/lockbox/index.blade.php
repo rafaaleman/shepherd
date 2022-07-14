@@ -433,7 +433,7 @@
                 this.save = true;
             },
             getDocuments() {
-                var url = '{{ route("lockbox.view",$loveone_slug) }}';
+                var url = '{{ route("lockbox.index",$loveone_slug) }}';
                 axios.get(url).then(response => {
                     this.types = response.data.types;
                     this.documents = response.data.documents;                    

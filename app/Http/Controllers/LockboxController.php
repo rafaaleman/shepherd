@@ -40,7 +40,7 @@ class LockboxController extends Controller
         
         echo "holi";
     }
-
+/*
     public function index(Request $request){
         $p = explode('/',$request->path());
         
@@ -54,12 +54,13 @@ class LockboxController extends Controller
         
         return redirect()->route('verify.lockbox');
     }
+    */
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function view(Request $request)
+    public function index(Request $request)
     {
         $careteam = array();
         $isAdmin = 0 ;
